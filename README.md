@@ -6,7 +6,7 @@ A Document Processing System.
 
     .
     ├── .github                 # Contains GitHub Related sources
-    ├── LICENSE                 # Apashe License
+    ├── LICENSE                 # Apache License
     └── README.md               # This file.
 
 ## Getting Started
