@@ -11,15 +11,15 @@ A Document Processing System.
 
 ## Getting Started
 
-TDB
+TBD
 
 ### Prerequisites
 
-TDB
+What things you need to install the software and how to install them
 
 ### Installing
 
-TDB
+TBD
 
 ## Running the tests
 
