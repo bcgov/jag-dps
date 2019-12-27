@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 /**
  * SinglePaymentResponse 
  * 
- * @author 176899
+ * @author smillar
  *
  */
 @XmlRootElement

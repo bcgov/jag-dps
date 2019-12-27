@@ -4,7 +4,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
  * 
  * PaymentServiceConstants
  * 
- * @author 176899
+ * @author smillar
  *
  */
 public class PaymentServiceConstants {
@@ -20,3 +20,4 @@ public class PaymentServiceConstants {
 	// Failure message types
 	public static final String PAYMENT_SERVICE_ERR_MISSING_PARAM = "Missing %s parameter";
 }
+
