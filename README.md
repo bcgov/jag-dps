@@ -25,5 +25,5 @@ Payment Service Endpoints
 
 | URL | Method | Description |
 | --- | --- | --- |
-| [http://localhost:5050/paymentservice/bamboraconfiguration](http://localhost:5050/paymentservice/bamboraconfiguration) | POST | Bambora configuration url |
-| [http://localhost:5050/paymentservice/singlepaymenturl](http://localhost:5050/paymentservice/singlepaymenturl) | POST | Single Payment Url |
+| [http://localhost:5050/paymentservice/bamboraconfiguration](http://localhost:5050/paymentservice/bamboraconfiguration) | GET | Bambora configuration url |
+| [http://localhost:5050/paymentservice/singlepaymenturl](http://localhost:5050/paymentservice/singlepaymenturl) | GET | Single Payment Url |
