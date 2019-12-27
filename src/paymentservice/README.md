@@ -1,6 +1,9 @@
 # DPS Payment Service
 
-Payment service description here
+The DPS Payment Service provides **two** operations completely replacing the legacy Payment service:
+
+- **getSinglePaymentURL**: Provides an environmentally specific set of CRC application endpoints.
+- **getBeanstreamEndpoints**: Provides an encoded URL for insertion into outgoing SPD client email linking the clients to the Bambora Online Payment System.
 
 ## Getting Started
 
@@ -33,8 +36,8 @@ mvn spring-boot:run
 ## local endpoints
 
 ```
-http://localhost:8081/paymentservice/singlepaymenturl
-http://localhost:8081/paymentservice/bamboraconfiguration
+http://localhost:8081/paymentservice/getSinglePaymentURL
+http://localhost:8081/paymentservice/getBeanstreamEndpoints
 ```
 
 ## Running the tests
