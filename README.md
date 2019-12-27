@@ -6,21 +6,24 @@ A Document Processing System.
 
     .
     ├── .github                 # Contains GitHub Related sources
+    ├── src                     # application source files
+    ├── docker-compose.yml      # docker compose definition
     ├── LICENSE                 # Apache License
     └── README.md               # This file.
 
-## Getting Started
+## Run
 
-TBD
+Install [Docker](https://www.docker.com/)
 
-### Prerequisites
+run
 
-What things you need to install the software and how to install them.
+```bash
+docker-compose up
+```
 
-### Installing
+Payment Service Endpoints
 
-TBD
-
-## Running the tests
-
-TBD
+| URL | Method | Description |
+| --- | --- | --- |
+| [http://localhost:5050/paymentservice/bamboraconfiguration](http://localhost:5050/paymentservice/bamboraconfiguration) | POST | Bambora configuration url |
+| [http://localhost:5050/paymentservice/singlepaymenturl](http://localhost:5050/paymentservice/singlepaymenturl) | POST | Single Payment Url |
