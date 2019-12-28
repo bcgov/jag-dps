@@ -27,19 +27,12 @@ public class SinglePaymentResponse {
 	public String getRespMsg() {
 		return respMsg;
 	}
-	public void setRespMsg(String respMsg) {
-		this.respMsg = respMsg;
-	}
+
 	public int getRespCode() {
 		return respCode;
 	}
-	public void setRespCode(int respCode) {
-		this.respCode = respCode;
-	}
+
 	public String getRespValue() {
 		return respValue;
-	}
-	public void setRespValue(String respValue) {
-		this.respValue = respValue;
 	}
 }
