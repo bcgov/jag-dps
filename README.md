@@ -6,7 +6,9 @@ A Document Processing System.
 
     .
     ├── .github                 # Contains GitHub Related sources
-    ├── src                     # application source files
+    ├── src/                    # application source files
+    │   ├── paymentservice/     # DPS payment service
+    │   └── service-api         # DPS service api
     ├── docker-compose.yml      # docker compose definition
     ├── LICENSE                 # Apache License
     └── README.md               # This file.
@@ -25,5 +27,5 @@ Payment Service Endpoints
 
 | URL | Method | Description |
 | --- | --- | --- |
-| [http://localhost:5050/paymentservice/bamboraconfiguration](http://localhost:5050/paymentservice/bamboraconfiguration) | GET | Bambora configuration url |
-| [http://localhost:5050/paymentservice/singlepaymenturl](http://localhost:5050/paymentservice/singlepaymenturl) | GET | Single Payment Url |
+| [http://localhost:5000/paymentservice/bamboraconfiguration](http://localhost:5050/paymentservice/bamboraconfiguration) | GET | Bambora configuration url |
+| [http://localhost:5000/paymentservice/getSinglePaymentURL](http://localhost:5050/paymentservice/getSinglePaymentURL) | GET | Single Payment Url |
