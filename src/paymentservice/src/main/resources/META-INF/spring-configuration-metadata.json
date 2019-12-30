@@ -1,0 +1,19 @@
+{
+	"properties": [
+		{
+			"name": "bambora.hostedpaymentendpoint",
+			"type": "java.lang.String",
+			"description": "Bambora payment form endpoint"
+		},
+		{
+			"name": "bambora.merchantid",
+			"type": "java.Lang.String",
+			"description": "Bambora Merchant Account Id"
+		},
+		{
+			"name": "bambora.hashkey",
+			"type": "java.Lang.String",
+			"description": "Bambora unique Hash Key value"
+		}
+	]
+}
