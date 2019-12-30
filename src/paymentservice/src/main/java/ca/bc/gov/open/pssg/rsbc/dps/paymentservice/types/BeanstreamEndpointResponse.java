@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-
-//@Configuration
-//@ConfigurationProperties(prefix = "dps.bambora.endpoint")
 @XmlRootElement
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BeanstreamEndpointResponse {

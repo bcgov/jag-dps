@@ -56,7 +56,9 @@ class PaymentserviceApplicationTests {
 	@Test
 	void bamboraConfigurationTest() throws Exception {
 		System.out.println("Running basic http test for the bambora configuration operation...");
-		//TODO - to be completed once Bambora configuration operation is complete. 
+		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/paymentservice" + "/bamboraconfiguration",
+				String.class)
+		).contains(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK);
 	}
 }
 
