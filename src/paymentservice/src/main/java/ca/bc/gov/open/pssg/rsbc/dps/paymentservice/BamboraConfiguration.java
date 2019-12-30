@@ -18,7 +18,6 @@ public class BamboraConfiguration {
 
     @RequestMapping(value = "/bamboraconfiguration", method = RequestMethod.GET)
     public BeanstreamEndpointResponse singlepaymenturl() {
-        BeanstreamEndpointResponse xmlresp = new BeanstreamEndpointResponse(approved, declined, error, PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK, PaymentServiceConstants.PAYMENT_SERVICE_SUCCESS_CD);
-        return xmlresp;
+       return new BeanstreamEndpointResponse(approved, declined, error, PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK, PaymentServiceConstants.PAYMENT_SERVICE_SUCCESS_CD);
     }
 }
