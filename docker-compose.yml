@@ -8,6 +8,10 @@ services:
   payment-service:
     build:
       context: ./src/paymentservice
+    environment: 
+      - CRC_ENDPOINT_APPROVED=http://approved
+      - CRC_ENDPOINT_DECLINED=http://declined
+      - CRC_ENDPOINT_ERROR=http://error
     ports:
       - "5050:8081"
     networks:
