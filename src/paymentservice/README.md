@@ -9,25 +9,29 @@ The DPS Payment Service provides **two** operations completely replacing the leg
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-### Prerequisites
+### Configuration
 
-What things you need to install the software and how to install them
+You should use environment variables to configure payment service app
 
-```
-Give examples
-```
+The existing environment variables are explained below:
+
+| Environment Variable  | Description   | Notes   |
+|---|---|---|
+| CRC_ENDPOINT_APPROVED | Credit Record Check Approved Endpoint |  not set by default |
+| CRC_ENDPOINT_DECLINED | Credit Record Check Declined Endpoint |  not set by default |
+| CRC_ENDPOINT_ERROR | Credit Record Check Error Endpoint |  not set by default |
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+Run
 
 ```
 mvn clean install
 ```
 
 ## Running the application 
+
+Run
 
 ```
 mvn spring-boot:run
