@@ -39,7 +39,7 @@ public class CalculateSinglePayment {
    */
   @RequestMapping("/getSinglePaymentURL")
   public SinglePaymentResponse singlepaymenturl(
-		/*  @RequestParam(value="transType", required = true) String transType,
+		  @RequestParam(value="transType", required = true) String transType,
 		  @RequestParam(value="invoiceNumber", required = true) String invoiceNumber,
 		  @RequestParam(value="approvedPage", required = true) String approvedPage,
 		  @RequestParam(value="declinedPage", required = true) String declinedPage,
@@ -48,7 +48,7 @@ public class CalculateSinglePayment {
 		  @RequestParam(value="ref1", required = false) String ref1,
 		  @RequestParam(value="ref2", required = false) String ref2,
 		  @RequestParam(value="ref3", required = false) String ref3,
-		  @RequestParam(value="minutesToExpire", required = true) String minutesToExpire*/) {
+		  @RequestParam(value="minutesToExpire", required = true) String minutesToExpire) {
 	  
 	  //TODO - Complete main algorithm and logging 
 	  

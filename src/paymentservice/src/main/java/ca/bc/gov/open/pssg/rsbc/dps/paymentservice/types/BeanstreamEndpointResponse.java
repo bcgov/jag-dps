@@ -26,32 +26,19 @@ public class BeanstreamEndpointResponse {
         return respMsg;
     }
 
-    public void setRespMsg(String respMsg) {
-        this.respMsg = respMsg;
-    }
 
     public int getRespCode() {
         return respCode;
     }
 
-    public void setRespCode(int respCode) {
-        this.respCode = respCode;
-    }
 
     public String getDeclined() {
         return declined;
     }
 
-    public void setDeclined(String declined) {
-        this.declined = declined;
-    }
 
     public String getError() {
         return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
     }
 
 
@@ -59,7 +46,5 @@ public class BeanstreamEndpointResponse {
         return approved;
     }
 
-    public void setApproved(String approved) {
-        this.approved = approved;
-    }
+
 }
