@@ -1,8 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -16,10 +14,10 @@ public class BeanstreamEndpointResponse {
     private String respMsg;
     private int respCode;
 
-    public BeanstreamEndpointResponse( String approved, String declined, String error, String respMsg, int respCode){
+    public BeanstreamEndpointResponse(String approved, String declined, String error, String respMsg, int respCode) {
         this.approved = approved;
         this.declined = declined;
-        this.error =error;
+        this.error = error;
         this.respMsg = respMsg;
         this.respCode = respCode;
     }
@@ -39,8 +37,6 @@ public class BeanstreamEndpointResponse {
     public void setRespCode(int respCode) {
         this.respCode = respCode;
     }
-
-
 
     public String getDeclined() {
         return declined;
