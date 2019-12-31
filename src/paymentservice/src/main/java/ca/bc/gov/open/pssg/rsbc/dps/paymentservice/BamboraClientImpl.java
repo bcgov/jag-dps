@@ -60,6 +60,9 @@ public class BamboraClientImpl implements PaymentClient {
 	 * 
 	 * Calculate Single Payment URL 
 	 * 
+	 * Note: Refer to See https://help.na.bambora.com/hc/en-us/articles/115010303987-Hash-validation-for-Checkout for a complete 
+	 * description on the Payment URL calculation. 
+	 * 
 	 * @param correlationId
 	 * @param transType
 	 * @param invoiceNumber
@@ -83,7 +86,7 @@ public class BamboraClientImpl implements PaymentClient {
 		// add correlationId if non provided in request. 
 		if (StringUtils.isEmpty(correlationId)) {
 			this.correlationId = generateUniqueCorrelationId();
-	    }
+		}
 		
 		String redirect = null;
 		
@@ -101,14 +104,17 @@ public class BamboraClientImpl implements PaymentClient {
 			String endUserIdParam = (ref1 != null) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF1 + "=" + ref1 : "";
 			String statementParam = (ref2 != null) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF2 + "=" + ref2 : "";
 			String echoParam = (ref3 != null) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF3 + "=" + ref3 : "";
-	
-			// Create the base url
-			String paramString = PaymentServiceConstants.BAMBORA_PARAM_MERCHANT_ID + "=" + this.merchantId + "&"
-					+ PaymentServiceConstants.BAMBORA_PARAM_TRANS_TYPE + "=" + transType.toString() + "&"
-					+ PaymentServiceConstants.BAMBORA_PARAM_TRANS_ORDER_NUMBER + "=" + invoiceNumber +
-					errorParam + approvedParam + declinedParam + endUserIdParam + statementParam + echoParam +
-						"&" + PaymentServiceConstants.BAMBORA_PARAM_TRANS_AMOUNT + "="
-					+ String.format("%1$,.2f", totalItemsAmount + totalPST + totalGST);
+		
+			String[] params = new String[] { 
+					PaymentServiceConstants.BAMBORA_PARAM_MERCHANT_ID + "=" + this.merchantId,
+					PaymentServiceConstants.BAMBORA_PARAM_TRANS_TYPE + "=" + transType.toString(),
+					PaymentServiceConstants.BAMBORA_PARAM_TRANS_ORDER_NUMBER + "=" + invoiceNumber};
+			
+			String paramString = String.join("&", params);
+			
+			paramString += errorParam + approvedParam + declinedParam + endUserIdParam + statementParam + echoParam;
+			paramString += "&" + PaymentServiceConstants.BAMBORA_PARAM_TRANS_AMOUNT + "=";
+			paramString += String.format("%1$,.2f", totalItemsAmount + totalPST + totalGST);
 	
 			// Replace spaces with escaped equivalent
 			paramString = paramString.replace(" ", "%20");
@@ -116,17 +122,6 @@ public class BamboraClientImpl implements PaymentClient {
 			// Add hash key at end of params
 			paramString = paramString + this.hashKey;
 	
-			// Calculate the MD5 value using the Hash Key set on the Order Settings page
-			// (Located on the Bambora account page).
-			// 
-			// How?
-			// Place the hash key after the last parameter.
-			// Perform an MD5 hash on the text up to the end of the key, then
-			// Replace the hash key with hashValue=[hash result].
-			// Add the result to the hosted service url.
-			// Note: Hash is calculated on the params ONLY.. Does NOT include the hosted payment page url.
-			// See https://help.na.bambora.com/hc/en-us/articles/115010303987-Hash-validation-for-Checkout
-			
 			 //TODO - Complete logging once available.
 			//logger.info("Calculating MD5 on paramString " + paramString);
 			String hashed = getHash(paramString);

@@ -43,7 +43,6 @@ class PaymentserviceApplicationTests {
 	 */
 	@Test
 	void contextLoaded() {
-		System.out.println("Running application context tests....");
 		assertThat(calculateSinglePayment).isNotNull();
 		assertThat(bamboraConfiguration).isNotNull();
 	}
@@ -56,7 +55,6 @@ class PaymentserviceApplicationTests {
 	 */
 	@Test
 	void calculateSinglePaymentHttpResponseTest() throws Exception {
-		System.out.println("Running basic http test for calculate single payment operation...");
 		String request = "/getSinglePaymentURL?transType=P&invoiceNumber=9999&totalItemsAmount=10.05&approvedPage=http://localhost:8080/crc/beanstream/dpsProcessPayment.do&declinedPage=http://localhost:8080/crc/beanstream/dpsProcessPayment.do&errorPage=http://localhost:8080/crc/beanstream/dpsProcessPayment.do&minutesToExpire=1440&ref1=0123456&ref2=ref2String&ref3=ref3String";
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/paymentservice" + request,
 		        String.class)
@@ -72,7 +70,6 @@ class PaymentserviceApplicationTests {
 	 */
 	@Test
 	void calculateSinglePaymentAlgoTest() throws Exception {
-		System.out.println("Running Bambora single payment algorithm test. Test MerchantId Id is " + merchantId);
 		
 		PaymentClient paymentClient = new BamboraClientImpl(new URL(hostedPaymentEndpoint), merchantId, hashKey, 1);
 		
@@ -99,7 +96,6 @@ class PaymentserviceApplicationTests {
 	 */
 	@Test
 	void bamboraConfigurationTest() throws Exception {
-		System.out.println("Running basic http test for the bambora configuration operation...");
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/paymentservice" + "/bamboraconfiguration",
 				String.class)
 		).contains(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK);

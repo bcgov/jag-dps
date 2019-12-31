@@ -103,12 +103,12 @@ public class CalculateSinglePayment {
 	/**
 	 * handleMissingParams - Missing parameter handler.
 	 * 
-	 * Returns legacy system equivalent response when required parameters missing
-	 * from request.
-	 * 
 	 * Note: This method, when invoked in the absence of a required parameter, will
 	 * return an HTTP status code of 200. THIS IS EXPECTED AND WHAT THE LEGACY
 	 * SYSTEM DOES. PLEASE DO NOT CHANGE THIS.
+	 * 
+	 * Returns legacy system equivalent response when required parameters missing
+	 * from request.
 	 * 
 	 * @param ex
 	 * @return
