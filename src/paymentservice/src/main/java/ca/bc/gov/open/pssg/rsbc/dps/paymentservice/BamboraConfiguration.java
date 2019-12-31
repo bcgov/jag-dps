@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BamboraConfiguration {
 
-    @Value("${dps.crc.endpoint.approved}")
+    @Value("${CRC_ENDPOINT_APPROVED}")
     private String approved;
-    @Value("${dps.crc.endpoint.declined}")
+    @Value("${CRC_ENDPOINT_DECLINED}")
     private String declined;
-    @Value("${dps.crc.endpoint.error}")
+    @Value("${CRC_ENDPOINT_ERROR}")
     private String error;
 
     @RequestMapping(value = "/bamboraconfiguration", method = RequestMethod.GET)
