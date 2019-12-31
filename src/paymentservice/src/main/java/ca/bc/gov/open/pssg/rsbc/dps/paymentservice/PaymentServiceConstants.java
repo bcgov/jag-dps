@@ -9,6 +9,8 @@ package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
  */
 public class PaymentServiceConstants {
 	
+	private static final String PAYMENT_CORRELATION_ID = "correlationId";
+	
 	// Response code types
 	public static final int PAYMENT_SERVICE_SUCCESS_CD = 0;
 	public static final int PAYMENT_SERVICE_FAILURE_CD = -1;
@@ -19,5 +21,45 @@ public class PaymentServiceConstants {
 	
 	// Failure message types
 	public static final String PAYMENT_SERVICE_ERR_MISSING_PARAM = "Missing %s parameter";
+	public static final String PAYMENT_SERVICE_ERR_MISSING_CONFIG_PARAMS = "Missing application configuration parameters. Check Payment Service setup.";
+	
+	// Bambora specific parameter names
+	public static final String BAMBORA_PARAM_MERCHANT_ID = "merchant_id";
+	public static final String BAMBORA_PARAM_TRANS_AMOUNT = "trnAmount";
+	public static final String BAMBORA_PARAM_TRANS_ORDER_NUMBER = "trnOrderNumber";
+	public static final String BAMBORA_PARAM_TRANS_TYPE = "trnType";
+	public static final String BAMBORA_PARAM_ERROR_PAGE = "errorPage";
+	public static final String BAMBORA_PARAM_APPV_PAGE = "approvedPage";
+	public static final String BAMBORA_PARAM_DECL_PAGE = "declinedPage";
+	public static final String BAMBORA_PARAM_REF1 = "ref1";
+	public static final String BAMBORA_PARAM_REF2 = "ref2";
+	public static final String BAMBORA_PARAM_REF3 = "ref3";
+	public static final String BAMBORA_PARAM_REF4 = "ref4";
+	public static final String BAMBORA_PARAM_REF5 = "ref5";
+	public static final String BAMBORA_PARAM_HASH_VALUE = "hashValue";
+		
+	// The format of the field must be passed as YYYYMMDDHHMM. Example June 18, 2008 2:34 PM would be submitted as 200806181434.
+	public static final String BAMBORA_PARAM_HASH_EXPIRY = "hashExpiry";
+	public static final String BAMBORA_PARAM_HASH_EXPIRY_FORMAT = "yyyyMMddkkmm";
+	
+	
+	// Bambora Transaction types (Purchase, Pre-Auth)
+	public enum BamboraTransType {
+		P, PA 
+	}
+	
+	/**
+	 * Bambora Card Types
+	 *	 VI - Visa
+	 *	 MC - Mastercard 
+	 * 	 AM - American Express
+	 * 	 PV - Visa Debit
+	 * 	 NN - Discovery (Currently not used)
+	 * 	 MD - MasterCard Debit
+	 * 	 IO - Interac Online
+	 */
+	public enum BamboraCardTypes {
+		VI, MC, AM, PV, NN, MD, IO
+	}
 }
 
