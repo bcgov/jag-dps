@@ -16,6 +16,9 @@ import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceExcep
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * 
  * CalculateSinglePayment Controller.
@@ -25,6 +28,8 @@ import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentResponse;
  */
 @RestController
 public class CalculateSinglePayment {
+
+	private static final Logger logger = LogManager.getLogger(CalculateSinglePayment.class);
 
 	@Value("${bambora.hostedpaymentendpoint}")
 	private String hostedPaymentEndpoint;
@@ -117,12 +122,8 @@ public class CalculateSinglePayment {
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	public SinglePaymentResponse handleMissingParams(MissingServletRequestParameterException ex) {
 
-		// TODO - Complete logging once available.
-
 		String paramName = ex.getParameterName();
-
-		// log.fatal (....
-
+		logger.fatal("Exception in SinglePaymentResponse : " + ex.getMessage());
 		String errMsg = String.format(PaymentServiceConstants.PAYMENT_SERVICE_ERR_MISSING_PARAM, paramName);
 
 		return new SinglePaymentResponse(errMsg, PaymentServiceConstants.PAYMENT_SERVICE_FAILURE_CD, null);

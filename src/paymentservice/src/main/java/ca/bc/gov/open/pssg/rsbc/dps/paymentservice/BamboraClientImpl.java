@@ -12,6 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Bambora Client class Implementation
  * 
@@ -21,6 +24,8 @@ import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
  *
  */
 public class BamboraClientImpl implements PaymentClient {
+	
+	private static final Logger logger = LogManager.getLogger(BamboraClientImpl.class);
 
 	private URL hostedPaymentURL = null;
 	private String merchantId = null;
@@ -106,8 +111,6 @@ public class BamboraClientImpl implements PaymentClient {
 			// Add hash key at end of params
 			paramString = paramString + this.hashKey;
 	
-			 //TODO - Complete logging once available.
-			//logger.info("Calculating MD5 on paramString " + paramString);
 			String hashed = getHash(paramString);
 	
 			// Calculate the expiry based on the minutesToExpire value.
@@ -122,19 +125,13 @@ public class BamboraClientImpl implements PaymentClient {
 					+ "&" + PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY + "=" + expiry);
 	
 			redirect = this.hostedPaymentURL + "?" + paramString;
-	
-			 //TODO - Complete logging once available.
-			//logger.info("Single Payment URL calculated as: " + redirect);
-			
 			return new URL(redirect);
 		
 		} catch (Exception ex) {
-			//TODO - Complete logging once available.
-			//logger.fatal("Error at calculateSinglePaymentURL: " + ex.getMessage());
+			logger.fatal("Error at calculateSinglePaymentURL: " + ex.getMessage());
 			throw new PaymentServiceException(ex.getMessage());
 			
 		} finally {
-			//TODO - Complete logging once available.
 			//MDC.remove(PaymentServiceConstants.PAYMENT_CORRELATION_ID);
 		}
 	}
