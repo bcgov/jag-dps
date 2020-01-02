@@ -24,11 +24,6 @@ ARG PROXY_SET=false
 ARG PROXY_HOST=
 ARG PROXY_PORT=
 
-# !! THIS IS TO PASS TEST AS SPRING BOOT REQUIRES CONTEXT TO RUN TESTS
-ENV CRC_ENDPOINT_APPROVED=random
-ENV CRC_ENDPOINT_DECLINED=random
-ENV CRC_ENDPOINT_ERROR=random
-
 COPY src ./src
 
 RUN mvn -B clean package \
@@ -44,6 +39,7 @@ RUN mvn -B clean package \
 FROM openjdk:8-jdk-slim
 
 COPY --from=build /target/paymentservice-*.jar /app/service.jar
+
 
 CMD ["java", "-jar", "/app/service.jar"]
 #############################################################################################

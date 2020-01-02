@@ -14,8 +14,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
-      env:
-        CRC_ENDPOINT_APPROVED: random
-        CRC_ENDPOINT_DECLINED: random
-        CRC_ENDPOINT_ERROR: random
       run: mvn -B test --file src/paymentservice/pom.xml
