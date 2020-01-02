@@ -127,8 +127,6 @@ public class CalculateSinglePayment {
 		
 		logger.fatal("Exception in SinglePaymentResponse : " + ex.getMessage());
 
-		// log.fatal (....
-
 		String errMsg = String.format(PaymentServiceConstants.PAYMENT_SERVICE_ERR_MISSING_PARAM, paramName);
 
 		return new SinglePaymentResponse(errMsg, PaymentServiceConstants.PAYMENT_SERVICE_FAILURE_CD, null);

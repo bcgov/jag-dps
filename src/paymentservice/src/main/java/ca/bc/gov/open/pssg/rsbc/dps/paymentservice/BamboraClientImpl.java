@@ -127,8 +127,6 @@ public class BamboraClientImpl implements PaymentClient {
 			// Add hash key at end of params
 			paramString = paramString + this.hashKey;
 	
-			 //TODO - Complete logging once available.
-			logger.info("Calculating MD5 on paramString " + paramString);
 			String hashed = getHash(paramString);
 	
 			// Calculate the expiry based on the minutesToExpire value.
