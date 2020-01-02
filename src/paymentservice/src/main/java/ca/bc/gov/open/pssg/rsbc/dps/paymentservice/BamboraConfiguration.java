@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 @RestController
 public class BamboraConfiguration {
+	
 	private static final Logger logger = LogManager.getLogger(BamboraConfiguration.class);
 
 	@Value("${dps.crc.endpoint.approved}")
@@ -22,6 +23,7 @@ public class BamboraConfiguration {
 
 	@RequestMapping(value = "/bamboraconfiguration", method = RequestMethod.GET)
 	public BeanstreamEndpointResponse singlepaymenturl() {
+		
 		return new BeanstreamEndpointResponse(approved, declined, error,
 				PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK,
 				PaymentServiceConstants.PAYMENT_SERVICE_SUCCESS_CD);

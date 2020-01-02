@@ -121,12 +121,8 @@ public class CalculateSinglePayment {
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	public SinglePaymentResponse handleMissingParams(MissingServletRequestParameterException ex) {
 
-		// TODO - Complete logging once available.
-
 		String paramName = ex.getParameterName();
-		
 		logger.fatal("Exception in SinglePaymentResponse : " + ex.getMessage());
-
 		String errMsg = String.format(PaymentServiceConstants.PAYMENT_SERVICE_ERR_MISSING_PARAM, paramName);
 
 		return new SinglePaymentResponse(errMsg, PaymentServiceConstants.PAYMENT_SERVICE_FAILURE_CD, null);

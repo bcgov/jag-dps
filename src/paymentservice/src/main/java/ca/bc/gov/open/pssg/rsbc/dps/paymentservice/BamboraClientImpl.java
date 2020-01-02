@@ -141,19 +141,13 @@ public class BamboraClientImpl implements PaymentClient {
 					+ "&" + PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY + "=" + expiry);
 	
 			redirect = this.hostedPaymentURL + "?" + paramString;
-	
-			 //TODO - Complete logging once available.
-			logger.info("Single Payment URL calculated as: " + redirect);
-			
 			return new URL(redirect);
 		
 		} catch (Exception ex) {
-			//TODO - Complete logging once available.
 			logger.fatal("Error at calculateSinglePaymentURL: " + ex.getMessage());
 			throw new PaymentServiceException(ex.getMessage());
 			
 		} finally {
-			//TODO - Complete logging once available.
 			//MDC.remove(PaymentServiceConstants.PAYMENT_CORRELATION_ID);
 		}
 	}
