@@ -15,6 +15,9 @@ import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.PaymentServiceConstants.Bambo
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * 
  * CalculateSinglePayment Controller.
@@ -24,6 +27,8 @@ import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentResponse;
  */
 @RestController
 public class CalculateSinglePayment {
+
+	private static final Logger logger = LogManager.getLogger(CalculateSinglePayment.class);
 
 	@Value("${bambora.hostedpaymentendpoint}")
 	private String hostedPaymentEndpoint;
@@ -119,6 +124,8 @@ public class CalculateSinglePayment {
 		// TODO - Complete logging once available.
 
 		String paramName = ex.getParameterName();
+		
+		logger.fatal("Exception in SinglePaymentResponse : " + ex.getMessage());
 
 		// log.fatal (....
 

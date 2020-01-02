@@ -6,8 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @RestController
 public class BamboraConfiguration {
+	private static final Logger logger = LogManager.getLogger(BamboraConfiguration.class);
 
 	@Value("${dps.crc.endpoint.approved}")
 	private String approved;
