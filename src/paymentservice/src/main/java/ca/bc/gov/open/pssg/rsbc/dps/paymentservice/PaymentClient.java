@@ -2,8 +2,8 @@ package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
 import java.net.URL;
 
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.PaymentServiceConstants.BamboraTransType;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 
 /**
  * 
@@ -16,26 +16,13 @@ public interface PaymentClient {
 
 	/**
 	 * 
-	 * Single Payment
+	 * Single Payment URL 
 	 * 
-	 * @param correlationId
-	 * @param transType
-	 * @param invoiceNumber
-	 * @param totalItemsAmount
-	 * @param totalGST
-	 * @param totalPST
-	 * @param approvedPage
-	 * @param declinedPage
-	 * @param errorPage
-	 * @param ref1
-	 * @param ref2
-	 * @param ref3
+	 * @param SinglePaymentRequest
 	 * @return
 	 * @throws PaymentServiceException
 	 */
-	public URL calculateSinglePaymentURL(String correlationId, BamboraTransType transType, String invoiceNumber,
-			double totalItemsAmount, double totalGST, double totalPST, String approvedPage, String declinedPage,
-			String errorPage, String ref1, String ref2, String ref3)
+	public URL calculateSinglePaymentURL(SinglePaymentRequest spr)
 			throws PaymentServiceException;
 
 }
