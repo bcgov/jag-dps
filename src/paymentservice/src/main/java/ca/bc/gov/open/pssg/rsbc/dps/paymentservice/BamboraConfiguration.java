@@ -26,7 +26,7 @@ public class BamboraConfiguration {
     public BeanstreamEndpointResponse singlepaymenturl() {
         // Make sure autowired params are not null (May be missing from configMap)
         if (StringUtils.isEmpty(approved) || StringUtils.isEmpty(declined) || StringUtils.isEmpty(error)) {
-            logger.error("CRC endpoints are not set properly in the config. Failed to read the properties. ");
+            logger.fatal("CRC endpoints are not set properly in the config. Failed to read the properties. ");
             return new BeanstreamEndpointResponse("", "", "", PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_FAIL,
                     PaymentServiceConstants.PAYMENT_SERVICE_FAILURE_CD);
         } else {
