@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.PaymentServiceConstants.BamboraTransType;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentResponse;
 
 /**
@@ -38,7 +39,7 @@ public class CalculateSinglePayment {
 	 * 
 	 * singlepaymenturl
 	 * 
-	 * WARNING: Do not modify parameters. This operation must replicate legacy
+	 * WARNING: Do not modify input parameters. This operation must replicate legacy
 	 * system exactly.
 	 * 
 	 * Note: In the event of an exception, this methods will return an HTTP status
@@ -84,9 +85,9 @@ public class CalculateSinglePayment {
 			client = new BamboraClientImpl(new URL(hostedPaymentEndpoint), merchantId, hashKey,
 					Integer.parseInt(minutesToExpire));
 
-			URL response = client.calculateSinglePaymentURL(null, BamboraTransType.valueOf(transType), invoiceNumber,
+			URL response = client.calculateSinglePaymentURL(new SinglePaymentRequest(null, BamboraTransType.valueOf(transType), invoiceNumber,
 					Double.parseDouble(totalItemsAmount), 0L, 0L, approvedPage, declinedPage, errorPage, ref1, ref2,
-					ref3);
+					ref3));
 
 			return new SinglePaymentResponse(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK,
 					PaymentServiceConstants.PAYMENT_SERVICE_SUCCESS_CD, response.toExternalForm());

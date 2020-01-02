@@ -9,8 +9,8 @@ import java.util.UUID;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.PaymentServiceConstants.BamboraTransType;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 
 /**
  * Bambora Client class Implementation
@@ -63,28 +63,16 @@ public class BamboraClientImpl implements PaymentClient {
 	 * Note: Refer to See https://help.na.bambora.com/hc/en-us/articles/115010303987-Hash-validation-for-Checkout for a complete 
 	 * description on the Payment URL calculation. 
 	 * 
-	 * @param correlationId
-	 * @param transType
-	 * @param invoiceNumber
-	 * @param totalItemsAmount
-	 * @param totalGST
-	 * @param totalPST
-	 * @param approvedPage
-	 * @param declinedPage
-	 * @param errorPage
-	 * @param ref1
-	 * @param ref2
-	 * @param ref3
+	 * @param singlePaymentRequest
 	 * @return
 	 * @throws PaymentServiceException
 	 */
 	@Override
-	public URL calculateSinglePaymentURL(String correlationId, BamboraTransType transType, String invoiceNumber, double totalItemsAmount, double totalGST, 
-			double totalPST, String approvedPage, String declinedPage, String errorPage, String ref1, String ref2, String ref3)
+	public URL calculateSinglePaymentURL(SinglePaymentRequest spr)
 			throws PaymentServiceException {
 		
 		// add correlationId if non provided in request. 
-		if (StringUtils.isEmpty(correlationId)) {
+		if (StringUtils.isEmpty(spr.getCorrelationId())) {
 			this.correlationId = generateUniqueCorrelationId();
 		}
 		
@@ -93,28 +81,24 @@ public class BamboraClientImpl implements PaymentClient {
 		try {
 	
 			// Add the optional parameters if available.
-			String errorParam = (errorPage != null) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_ERROR_PAGE + "=" + errorPage
-					: "";
-			String declinedParam = (approvedPage != null)
-					? "&" + PaymentServiceConstants.BAMBORA_PARAM_APPV_PAGE + "=" + approvedPage
-					: "";
-			String approvedParam = (declinedPage != null)
-					? "&" + PaymentServiceConstants.BAMBORA_PARAM_DECL_PAGE + "=" + declinedPage
-					: "";
-			String endUserIdParam = (ref1 != null) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF1 + "=" + ref1 : "";
-			String statementParam = (ref2 != null) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF2 + "=" + ref2 : "";
-			String echoParam = (ref3 != null) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF3 + "=" + ref3 : "";
+			String errorParam = StringUtils.isNotEmpty(spr.getErrorPage() ) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_ERROR_PAGE + "=" + spr.getErrorPage(): "";
+			String declinedParam = StringUtils.isNotEmpty( spr.getApprovedPage()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_APPV_PAGE + "=" + spr.getApprovedPage(): "";
+			String approvedParam = StringUtils.isNotEmpty( spr.getDeclinedPage()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_DECL_PAGE + "=" + spr.getDeclinedPage(): "";
+			String ref1Param = StringUtils.isNotEmpty( spr.getRef1()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF1 + "=" + spr.getRef1() : "";
+			String ref2Param = StringUtils.isNotEmpty( spr.getRef2()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF2 + "=" + spr.getRef2() : "";
+			String ref3Param = StringUtils.isNotEmpty( spr.getRef3()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF3 + "=" + spr.getRef3() : "";
 		
 			String[] params = new String[] { 
 					PaymentServiceConstants.BAMBORA_PARAM_MERCHANT_ID + "=" + this.merchantId,
-					PaymentServiceConstants.BAMBORA_PARAM_TRANS_TYPE + "=" + transType.toString(),
-					PaymentServiceConstants.BAMBORA_PARAM_TRANS_ORDER_NUMBER + "=" + invoiceNumber};
+					PaymentServiceConstants.BAMBORA_PARAM_TRANS_TYPE + "=" + spr.getTransType().toString(),
+					PaymentServiceConstants.BAMBORA_PARAM_TRANS_ORDER_NUMBER + "=" + spr.getInvoiceNumber()
+			};
 			
 			String paramString = String.join("&", params);
 			
-			paramString += errorParam + approvedParam + declinedParam + endUserIdParam + statementParam + echoParam;
+			paramString += errorParam + approvedParam + declinedParam + ref1Param + ref2Param + ref3Param;
 			paramString += "&" + PaymentServiceConstants.BAMBORA_PARAM_TRANS_AMOUNT + "=";
-			paramString += String.format("%1$,.2f", totalItemsAmount + totalPST + totalGST);
+			paramString += String.format("%1$,.2f", spr.getTotalItemsAmount() + spr.getTotalPST() + spr.getTotalGST());
 	
 			// Replace spaces with escaped equivalent
 			paramString = paramString.replace(" ", "%20");
