@@ -86,7 +86,7 @@ public class CalculateSinglePayment {
 					Integer.parseInt(minutesToExpire));
 
 			URL response = client.calculateSinglePaymentURL(new SinglePaymentRequest(null, BamboraTransType.valueOf(transType), invoiceNumber,
-					Double.parseDouble(totalItemsAmount), 0L, 0L, approvedPage, declinedPage, errorPage, ref1, ref2,
+					Double.parseDouble(totalItemsAmount), null, null, approvedPage, declinedPage, errorPage, ref1, ref2,
 					ref3));
 
 			return new SinglePaymentResponse(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK,

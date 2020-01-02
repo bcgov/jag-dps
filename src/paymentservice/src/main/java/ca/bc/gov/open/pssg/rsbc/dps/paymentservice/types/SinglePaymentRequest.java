@@ -13,9 +13,9 @@ public class SinglePaymentRequest {
 	private String correlationId;
 	private BamboraTransType transType;
 	private String invoiceNumber;
-	private double totalItemsAmount;
-	private double totalGST;
-	private double totalPST; 
+	private Double totalItemsAmount = new Double(0);
+	private Double totalGST = new Double(0);
+	private Double totalPST = new Double(0); 
 	private String approvedPage; 
 	private String declinedPage;
 	private String errorPage;
@@ -23,14 +23,16 @@ public class SinglePaymentRequest {
 	private String ref2;
 	private String ref3;
 	
-	public SinglePaymentRequest(String correlationId, BamboraTransType transType, String invoiceNumber, double totalItemsAmount, double totalGST, 
-			double totalPST, String approvedPage, String declinedPage, String errorPage, String ref1, String ref2, String ref3) {
+	public SinglePaymentRequest(String correlationId, BamboraTransType transType, String invoiceNumber, Double totalItemsAmount, Double totalGST, 
+			Double totalPST, String approvedPage, String declinedPage, String errorPage, String ref1, String ref2, String ref3) {
 		this.correlationId = correlationId;
 		this.transType = transType;
 		this.invoiceNumber = invoiceNumber; 
 		this.totalItemsAmount = totalItemsAmount;
-		this.totalGST = totalGST; 
-		this.totalPST = totalPST;
+		if (null != totalGST) 
+			this.totalGST = totalGST; 
+		if (null != totalPST) 
+			this.totalPST = totalPST;
 		this.approvedPage = approvedPage; 
 		this.declinedPage = declinedPage;
 		this.errorPage = errorPage;
@@ -51,15 +53,15 @@ public class SinglePaymentRequest {
 		return invoiceNumber;
 	}
 
-	public double getTotalItemsAmount() {
+	public Double getTotalItemsAmount() {
 		return totalItemsAmount;
 	}
 
-	public double getTotalGST() {
+	public Double getTotalGST() {
 		return totalGST;
 	}
 
-	public double getTotalPST() {
+	public Double getTotalPST() {
 		return totalPST;
 	}
 
