@@ -33,3 +33,4 @@ See [Doc](src/paymentservice/README.md).
 | --- | --- | --- |
 | [http://localhost:5000/paymentservice/bamboraconfiguration](http://localhost:5050/paymentservice/bamboraconfiguration) | GET | Bambora configuration url |
 | [http://localhost:5000/paymentservice/getSinglePaymentURL](http://localhost:5050/paymentservice/getSinglePaymentURL) | GET | Single Payment Url |
+| [http://localhost:5000/paymentservice/actuator/health](http://localhost:8081/paymentservice/actuator/health) | GET | Payment Service Health |
