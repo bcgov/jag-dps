@@ -23,7 +23,11 @@ run
 docker-compose up
 ```
 
-Payment Service Endpoints
+## Payment Service
+
+See [Doc](src/paymentservice/README.md).
+
+## Endpoints
 
 | URL | Method | Description |
 | --- | --- | --- |
