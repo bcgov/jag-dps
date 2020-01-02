@@ -28,6 +28,12 @@ Add the following flage
 | BAMBORA_MERCHANT_ID | Bambora Merchant Endpoint |  not set by default |
 | BAMBORA_HASHKEY | Bambora Hashkey |  not set by default |
 
+### Heatlth Checks
+
+Payment Service is using (Spring Boot Actuator)[https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-enabling] to expose health endpoints.
+
+The default health is available at `/paymentservice/actuator/health`
+
 ### Installing
 
 Run

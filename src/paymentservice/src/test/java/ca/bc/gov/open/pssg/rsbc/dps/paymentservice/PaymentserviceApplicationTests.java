@@ -13,6 +13,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
+
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations="classpath:test.properties")
 class PaymentserviceApplicationTests {
@@ -73,18 +75,19 @@ class PaymentserviceApplicationTests {
 		
 		PaymentClient paymentClient = new BamboraClientImpl(new URL(hostedPaymentEndpoint), merchantId, hashKey, 1);
 		
-		URL response = paymentClient.calculateSinglePaymentURL("abcdef123",
+		URL response = paymentClient.calculateSinglePaymentURL(
+				new SinglePaymentRequest("abcdef123",
 							PaymentServiceConstants.BamboraTransType.P, 
 							"01234", 
 							10.56,
-							0L,
-							0L,
+							null,
+							null,
 							"http://somedomain/someapp/approved.do", 
 							"http://somedomain/someapp/declined.do", 
 							"http://somedomain/someapp/error.do",  
 							"ref1",
 							"ref2", 
-							"ref3");
+							"ref3"));
 		
 		assertThat(response.toExternalForm()).contains("hashValue=3837E45A548CC2366730BFB69C77F5DA");	
 	}
