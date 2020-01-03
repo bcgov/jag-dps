@@ -5,11 +5,13 @@ The DPS Payment Service provides **two** operations completely replacing the leg
 - **getSinglePaymentURL**: Provides an environmentally specific set of CRC application endpoints.
 - **getBeanstreamEndpoints**: Provides an encoded URL for insertion into outgoing SPD client email linking the clients to the Bambora Online Payment System.
 
-payment service implements [Bambora Hash validation for Checkout](https://help.na.bambora.com/hc/en-us/articles/115010303987-Hash-validation-for-Checkout) to serve secure urls.
+Payment service implements [Bambora Hash validation for Checkout](https://help.na.bambora.com/hc/en-us/articles/115010303987-Hash-validation-for-Checkout) to serve secure urls.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.  
+
+See **Deployment** section for additional notes on how to deploy the project on a live system.
 
 ### Configuration
 
@@ -34,6 +36,10 @@ Payment Service is using (Spring Boot Actuator)[https://docs.spring.io/spring-bo
 
 The default health is available at `/paymentservice/actuator/health`
 
+### OpenAPI self documentation (Swagger-UI)
+ 
+See [Swagger-UI endpoint](http://localhost:8081/paymentservice/swagger-ui.html)
+
 ### Installing
 
 Run
@@ -50,7 +56,7 @@ Run
 mvn spring-boot:run
 ```
 
-## local endpoints
+## local operation endpoints
 
 ```
 http://localhost:8081/paymentservice/getSinglePaymentURL
@@ -59,7 +65,11 @@ http://localhost:8081/paymentservice/getBeanstreamEndpoints
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+Run  
+
+```
+mvn test
+```
 
 ### Break down into end to end tests
 

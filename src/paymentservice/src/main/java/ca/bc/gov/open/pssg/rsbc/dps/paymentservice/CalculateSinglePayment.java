@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,11 @@ import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 
 /**
  * 
@@ -65,18 +71,22 @@ public class CalculateSinglePayment {
 	 * @return
 	 * @throws PaymentServiceException 
 	 */
-	@RequestMapping("/getSinglePaymentURL")
-	public SinglePaymentResponse singlepaymenturl(@RequestParam(value = "transType", required = true) String transType,
-			@RequestParam(value = "invoiceNumber", required = true) String invoiceNumber,
-			@RequestParam(value = "approvedPage", required = true) String approvedPage,
-			@RequestParam(value = "declinedPage", required = true) String declinedPage,
+	@RequestMapping(value = "/getSinglePaymentURL",
+			  produces = { "application/xml" }, 
+			  method = RequestMethod.GET)
+			  @ApiOperation(value = "Generate a Payment endpoint URL", notes = "", response = SinglePaymentResponse.class, tags={ "PaymentServices"})
+			  @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = SinglePaymentResponse.class) })
+	public SinglePaymentResponse singlepaymenturl(
+			@ApiParam(value = "transType", required = true) @RequestParam(value = "transType") String transType,
+			@ApiParam(value = "invoiceNumber", required = true) @RequestParam(value = "invoiceNumber") String invoiceNumber,
+			@ApiParam(value = "approvedPage", required = true) @RequestParam(value = "approvedPage") String approvedPage,
+			@ApiParam(value = "declinedPage", required = true) @RequestParam(value = "declinedPage") String declinedPage,
 			@RequestParam(value = "errorPage", required = true) String errorPage,
 			@RequestParam(value = "totalItemsAmount", required = true) String totalItemsAmount,
-			@RequestParam(value = "ref1", required = false) String ref1,
-			@RequestParam(value = "ref2", required = false) String ref2,
-			@RequestParam(value = "ref3", required = false) String ref3,
-			@RequestParam(value = "minutesToExpire", required = true) String minutesToExpire) {
-
+			@ApiParam(value = "ref1", required = false) @RequestParam(value = "ref1", required = false) String ref1,
+			@ApiParam(value = "ref2", required = false) @RequestParam(value = "ref2", required = false) String ref2,
+			@ApiParam(value = "ref3", required = false) @RequestParam(value = "ref3", required = false) String ref3,
+			@ApiParam(value = "minutesToExpire", required = true) @RequestParam(value = "minutesToExpire", required = true) String minutesToExpire) {
 
 		PaymentClient client = null;
 
