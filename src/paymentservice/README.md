@@ -44,8 +44,11 @@ See [Swagger-UI endpoint](http://localhost:8081/paymentservice/swagger-ui.html)
 
 Payment services support [Splunk](https://www.splunk.com/) for event logging. To enable splunk run the mvn commend with the splunk profile activated
 
+mvn command example:
+
 ```
 mvn package -P splunk
+mvn spring-boot:run -P splunk
 ```
 
 Configure the following environment variable to start logging data to splunk
