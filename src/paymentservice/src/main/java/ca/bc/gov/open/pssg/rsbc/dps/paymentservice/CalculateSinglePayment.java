@@ -77,7 +77,6 @@ public class CalculateSinglePayment {
 			@RequestParam(value = "ref3", required = false) String ref3,
 			@RequestParam(value = "minutesToExpire", required = true) String minutesToExpire) {
 
-		// TODO - Complete logging once available.
 
 		PaymentClient client = null;
 
@@ -98,8 +97,8 @@ public class CalculateSinglePayment {
 					PaymentServiceConstants.PAYMENT_SERVICE_SUCCESS_CD, response.toExternalForm());
 
 		} catch (PaymentServiceException | NumberFormatException | MalformedURLException e) {
-			// TODO - Complete logging once available.
-			e.printStackTrace();
+
+			logger.fatal("Exception in singlepaymenturl : " + e.getMessage());
 			return new SinglePaymentResponse(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_FAIL,
 					PaymentServiceConstants.PAYMENT_SERVICE_FAILURE_CD, e.getMessage());
 		}
