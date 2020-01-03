@@ -40,6 +40,24 @@ The default health is available at `/paymentservice/actuator/health`
  
 See [Swagger-UI endpoint](http://localhost:8081/paymentservice/swagger-ui.html)
 
+### Splunk
+
+Payment services support [Splunk](https://www.splunk.com/) for event logging. To enable splunk run the mvn commend with the splunk profile activated
+
+mvn command example:
+
+```
+mvn package -P splunk
+mvn spring-boot:run -P splunk
+```
+
+Configure the following environment variable to start logging data to splunk
+
+| Environment Variable  | Description   | Notes   |
+|---|---|---|
+| SPLUNK_ULR | Splunk base url |  not set by default |
+| SPLUNK_TOKEN | Splunk HEC token value |  not set by default |
+
 ### Installing
 
 Run

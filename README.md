@@ -17,11 +17,26 @@ A Document Processing System.
 
 Install [Docker](https://www.docker.com/)
 
+Create a .env file based of `.env.template` and choose a password for splunk
+
 run
 
 ```bash
 docker-compose up
 ```
+
+[login](http://localhost:8000) into splunk `admin:<your password>`
+
+Enable splunk [Http Event Collector](https://docs.splunk.com/Documentation/Splunk/7.2.3/Data/UsetheHTTPEventCollector) and create a token
+
+Update your .env file with the newly created token value.
+
+restart docker-compose with the new changes
+
+```bash
+docker-compose up --build
+```
+
 
 ## Payment Service
 
@@ -35,3 +50,5 @@ See [Doc](src/paymentservice/README.md).
 | [http://localhost:5000/paymentservice/getSinglePaymentURL](http://localhost:5050/paymentservice/getSinglePaymentURL) | GET | Single Payment Url |
 | [http://localhost:5000/paymentservice/actuator/health](http://localhost:8081/paymentservice/actuator/health) | GET | Payment Service Health |
 | [http://localhost:5000/paymentservice/swagger-ui.html](http://localhost:8081/paymentservice/swagger-ui.html) | GET | Swagger-UI |
+
+
