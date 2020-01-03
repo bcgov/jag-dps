@@ -91,7 +91,9 @@
 
 	<profiles>
 		<profile>
+
 			<id>splunk</id>
+
 			<repositories>
 				<repository>
 					<id>splunk-artifactory</id>
@@ -99,6 +101,7 @@
 					<url>http://splunk.jfrog.io/splunk/ext-releases-local</url>
 				</repository>
 			</repositories>
+
 			<dependencies>
 				<dependency>
 					<groupId>com.splunk.logging</groupId>

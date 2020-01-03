@@ -25,7 +25,7 @@
         </encoder>
     </appender>
     <root level="INFO">
-        <appender-ref ref="http" />
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="http"/>
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
