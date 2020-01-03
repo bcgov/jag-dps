@@ -12,7 +12,8 @@ COPY pom.xml ./
 RUN mvn -B dependency:go-offline \
         -DproxySet=${PROXY_SET} \
         -DproxyHost=${PROXY_HOST} \
-        -DproxyPort=${PROXY_PORT}
+        -DproxyPort=${PROXY_PORT} \
+        -P splunk
 #############################################################################################
 
 #############################################################################################
@@ -29,8 +30,8 @@ COPY src ./src
 RUN mvn -B clean package \
         -DproxySet=${PROXY_SET} \
         -DproxyHost=${PROXY_HOST} \
-        -DproxyPort=${PROXY_PORT}
-
+        -DproxyPort=${PROXY_PORT} \
+        -P splunk
 #############################################################################################
 
 #############################################################################################
