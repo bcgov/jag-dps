@@ -41,7 +41,7 @@ services:
   dps-splunk:
     image: splunk/splunk:7.3.2
     environment:
-      - SPLUNK_PASSWORD=admin123!
+      - SPLUNK_PASSWORD=${SPLUNK_PWD}
       - SPLUNK_START_ARGS=--accept-license
     ports:
       - "8000:8000"

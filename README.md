@@ -17,7 +17,7 @@ A Document Processing System.
 
 Install [Docker](https://www.docker.com/)
 
-Create a .env file based of `.env.template`
+Create a .env file based of `.env.template` and choose a password for splunk
 
 run
 
@@ -25,7 +25,7 @@ run
 docker-compose up
 ```
 
-[login](http://localhost:8000) into splunk `admin:admin123!`
+[login](http://localhost:8000) into splunk `admin:<your password>`
 
 Enable splunk [Http Event Collector](https://docs.splunk.com/Documentation/Splunk/7.2.3/Data/UsetheHTTPEventCollector) and create a token
 
