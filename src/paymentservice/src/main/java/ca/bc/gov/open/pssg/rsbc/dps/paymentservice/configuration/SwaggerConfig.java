@@ -26,8 +26,8 @@ public class SwaggerConfig {
 	@Value("${payment.service.api.version}")
 	private String version;
 	
-	@Value("${payment.service.environment}")
-	private String environment;
+	@Value("${payment.service.swagger.enabled}")
+	private String enabled;
 	
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
@@ -51,6 +51,6 @@ public class SwaggerConfig {
                   .paths(PathSelectors.any())
                   .build()
               .apiInfo(apiInfo())
-              .enable(!environment.toUpperCase().contains("PROD"));
+              .enable(Boolean.parseBoolean(enabled));
   }
 }
