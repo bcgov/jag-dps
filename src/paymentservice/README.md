@@ -29,6 +29,7 @@ Add the following flage
 | BAMBORA_PAYMENT_ENDPOINT | Bambora Payment Endpoint |  not set by default |
 | BAMBORA_MERCHANT_ID | Bambora Merchant Endpoint |  not set by default |
 | BAMBORA_HASHKEY | Bambora Hashkey |  not set by default |
+| SWAGGER_UI_ENABLED | Enable Swagger Ui | default is false |
 
 ### Heatlth Checks
 
