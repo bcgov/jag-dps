@@ -43,7 +43,7 @@ public class SwaggerConfig {
   @Bean
   public Docket customImplementation(){
 	  
-	  // Note: Enable of service based on environment name. 
+	  // Note: Enable of service based on application configuration. 
 	  
       return new Docket(DocumentationType.SWAGGER_2)
               .select()
