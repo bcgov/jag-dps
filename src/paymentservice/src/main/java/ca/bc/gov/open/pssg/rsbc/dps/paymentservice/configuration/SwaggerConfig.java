@@ -26,8 +26,8 @@ public class SwaggerConfig {
 	@Value("${payment.service.api.version}")
 	private String version;
 	
-	@Value("${payment.service.environment}")
-	private String environment;
+	@Value("${payment.service.swagger.enabled:false}")
+	private Boolean enabled;
 	
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
@@ -43,7 +43,7 @@ public class SwaggerConfig {
   @Bean
   public Docket customImplementation(){
 	  
-	  // Note: Enable of service based on environment name. 
+	  // Note: Enable of service based on application configuration. 
 	  
       return new Docket(DocumentationType.SWAGGER_2)
               .select()
@@ -51,6 +51,6 @@ public class SwaggerConfig {
                   .paths(PathSelectors.any())
                   .build()
               .apiInfo(apiInfo())
-              .enable(!environment.toUpperCase().contains("PROD"));
+              .enable(enabled);
   }
 }
