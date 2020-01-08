@@ -22,7 +22,7 @@ Create a .env file based of `.env.template` and choose a password for splunk
 run
 
 ```bash
-docker-compose up
+docker-compose up dps-splunk
 ```
 
 [login](http://localhost:8000) into splunk `admin:<your password>`
@@ -31,10 +31,14 @@ Enable splunk [Http Event Collector](https://docs.splunk.com/Documentation/Splun
 
 Update your .env file with the newly created token value.
 
-restart docker-compose with the new changes
+Install [Splunk Addon for NGINX](https://splunkbase.splunk.com/app/3258/) app following this [instructions](https://docs.splunk.com/Documentation/AddOns/released/Overview/Singleserverinstall)
+
+Restart splunk when prompted
+
+Restart docker-compose with the new changes
 
 ```bash
-docker-compose up --build
+docker-compose up --build -d
 ```
 
 

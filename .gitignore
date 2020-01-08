@@ -1,1 +1,5 @@
+# environment variables
 .env
+
+# nginx log folder
+nginx-log
