@@ -3,3 +3,11 @@
 
 # nginx log folder
 nginx-log
+
+src/dpsvalidationservice/.idea/
+
+src/dpsvalidationservice/dpsvalidationservice.iml
+
+*.class
+
+src/dpsvalidationservice/target/
