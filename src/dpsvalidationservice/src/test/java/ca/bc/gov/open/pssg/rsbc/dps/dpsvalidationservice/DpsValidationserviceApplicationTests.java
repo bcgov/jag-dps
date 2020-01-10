@@ -12,5 +12,3 @@ class DpsValidationserviceApplicationTests {
    /* TO DO - Add test cases */
 
 }
-
-
