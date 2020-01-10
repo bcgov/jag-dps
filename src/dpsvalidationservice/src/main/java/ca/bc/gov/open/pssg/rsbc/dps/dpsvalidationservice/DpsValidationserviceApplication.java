@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @author smillar
+ * @author nancymz
  */
 @SpringBootApplication
 public class DpsValidationserviceApplication {
