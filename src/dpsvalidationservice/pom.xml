@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.2.RELEASE</version>
-        <relativePath/> 
+        <relativePath/>
     </parent>
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
     <artifactId>dpsvalidationservice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>dpsvalidationservice</name>
-    <description>DPS Validation Service module </description>
+    <description>DPS Validation Service module</description>
 
 
     <properties>
