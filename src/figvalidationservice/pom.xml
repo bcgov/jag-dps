@@ -12,7 +12,7 @@
     <artifactId>figvalidationservice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>figvalidationservice</name>
-    <description>FOGARO DPS Validation Service module</description>
+    <description>FIGARO DPS Validation Service module</description>
 
 
     <properties>
