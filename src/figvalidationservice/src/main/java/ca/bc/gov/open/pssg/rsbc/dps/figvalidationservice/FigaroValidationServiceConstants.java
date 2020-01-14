@@ -12,7 +12,9 @@ public class FigaroValidationServiceConstants {
 	private static final String VALIDATION_CORRELATION_ID = "correlationId";
 	
 	// Response code types
-	public static final int VALIDATION_SERVICE_FAILURE_CD = 2;
+	public static final int VALIDATION_SERVICE_FAILURE_CD = 0;
+	public static final int VALIDATION_SERVICE_SUCCESS_CD = 1;
+	
 	
 	// Response message types
 	public static final String VALIDATION_SERVICE_RESP_MSG_FAIL = "fail";
