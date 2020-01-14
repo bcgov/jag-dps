@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * 
- * @author smillar
+ * FigValidationServiceApp class (main application entry point) 
+ * 
+ * @author shaunmillargov
  *
  */
 @SpringBootApplication
