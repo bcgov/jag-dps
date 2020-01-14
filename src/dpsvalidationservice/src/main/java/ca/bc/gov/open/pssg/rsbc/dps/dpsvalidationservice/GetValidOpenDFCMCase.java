@@ -12,11 +12,13 @@ public class GetValidOpenDFCMCase {
             produces = {"application/xml"},
             method = RequestMethod.GET)
     public String getValidOpenDFCMCase(@RequestParam(value = "driversLicense", required = true) String driversLicense, @RequestParam(value = "surcode", required = true) String surcode) {
-        /* TO DO implement the logic as in the webmethods */
-        return "<GetValidOpenDFCMCase>\n" +
-                "<int>2</int>\n" +
-                "<caseDesc>ROUTINE - PROFESSIONAL</caseDesc>\n" +
-                "</GetValidOpenDFCMCase>\n";
+        /* TODO implement the logic as in the webmethods */
+        String integer_ = "2"; // This will be changed later to accept the int value from the ORDS
+        String caseDesc = "ROUTINE - PROFESSIONAL"; // This will be changed later to accept the caseDesc value from the ORDS
+        return String.format("<GetValidOpenDFCMCase>\n" +
+                "<int>%s</int>\n" +
+                "<caseDesc>%s</caseDesc>\n" +
+                "</GetValidOpenDFCMCase>\n", integer_, caseDesc);
     }
 
 }
