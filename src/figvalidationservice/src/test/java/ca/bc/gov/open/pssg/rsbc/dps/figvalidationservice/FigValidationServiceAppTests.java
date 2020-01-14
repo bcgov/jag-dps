@@ -29,7 +29,7 @@ public class FigValidationServiceAppTests {
 	private FigValidationServiceApp figValidationServiceApp; 
 
 	/**
-	 * contextLoaded - Test for fig validation service context.  
+	 * contextLoaded - Test for Figaro validation service context.  
 	 */
 	@Test
 	void contextLoaded() {
