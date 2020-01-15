@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,9 +27,6 @@ public class GetValidOpenDFCMCase {
         String integer_ = "2"; // This will be changed later to accept the int value from the ORDS
         String caseDesc = "ROUTINE - PROFESSIONAL"; // This will be changed later to accept the caseDesc value from the ORDS
 
-        if (StringUtils.isEmpty(driversLicense) || StringUtils.isEmpty(surcode)) {
-            logger.fatal("The drivers license and surcode is either empty or null ");
-        }
         return String.format("<GetValidOpenDFCMCase>\n" +
                 "<int>%s</int>\n" +
                 "<caseDesc>%s</caseDesc>\n" +
