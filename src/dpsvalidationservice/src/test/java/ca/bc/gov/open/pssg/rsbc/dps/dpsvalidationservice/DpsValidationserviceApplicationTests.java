@@ -26,5 +26,6 @@ class DpsValidationserviceApplicationTests {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/dpsvalidationservice" + request,
                 String.class)
         ).contains("GetValidOpenDFCMCase");
+
     }
 }
