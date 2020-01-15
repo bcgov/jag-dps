@@ -28,6 +28,12 @@ public class LocateMatchingApplicantsResponse {
 	
 	public LocateMatchingApplicantsResponse() {}; 
 	
+	public LocateMatchingApplicantsResponse(String respMsg, int respCode) {
+		super();
+		this.respMsg = respMsg;
+		this.respCode = respCode;
+	}; 
+	
 	public LocateMatchingApplicantsResponse(String respMsg, int respCode, String foundPartyId, String foundSurname,
 			String foundFirstName, String foundSecondName, String foundBirthDate, String foundDriversLicence,
 			String foundBirthPlace, String foundGenderTxt) {

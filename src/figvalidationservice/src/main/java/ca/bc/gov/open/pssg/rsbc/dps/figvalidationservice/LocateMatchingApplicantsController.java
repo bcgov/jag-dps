@@ -1,5 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,13 +18,15 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * 
- * LocateMatchingApplicantsController  class. 
+ * LocateMatchingApplicantsController class. 
  * 
  * @author shaunmillargov
  *
  */
 @RestController
 public class LocateMatchingApplicantsController {
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private FigaroValidationImpl figservice;  // connection to ORDS client. 
@@ -50,25 +54,36 @@ public class LocateMatchingApplicantsController {
 			@ApiParam(value = "applAliasFirstName3", required = false) @RequestParam(value="applAliasFirstName3", defaultValue="") String applAliasFirstName3,
 			@ApiParam(value = "applAliasSecondInitial3", required = false) @RequestParam(value="applAliasSecondInitial3", defaultValue="") String applAliasSecondInitial3) throws FigaroValidationServiceException {
 		 
-		 return figservice.locateMatchingApplicants(
-				
-				new LocateMatchingApplicantsRequest( 
-						applSurname,
-						applFirstName,
-						applSecondInitial,
-						applBirthDate,
-						applDriversLicence,
-						applBirthPlace,
-						applGenderTxt,
-						applAliasSurname1,
-						applAliasFirstName1,
-						applAliasSecondInitial1,
-						applAliasSurname2,
-						applAliasFirstName2,
-						applAliasSecondInitial2,
-						applAliasSurname3,
-						applAliasFirstName3,
-						applAliasSecondInitial3));
+		
+		try {
+			
+			 return figservice.locateMatchingApplicants(
+					
+					new LocateMatchingApplicantsRequest( 
+							applSurname,
+							applFirstName,
+							applSecondInitial,
+							applBirthDate,
+							applDriversLicence,
+							applBirthPlace,
+							applGenderTxt,
+							applAliasSurname1,
+							applAliasFirstName1,
+							applAliasSecondInitial1,
+							applAliasSurname2,
+							applAliasFirstName2,
+							applAliasSecondInitial2,
+							applAliasSurname3,
+							applAliasFirstName3,
+							applAliasSecondInitial3));
+			 
+		} catch (FigaroValidationServiceException ex) {
+			logger.error("Exception caught as LocateMatchingApplicants : " + ex.getMessage()); 
+			ex.printStackTrace();
+			return new LocateMatchingApplicantsResponse(
+					ex.getMessage(), 
+					FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD);
+		}	 			 
 
 	
 	}}
