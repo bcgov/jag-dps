@@ -46,6 +46,34 @@ docker-compose up --build -d
 
 See [Doc](src/paymentservice/README.md).
 
+### Install
+
+Run
+
+```bash
+mvn install -P paymentservice
+```
+
+## DPS Validation Service
+
+### Install
+
+Run
+
+```bash
+mvn install -P dpsvalidationservice
+```
+
+## Figaro Validation Service
+
+### Install
+
+Run
+
+```bash
+mvn install -P figvalidationservice
+```
+
 ## Endpoints
 
 | URL | Method | Description |
