@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * 
- * LocateMatchingApplicantsController  class. 
+ * ValidateApplicantServiceController class. 
  * 
  * All response codes are set by FIGARO. 0 = success, all failures will be returned as NEGATIVE values with an associated message.  
  * 
