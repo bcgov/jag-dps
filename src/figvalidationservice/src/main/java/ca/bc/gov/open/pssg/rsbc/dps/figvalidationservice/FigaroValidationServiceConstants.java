@@ -22,6 +22,11 @@ public class FigaroValidationServiceConstants {
 	public static final String VALIDATION_SERVICE_ERR_MISSING_PARAM = "Missing %s parameter";
 	public static final String VALIDATION_SERVICE_ERR_MISSING_CONFIG_PARAMS = "Missing application configuration parameters. Check Validation Service setup.";
 	
+	// boolean type constants
+	public static final String VALIDATION_SERVICE_BOOLEAN_FALSE = "F";
+	public static final String VALIDATION_SERVICE_BOOLEAN_TRUE = "T";
+	
+	
 	
 }
 

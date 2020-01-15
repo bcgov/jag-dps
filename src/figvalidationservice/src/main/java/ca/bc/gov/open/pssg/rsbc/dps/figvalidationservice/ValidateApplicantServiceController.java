@@ -57,7 +57,7 @@ public class ValidateApplicantServiceController {
 			return new ValidateApplicantServiceResponse(
 					ex.getMessage(),
 					FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD,
-					"F");
+					FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
 		}
 
 	}}
