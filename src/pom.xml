@@ -62,6 +62,14 @@
     </dependencies>
     <profiles>
         <profile>
+            <id>all</id>
+            <modules>
+                <module>paymentservice</module>
+                <module>dpsvalidationservice</module>
+                <module>figvalidationservice</module>
+            </modules>
+        </profile>
+        <profile>
             <id>paymentservice</id>
             <modules>
                 <module>paymentservice</module>
