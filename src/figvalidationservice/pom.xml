@@ -3,11 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
-        <relativePath/>
-        <!-- lookup parent from repository -->
+        <groupId>ca.bc.gov.open</groupId>
+        <artifactId>dps</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>
+          ../pom.xml
+        </relativePath>
     </parent>
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
     <artifactId>figvalidationservice</artifactId>
@@ -16,15 +17,10 @@
     <description>FIGARO DPS Validation Service module</description>
 
     <properties>
-        <java.version>1.8</java.version>
-        <springfox-swagger-version>2.6.1</springfox-swagger-version>
+        <!-- include properties that are specific to figvalidationservice -->
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -37,25 +33,6 @@
         </dependency>
         
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
-        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
@@ -64,19 +41,6 @@
             <artifactId>logback-core</artifactId>
         </dependency>
         
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-swagger-version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox-swagger-version}</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
     
     <profiles>
@@ -105,10 +69,7 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+            <!-- include plugins that are specific to figvalidationservice -->
         </plugins>
     </build>
 
