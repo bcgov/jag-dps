@@ -38,7 +38,10 @@ services:
   #############################################################################################
   payment-service:
     build:
-      context: ./src/paymentservice
+      context: ./src
+      args:
+        - MVN_PROFILES=paymentservice,splunk
+        - DPS_SERVICE_NAME=paymentservice
     environment: 
       - spring_profiles_active=cloud,splunk
       - BAMBORA_PAYMENT_ENDPOINT=https://example.com
