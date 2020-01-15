@@ -52,7 +52,7 @@ public class FigValidationServiceAppTests {
 		String request = "/locateMatchingApplicants?applSurname=abcdef99901";
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/figvalidationservice" + request,
 		        String.class)
-		).contains("<respCode>" + FigaroValidationServiceConstants.VALIDATION_SERVICE_SUCCESS_CD);	
+		).contains("<respCode>1</respCode>");	
 	}
 }
 
