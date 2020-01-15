@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceRequest;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceResponse;
 
 /**
  * 
@@ -40,6 +42,24 @@ public class FigaroValidationImpl implements FigaroValidation {
 		
 		return resp; 
 		
+	}
+
+	@Override
+	public ValidateApplicantServiceResponse validateApplicantService(ValidateApplicantServiceRequest lmr)
+			throws FigaroValidationServiceException {
+		
+		// TODO - replace the following dummy response with a call to ORDS  
+		
+		// Note: Call response code and response message comes from the ORDS call.  
+				
+		ValidateApplicantServiceResponse resp = new ValidateApplicantServiceResponse(
+				"success",
+				0,
+				"N"
+				); 
+		
+		return resp;
+		 
 	}
 	
 }

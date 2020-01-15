@@ -3,6 +3,8 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceRequest;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceResponse;
 
 
 /**
@@ -15,6 +17,9 @@ import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApp
 public interface FigaroValidation {
 
 	public LocateMatchingApplicantsResponse locateMatchingApplicants(LocateMatchingApplicantsRequest lmr)
+			throws FigaroValidationServiceException;
+	
+	public ValidateApplicantServiceResponse validateApplicantService(ValidateApplicantServiceRequest lmr)
 			throws FigaroValidationServiceException;
 
 }
