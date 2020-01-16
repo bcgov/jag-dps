@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import static ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -45,6 +44,6 @@ class DpsValidationserviceApplicationTests {
     @Test
     void getValidOpenDFCMCaseTestWrongParams() {
         String response = validDFCM.getValidOpenDFCMCase("1234578", "PEL&");
-        assertThat(response.equals(VALIDOPEN_DFCMCASE_ERR_RESPONSE));
+        assertThat(response.equals(DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE));
     }
 }

@@ -51,11 +51,11 @@ public class GetValidOpenDFCMCase {
         boolean match_surcode = Pattern.matches("^[a-zA-Z&-.]{0,3}", surcode);
 
         if (!match_driversLicense) {
-            logger.fatal("The drivers license pattern is not matching the expectation.");
+            logger.fatal("Invalid driversLicense format.");
             return DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE;
         }
         if (!match_surcode) {
-            logger.fatal("The surcode pattern is not matching the expectation.");
+            logger.fatal("Invalid surcode format.");
             return DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE;
         }
 
@@ -75,8 +75,6 @@ public class GetValidOpenDFCMCase {
      * @param ex
      * @return a String with media type application/xml
      */
-
-
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<String> handleMissingParams(MissingServletRequestParameterException ex) {
         String paramName = ex.getParameterName();
@@ -84,7 +82,7 @@ public class GetValidOpenDFCMCase {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
-        
+
         return new ResponseEntity<String>(DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, headers, HttpStatus.OK);
     }
 
