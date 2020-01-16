@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * 
  *  model class for response messages for /validateApplicantForSharing requests
  * 
- * @author archana
+ * @author archanasudha
  *
  */
 @XmlRootElement
@@ -30,25 +30,14 @@ public class ValidateApplicantForSharingResponse {
 		return validationResult;
 	}
 
-	public void setValidationResult(String validationResult) {
-		this.validationResult = validationResult;
-	}
-
 	public int getRespCode() {
 		return respCode;
-	}
-
-	public void setRespCode(int respCode) {
-		this.respCode = respCode;
 	}
 
 	public String getRespMsg() {
 		return respMsg;
 	}
 
-	public void setRespMsg(String respMsg) {
-		this.respMsg = respMsg;
-	}
 
 }
 

@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiResponses;
  * 
  * ValidateApplicantForSharingController class to handle requests for /validateApplicantForSharing
  * 
- * @author archana
+ * @author archanasudha
  *
  */
 @RestController
