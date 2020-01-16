@@ -40,7 +40,7 @@ public class ValidateApplicantForSharingController {
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Successful operation", response = ValidateApplicantForSharingResponse.class) })
 
-	public ValidateApplicantForSharingResponse validateApplicantForSharingResponse(
+	public ValidateApplicantForSharingResponse validateApplicantForSharing(
 			@ApiParam(value = "applPartyId", required = false) @RequestParam(value = "applPartyId", defaultValue = "0", required = false) String applPartyId,
 			@ApiParam(value = "jurisdictionType", required = false) @RequestParam(value = "jurisdictionType", defaultValue = "", required = false) String jurisdictionType)
 			throws FigaroValidationServiceException {
@@ -51,7 +51,7 @@ public class ValidateApplicantForSharingController {
 					.validateApplicantForSharing(new ValidateApplicantForSharingRequest(applPartyId, jurisdictionType));
 
 		} catch (FigaroValidationServiceException ex) {
-			logger.error("Exception caught as ValidateApplicantForSharingResponse : " + ex.getMessage());
+			logger.error("Exception caught as validateApplicantForSharing : " + ex.getMessage());
 			ex.printStackTrace();
 			return new ValidateApplicantForSharingResponse(ex.getMessage(),
 					FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE,
