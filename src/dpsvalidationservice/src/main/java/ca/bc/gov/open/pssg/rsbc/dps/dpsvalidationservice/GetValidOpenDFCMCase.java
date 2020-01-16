@@ -6,6 +6,10 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,14 +73,19 @@ public class GetValidOpenDFCMCase {
      * from request.
      *
      * @param ex
-     * @return a xml
+     * @return a String with media type application/xml
      */
+
+
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public String handleMissingParams(MissingServletRequestParameterException ex) {
+    public ResponseEntity<String> handleMissingParams(MissingServletRequestParameterException ex) {
         String paramName = ex.getParameterName();
         logger.fatal("Exception in  : GetValidOpenDFCMCase " + ex.getMessage());
 
-        return String.format(DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, -2);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_XML);
+        
+        return new ResponseEntity<String>(DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, headers, HttpStatus.OK);
     }
 
 }
