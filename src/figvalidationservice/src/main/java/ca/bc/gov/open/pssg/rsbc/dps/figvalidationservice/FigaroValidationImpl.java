@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantForSharingRequest;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantForSharingResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceResponse;
 
@@ -60,6 +62,23 @@ public class FigaroValidationImpl implements FigaroValidation {
 		
 		return resp;
 		 
+	}
+	
+	@Override
+	/*
+	 * service method to get the response for /validateApplicantForSharing requests
+	 */
+	public ValidateApplicantForSharingResponse validateApplicantForSharing(
+			ValidateApplicantForSharingRequest validateApplicantForSharingRequest)
+			throws FigaroValidationServiceException {
+		
+		// TODO - replace the following dummy response with actual response from ORDS.  
+
+		ValidateApplicantForSharingResponse validateApplicantForSharingResponse = new ValidateApplicantForSharingResponse(
+				"N", "success", 0);
+
+		return validateApplicantForSharingResponse;
+
 	}
 	
 }
