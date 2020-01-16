@@ -79,15 +79,10 @@ mvn install -P figvalidationservice
 | URL | Method | Description |
 | --- | --- | --- |
 | Payment Service | --- | --- |
-| [http://localhost:5000/paymentservice/bamboraconfiguration](http://localhost:5000/paymentservice/bamboraconfiguration) | GET | Bambora configuration url |
-| [http://localhost:5000/paymentservice/getSinglePaymentURL](http://localhost:5000/paymentservice/getSinglePaymentURL) | GET | Single Payment Url |
-| [http://localhost:5000/paymentservice/actuator/health](http://localhost:5000/paymentservice/actuator/health) | GET | Payment Service Health |
-| [http://localhost:5000/paymentservice/swagger-ui.html](http://localhost:5000/paymentservice/swagger-ui.html) | GET | Swagger-UI |
+| [http://localhost:8080/paymentservice/bamboraconfiguration](http://localhost:8080/paymentservice/bamboraconfiguration) | GET | Bambora configuration url |
+| [http://localhost:8080/paymentservice/getSinglePaymentURL](http://localhost:8080/paymentservice/getSinglePaymentURL) | GET | Single Payment Url |
+| [http://localhost:8080/paymentservice/actuator/health](http://localhost:8080/paymentservice/actuator/health) | GET | Payment Service Health |
+| [http://localhost:8080/paymentservice/swagger-ui.html](http://localhost:8080/paymentservice/swagger-ui.html) | GET | Swagger-UI |
 | Figaro Validation | --- | --- |
-| [http://localhost:5000/figvalidationservice/locateMatchingApplicants](http://localhost:5000/figvalidationservice/locateMatchingApplicants) | GET | Locate Matching Applicants |
-| [http://localhost:5000/figvalidationservice/validateApplicantService](http://localhost:5000/figvalidationservice/validateApplicantService) | GET | Validate Applicants Service |
-
-
-
-
-
+| [http://localhost:8080/figvalidationservice/locateMatchingApplicants](http://localhost:8080/figvalidationservice/locateMatchingApplicants) | GET | Locate Matching Applicants |
+| [http://localhost:8080/figvalidationservice/validateApplicantService](http://localhost:8080/figvalidationservice/validateApplicantService) | GET | Validate Applicants Service |
