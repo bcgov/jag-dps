@@ -11,7 +11,7 @@ public class DpsValidationserviceConstants {
             "                </GetValidOpenDFCMCase>";
 
     public static String VALIDOPEN_DFCMCASE_ERR_RESPONSE = "<GetValidOpenDFCMCase>" +
-            "                <int>%s</int>" +
+            "                <int>-2</int>" +
             "                </GetValidOpenDFCMCase>";
 
 }
