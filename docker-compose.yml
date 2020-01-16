@@ -54,7 +54,7 @@ services:
       - SPLUNK_TOKEN=${SPLUNK_TOKEN}
       - SWAGGER_UI_ENABLED=true
     ports:
-      - "8081"
+      - "8081:8081"
     networks:
       - dps-net
 
@@ -71,7 +71,7 @@ services:
     environment: 
       - SWAGGER_UI_ENABLED=true
     ports:
-      - "8084:8081"
+      - "8082:8081"
     networks:
       - dps-net
 
