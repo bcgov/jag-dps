@@ -51,7 +51,7 @@ public class ValidateApplicantForSharingController {
 					.validateApplicantForSharing(new ValidateApplicantForSharingRequest(applPartyId, jurisdictionType));
 
 		} catch (FigaroValidationServiceException ex) {
-			logger.error("Exception caught as ValidateApplicantService : " + ex.getMessage());
+			logger.error("Exception caught as ValidateApplicantForSharingResponse : " + ex.getMessage());
 			ex.printStackTrace();
 			return new ValidateApplicantForSharingResponse(ex.getMessage(),
 					FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE,
