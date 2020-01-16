@@ -14,5 +14,4 @@ public class DpsValidationserviceConstants {
             "                <int>%s</int>" +
             "                </GetValidOpenDFCMCase>";
 
-    public static final String DPSVALIDATION_SERVICE_ERR_MISSING_PARAM = "Missing %s parameter";
 }
