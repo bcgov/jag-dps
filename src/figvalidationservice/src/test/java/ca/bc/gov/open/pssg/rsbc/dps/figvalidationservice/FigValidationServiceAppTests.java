@@ -43,7 +43,7 @@ public class FigValidationServiceAppTests {
 	 * This test is NOT expected to fetch and test the response against any real data, rather we just want an HTTP response from the 
 	 * operation indicating it's working. 
 	 * 
-	 * TODO - This will fail once ORDS has been connected and will need to be changed. 
+	 * TODO - This will require recoding once ORDS has been connected.
 	 * 
 	 * @throws Exception
 	 */
@@ -53,6 +53,25 @@ public class FigValidationServiceAppTests {
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/figvalidationservice" + request,
 		        String.class)
 		).contains("<respCode>1</respCode>");	
+	}
+	
+
+	/**
+	 * ValidateApplicantServiceHttpResponseTest - Basic HTTP test of the ValidateApplicantService validation operation endpoint.
+	 * 
+	 * This test is NOT expected to fetch and test the response against any real data, rather we just want an HTTP response from the 
+	 * operation indicating it's working. 
+	 * 
+	 * TODO - This will require recoding once ORDS has been connected. 
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void validateApplicantServiceHttpResponseTest() throws Exception {
+		String request = "/validateApplicantService?orgPartyId=abcdef99901&applPartyId=def9908";
+		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/figvalidationservice" + request,
+		        String.class)
+		).contains("<respCode>0</respCode>");	
 	}
 }
 
