@@ -20,7 +20,8 @@ class DpsValidationserviceApplicationTests {
     @LocalServerPort
     private int port;
 
-    GetValidOpenDFCMCase validDFCM = new GetValidOpenDFCMCase();
+    // TODO: inject mock ordsDfcmsApi
+    GetValidOpenDFCMCase validDFCM = new GetValidOpenDFCMCase(null);
 
     @Test
     void getValidOpenDFCMCase() throws Exception {
