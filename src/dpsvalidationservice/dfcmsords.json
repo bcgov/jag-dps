@@ -1,0 +1,87 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "ORDS generated API for web",
+        "version": "1.0.0"
+    },
+    "host": "localhost",
+    "basePath": "/ords/deva/dfcmsords/web",
+    "schemes": [
+        "http"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/adobegetxml": {
+            "get": {
+                "description": "Get adoble xml",
+                "responses": {
+                    "200": {
+                        "description": "output of the endpoint",
+                        "schema": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "pKey",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        "/caseSequenceNumber": {
+            "get": {
+                "description": "Get case sequence number",
+                "responses": {
+                    "200": {
+                        "description": "output of the endpoint",
+                        "schema": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "driver_license_no",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "status_code",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "surname_code",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    }
+                ]
+            }
+        },
+        "/health": {
+            "get": {
+                "description": "Dummy endpoint to check that API calls are working",
+                "responses": {
+                    "200": {
+                        "description": "output of the endpoint",
+                        "schema": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
