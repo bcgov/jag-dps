@@ -7,6 +7,7 @@ import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApp
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantForSharingRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantForSharingResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantPartyIdResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceResponse;
 
@@ -79,6 +80,30 @@ public class FigaroValidationImpl implements FigaroValidation {
 
 		return validateApplicantForSharingResponse;
 
+	}
+	
+	@Override
+	public ValidateApplicantPartyIdResponse validateApplicantPartyId(String applParyId)
+			throws FigaroValidationServiceException {
+		
+		// TODO - replace the following dummy response with a call to ORDS  
+		
+		// Note: Call response code and response message comes from the ORDS call.  
+						
+		ValidateApplicantPartyIdResponse resp = new ValidateApplicantPartyIdResponse(
+					"success",
+					0, 
+					"Cool",
+					"Joe", 
+					"Second",
+					"2016/10/14",
+					"0123456",
+					"Toronto",
+					"F"
+					); 
+			
+			return resp;
+			
 	}
 	
 }
