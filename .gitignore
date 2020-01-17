@@ -11,3 +11,7 @@ src/dpsvalidationservice/dpsvalidationservice.iml
 *.class
 
 src/dpsvalidationservice/target/
+
+# intellij
+.idea
+*.iml
