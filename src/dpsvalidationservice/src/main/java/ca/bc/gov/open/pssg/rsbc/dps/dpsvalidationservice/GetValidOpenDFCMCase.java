@@ -37,7 +37,7 @@ public class GetValidOpenDFCMCase {
     @RequestMapping(value = "/getValidOpenDFCMCase",
             produces = {"application/xml"},
             method = RequestMethod.GET)
-    @ApiOperation(value = "Endpoint for Driver Fitness Case Management Validation Service", notes = "", tags = {"DPSValidationService"})
+    @ApiOperation(value = "Driver Fitness Case Management Validation Service", notes = "", tags = {"DPSValidationService"})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation")})
     public String getValidOpenDFCMCase(@ApiParam(value = "driversLicense", required = true) @RequestParam(value = "driversLicense", required = true) String driversLicense, @ApiParam(value = "surcode", required = true) @RequestParam(value = "surcode", required = true) String surcode) {
