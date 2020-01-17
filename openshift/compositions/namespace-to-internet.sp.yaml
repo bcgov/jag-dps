@@ -1,0 +1,13 @@
+apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
+kind: NetworkSecurityPolicy
+metadata:
+  name: egress-internet
+labels:
+    app: jenkins
+spec:
+  description: |
+    allow all pods in the namespace to talk to the internet.
+  source:
+    - - $namespace=pjztlm-tools
+  destination:
+    - - ext:network=any
