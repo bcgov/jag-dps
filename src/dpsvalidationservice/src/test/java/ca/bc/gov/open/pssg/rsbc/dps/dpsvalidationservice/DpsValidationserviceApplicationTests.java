@@ -44,6 +44,6 @@ class DpsValidationserviceApplicationTests {
     @Test
     void getValidOpenDFCMCaseTestWrongParams() {
         String response = validDFCM.getValidOpenDFCMCase("1234578", "PEL&");
-        assertThat(response.equals(DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE));
+        assertThat(response.equals(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE));
     }
 }

@@ -37,7 +37,7 @@ public class GetValidOpenDFCMCase {
     @RequestMapping(value = "/getValidOpenDFCMCase",
             produces = {"application/xml"},
             method = RequestMethod.GET)
-    @ApiOperation(value = "Generates application callback endpoints for Driver Fitness Case Management Validation Service", notes = "", tags = {"DPSValidationService"})
+    @ApiOperation(value = "Endpoint for Driver Fitness Case Management Validation Service", notes = "", tags = {"DPSValidationService"})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation")})
     public String getValidOpenDFCMCase(@ApiParam(value = "driversLicense", required = true) @RequestParam(value = "driversLicense", required = true) String driversLicense, @ApiParam(value = "surcode", required = true) @RequestParam(value = "surcode", required = true) String surcode) {
@@ -52,14 +52,14 @@ public class GetValidOpenDFCMCase {
 
         if (!match_driversLicense) {
             logger.fatal("Invalid driversLicense format.");
-            return String.format(DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD);
+            return String.format(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD);
         }
         if (!match_surcode) {
             logger.fatal("Invalid surcode format.");
-            return String.format(DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD);
+            return String.format(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD);
         }
 
-        return String.format(DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_RESPONSE, integer_, caseDesc);
+        return String.format(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_RESPONSE, integer_, caseDesc);
     }
 
     /**
@@ -83,7 +83,7 @@ public class GetValidOpenDFCMCase {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
 
-        return new ResponseEntity<String>(String.format(DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, DpsValidationserviceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD), headers, HttpStatus.OK);
+        return new ResponseEntity<String>(String.format(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD), headers, HttpStatus.OK);
     }
 
 }
