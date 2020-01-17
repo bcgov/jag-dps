@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice;
 
+import ca.bc.gov.open.ords.dfcms.client.api.DefaultApi;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -19,6 +20,13 @@ import java.util.regex.Pattern;
 @RestController
 public class GetValidOpenDFCMCase {
     private static final Logger logger = LogManager.getLogger(GetValidOpenDFCMCase.class);
+
+    private final DefaultApi ordsDfcmsApi;
+
+    public GetValidOpenDFCMCase(DefaultApi ordsDfcmsApi) {
+        this.ordsDfcmsApi = ordsDfcmsApi;
+    }
+
 
     /**
      * getValidOpenDFCMCase
