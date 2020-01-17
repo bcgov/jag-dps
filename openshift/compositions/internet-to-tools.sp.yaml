@@ -6,8 +6,7 @@ metadata:
     app: tools
 spec:
   description: |
-    allow all pods in the namespace to talk amongst
-    themselves
+    allow the internet to all pods in the namespace
   source:
     - - ext:network=any
   destination:
