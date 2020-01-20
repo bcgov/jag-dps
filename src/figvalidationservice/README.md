@@ -28,8 +28,10 @@ Environment variables should be used to configure the Figaro Validation service 
 Add the following flags
 
 | Environment Variable  | Description   | Notes   |
-|---|---|---|
-|TBD|   |   |
+| --- | --- | --- |
+| FIGCR_BASE_URL | ORDS FIG SERVICE URL |   |
+| FIGCR_USERNAME | ORDS FIG SERVICE USERNAME |   |
+| FIGCR_PASSWORD | ORDS FIG SERVICE PASSWORD |   |
 
 ### Health Checks
 

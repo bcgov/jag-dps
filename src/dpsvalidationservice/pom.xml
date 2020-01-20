@@ -26,7 +26,6 @@
         <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
         <jodatime-version>2.7</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>4.8.1</junit-version>
     </properties>
 
 

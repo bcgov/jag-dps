@@ -29,7 +29,7 @@ docker-compose up dps-splunk
 
 Enable splunk [Http Event Collector](https://docs.splunk.com/Documentation/Splunk/7.2.3/Data/UsetheHTTPEventCollector) and create a token
 
-Update your .env file with the newly created token value.
+Update your .env file with the newly created token value and the figaro server information
 
 Install [Splunk Addon for NGINX](https://splunkbase.splunk.com/app/3258/) app following this [instructions](https://docs.splunk.com/Documentation/AddOns/released/Overview/Singleserverinstall)
 
