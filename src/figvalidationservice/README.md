@@ -1,6 +1,8 @@
 # FIGARO Validation Service 
 
-The FIGARO Validation Service provides **seven** operations completely replacing the legacy FIGARO Validation services previosuly hosted on webMethods. 
+The FIGARO Validation Service provides **seven** operations completely replacing the legacy FIGARO Validation services previously hosted on webMethods.
+
+Health check and self documenting Swagger-UI endpoints are also included.  
 
 These include: 
 
@@ -14,35 +16,68 @@ These include:
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
-
-See **Deployment** section for additional notes on how to deploy the project on a live system.
+See **Installing** section for running the application locally. Refer to the [https://github.com/bcgov/jag-dps/blob/master/README.md](https://github.com/bcgov/jag-dps/blob/master/README.md) on how to 
+build and deploy the project within a Docker container.
 
 ### Configuration
 
-Application configuration information here
+Environment variables should be used to configure the Figaro Validation service app
+
+> set the `cloud` active profile in order to activate environment variables overwriting: `spring_profiles_active=cloud`
+
+Add the following flags
+
+| Environment Variable  | Description   | Notes   |
+|---|---|---|
+|TBD|   |   |
+
+### Health Checks
+
+This service uses Spring Boot Actuator [https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-enabling](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-enabling) to expose health endpoints.
+
+The default health is available at `/figvalidationservice/actuator/health`
+
+### OpenAPI self documentation (Swagger-UI)
+ 
+See [Swagger-UI endpoint](http://localhost:8081/figvalidationservice/swagger-ui.html)
  
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+Run
 
 ```
-Give the example
+mvn clean install
 ```
 
-And repeat
+## Running the application 
+
+Run
 
 ```
-until finished
+mvn spring-boot:run
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+## local operation endpoints
+
+```
+http://localhost:8081/figvalidationservice/locateMatchingApplicants
+http://localhost:8081/figvalidationservice/validateApplicantService
+http://localhost:8081/figvalidationservice/validateApplicantForSharing
+http://localhost:8081/figvalidationservice/validateApplicantPartyId
+
+others when complete here
+
+http://localhost:8081/figvalidationservice/actuator/health 
+http://localhost:8081/figvalidationservice/swagger-ui.html
+```
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+Run  
+
+```
+mvn test
+```
 
 ### Break down into end to end tests
 
@@ -59,10 +94,6 @@ Explain what these tests test and why
 ```
 Give an example
 ```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
