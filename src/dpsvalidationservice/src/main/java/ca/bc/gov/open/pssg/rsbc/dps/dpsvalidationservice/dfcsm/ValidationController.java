@@ -1,6 +1,7 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm;
 
 import ca.bc.gov.open.ords.dfcms.client.api.DefaultApi;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.DpsValidationServiceConstants;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -18,12 +19,12 @@ import java.util.regex.Pattern;
 
 
 @RestController
-public class GetValidOpenDFCMCase {
-    private static final Logger logger = LogManager.getLogger(GetValidOpenDFCMCase.class);
+public class ValidationController {
+    private static final Logger logger = LogManager.getLogger(ValidationController.class);
 
     private final DefaultApi ordsDfcmsApi;
 
-    public GetValidOpenDFCMCase(DefaultApi ordsDfcmsApi) {
+    public ValidationController(DefaultApi ordsDfcmsApi) {
         this.ordsDfcmsApi = ordsDfcmsApi;
     }
 
@@ -86,7 +87,7 @@ public class GetValidOpenDFCMCase {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<String> handleMissingParams(MissingServletRequestParameterException ex) {
         String paramName = ex.getParameterName();
-        logger.fatal("Exception in  : GetValidOpenDFCMCase " + ex.getMessage());
+        logger.fatal("Exception in  : ValidationController " + ex.getMessage());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);

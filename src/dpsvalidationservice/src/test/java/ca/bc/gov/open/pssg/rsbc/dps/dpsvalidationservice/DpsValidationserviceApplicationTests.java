@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm.ValidationController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +22,7 @@ class DpsValidationserviceApplicationTests {
     private int port;
 
     // TODO: inject mock ordsDfcmsApi
-    GetValidOpenDFCMCase validDFCM = new GetValidOpenDFCMCase(null);
+    ValidationController validDFCM = new ValidationController(null);
 
     @Test
     void getValidOpenDFCMCase() throws Exception {
