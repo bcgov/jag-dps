@@ -1,0 +1,389 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "ORDS generated API for web",
+        "version": "1.0.0"
+    },
+    "host": "localhost",
+    "basePath": "/ords/deva/figcrpords/web",
+    "schemes": [
+        "http"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/health": {
+            "get": {
+                "description": "Dummy endpoint to check that API calls are working",
+                "responses": {
+                    "200": {
+                        "description": "output of the endpoint",
+                        "schema": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/matchingApplicants": {
+            "get": {
+                "description": "Locate the matching applicants",
+                "responses": {
+                    "200": {
+                        "description": "output of the endpoint",
+                        "schema": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "appl_alias_firstname1",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_alias_firstname2",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_alias_firstname3",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_alias_secondinitial1",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_alias_secondinitial2",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_alias_secondinitial3",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_alias_surname1",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_alias_surname2",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_alias_surname3",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_birthdate",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_birthplace",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_driverslicense",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_firstname",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_gender",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_secondinitial",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "appl_surname",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    }
+                ]
+            }
+        },
+        "/validateApplicantForSharing": {
+            "get": {
+                "description": "Validate the applicant for sharing",
+                "responses": {
+                    "200": {
+                        "description": "output of the endpoint",
+                        "schema": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "applicant_party_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "jurisdiction_type",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "status_code",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    }
+                ]
+            }
+        },
+        "/validateApplicantPartyId": {
+            "get": {
+                "description": "Validate the applicant party id",
+                "responses": {
+                    "200": {
+                        "description": "output of the endpoint",
+                        "schema": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "applicant_party_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "status_code",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    }
+                ]
+            }
+        },
+        "/validateFacilityParty": {
+            "get": {
+                "description": "Validate the facility party",
+                "responses": {
+                    "200": {
+                        "description": "output of the endpoint",
+                        "schema": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "facility_party_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "facility_subname1",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "facility_subname2",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "facility_subname3",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "facility_subname4",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "facility_subname5",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    }
+                ]
+            }
+        },
+        "/validateOrgApplicantService": {
+            "get": {
+                "description": "Validate the organization applicant service",
+                "responses": {
+                    "200": {
+                        "description": "output of the endpoint",
+                        "schema": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "appl_party_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "org_party_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "status_code",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    }
+                ]
+            }
+        },
+        "/validateOrgDrawDownBalance": {
+            "get": {
+                "description": "Validate the organization draw down balance",
+                "responses": {
+                    "200": {
+                        "description": "output of the endpoint",
+                        "schema": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "jurisdiction_type",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "org_party_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "schedule_type",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "status_code",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    }
+                ]
+            }
+        },
+        "/validateOrgParty": {
+            "get": {
+                "description": "Validate the organization party",
+                "responses": {
+                    "200": {
+                        "description": "output of the endpoint",
+                        "schema": {
+                            "type": "object",
+                            "properties": {}
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "org_city",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "org_party_id",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "org_subname1",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "org_subname2",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "org_subname3",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "org_subname4",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    },
+                    {
+                        "name": "org_subname5",
+                        "in": "query",
+                        "type": "string",
+                        "description": "Implicit parameter"
+                    }
+                ]
+            }
+        }
+    }
+}
