@@ -89,6 +89,7 @@ public class ValidationController {
 
         String paramName = ex.getParameterName();
         logger.error("Exception in  : ValidationController " + ex.getMessage());
+        ex.printStackTrace();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
