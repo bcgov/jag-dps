@@ -31,7 +31,7 @@ Add the following flage
 | BAMBORA_HASHKEY | Bambora Hashkey |  not set by default |
 | SWAGGER_UI_ENABLED | Enable Swagger Ui | default is false |
 
-### Heatlth Checks
+### Health Checks
 
 Payment Service is using (Spring Boot Actuator)[https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-enabling] to expose health endpoints.
 

@@ -1,18 +1,13 @@
 # FIGARO Validation Service 
 
-The FIGARO Validation Service provides **seven** operations completely replacing the legacy FIGARO Validation services previously hosted on webMethods.
+The DPS Validation Service provides a single operation that completely replacing the legacy DPS Validation services (Driver Fitness Case Management) previously hosted on webMethods.
 
 Health check and self documenting Swagger-UI endpoints are also included.  
 
 These include: 
 
-- **locateMatchingApplicants**
-- **validateApplicantForSharing**
-- **validateApplicantPartyId**
-- **validateApplicantService**
-- **validateFacilityParty**
-- **validateOrgDrawDownBalance**
-- **validateOrgParty**
+- **getValidOpenDFCMCase**
+
 
 ## Getting Started
 
@@ -21,27 +16,22 @@ build and deploy the project within a Docker container.
 
 ### Configuration
 
-Environment variables should be used to configure the Figaro Validation service app
+No env variables
 
 > set the `cloud` active profile in order to activate environment variables overwriting: `spring_profiles_active=cloud`
 
 Add the following flags
 
 | Environment Variable  | Description   | Notes   |
-| --- | --- | --- |
-| FIGCR_BASE_URL | ORDS FIG SERVICE URL |   |
-| FIGCR_USERNAME | ORDS FIG SERVICE USERNAME |   |
-| FIGCR_PASSWORD | ORDS FIG SERVICE PASSWORD |   |
+|---|---|---|
+|TBD|   |   |
 
 ### Health Checks
 
-This service uses Spring Boot Actuator [https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-enabling](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-enabling) to expose health endpoints.
-
-The default health is available at `/figvalidationservice/actuator/health`
-
+|TBD|   |   |
 ### OpenAPI self documentation (Swagger-UI)
  
-See [Swagger-UI endpoint](http://localhost:8081/figvalidationservice/swagger-ui.html)
+See [Swagger-UI endpoint](http://localhost:8080/dpsvalidationservice/swagger-ui.html)
  
 ### Installing
 
