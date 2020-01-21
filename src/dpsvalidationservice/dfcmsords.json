@@ -42,8 +42,7 @@
                     "200": {
                         "description": "output of the endpoint",
                         "schema": {
-                            "type": "object",
-                            "properties": {}
+                            "$ref": "#/definitions/caseSequenceNumberResponse"
                         }
                     }
                 },
@@ -80,6 +79,36 @@
                             "properties": {}
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "caseSequenceNumberResponse": {
+            "type": "object",
+            "required": [
+                "driver_license_no",
+                "surname_code",
+                "case_sequence_number",
+                "status_code",
+                "status_message"
+            ],
+            "properties": {
+                "driver_license_no": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "surname_code": {
+                    "type": "string"
+                },
+                "case_sequence_number": {
+                    "type": "string"
+                },
+                "status_code": {
+                    "type": "string"
+                },
+                "status_message": {
+                    "type": "string"
                 }
             }
         }
