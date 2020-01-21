@@ -90,6 +90,10 @@ mvn install -P figvalidationservice
 | [http://localhost:8080/figvalidationservice/validateApplicantService](http://localhost:8080/figvalidationservice/validateApplicantService) | GET | Validate Applicant Service |
 | [http://localhost:8080/figvalidationservice/validateApplicantForSharing](http://localhost:8080/figvalidationservice/validateApplicantForSharing) | GET | Validate Applicant Sharing |
 | [http://localhost:8080/figvalidationservice/validateApplicantPartyId](http://localhost:8080/figvalidationservice/validateApplicantPartyId) | GET | Validate Applicant Party ID |
-| [http://localhost:8080/figvalidationservice/actuator/health](http://localhost:8082/figvalidationservice/actuator/health) | GET | Figaro Validator Health | 
-| [http://localhost:8080/figvalidationservice/swagger-ui.html](http://localhost:8080/paymentservice/swagger-ui.html) | GET | Figaro Validator Swagger-UI |
+| [http://localhost:8082/figvalidationservice/actuator/health](http://localhost:8082/figvalidationservice/actuator/health) | GET | Figaro Validator Health | 
+| [http://localhost:8082/figvalidationservice/swagger-ui.html](http://localhost:8082/figvalidationservice/swagger-ui.html) | GET | Figaro Validator Swagger-UI |
+| DPS Validation  | --- | --- |
+| [http://localhost:8080/dpsvalidationservice/getValidOpenDFCMCase](http://localhost:8080/dpsvalidationservice/getValidOpenDFCMCase) | GET | Valid Open DFCM Case |
+| [http://localhost:8083/dpsvalidationservice/actuator/health](http://localhost:8083/dpsvalidationservice/actuator/health) | GET | DPS Validator Health | 
+| [http://localhost:8083/dpsvalidationservice/swagger-ui.html](http://localhost:8083/dpsvalidationservice/swagger-ui.html) | GET | DPS Validator Swagger-UI |
 
