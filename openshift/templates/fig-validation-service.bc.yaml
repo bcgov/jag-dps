@@ -1,0 +1,56 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: fams3-dotnet-build
+  annotations:
+    openshift.io/display-name: "FAMS3 Dotnet Build"
+    description: The FAMS3 Dotnet builder
+    tags: quickstart,dotnet,.net
+    iconClass: icon-dotnet
+    template.openshift.io/provider-display-name: BCGov
+    template.openshift.io/documentation-url: https://github.com/bcgov/FAMS3/
+
+parameters:
+  - name: APP_NAME
+    displayName: Name
+    description: A prefix appended to all objects
+    required: true
+  - name: SUFFIX
+    displayName: Name Suffix
+    description: A suffix appended to all objects
+    required: false
+  - name: VERSION
+    required: true
+  - name: SOURCE_CONTEXT_DIR
+    required: true
+  - name: GIT_REPO
+    required: true
+  - name: REPO_REF
+    required: true
+  - name: PROJECT_PREFIX
+    required: true
+  - name: APP_NAME
+    required: true
+objects:
+  - kind: ImageStream
+    apiVersion: v1
+    metadata:
+      name: '${NAME}${SUFFIX}'
+      labels:
+        shared: 'true'
+      annotations: {}
+    spec:
+      lookupPolicy:
+        local: false
+      tags:
+        - name: '${APP_NAME}'
+          annotations: null
+          from:
+            kind: ImageStreamTag
+            name: 'fig-validation-service:latest'
+            namespace: openshift
+          generation: 1
+          importPolicy: {}
+          referencePolicy:
+            type: Local
