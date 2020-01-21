@@ -1,6 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm.GetValidOpenDFCMCase;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm.ValidationController;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,24 +30,25 @@ class DpsValidationserviceApplicationTests {
     void getValidOpenDFCMCase() throws Exception {
         String request = "/getValidOpenDFCMCase/?driversLicense=1234567&surcode=345";
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/dpsvalidationservice" + request,
-                String.class)
-        ).contains("GetValidOpenDFCMCase");
-
+                String.class).contains("getValidOpenDFCMCase"));
     }
 
     @Test
-    void getValidOpenDFCMCaseTestParams() {
-        String response = validDFCM.getValidOpenDFCMCase("123457", "PEL");
-        assertThat(response.contains("<caseDec>"));
+    void withValidDriverLicenceAndSurCodeShouldReturnSuccess() {
+            GetValidOpenDFCMCase response = validDFCM.getValidOpenDFCMCase("1234567", "PEL");
+            Assert.assertEquals(2, response.getResult());
+            Assert.assertEquals("ROUTINE - PROFESSIONAL", response.getCaseDesc());
     }
 
-    /* Test the input params to match
-     *      driversLicense to regex "[0-9]{7}"
-     *      surcode to   "^[a-zA-Z&-.]{0,3}"
-     * */
     @Test
-    void getValidOpenDFCMCaseTestWrongParams() {
-        String response = validDFCM.getValidOpenDFCMCase("1234578", "PEL&");
-        assertThat(response.equals(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE));
+    void withInvalidDriverLicenceShouldReturnErrorResponse() {
+        GetValidOpenDFCMCase response = validDFCM.getValidOpenDFCMCase("INVALID", "PEL");
+        Assert.assertEquals(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD,  response.getResult());
+    }
+
+    @Test
+    void withInvalidSurcodeShouldReturnErrorResponse() {
+        GetValidOpenDFCMCase response = validDFCM.getValidOpenDFCMCase("INVALID", "PEL#");
+        Assert.assertEquals(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD,  response.getResult());
     }
 }
