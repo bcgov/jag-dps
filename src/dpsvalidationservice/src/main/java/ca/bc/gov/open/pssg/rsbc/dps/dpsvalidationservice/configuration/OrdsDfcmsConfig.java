@@ -1,6 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.configuration;
 
-import ca.bc.gov.open.ords.dfcms.client.api.DefaultApi;
+import ca.bc.gov.open.ords.dfcms.client.api.DfcrmsApi;
 import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -42,8 +42,8 @@ public class OrdsDfcmsConfig {
     }
 
     @Bean
-    public DefaultApi defaultApi(ApiClient apiClient) {
-        return new DefaultApi(apiClient);
+    public DfcrmsApi defaultApi(ApiClient apiClient) {
+        return new DfcrmsApi(apiClient);
     }
 
 }

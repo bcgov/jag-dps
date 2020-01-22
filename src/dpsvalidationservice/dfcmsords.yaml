@@ -1,0 +1,82 @@
+swagger: '2.0'
+info:
+  title: DFCRMS
+  version: 1.0.0
+host: localhost
+basePath: /ords/deva/dfcmsords/web
+schemes:
+- http
+produces:
+- application/json
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: HTTP Basic Authentication.
+tags:
+- name: DFCRMS
+paths:
+  /caseSequenceNumber:
+    get:
+      tags:
+      - DFCRMS
+      security:
+      - basicAuth: []
+      description: Get case sequence number
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/caseSequenceNumberResponse'
+        '400':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/errorMessage'
+      parameters:
+      - name: driver_license_no
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: surname_code
+        in: query
+        type: string
+        description: Implicit parameter
+  /health:
+    get:
+      tags:
+      - DFCRMS
+      security:
+      - basicAuth: []
+      description: Dummy endpoint to check that API calls are working
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            type: object
+            properties: {}
+definitions:
+  caseSequenceNumberResponse:
+    type: object
+    required:
+    - case_sequence_number
+    - case_description
+    - status_code
+    - status_message
+    properties:
+      case_description:
+        type: string
+      case_sequence_number:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  errorMessage:
+    type: object
+    required:
+    - status_code
+    - status_message
+    properties:
+      status_code:
+        type: string
+      status_message:
+        type: string

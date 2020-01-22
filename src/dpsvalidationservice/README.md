@@ -24,7 +24,10 @@ Add the following flags
 
 | Environment Variable  | Description   | Notes   |
 |---|---|---|
-|TBD|   |   |
+| DFCMS_BASE_PATH | the ords dfcms base path | |
+| DFCMS_USERNAME | the ords dfcms username | |
+| DFCMS_PASSWORD | the ords dfcms password | |
+
 
 ### Health Checks
 

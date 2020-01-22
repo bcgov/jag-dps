@@ -1,9 +1,17 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice;
 
+import ca.bc.gov.open.ords.dfcms.client.api.DfcrmsApi;
+import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiException;
+import ca.bc.gov.open.ords.dfcms.client.api.model.CaseSequenceNumberResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm.GetValidOpenDFCMCase;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm.ValidationController;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -17,14 +25,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class DpsValidationserviceApplicationTests {
-    // TODO - Add test cases */
+
     @Autowired
     private TestRestTemplate restTemplate;
     @LocalServerPort
     private int port;
-
-    // TODO: inject mock ordsDfcmsApi
-    ValidationController validDFCM = new ValidationController(null);
 
     @Test
     void getValidOpenDFCMCase() throws Exception {
@@ -33,22 +38,4 @@ class DpsValidationserviceApplicationTests {
                 String.class).contains("getValidOpenDFCMCase"));
     }
 
-    @Test
-    void withValidDriverLicenceAndSurCodeShouldReturnSuccess() {
-            GetValidOpenDFCMCase response = validDFCM.getValidOpenDFCMCase("1234567", "PEL");
-            Assert.assertEquals(2, response.getResult());
-            Assert.assertEquals("ROUTINE - PROFESSIONAL", response.getCaseDesc());
-    }
-
-    @Test
-    void withInvalidDriverLicenceShouldReturnErrorResponse() {
-        GetValidOpenDFCMCase response = validDFCM.getValidOpenDFCMCase("INVALID", "PEL");
-        Assert.assertEquals(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD,  response.getResult());
-    }
-
-    @Test
-    void withInvalidSurcodeShouldReturnErrorResponse() {
-        GetValidOpenDFCMCase response = validDFCM.getValidOpenDFCMCase("INVALID", "PEL#");
-        Assert.assertEquals(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD,  response.getResult());
-    }
 }
