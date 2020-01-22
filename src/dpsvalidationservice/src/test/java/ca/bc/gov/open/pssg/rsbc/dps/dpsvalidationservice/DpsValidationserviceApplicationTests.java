@@ -1,17 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice;
 
-import ca.bc.gov.open.ords.dfcms.client.api.DfcrmsApi;
-import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiException;
-import ca.bc.gov.open.ords.dfcms.client.api.model.CaseSequenceNumberResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm.GetValidOpenDFCMCase;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm.ValidationController;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;

@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  title: DFCRMS
+  title: DFCMS
   version: 1.0.0
 host: localhost
 basePath: /ords/deva/dfcmsords/web
@@ -13,12 +13,12 @@ securityDefinitions:
     type: basic
     description: HTTP Basic Authentication.
 tags:
-- name: DFCRMS
+- name: DFCMS
 paths:
   /caseSequenceNumber:
     get:
       tags:
-      - DFCRMS
+      - DFCMS
       security:
       - basicAuth: []
       description: Get case sequence number
@@ -43,7 +43,7 @@ paths:
   /health:
     get:
       tags:
-      - DFCRMS
+      - DFCMS
       security:
       - basicAuth: []
       description: Dummy endpoint to check that API calls are working
