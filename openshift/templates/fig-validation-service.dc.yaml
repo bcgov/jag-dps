@@ -1,7 +1,7 @@
 kind: Template
 apiVersion: v1
 metadata:
-  name: dotnet-webapi-dc
+  name: fig-validation-service-deployment-config
   creationTimestamp: null
 parameters:
   - name: APP_NAME
