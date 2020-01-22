@@ -21,6 +21,8 @@ import java.util.regex.Pattern;
 @RestController
 public class ValidationController {
     private static final Logger logger = LogManager.getLogger(ValidationController.class);
+    public static final String DL_REGEX = "[0-9]{7}";
+    public static final String SURCODE_REGEX = "^[a-zA-Z&-.]{0,3}";
 
     private final DefaultApi ordsDfcmsApi;
 
@@ -39,36 +41,34 @@ public class ValidationController {
      * code of 200. THIS IS EXPECTED AND WHAT THE LEGACY SYSTEM DOES. PLEASE DO NOT
      * CHANGE THIS. An error is indicated to the calling system by the -2 int
      * value in the response structure.
-     *
-     * @param driversLicense
+     *  @param driversLicense
      * @param surcode
      */
     @RequestMapping(value = "/getValidOpenDFCMCase",
-            produces = {"application/xml"},
+            produces = MediaType.APPLICATION_XML_VALUE,
             method = RequestMethod.GET)
-    @ApiOperation(value = "Driver Fitness Case Management Validation Service", notes = "", tags = {"DPSValidationService"})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful operation")})
-    public String getValidOpenDFCMCase(@ApiParam(value = "driversLicense", required = true) @RequestParam(value = "driversLicense", required = true) String driversLicense, @ApiParam(value = "surcode", required = true) @RequestParam(value = "surcode", required = true) String surcode) {
-        /* TODO implement the logic as in the webmethods with the ORDS pieces in  */
-        logger.info("getValidOpenDFCMCase is called");
+    @ApiOperation(value = "Driver Fitness Case Management Validation Service", notes = "", tags = {
+            "DPSValidationService"})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = GetValidOpenDFCMCase.class) })
+    public GetValidOpenDFCMCase getValidOpenDFCMCase(@ApiParam(value = "driversLicense", required = true) @RequestParam(value =
+            "driversLicense", required = true) String driversLicense,
+                                                          @ApiParam(value = "surcode", required = true) @RequestParam(value = "surcode",
+                                               required = true) String surcode) {
 
-        String integer_ = "2"; // This will be changed later to accept the int value from the ORDS
-        String caseDesc = "ROUTINE - PROFESSIONAL"; // This will be changed later to accept the caseDesc value from the ORDS
+        logger.debug("Attempting to get Valid Open Dfcm Case");
 
-        boolean match_driversLicense = Pattern.matches("[0-9]{7}", driversLicense);
-        boolean match_surcode = Pattern.matches("^[a-zA-Z&-.]{0,3}", surcode);
 
-        if (!match_driversLicense) {
-            logger.fatal("Invalid driversLicense format.");
-            return String.format(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD);
-        }
-        if (!match_surcode) {
-            logger.fatal("Invalid surcode format.");
-            return String.format(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD);
+        if (!driversLicense.matches(DL_REGEX)) {
+            logger.error("Invalid driversLicense format.");
+            return GetValidOpenDFCMCase.ErrorResponse();
         }
 
-        return String.format(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_RESPONSE, integer_, caseDesc);
+        if(!surcode.matches(SURCODE_REGEX)) {
+            logger.error("Invalid surcode format.");
+            return GetValidOpenDFCMCase.ErrorResponse();
+        }
+
+        return GetValidOpenDFCMCase.SuccessResponse("ROUTINE - PROFESSIONAL");
     }
 
     /**
@@ -85,14 +85,17 @@ public class ValidationController {
      * @return a String with media type application/xml
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<String> handleMissingParams(MissingServletRequestParameterException ex) {
+    public ResponseEntity<GetValidOpenDFCMCase> handleMissingParams(MissingServletRequestParameterException ex) {
+
         String paramName = ex.getParameterName();
-        logger.fatal("Exception in  : ValidationController " + ex.getMessage());
+        logger.error("Exception in  : ValidationController " + ex.getMessage());
+        ex.printStackTrace();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
 
-        return new ResponseEntity<String>(String.format(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE, DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD), headers, HttpStatus.OK);
+        return new ResponseEntity(new GetValidOpenDFCMCase(2), headers, HttpStatus.OK);
     }
+
 
 }
