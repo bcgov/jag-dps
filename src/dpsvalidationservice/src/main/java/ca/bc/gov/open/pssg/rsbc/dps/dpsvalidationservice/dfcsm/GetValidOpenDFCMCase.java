@@ -11,11 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class GetValidOpenDFCMCase {
 
     @JsonProperty("int")
-    private int result;
+    private String result;
 
     private String caseDesc;
 
-    public int getResult() {
+    public String getResult() {
         return result;
     }
 
@@ -23,12 +23,12 @@ public class GetValidOpenDFCMCase {
         return caseDesc;
     }
 
-    public GetValidOpenDFCMCase(int result) {
+    public GetValidOpenDFCMCase(String result) {
         this.result = result;
     }
 
 
-    public GetValidOpenDFCMCase(int result, String caseDesc) {
+    public GetValidOpenDFCMCase(String result, String caseDesc) {
         this(result);
         this.caseDesc = caseDesc;
     }
@@ -37,7 +37,7 @@ public class GetValidOpenDFCMCase {
         return new GetValidOpenDFCMCase(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD);
     }
 
-    public static GetValidOpenDFCMCase SuccessResponse(int caseSequenceNumber, String caseDesc) {
+    public static GetValidOpenDFCMCase SuccessResponse(String caseSequenceNumber, String caseDesc) {
         return new GetValidOpenDFCMCase(caseSequenceNumber, caseDesc);
     }
 

@@ -6,11 +6,6 @@ FROM maven:3.6.3-jdk-8 as dependencies
 ARG PROXY_SET=false
 ARG PROXY_HOST=
 ARG PROXY_PORT=
-ARG MVN_PROFILES
-ARG DPS_SERVICE_NAME
-
-ENV DPS_SERVICE_NAME=${DPS_SERVICE_NAME}
-ENV MVN_PROFILES=${MVN_PROFILES}
 
 COPY . .
 
@@ -18,7 +13,7 @@ RUN mvn -B dependency:go-offline \
         -DproxySet=${PROXY_SET} \
         -DproxyHost=${PROXY_HOST} \
         -DproxyPort=${PROXY_PORT} \
-        -P ${MVN_PROFILES}
+        -P all,splunk
 #############################################################################################
 
 #############################################################################################
@@ -29,6 +24,12 @@ FROM dependencies as build
 ARG PROXY_SET=false
 ARG PROXY_HOST=
 ARG PROXY_PORT=
+
+ARG MVN_PROFILES
+ARG DPS_SERVICE_NAME
+
+ENV DPS_SERVICE_NAME=${DPS_SERVICE_NAME}
+ENV MVN_PROFILES=${MVN_PROFILES}
 
 COPY . .
 

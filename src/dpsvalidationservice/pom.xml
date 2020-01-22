@@ -166,7 +166,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/dfcmsords.json</inputSpec>
+                            <inputSpec>${project.basedir}/dfcmsords.yaml</inputSpec>
                             <generatorName>java</generatorName>
                             <configOptions>
                                 <dateLibrary>joda</dateLibrary>

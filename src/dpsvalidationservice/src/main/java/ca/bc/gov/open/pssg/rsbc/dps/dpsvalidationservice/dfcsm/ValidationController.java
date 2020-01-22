@@ -1,6 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm;
 
-import ca.bc.gov.open.ords.dfcms.client.api.DefaultApi;
+import ca.bc.gov.open.ords.dfcms.client.api.DfcrmsApi;
 import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.dfcms.client.api.model.CaseSequenceNumberResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.DpsValidationServiceConstants;
@@ -26,9 +26,9 @@ public class ValidationController {
     public static final String DL_REGEX = "[0-9]{7}";
     public static final String SURCODE_REGEX = "^[a-zA-Z&-.]{0,3}";
 
-    private final DefaultApi ordsDfcmsApi;
+    private final DfcrmsApi ordsDfcmsApi;
 
-    public ValidationController(DefaultApi ordsDfcmsApi) {
+    public ValidationController(DfcrmsApi ordsDfcmsApi) {
         this.ordsDfcmsApi = ordsDfcmsApi;
     }
 
@@ -71,10 +71,9 @@ public class ValidationController {
         }
 
         try {
-            CaseSequenceNumberResponse caseSequenceNumberResponse = ordsDfcmsApi.caseSequenceNumberGet(driversLicense
-                    , null, surcode);
+            CaseSequenceNumberResponse caseSequenceNumberResponse = ordsDfcmsApi.caseSequenceNumberGet(driversLicense, surcode);
 
-            return GetValidOpenDFCMCase.SuccessResponse(Integer.parseInt(caseSequenceNumberResponse.getCaseSequenceNumber()), "");
+            return GetValidOpenDFCMCase.SuccessResponse(caseSequenceNumberResponse.getCaseSequenceNumber(), caseSequenceNumberResponse.getCaseDescription());
 
         } catch (ApiException ex) {
             logger.error("Error Getting Case Sequence Number: " + ex.getMessage());
@@ -106,7 +105,7 @@ public class ValidationController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
 
-        return new ResponseEntity(new GetValidOpenDFCMCase(2), headers, HttpStatus.OK);
+        return new ResponseEntity(new GetValidOpenDFCMCase(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD), headers, HttpStatus.OK);
     }
 
 
