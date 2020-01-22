@@ -15,6 +15,7 @@
     "paths": {
         "/health": {
             "get": {
+                "operationId": "health",
                 "description": "Dummy endpoint to check that API calls are working",
                 "responses": {
                     "200": {
@@ -29,6 +30,7 @@
         },
         "/matchingApplicants": {
             "get": {
+                "operationId": "matchingApplicants",
                 "description": "Locate the matching applicants",
                 "responses": {
                     "200": {
@@ -141,6 +143,7 @@
         },
         "/validateApplicantForSharing": {
             "get": {
+                "operationId": "validateApplicantForSharing",
                 "description": "Validate the applicant for sharing",
                 "responses": {
                     "200": {
@@ -175,6 +178,7 @@
         },
         "/validateApplicantPartyId": {
             "get": {
+                "operationId" : "validateApplicantPartyId",
                 "description": "Validate the applicant party id",
                 "responses": {
                     "200": {
@@ -203,6 +207,7 @@
         },
         "/validateFacilityParty": {
             "get": {
+                "operationId" :"validateFacilityParty",
                 "description": "Validate the facility party",
                 "responses": {
                     "200": {
@@ -255,6 +260,7 @@
         },
         "/validateOrgApplicantService": {
             "get": {
+                "operationId" :"validateOrgApplicantService",
                 "description": "Validate the organization applicant service",
                 "responses": {
                     "200": {
@@ -289,6 +295,7 @@
         },
         "/validateOrgDrawDownBalance": {
             "get": {
+                "operationId": "validateOrgDrawDownBalance",
                 "description": "Validate the organization draw down balance",
                 "responses": {
                     "200": {
@@ -329,6 +336,7 @@
         },
         "/validateOrgParty": {
             "get": {
+                "operationId": "validateOrgParty",
                 "description": "Validate the organization party",
                 "responses": {
                     "200": {
