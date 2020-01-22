@@ -6,6 +6,6 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice;
  */
 public class DpsValidationServiceConstants {
 
-    public static int VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD = -2;
+    public static String VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD = "-2";
 
 }
