@@ -85,7 +85,7 @@ objects:
           - image: ''
             name: ${APP_NAME}
             ports:
-            - containerPort: 8082
+            - containerPort: 8081
             resources: {}
           restartPolicy: Always
       test: false
