@@ -20,6 +20,8 @@ import org.mockito.MockitoAnnotations;
 class ValidationControllerTest {
 
 
+    public static final String EXPECTED_STATUS = "2";
+    public static final String EXPECTED_DESCRIPTION = "ROUTINE - PROFESSIONAL";
     @Mock
     public DfcrmsApi dfcrmsApiMock;
 
@@ -29,8 +31,8 @@ class ValidationControllerTest {
     public void SetUp() {
 
         CaseSequenceNumberResponse caseSequenceNumberResponse = new CaseSequenceNumberResponse();
-        caseSequenceNumberResponse.setCaseDescription("ROUTINE - PROFESSIONAL");
-        caseSequenceNumberResponse.setCaseSequenceNumber("2");
+        caseSequenceNumberResponse.setCaseDescription(EXPECTED_DESCRIPTION);
+        caseSequenceNumberResponse.setCaseSequenceNumber(EXPECTED_STATUS);
 
         MockitoAnnotations.initMocks(this);
         try {
@@ -47,8 +49,8 @@ class ValidationControllerTest {
     @Test
     public void withValidDriverLicenceAndSurCodeShouldReturnSuccess() {
         GetValidOpenDFCMCase response = sut.getValidOpenDFCMCase("1234567", "PEL");
-        Assert.assertEquals("2", response.getResult());
-        Assert.assertEquals("ROUTINE - PROFESSIONAL", response.getCaseDesc());
+        Assert.assertEquals(EXPECTED_STATUS, response.getResult());
+        Assert.assertEquals(EXPECTED_DESCRIPTION, response.getCaseDesc());
     }
 
     @Test
