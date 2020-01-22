@@ -1,0 +1,15 @@
+apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
+kind: NetworkSecurityPolicy
+metadata:
+  name: internal-comms
+  labels:
+    app: tools
+spec:
+  description: |
+    allow all pods in the namespace to talk amongst
+    themselves
+  source:
+    - - $namespace=pjztlm-dev
+  destination:
+    - - $namespace=pjztlm-dev
+    - - $namespace=pjztlm-tools

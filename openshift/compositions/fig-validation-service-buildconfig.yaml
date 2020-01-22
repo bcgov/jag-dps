@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  annotations:
+    kompose.cmd: kompose convert --provider=openshift --build=build-config --build-repo=https://github.com/bcgov/jag-dps
+    kompose.version: 1.20.0 (f3d54d784)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: fig-validation-service
+  name: fig-validation-service
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: fig-validation-service:latest
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    contextDir: src/
+    git:
+      ref: feature/jenkins-cicd
+      uri: https://github.com/bcgov/jag-dps
+    type: Git
+  strategy:
+    dockerStrategy:
+      env:
+      - name: DPS_SERVICE_NAME
+        value: figvalidationservice
+      - name: MVN_PROFILES
+        value: figvalidationservice,splunk
+      - name: spring_profiles_active
+        value: cloud
+    type: Docker
+  triggers:
+  - type: ConfigChange
+status:
+  lastVersion: 0

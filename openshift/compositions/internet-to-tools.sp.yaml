@@ -1,0 +1,13 @@
+apiVersion: secops.pathfinder.gov.bc.ca/v1alpha1
+kind: NetworkSecurityPolicy
+metadata:
+  name: intra-namespace-comms
+  labels:
+    app: tools
+spec:
+  description: |
+    allow the internet to all pods in the namespace
+  source:
+    - - ext:network=any
+  destination:
+    - - $namespace=pjztlm-tools
