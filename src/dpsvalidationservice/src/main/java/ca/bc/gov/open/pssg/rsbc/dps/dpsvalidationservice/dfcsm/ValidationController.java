@@ -1,6 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm;
 
 import ca.bc.gov.open.ords.dfcms.client.api.DefaultApi;
+import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiException;
+import ca.bc.gov.open.ords.dfcms.client.api.model.CaseSequenceNumberResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.DpsValidationServiceConstants;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -68,7 +70,17 @@ public class ValidationController {
             return GetValidOpenDFCMCase.ErrorResponse();
         }
 
-        return GetValidOpenDFCMCase.SuccessResponse("ROUTINE - PROFESSIONAL");
+        try {
+            CaseSequenceNumberResponse caseSequenceNumberResponse = ordsDfcmsApi.caseSequenceNumberGet(driversLicense
+                    , null, surcode);
+
+            return GetValidOpenDFCMCase.SuccessResponse(Integer.parseInt(caseSequenceNumberResponse.getCaseSequenceNumber()), "");
+
+        } catch (ApiException ex) {
+            logger.error("Error Getting Case Sequence Number: " + ex.getMessage());
+            return GetValidOpenDFCMCase.ErrorResponse();
+        }
+
     }
 
     /**

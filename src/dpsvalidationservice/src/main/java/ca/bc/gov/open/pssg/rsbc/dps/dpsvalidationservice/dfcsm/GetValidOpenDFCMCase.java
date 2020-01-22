@@ -37,8 +37,8 @@ public class GetValidOpenDFCMCase {
         return new GetValidOpenDFCMCase(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD);
     }
 
-    public static GetValidOpenDFCMCase SuccessResponse(String caseDesc) {
-        return new GetValidOpenDFCMCase(2, caseDesc);
+    public static GetValidOpenDFCMCase SuccessResponse(int caseSequenceNumber, String caseDesc) {
+        return new GetValidOpenDFCMCase(caseSequenceNumber, caseDesc);
     }
 
 }
