@@ -178,7 +178,7 @@
         },
         "/validateApplicantPartyId": {
             "get": {
-                "operationId" : "/validateApplicantPartyId",
+                "operationId" : "validateApplicantPartyId",
                 "description": "Validate the applicant party id",
                 "responses": {
                     "200": {
@@ -259,8 +259,8 @@
             }
         },
         "/validateOrgApplicantService": {
-            "operationId" :"validateOrgApplicantService",
             "get": {
+                "operationId" :"validateOrgApplicantService",
                 "description": "Validate the organization applicant service",
                 "responses": {
                     "200": {
@@ -294,8 +294,8 @@
             }
         },
         "/validateOrgDrawDownBalance": {
-            "operationId": "validateOrgDrawDownBalance",
             "get": {
+                "operationId": "validateOrgDrawDownBalance",
                 "description": "Validate the organization draw down balance",
                 "responses": {
                     "200": {
@@ -335,8 +335,8 @@
             }
         },
         "/validateOrgParty": {
-            "operationId": "validateOrgParty",
             "get": {
+                "operationId": "validateOrgParty",
                 "description": "Validate the organization party",
                 "responses": {
                     "200": {
