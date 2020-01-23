@@ -314,4 +314,6 @@ definitions:
       status_code:
         type: string
       status_message:
-        type: string    
+        type: string
+
+ 
