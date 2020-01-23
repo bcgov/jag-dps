@@ -27,20 +27,28 @@ parameters:
     required: true
   - name: SPRING_PROFILES_ACTIVE
     required: true
+    value: "cloud,splunk"
   - name: BAMBORA_PAYMENT_ENDPOINT
     required: true
+    value: "https://example.com"
   - name: BAMBORA_MERCHANT_ID
     required: true
+    value: "changeme"
   - name: BAMBORA_HASHKEY
     required: true
+    value: "SUPERHASHKEY"
   - name: CRC_ENDPOINT_APPROVED
     required: true
+    value: "http://approved"
   - name: CRC_ENDPOINT_DECLINED
     required: true
+    value: "http://declined"
   - name: SPLUNK_URL
     required: true
+    value: "https://dps-splunk:8088"
   - name: SPLUNK_TOKEN
-    required: true
+    required: true 
+    value: "${SPLUNK_TOKEN}"
 objects:
   - kind: ImageStream
     apiVersion: v1
