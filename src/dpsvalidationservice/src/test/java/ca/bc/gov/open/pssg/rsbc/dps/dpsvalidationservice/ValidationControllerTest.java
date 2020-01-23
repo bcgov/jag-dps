@@ -1,6 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice;
 
-import ca.bc.gov.open.ords.dfcms.client.api.DfcrmsApi;
+import ca.bc.gov.open.ords.dfcms.client.api.DfcmsApi;
 import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.dfcms.client.api.model.CaseSequenceNumberResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm.GetValidOpenDFCMCase;
@@ -23,7 +23,7 @@ class ValidationControllerTest {
     public static final String EXPECTED_STATUS = "2";
     public static final String EXPECTED_DESCRIPTION = "ROUTINE - PROFESSIONAL";
     @Mock
-    public DfcrmsApi dfcrmsApiMock;
+    public DfcmsApi dfcrmsApiMock;
 
     private ValidationController sut;
 

@@ -1,6 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm;
 
-import ca.bc.gov.open.ords.dfcms.client.api.DfcrmsApi;
+import ca.bc.gov.open.ords.dfcms.client.api.DfcmsApi;
 import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.dfcms.client.api.model.CaseSequenceNumberResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.DpsValidationServiceConstants;
@@ -17,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.regex.Pattern;
-
 
 @RestController
 public class ValidationController {
@@ -26,9 +24,9 @@ public class ValidationController {
     public static final String DL_REGEX = "[0-9]{7}";
     public static final String SURCODE_REGEX = "^[a-zA-Z&-.]{0,3}";
 
-    private final DfcrmsApi ordsDfcmsApi;
+    private final DfcmsApi ordsDfcmsApi;
 
-    public ValidationController(DfcrmsApi ordsDfcmsApi) {
+    public ValidationController(DfcmsApi ordsDfcmsApi) {
         this.ordsDfcmsApi = ordsDfcmsApi;
     }
 
