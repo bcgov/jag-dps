@@ -24,14 +24,6 @@ parameters:
     required: true
     value: "https://example.com"
   # TODO value needs to change at some point
-  - name: BAMBORA_MERCHANT_ID
-    required: true
-    value: "changeme"
-  # TODO value needs to change at some point
-  - name: BAMBORA_HASHKEY
-    required: true
-    value: "SUPERHASHKEY"
-  # TODO value needs to change at some point
   - name: CRC_ENDPOINT_APPROVED
     required: true
     value: "http://approved"
