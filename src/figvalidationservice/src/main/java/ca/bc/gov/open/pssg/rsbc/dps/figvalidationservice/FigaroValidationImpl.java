@@ -31,13 +31,8 @@ public class FigaroValidationImpl implements FigaroValidation {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	//DefaultApi defaultApi;
 	FigvalidationsApi ordsapi;  
 	
-    public FigaroValidationImpl(FigvalidationsApi ordsapi) {
-        this.ordsapi = ordsapi;
-    }
-
 	@Override
 	public LocateMatchingApplicantsResponse locateMatchingApplicants(LocateMatchingApplicantsRequest lmr)
 			throws FigaroValidationServiceException {
