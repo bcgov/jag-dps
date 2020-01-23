@@ -69,6 +69,12 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>${jersey-version}</version>
         </dependency>
+        
+         <dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			 <version>${jersey-version}</version>
+		</dependency>
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -167,7 +173,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/figcrpords.json</inputSpec>
+                            <inputSpec>${project.basedir}/figcrpords.yaml</inputSpec>
                             <generatorName>java</generatorName>
                             <configOptions>
                                 <dateLibrary>joda</dateLibrary>
