@@ -28,24 +28,30 @@ parameters:
   - name: SPRING_PROFILES_ACTIVE
     required: true
     value: "cloud,splunk"
+  # TODO value needs to change at some point
   - name: BAMBORA_PAYMENT_ENDPOINT
     required: true
     value: "https://example.com"
+  # TODO value needs to change at some point
   - name: BAMBORA_MERCHANT_ID
     required: true
     value: "changeme"
+  # TODO value needs to change at some point
   - name: BAMBORA_HASHKEY
     required: true
     value: "SUPERHASHKEY"
+  # TODO value needs to change at some point
   - name: CRC_ENDPOINT_APPROVED
     required: true
     value: "http://approved"
+  # TODO value needs to change at some point
   - name: CRC_ENDPOINT_DECLINED
     required: true
     value: "http://declined"
   - name: SPLUNK_URL
     required: true
     value: "https://dps-splunk:8088"
+  # TODO value needs to change at some point
   - name: SPLUNK_TOKEN
     required: true 
     value: "${SPLUNK_TOKEN}"

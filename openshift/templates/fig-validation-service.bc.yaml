@@ -25,8 +25,6 @@ parameters:
     required: true
   - name: APP_NAME
     required: true
-  - name: SWAGGER_UID_ENABLED
-    required: true
 objects:
   - kind: ImageStream
     apiVersion: v1
