@@ -4,9 +4,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  *
- * This class represents the Ords Dfcms Client custom properties
+ * This class represents the Figaro Validation custom properties
  *
- * @author alexjoybc@github
+ * @author shaunmillargov
  *
  */
 @ConfigurationProperties(prefix = "dpsvalidation.service.ords.figcr.client")

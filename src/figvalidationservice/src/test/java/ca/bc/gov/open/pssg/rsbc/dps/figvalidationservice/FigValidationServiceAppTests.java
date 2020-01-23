@@ -93,18 +93,34 @@ public class FigValidationServiceAppTests {
 	}
 	
 	/**
-	 * validateApplicantPartyId - Basic HTTP test of the validateApplicantPartyId validation operation endpoint.
+	 * validateApplicantPartyIdHttpBadResponseTest - Basic HTTP test of the validateApplicantPartyId validation operation endpoint.
 	 * 
 	 * This test is NOT expected to fetch and test the response against any real data, rather we just want an HTTP response from the 
-	 * operation indicating it's working. 
-	 * 
-	 * TODO - This will require recoding once ORDS has been connected. 
+	 * operation indicating it's working. .  
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	void validateApplicantPartyIdHttpResponseTest() throws Exception {
+	void validateApplicantPartyIdHttpBadResponseTest() throws Exception {
 		String request = "/validateApplicantPartyId?applPartyId=11111";
+		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/figvalidationservice" + request,
+		        String.class)
+		).contains("<respCode>-21</respCode>");	
+	}
+	
+	/**
+	 * validateApplicantPartyIdHttpGoodResponseTest - Basic HTTP test of the validateApplicantPartyId validation operation endpoint.
+	 * 
+	 * This test is NOT expected to fetch and test the response against any real data, rather we just want an HTTP response from the 
+	 * operation indicating it's working. 
+	 * 
+	 * TODO - This code is NOT suitable for running in anything but dev. Needs recoding for environment independence.  
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	void validateApplicantPartyIdHttpGoodResponseTest() throws Exception {
+		String request = "/validateApplicantPartyId?applPartyId=32432";
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/figvalidationservice" + request,
 		        String.class)
 		).contains("<respCode>0</respCode>");	
