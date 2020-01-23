@@ -8,21 +8,16 @@ parameters:
     displayName: Name
     description: A prefix appended to all objects
     required: true
-  - name: SUFFIX
-    displayName: Name Suffix
-    description: A suffix appended to all objects
-    required: false
-  - name: VERSION
     required: true
   - name: SOURCE_CONTEXT_DIR
     required: true
-  - name: GIT_REPO
+  - name: GIT_URL
     required: true
   - name: REPO_REF
     required: true
   - name: PROJECT_PREFIX
     required: true
-  - name: APP_NAME
+  - name: DFCMS_BASE_PATH
     required: true
 objects:
   - kind: Service

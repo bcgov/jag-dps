@@ -15,21 +15,31 @@ parameters:
     displayName: Name
     description: A prefix appended to all objects
     required: true
-  - name: SUFFIX
-    displayName: Name Suffix
-    description: A suffix appended to all objects
-    required: false
-  - name: VERSION
-    required: true
   - name: SOURCE_CONTEXT_DIR
     required: true
-  - name: GIT_REPO
+  - name: GIT_URL
     required: true
   - name: REPO_REF
     required: true
   - name: PROJECT_PREFIX
     required: true
   - name: APP_NAME
+    required: true
+  - name: SPRING_PROFILES_ACTIVE
+    required: true
+  - name: BAMBORA_PAYMENT_ENDPOINT
+    required: true
+  - name: BAMBORA_MERCHANT_ID
+    required: true
+  - name: BAMBORA_HASHKEY
+    required: true
+  - name: CRC_ENDPOINT_APPROVED
+    required: true
+  - name: CRC_ENDPOINT_DECLINED
+    required: true
+  - name: SPLUNK_URL
+    required: true
+  - name: SPLUNK_TOKEN
     required: true
 objects:
   - kind: ImageStream
