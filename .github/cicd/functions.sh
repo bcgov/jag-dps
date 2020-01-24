@@ -1,4 +1,6 @@
 export BRANCH_LOWER=`echo "${BRANCH_NAME}" | awk '{print tolower($0)}'`
+
+# Helps fill out some variables and massage for lower case where needed.
 function variablePopulation() {
     if [ "${BRANCH_LOWER}" == "develop" ] || [ "${BRANCH_LOWER}" == "master" ];
     then
@@ -14,13 +16,10 @@ function variablePopulation() {
         export DOTNET_PHASE="Development"
     fi
 }
-
+# Run the function above.
 variablePopulation
 
-function pipeline_args() {
-    export PIPELINE_ARGS="$*"
-}
-
+# Takes in variables required for the project and each container for build.
 function build() {
     source configurations/$2.conf
     echo "Building $2 (${APP_NAME}) to $PROJECT_PREFIX-$3..."
@@ -63,6 +62,7 @@ function build() {
     fi
 }
 
+# Deploy for same project and app variables.
 function deploy() {
     source configurations/$2.conf
     echo "Deploying $2 (${APP_NAME}) to $3 ..."
@@ -97,6 +97,7 @@ function deploy() {
     fi;
 }
 
+# For tools, instrumentation and other stuff in the tools space.
 function toolbelt() {
     source configurations/$2.conf
     #OC_APP=tools
@@ -126,6 +127,8 @@ function toolbelt() {
     fi
 }
 
+# OpenShift sometimes doesn't handle it well if the template already exists.  This mitigates some of that
+
 function determineMode() {
     buildPresent=$(oc get "$3"/"$2-${BRANCH_LOWER}" --ignore-not-found=true)
     if [ -z "${buildPresent}" ];
@@ -134,6 +137,7 @@ function determineMode() {
     fi;
 }
 
+# For cleanup of branched PRs.
 function occleanup() {
     OPEN_PR_ARRAY=()
     LIVE_BRANCH_ARRAY=()
@@ -148,6 +152,7 @@ function occleanup() {
     done
 }
 
+# For cleanup as well.
 function cleanOcArtifacts() {
     declare -p ALL_BRANCH_ARTIFACTS=( $(oc get all,pvc,secrets,route -n $PROJECT_PREFIX-dev | grep -i "\-$2" | awk '{print $2}' | grep -P "(\-pr\-\d+)") )
     for a in "${ALL_BRANCH_ARTIFACTS[@]}"
@@ -156,6 +161,7 @@ function cleanOcArtifacts() {
     done
 }
 
+# To clean an entire app (not based on PR) like databases.  For use before migration strategy is implemented.
 function nukenpave() {
     source configurations/$2.conf
     declare -p TARGET_ARTIFACTS=($(oc get all,pvc,route -n $PROJECT_PREFIX-$3 | grep -i "$APP_NAME" | awk '{print $2}' | grep -Ev "(\-pr\-)") )
@@ -166,6 +172,7 @@ function nukenpave() {
         build $@
         deploy $@
 }
+# For testing function arguments
 function functionTest() {
     echo "1=$2"
     echo "2=$3"
