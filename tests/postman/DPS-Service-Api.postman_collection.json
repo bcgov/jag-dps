@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "c919065c-d742-44d5-8d8d-e523ccb079c0",
+		"name": "DPS Service Api",
+		"description": "A Collection of request to test DPS Service Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "dsp-validation-service",
+			"item": [
+				{
+					"name": "Driver Fitness Case Management Validation Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "db152f0b-fda9-446a-9855-e897ebc24584",
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Assert Json Response\", function () {",
+									"    var responseJson = xml2Json(responseBody);",
+									"    pm.expect(responseJson.GetValidOpenDFCMCase.int).to.eql(\"5\");",
+									"    pm.expect(responseJson.GetValidOpenDFCMCase.caseDesc).to.eql(\"ROUTINE -  AGE\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/dpsvalidationservice/getValidOpenDFCMCase?driversLicense=1000028&surcode=PEL",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dpsvalidationservice",
+								"getValidOpenDFCMCase"
+							],
+							"query": [
+								{
+									"key": "driversLicense",
+									"value": "1000028",
+									"description": "driversLicense"
+								},
+								{
+									"key": "surcode",
+									"value": "PEL",
+									"description": "surcode"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "xml",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/xml"
+								}
+							],
+							"cookie": [],
+							"body": "<element>\n <caseDesc>(string)</caseDesc>\n <int>(string)</int>\n</element>"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
