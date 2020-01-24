@@ -378,7 +378,7 @@
 					]
 				},
 				{
-					"name": "Generate a Payment endpoint URL",
+					"name": "getSinglePaymentURL",
 					"event": [
 						{
 							"listen": "test",
@@ -392,14 +392,9 @@
 									"pm.test(\"Assert Json Response\", function () {",
 									"    ",
 									"    var responseJson = xml2Json(responseBody);",
-									"    pm.expect(responseJson.beanstreamEndpointResponse.respValue).not.to.be.empty;",
-									"    pm.expect(responseJson.beanstreamEndpointResponse.respCode).to.eql(\"0\");",
-									"    pm.expect(responseJson.beanstreamEndpointResponse.respMsg).to.eql(\"success\");",
-									"    ",
-									"    ",
-									"    pm.environment.set(\"approved-url\", responseJson.beanstreamEndpointResponse.approved);",
-									"    pm.environment.set(\"declined-url\", responseJson.beanstreamEndpointResponse.declined);",
-									"    pm.environment.set(\"error-url\", responseJson.beanstreamEndpointResponse.error);",
+									"    pm.expect(responseJson.SinglePaymentResponse.respValue).not.to.be.empty;",
+									"    pm.expect(responseJson.SinglePaymentResponse.respCode).to.eql(\"0\");",
+									"    pm.expect(responseJson.SinglePaymentResponse.respMsg).to.eql(\"success\");",
 									"    ",
 									"});"
 								],
