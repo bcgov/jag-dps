@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ca.bc.gov.open.ords.figcr.client.api.FigvalidationsApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsResponse;
@@ -79,16 +80,23 @@ public class FigaroValidationImpl implements FigaroValidation {
 	/*
 	 * service method to get the response for /validateApplicantForSharing requests
 	 */
-	public ValidateApplicantForSharingResponse validateApplicantForSharing(
+	public ValidateApplicantForSharingOrdsResponse validateApplicantForSharing(
 			ValidateApplicantForSharingRequest validateApplicantForSharingRequest)
 			throws FigaroValidationServiceException {
 		
 		// TODO - replace the following dummy response with actual response from ORDS.  
 
-		ValidateApplicantForSharingResponse validateApplicantForSharingResponse = new ValidateApplicantForSharingResponse(
-				"N", "success", 0);
+		//ValidateApplicantForSharingResponse validateApplicantForSharingResponse = new ValidateApplicantForSharingResponse(
+		//		"N", "success", 0);
 
-		return validateApplicantForSharingResponse;
+		//return validateApplicantForSharingResponse;
+		try {
+			return ordsapi.validateApplicantForSharing(validateApplicantForSharingRequest.getApplPartyId(), validateApplicantForSharingRequest.getJurisdictionType());
+		} catch (ApiException ex) {
+			logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
+			ex.printStackTrace();
+			throw new FigaroValidationServiceException(ex.getMessage());
+		}
 
 	}
 	
