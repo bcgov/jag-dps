@@ -44,8 +44,7 @@ public class ValidateApplicantForSharingController {
         try {
 
             ValidateApplicantForSharingOrdsResponse _response = figservice.validateApplicantForSharing(new ValidateApplicantForSharingRequest(applPartyId, jurisdictionType));
-            //return figservice
-            //		.validateApplicantForSharing(new ValidateApplicantForSharingRequest(applPartyId, jurisdictionType));
+
             return new ValidateApplicantForSharingResponse(_response.getValidationResult(),
                     Integer.parseInt(_response.getStatusCode()),
                     _response.getStatusMessage());
