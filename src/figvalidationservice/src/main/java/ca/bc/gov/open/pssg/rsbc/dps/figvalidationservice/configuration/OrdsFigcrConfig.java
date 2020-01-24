@@ -1,19 +1,20 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.configuration;
 
-import ca.bc.gov.open.ords.figcr.client.api.DefaultApi;
-import ca.bc.gov.open.ords.figcr.client.api.handler.ApiClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import ca.bc.gov.open.ords.figcr.client.api.FigvalidationsApi;
+import ca.bc.gov.open.ords.figcr.client.api.handler.ApiClient;
+
 /**
  *
- * Ords Figcr Configuration
+ * Ords FigvalidationsApi Configuration
  *
- * Inject the DefaultApi in your class to start interacting with ORDS dfcms Web Service
+ * Inject the FigvalidationsApi in your class to start interacting with ORDS Figaro Web Service
  *
- * @author alexjoybc@github
+ * @author shaunmillargov
  *
  */
 @Configuration
@@ -26,10 +27,10 @@ public class OrdsFigcrConfig {
         this.ordsFigcrProperties = ordsFigcrProperties;
     }
 
-
     @Bean
     public ApiClient apiClient() {
         ApiClient apiClient = new ApiClient();
+        
         apiClient.setBasePath(ordsFigcrProperties.getBasePath());
 
         if(StringUtils.isNotBlank(ordsFigcrProperties.getUsername()))
@@ -42,8 +43,8 @@ public class OrdsFigcrConfig {
     }
 
     @Bean
-    public DefaultApi defaultApi(ApiClient apiClient) {
-        return new DefaultApi(apiClient);
+    public FigvalidationsApi defaultApi(ApiClient apiClient) {
+        return new FigvalidationsApi(apiClient);
     }
 
 

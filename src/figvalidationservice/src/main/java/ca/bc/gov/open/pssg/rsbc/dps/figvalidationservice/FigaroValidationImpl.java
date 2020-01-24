@@ -1,13 +1,18 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ca.bc.gov.open.ords.figcr.client.api.FigvalidationsApi;
+import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantForSharingRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantForSharingResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantPartyIdResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceResponse;
 
@@ -22,7 +27,12 @@ import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicant
  */
 @Service
 public class FigaroValidationImpl implements FigaroValidation {
-
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	FigvalidationsApi ordsapi;  
+	
 	@Override
 	public LocateMatchingApplicantsResponse locateMatchingApplicants(LocateMatchingApplicantsRequest lmr)
 			throws FigaroValidationServiceException {
@@ -83,27 +93,17 @@ public class FigaroValidationImpl implements FigaroValidation {
 	}
 	
 	@Override
-	public ValidateApplicantPartyIdResponse validateApplicantPartyId(String applParyId)
+	public ValidateApplicantPartyIdOrdsResponse validateApplicantPartyId(String applPartyId)
 			throws FigaroValidationServiceException {
-		
-		// TODO - replace the following dummy response with a call to ORDS  
-		
-		// Note: Call response code and response message comes from the ORDS call.  
-						
-		ValidateApplicantPartyIdResponse resp = new ValidateApplicantPartyIdResponse(
-					"success",
-					0, 
-					"Cool",
-					"Joe", 
-					"Second",
-					"2016/10/14",
-					"0123456",
-					"Toronto",
-					"F"
-					); 
-			
-			return resp;
-			
+
+		try {
+			return ordsapi.validateApplicantPartyId(applPartyId, null);
+		} catch (ApiException ex) {
+			logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage()); 
+			ex.printStackTrace();
+			throw new FigaroValidationServiceException(ex.getMessage());
+		}
+					
 	}
 	
 }

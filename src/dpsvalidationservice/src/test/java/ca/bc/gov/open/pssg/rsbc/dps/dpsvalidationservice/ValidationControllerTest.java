@@ -1,6 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice;
 
-import ca.bc.gov.open.ords.dfcms.client.api.DfcrmsApi;
+import ca.bc.gov.open.ords.dfcms.client.api.DfcmsApi;
 import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.dfcms.client.api.model.CaseSequenceNumberResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm.GetValidOpenDFCMCase;
@@ -23,7 +23,7 @@ class ValidationControllerTest {
     public static final String EXPECTED_STATUS = "2";
     public static final String EXPECTED_DESCRIPTION = "ROUTINE - PROFESSIONAL";
     @Mock
-    public DfcrmsApi dfcrmsApiMock;
+    public DfcmsApi dfcrmsApiMock;
 
     private ValidationController sut;
 
@@ -38,6 +38,10 @@ class ValidationControllerTest {
         try {
             Mockito.when(dfcrmsApiMock.caseSequenceNumberGet("1234567", "PEL"))
                     .thenReturn(caseSequenceNumberResponse);
+
+            // emulating non 200 response
+            Mockito.when(dfcrmsApiMock.caseSequenceNumberGet("1234568", "EXP")).thenThrow(ApiException.class);
+
         } catch (ApiException e) {
             e.printStackTrace();
         }
@@ -64,4 +68,11 @@ class ValidationControllerTest {
         GetValidOpenDFCMCase response = sut.getValidOpenDFCMCase("INVALID", "PEL#");
         Assert.assertEquals(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD, response.getResult());
     }
+
+    @Test
+    public void withClientThrowingExceptionShouldReturnErrorResponse() {
+        GetValidOpenDFCMCase response = sut.getValidOpenDFCMCase("1234568", "EXP");
+        Assert.assertEquals(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD, response.getResult());
+    }
+
 }
