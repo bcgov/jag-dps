@@ -20,7 +20,7 @@ parameters:
   # TODO value needs to change at some point
   - name: DFCMS_BASE_PATH
     required: true
-    value: "${DFCMS_BASE_PATH}"
+    value: ""
 objects:
   - kind: Service
     apiVersion: v1

@@ -22,22 +22,22 @@ parameters:
   # TODO value needs to change at some point
   - name: BAMBORA_PAYMENT_ENDPOINT
     required: true
-    value: "https://example.com"
+    value: ""
   # TODO value needs to change at some point
   - name: CRC_ENDPOINT_APPROVED
     required: true
-    value: "http://approved"
+    value: ""
   # TODO value needs to change at some point
   - name: CRC_ENDPOINT_DECLINED
     required: true
-    value: "http://declined"
+    value: ""
   - name: SPLUNK_URL
     required: true
-    value: "https://dps-splunk:8088"
+    value: ""
   # TODO value needs to change at some point
   - name: SPLUNK_TOKEN
     required: true 
-    value: "${SPLUNK_TOKEN}"
+    value: ""
 objects:
   - kind: Service
     apiVersion: v1
