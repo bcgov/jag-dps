@@ -72,6 +72,7 @@ services:
         - DPS_SERVICE_NAME=figvalidationservice
     environment: 
       - SWAGGER_UI_ENABLED=true
+      - FIGCR_BASE_PATH=$FIGCR_BASE_PATH
     ports:
       - "8082:8081"
     networks:
