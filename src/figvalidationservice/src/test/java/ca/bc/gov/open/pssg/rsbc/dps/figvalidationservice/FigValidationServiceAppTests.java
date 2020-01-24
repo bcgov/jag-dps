@@ -80,17 +80,11 @@ public class FigValidationServiceAppTests {
 	 * This test is NOT expected to fetch and test the response against any real data, rather we just want an HTTP response from the 
 	 * operation indicating it's working. 
 	 * 
-	 * TODO - This will require recoding once ORDS has been connected. 
+	 * TODO - A new test will be created
 	 * 
 	 * @throws Exception
 	 */
-	@Test
-	void validateApplicantForSharingHttpResponseTest() throws Exception {
-		String request = "/validateApplicantForSharing?applPartyId=9988&jurisdictionType=WWCH";
-		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/figvalidationservice" + request,
-		        String.class)
-		).contains("<respCode>0</respCode>");	
-	}
+
 
 }
 
