@@ -1,9 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.net.URL;
-
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +10,9 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
+import java.net.URL;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations="classpath:test.properties")
@@ -35,7 +34,7 @@ class PaymentserviceApplicationTests {
 	private CalculateSinglePayment calculateSinglePayment;
 	
 	@Autowired
-	private BamboraConfiguration bamboraConfiguration;
+	private CrcController paymentServiceController;
 	
 	@Autowired
 	private TestRestTemplate restTemplate;
@@ -46,7 +45,7 @@ class PaymentserviceApplicationTests {
 	@Test
 	void contextLoaded() {
 		assertThat(calculateSinglePayment).isNotNull();
-		assertThat(bamboraConfiguration).isNotNull();
+		assertThat(paymentServiceController).isNotNull();
 	}
 	
 	
@@ -99,7 +98,7 @@ class PaymentserviceApplicationTests {
 	 */
 	@Test
 	void bamboraConfigurationTest() throws Exception {
-		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/paymentservice" + "/bamboraconfiguration",
+		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/paymentservice/getBeanstreamEndpoints",
 				String.class)
 		).contains(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK);
 	}
