@@ -28,13 +28,12 @@ public class CrcController {
     @RequestMapping(value = "/getBeanstreamEndpoints",
             produces = { "application/xml" },
             method = RequestMethod.GET)
-    @ApiOperation(value = "Generates application callback endpoints for Payment Service", notes = "", response = beanstreamEndpointResponse.class, tags={ "PaymentServices"})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful operation", response = beanstreamEndpointResponse.class) })
+    @ApiOperation(value = "Generates application callback endpoints for Payment Service", response = beanstreamEndpointResponse.class, tags={ "PaymentServices"})
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Successful operation", response = beanstreamEndpointResponse.class) })
     public beanstreamEndpointResponse getBeanstreamEndpoints() {
 
         if (StringUtils.isEmpty(crcProperties.getApproved()) || StringUtils.isEmpty(crcProperties.getDeclined()) || StringUtils.isEmpty(crcProperties.getError())) {
-            logger.fatal("CRC endpoints are not set properly in the config. Failed to read the properties. ");
+            logger.error("CRC endpoints are not set properly in the config. Failed to read the properties. ");
             return new beanstreamEndpointResponse("", "", "", PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_FAIL,
                     PaymentServiceConstants.PAYMENT_SERVICE_FAILURE_CD);
         }
