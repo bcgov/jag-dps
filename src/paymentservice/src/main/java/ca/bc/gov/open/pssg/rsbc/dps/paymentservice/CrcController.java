@@ -1,7 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.configuration.CrcProperties;
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.BeanstreamEndpointResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.beanstreamEndpointResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -28,19 +28,19 @@ public class CrcController {
     @RequestMapping(value = "/getBeanstreamEndpoints",
             produces = { "application/xml" },
             method = RequestMethod.GET)
-    @ApiOperation(value = "Generates application callback endpoints for Payment Service", notes = "", response = BeanstreamEndpointResponse.class, tags={ "PaymentServices"})
+    @ApiOperation(value = "Generates application callback endpoints for Payment Service", notes = "", response = beanstreamEndpointResponse.class, tags={ "PaymentServices"})
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful operation", response = BeanstreamEndpointResponse.class) })
-    public BeanstreamEndpointResponse getBeanstreamEndpoints() {
+            @ApiResponse(code = 200, message = "Successful operation", response = beanstreamEndpointResponse.class) })
+    public beanstreamEndpointResponse getBeanstreamEndpoints() {
 
         if (StringUtils.isEmpty(crcProperties.getApproved()) || StringUtils.isEmpty(crcProperties.getDeclined()) || StringUtils.isEmpty(crcProperties.getError())) {
             logger.fatal("CRC endpoints are not set properly in the config. Failed to read the properties. ");
-            return new BeanstreamEndpointResponse("", "", "", PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_FAIL,
+            return new beanstreamEndpointResponse("", "", "", PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_FAIL,
                     PaymentServiceConstants.PAYMENT_SERVICE_FAILURE_CD);
         }
 
         logger.debug("CRC endpoints are present in the config. Returning the properties successfully.");
-        return new BeanstreamEndpointResponse(crcProperties.getApproved(), crcProperties.getDeclined(),crcProperties.getError(),
+        return new beanstreamEndpointResponse(crcProperties.getApproved(), crcProperties.getDeclined(),crcProperties.getError(),
                     PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK,
                     PaymentServiceConstants.PAYMENT_SERVICE_SUCCESS_CD);
 

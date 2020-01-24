@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "beanstreamEndpointResponse")
+@XmlRootElement
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BeanstreamEndpointResponse {
+public class beanstreamEndpointResponse {
 
     private String approved;
     private String declined;
@@ -14,7 +14,7 @@ public class BeanstreamEndpointResponse {
     private String respMsg;
     private int respCode;
 
-    public BeanstreamEndpointResponse(String approved, String declined, String error, String respMsg, int respCode) {
+    public beanstreamEndpointResponse(String approved, String declined, String error, String respMsg, int respCode) {
         this.approved = approved;
         this.declined = declined;
         this.error = error;
