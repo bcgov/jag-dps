@@ -1,12 +1,13 @@
 kind: Template
 apiVersion: v1
 metadata:
-  name: fig-validation-service-deployment-config
+  name: dps-validation-service-deployment-config
   creationTimestamp: null
 parameters:
   - name: APP_NAME
     displayName: Name
     description: A prefix appended to all objects
+    required: true
     required: true
   - name: SOURCE_CONTEXT_DIR
     required: true
@@ -16,8 +17,10 @@ parameters:
     required: true
   - name: PROJECT_PREFIX
     required: true
-  - name: APP_NAME
+  # TODO value needs to change at some point
+  - name: DFCMS_BASE_PATH
     required: true
+    value: ""
 objects:
   - kind: Service
     apiVersion: v1
