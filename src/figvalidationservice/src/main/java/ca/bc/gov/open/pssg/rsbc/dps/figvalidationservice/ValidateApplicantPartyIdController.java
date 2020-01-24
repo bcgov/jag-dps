@@ -33,6 +33,10 @@ public class ValidateApplicantPartyIdController {
 
 	@Autowired
 	private FigaroValidationImpl figservice; // connection to ORDS client.
+	
+	public ValidateApplicantPartyIdController(FigaroValidationImpl figservice) {
+		this.figservice = figservice;
+	}
 
 	@RequestMapping(value = "/validateApplicantPartyId", produces = { "application/xml" }, method = RequestMethod.GET)
 	@ApiOperation(value = "Validate Applicant Party Id", notes = "", response = ValidateApplicantPartyIdResponse.class, tags = {"Figaro Validation Services" })

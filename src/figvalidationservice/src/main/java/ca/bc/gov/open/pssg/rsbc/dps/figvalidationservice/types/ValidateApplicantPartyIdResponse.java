@@ -55,6 +55,14 @@ public class ValidateApplicantPartyIdResponse {
 	public int getRespCode() {
 		return respCode;
 	}
+	
+	public void setRespMsg(String respMsg) {
+		this.respMsg = respMsg;
+	}
+
+	public void setRespCode(int respCode) {
+		this.respCode = respCode;
+	}
 
 	public String getFoundSurname() {
 		return foundSurname;
