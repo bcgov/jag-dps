@@ -12,16 +12,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "dpsvalidation.service.ords.figcr.client")
 public class OrdsFigcrProperties {
 
-    private String basepath;
+    private String basePath;
     private String username;
     private String password;
 
+    public OrdsFigcrProperties() { }
+
     public String getBasepath() {
-        return basepath;
+        return basePath;
     }
 
     public void setBasepath(String basepath) {
-        this.basepath = basepath;
+        this.basePath = basepath;
     }
 
     public String getUsername() {
