@@ -1,31 +1,19 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 
-import java.net.URL;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations="classpath:test.properties")
 class PaymentserviceApplicationTests {
-	
-	@Value("${bambora.hostedpaymentendpoint}")
-	private String hostedPaymentEndpoint;
-
-	@Value("${bambora.merchantid}")
-	private String merchantId;
-
-	@Value("${bambora.hashkey}")
-	private String hashKey;
 	
 	@LocalServerPort
 	private int port;
@@ -56,52 +44,27 @@ class PaymentserviceApplicationTests {
 	 */
 	@Test
 	void calculateSinglePaymentHttpResponseTest() throws Exception {
+
 		String request = "/getSinglePaymentURL?transType=P&invoiceNumber=9999&totalItemsAmount=10.05&approvedPage=http://localhost:8080/crc/beanstream/dpsProcessPayment.do&declinedPage=http://localhost:8080/crc/beanstream/dpsProcessPayment.do&errorPage=http://localhost:8080/crc/beanstream/dpsProcessPayment.do&minutesToExpire=1440&ref1=0123456&ref2=ref2String&ref3=ref3String";
-		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/paymentservice" + request,
-		        String.class)
-		).contains(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK);	
+
+		String result = this.restTemplate.getForObject("http://localhost:" + port + "/paymentservice" + request,
+				String.class);
+
+		Assertions.assertTrue(result.matches("<singlePaymentResponse><respMsg>success</respMsg><respCode>0</respCode><respValue>https://web\\.na\\.bambora\\.com/scripts/payment/payment\\.asp\\?merchant_id=123456&amp;trnType=P&amp;trnOrderNumber=9999&amp;errorPage=http://localhost:8080/crc/beanstream/dpsProcessPayment\\.do&amp;declinedPage=http://localhost:8080/crc/beanstream/dpsProcessPayment\\.do&amp;approvedPage=http://localhost:8080/crc/beanstream/dpsProcessPayment\\.do&amp;ref1=0123456&amp;ref2=ref2String&amp;ref3=ref3String&amp;trnAmount=10\\.05&amp;hashValue=C621FB2F7CB420FD6123D770EEB2B867&amp;hashExpiry=\\d{12}</respValue></singlePaymentResponse>"));
+
 	}
-	
-	/**
-	 * calculateSinglePaymentAlgoTest - Basic testing of the Bambora Payment client, calculateSinglePaymentURL algorithm.
-	 * 
-	 * Note: this test uses the Test property source (See test\java\resources\test.properties)
-	 * 
-	 * @throws Exception
-	 */
+
 	@Test
-	void calculateSinglePaymentAlgoTest() throws Exception {
-		
-		PaymentClient paymentClient = new BamboraClientImpl(new URL(hostedPaymentEndpoint), merchantId, hashKey, 1);
-		
-		URL response = paymentClient.calculateSinglePaymentURL(
-				new SinglePaymentRequest("abcdef123",
-							PaymentServiceConstants.BamboraTransType.P, 
-							"01234", 
-							10.56,
-							null,
-							null,
-							"http://somedomain/someapp/approved.do", 
-							"http://somedomain/someapp/declined.do", 
-							"http://somedomain/someapp/error.do",  
-							"ref1",
-							"ref2", 
-							"ref3"));
-		
-		assertThat(response.toExternalForm()).contains("hashValue=3837E45A548CC2366730BFB69C77F5DA");	
+	public void withValidParamAppShouldReturnConfiguration() {
+		String request = "/getBeanstreamEndpoints";
+
+		String result = this.restTemplate.getForObject("http://localhost:" + port + "/paymentservice" + request,
+				String.class);
+
+		Assertions.assertEquals("<beanstreamEndpointResponse><approved>http://myendpoint/approved</approved><declined>http://myendpoint/declined</declined><error>http://myendpoint/error</error><respMsg>success</respMsg><respCode>0</respCode></beanstreamEndpointResponse>", result);
+
 	}
-	
-	/**
-	 * bamboraConfigurationTest - Basic request testing of the CalculateSinglePayment operation. 
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	void bamboraConfigurationTest() throws Exception {
-		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/paymentservice/getBeanstreamEndpoints",
-				String.class)
-		).contains(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK);
-	}
+
 }
 
 
