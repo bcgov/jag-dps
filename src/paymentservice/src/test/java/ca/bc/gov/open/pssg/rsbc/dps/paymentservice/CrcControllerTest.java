@@ -1,10 +1,11 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
 
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.configuration.CrcProperties;
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.beanstreamEndpointResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.configuration.CrcProperties;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.BeanstreamEndpointResponse;
 
 public class CrcControllerTest {
 
@@ -24,7 +25,7 @@ public class CrcControllerTest {
 
         sut = new CrcController(properties);
 
-        beanstreamEndpointResponse response = sut.getBeanstreamEndpoints();
+        BeanstreamEndpointResponse response = sut.getBeanstreamEndpoints();
 
         Assertions.assertEquals(APPROVED, response.getApproved());
         Assertions.assertEquals(DECLINED, response.getDeclined());
@@ -44,7 +45,7 @@ public class CrcControllerTest {
 
         sut = new CrcController(properties);
 
-        beanstreamEndpointResponse response = sut.getBeanstreamEndpoints();
+        BeanstreamEndpointResponse response = sut.getBeanstreamEndpoints();
 
         Assertions.assertEquals("fail", response.getRespMsg());
         Assertions.assertEquals(-1, response.getRespCode());
