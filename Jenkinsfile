@@ -22,6 +22,17 @@ pipeline {
                 sh ".github/cicd/player.sh build fig-validation-service dev"
             }
         }
+        stage('Deploy Branch') {
+            options {
+                timeout(time: 10, unit: 'MINUTES')   // timeout on this stage
+            }
+            when { expression { ( GIT_BRANCH != 'master' ) } }
+            agent { label 'master' }
+            steps {
+                echo "Deploy to dev..."
+                sh ".github/cicd/player.sh deploy fig-validation-service dev"
+            }
+        }
         stage('SCM') {
             git 'https://github.com/bcgov/jag-dps'
         }
@@ -37,17 +48,6 @@ pipeline {
                 if (qualityGate != 'OK') {
                     error "Pipeline aborted due to quality gate failure. YOU SHALL NOT PASS: ${qualityGate.status}"
                 }
-            }
-        }
-        stage('Deploy Branch') {
-            options {
-                timeout(time: 10, unit: 'MINUTES')   // timeout on this stage
-            }
-            when { expression { ( GIT_BRANCH != 'master' ) } }
-            agent { label 'master' }
-            steps {
-                echo "Deploy to dev..."
-                sh ".github/cicd/player.sh deploy fig-validation-service dev"
             }
         }
     }
