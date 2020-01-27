@@ -174,15 +174,22 @@ paths:
         type: string
         description: Implicit parameter
   /validateOrgApplicantService:
-    get:
+     get:
       operationId: validateOrgApplicantService
+      tags:
+      - FIGVALIDATIONS
+      security:
+      - basicAuth: []
       description: Validate the organization applicant service
       responses:
-        '200':
+         '200':
           description: output of the endpoint
           schema:
-            type: object
-            properties: {}
+            $ref: '#/definitions/validateOrgApplicantServiceOrdsResponse'
+         '400':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/errorMessage'
       parameters:
       - name: appl_party_id
         in: query
@@ -327,5 +334,16 @@ definitions:
         type: string
       status_message:
         type: string
-
- 
+  validateOrgApplicantServiceOrdsResponse:
+    type: object
+    required:
+    - validation_result
+    - status_code
+    - status_message
+    properties:
+      validation_result:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string   
