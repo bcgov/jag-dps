@@ -59,7 +59,7 @@ public class ValidateApplicantServiceController {
 			);
 
 		} catch (FigaroValidationServiceException ex) {
-			logger.error("Exception caught at ValidateApplicantServiceController : " + ex.getMessage());
+			logger.error("An exception occured in ValidateApplicantServiceResponse validateApplicantService() : " + ex.getMessage());
 			ex.printStackTrace();
 			return new ValidateApplicantServiceResponse(ex.getMessage(),
 					FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD,
