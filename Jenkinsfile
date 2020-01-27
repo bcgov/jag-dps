@@ -23,7 +23,7 @@ pipeline {
             }
         }
         stage('SCM') {
-            git 'gttps://github.com/bcgov/jag-dps'
+            git 'https://github.com/bcgov/jag-dps'
         }
         stage('SonarQube Analysis and Reporting') {
             def scannerHome = tool 'SonarScanner 4.0';
