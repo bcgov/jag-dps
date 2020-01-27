@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author nancymz
  */
 @SpringBootApplication
-public class DpsValidationserviceApplication {
+public class DpsValidationServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DpsValidationserviceApplication.class, args);
+        SpringApplication.run(DpsValidationServiceApplication.class, args);
     }
 
 }

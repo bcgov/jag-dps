@@ -17,7 +17,7 @@ import org.springframework.test.context.TestPropertySource;
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations="classpath:test.properties")
-public class FigValidationServiceAppTests {
+public class FigValidationServiceApplicationTests {
 	
 	@LocalServerPort
 	private int port;
@@ -26,14 +26,14 @@ public class FigValidationServiceAppTests {
 	private TestRestTemplate restTemplate;
 	
 	@Autowired 
-	private FigValidationServiceApp figValidationServiceApp; 
+	private FigValidationServiceApplication figValidationServiceApplication;
 
 	/**
 	 * contextLoaded - Test for Figaro validation service context.  
 	 */
 	@Test
 	void contextLoaded() {
-		assertThat(figValidationServiceApp).isNotNull();
+		assertThat(figValidationServiceApplication).isNotNull();
 	}
 	
 	

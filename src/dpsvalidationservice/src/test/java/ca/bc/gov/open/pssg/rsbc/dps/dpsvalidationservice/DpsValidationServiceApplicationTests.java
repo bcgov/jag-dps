@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author nancymz
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class DpsValidationserviceApplicationTests {
+class DpsValidationServiceApplicationTests {
 
     @Autowired
     private TestRestTemplate restTemplate;

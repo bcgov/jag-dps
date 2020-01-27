@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations="classpath:test.properties")
-class PaymentserviceApplicationTests {
+class PaymentServiceApplicationTests {
 	
 	@Value("${bambora.hostedpaymentendpoint}")
 	private String hostedPaymentEndpoint;

@@ -11,10 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
-public class FigValidationServiceApp {
+public class FigValidationServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FigValidationServiceApp.class, args);
+		SpringApplication.run(FigValidationServiceApplication.class, args);
 	}
 
 }
