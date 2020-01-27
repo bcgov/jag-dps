@@ -22,6 +22,23 @@ pipeline {
                 sh ".github/cicd/player.sh build fig-validation-service dev"
             }
         }
+        stage('SCM') {
+            git 'gttps://github.com/bcgov/jag-dps'
+        }
+        stage('SonarQube Analysis and Reporting') {
+            def scannerHome = tool 'SonarScanner 4.0';
+            withSonarQubeEnv('DPS Sonar Scan') {
+                sh "${scannerHome}/bin/sonar-scanner"
+            }
+        }
+        stage('Quality Gate') {
+            timeout(time: 1, unit: 'HOURS') {
+                def qualityGate = waitForQualityGate()
+                if (qualityGate != 'OK') {
+                    error "Pipeline aborted due to quality gate failure. YOU SHALL NOT PASS: ${qualityGate.status}"
+                }
+            }
+        }
         stage('Deploy Branch') {
             options {
                 timeout(time: 10, unit: 'MINUTES')   // timeout on this stage
