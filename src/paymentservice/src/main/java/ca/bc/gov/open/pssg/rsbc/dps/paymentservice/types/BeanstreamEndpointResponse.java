@@ -1,12 +1,11 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
+@JacksonXmlRootElement(localName = "beanstreamEndpointResponse")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class beanstreamEndpointResponse {
+public class BeanstreamEndpointResponse {
 
     private String approved;
     private String declined;
@@ -14,7 +13,7 @@ public class beanstreamEndpointResponse {
     private String respMsg;
     private int respCode;
 
-    public beanstreamEndpointResponse(String approved, String declined, String error, String respMsg, int respCode) {
+    public BeanstreamEndpointResponse(String approved, String declined, String error, String respMsg, int respCode) {
         this.approved = approved;
         this.declined = declined;
         this.error = error;
