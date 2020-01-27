@@ -2,10 +2,10 @@
 kind: Template
 apiVersion: v1
 metadata:
-  name: fig-validation-service-build
+  name: dps-validation-service-build
   annotations:
-    openshift.io/display-name: "Figaro Validation Service Build"
-    description: The Figaro Validation Service builder
+    openshift.io/display-name: "DPS Validation Service Build"
+    description: The DPS Validation Service builder
     tags: java
     template.openshift.io/provider-display-name: BCGov
     template.openshift.io/documentation-url: https://github.com/bcgov/jag-dps/
@@ -23,8 +23,10 @@ parameters:
     required: true
   - name: PROJECT_PREFIX
     required: true
-  - name: APP_NAME
+  # TODO Value needs to change at some point
+  - name: DFCMS_BASE_PATH
     required: true
+    value: ""
 objects:
   - kind: ImageStream
     apiVersion: v1
@@ -41,7 +43,7 @@ objects:
           annotations: null
           from:
             kind: ImageStreamTag
-            name: 'fig-validation-service:latest'
+            name: 'dps-validation-service:latest'
             namespace: openshift
           generation: 1
           importPolicy: {}

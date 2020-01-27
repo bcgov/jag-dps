@@ -16,12 +16,14 @@ public class OrdsFigcrProperties {
     private String username;
     private String password;
 
-    public String getBasePath() {
+    public OrdsFigcrProperties() { }
+
+    public String getBasepath() {
         return basePath;
     }
 
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
+    public void setBasepath(String basepath) {
+        this.basePath = basepath;
     }
 
     public String getUsername() {

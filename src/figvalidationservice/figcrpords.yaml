@@ -93,23 +93,22 @@ paths:
   /validateApplicantForSharing:
     get:
       operationId: validateApplicantForSharing
+      tags:
+      - FIGVALIDATIONS
+      security:
+      - basicAuth: []
       description: Validate the applicant for sharing
       responses:
         '200':
           description: output of the endpoint
           schema:
-            type: object
-            properties: {}
+            $ref: '#/definitions/validateApplicantForSharingOrdsResponse'
       parameters:
       - name: applicant_party_id
         in: query
         type: string
         description: Implicit parameter
       - name: jurisdiction_type
-        in: query
-        type: string
-        description: Implicit parameter
-      - name: status_code
         in: query
         type: string
         description: Implicit parameter
@@ -305,6 +304,19 @@ definitions:
         type: string
       status_message:
         type: string  
+  validateApplicantForSharingOrdsResponse:
+    type: object
+    required:
+    - validation_result
+    - status_code
+    - status_message
+    properties:
+      validation_result:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
   errorMessage:
     type: object
     required:

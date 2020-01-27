@@ -31,7 +31,7 @@ public class OrdsFigcrConfig {
     public ApiClient apiClient() {
         ApiClient apiClient = new ApiClient();
         
-        apiClient.setBasePath(ordsFigcrProperties.getBasePath());
+        apiClient.setBasePath(ordsFigcrProperties.getBasepath());
 
         if(StringUtils.isNotBlank(ordsFigcrProperties.getUsername()))
             apiClient.setUsername(ordsFigcrProperties.getUsername());

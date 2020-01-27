@@ -1,0 +1,758 @@
+{
+	"info": {
+		"_postman_id": "c919065c-d742-44d5-8d8d-e523ccb079c0",
+		"name": "DPS-Service-Api",
+		"description": "A Collection of request to test DPS Service Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "dsp-validation-service",
+			"item": [
+				{
+					"name": "getValidOpenDFCMCase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "db152f0b-fda9-446a-9855-e897ebc24584",
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Assert Json Response\", function () {",
+									"    var responseJson = xml2Json(responseBody);",
+									"    pm.expect(responseJson.GetValidOpenDFCMCase.int).to.eql(\"5\");",
+									"    pm.expect(responseJson.GetValidOpenDFCMCase.caseDesc).to.eql(\"ROUTINE -  AGE\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/dpsvalidationservice/getValidOpenDFCMCase?driversLicense=1000028&surcode=PEL",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"dpsvalidationservice",
+								"getValidOpenDFCMCase"
+							],
+							"query": [
+								{
+									"key": "driversLicense",
+									"value": "1000028",
+									"description": "driversLicense"
+								},
+								{
+									"key": "surcode",
+									"value": "PEL",
+									"description": "surcode"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "xml",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/xml"
+								}
+							],
+							"cookie": [],
+							"body": "<element>\n <caseDesc>(string)</caseDesc>\n <int>(string)</int>\n</element>"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "dps-payment-service",
+			"item": [
+				{
+					"name": "getBeanstreamEndpoints",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e83e05d-6392-49a5-b3b2-8f299b87feb3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Assert Json Response\", function () {",
+									"    var responseJson = xml2Json(responseBody);",
+									"    pm.expect(responseJson.beanstreamEndpointResponse.approved).not.to.be.empty;",
+									"    pm.expect(responseJson.beanstreamEndpointResponse.declined).not.to.be.empty;",
+									"    pm.expect(responseJson.beanstreamEndpointResponse.error).not.to.be.empty;",
+									"    pm.expect(responseJson.beanstreamEndpointResponse.respCode).to.eql(\"0\");",
+									"    pm.expect(responseJson.beanstreamEndpointResponse.respMsg).to.eql(\"success\");",
+									"    ",
+									"    ",
+									"    pm.environment.set(\"approved-url\", responseJson.beanstreamEndpointResponse.approved);",
+									"    pm.environment.set(\"declined-url\", responseJson.beanstreamEndpointResponse.declined);",
+									"    pm.environment.set(\"error-url\", responseJson.beanstreamEndpointResponse.error);",
+									"    ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/paymentservice/getBeanstreamEndpoints",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"paymentservice",
+								"getBeanstreamEndpoints"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/bamboraconfiguration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bamboraconfiguration"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/bamboraconfiguration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bamboraconfiguration"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "xml",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/xml"
+								}
+							],
+							"cookie": [],
+							"body": "<element>\n <approved>(string)</approved>\n <declined>(string)</declined>\n <error>(string)</error>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n</element>"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/bamboraconfiguration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bamboraconfiguration"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/bamboraconfiguration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bamboraconfiguration"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "getSinglePaymentURL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "143c9c18-0cb8-4781-afaa-94927fb9c855",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Assert Json Response\", function () {",
+									"    ",
+									"    var responseJson = xml2Json(responseBody);",
+									"    pm.expect(responseJson.SinglePaymentResponse.respValue).not.to.be.empty;",
+									"    pm.expect(responseJson.SinglePaymentResponse.respCode).to.eql(\"0\");",
+									"    pm.expect(responseJson.SinglePaymentResponse.respMsg).to.eql(\"success\");",
+									"    ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/paymentservice/getSinglePaymentURL?transType=P&invoiceNumber=1&approvedPage={{approved-url}}&declinedPage={{declined-url}}&errorPage={{error-url}}&totalItemsAmount=100&ref1=ref1&ref2=ref2&ref3=ref3&minutesToExpire=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"paymentservice",
+								"getSinglePaymentURL"
+							],
+							"query": [
+								{
+									"key": "transType",
+									"value": "P",
+									"description": "transType"
+								},
+								{
+									"key": "invoiceNumber",
+									"value": "1",
+									"description": "invoiceNumber"
+								},
+								{
+									"key": "approvedPage",
+									"value": "{{approved-url}}",
+									"description": "approvedPage"
+								},
+								{
+									"key": "declinedPage",
+									"value": "{{declined-url}}",
+									"description": "declinedPage"
+								},
+								{
+									"key": "errorPage",
+									"value": "{{error-url}}",
+									"description": "errorPage"
+								},
+								{
+									"key": "totalItemsAmount",
+									"value": "100",
+									"description": "totalItemsAmount"
+								},
+								{
+									"key": "ref1",
+									"value": "ref1",
+									"description": "ref1"
+								},
+								{
+									"key": "ref2",
+									"value": "ref2",
+									"description": "ref2"
+								},
+								{
+									"key": "ref3",
+									"value": "ref3",
+									"description": "ref3"
+								},
+								{
+									"key": "minutesToExpire",
+									"value": "5",
+									"description": "minutesToExpire"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "xml",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/xml"
+								}
+							],
+							"cookie": [],
+							"body": "<element>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n <respValue>(string)</respValue>\n</element>"
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -19,7 +19,7 @@ pipeline {
             agent { label 'master' }
             steps {
                 echo "Building ..."
-                sh "./player.sh build fig-validation-service dev"
+                sh ".github/cicd/player.sh build fig-validation-service dev"
             }
         }
         stage('Deploy Branch') {
@@ -30,7 +30,7 @@ pipeline {
             agent { label 'master' }
             steps {
                 echo "Deploy to dev..."
-                sh "./player.sh deploy fig-validation-service dev"
+                sh ".github/cicd/player.sh deploy fig-validation-service dev"
             }
         }
     }
