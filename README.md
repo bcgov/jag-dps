@@ -119,6 +119,6 @@ npm install -g newman
 Run the collection
 
 ```bash
-cd tests/postamn
+cd tests/postman
 newman run DPS-Service-Api.postman_collection.json -e dps-env.postman_environment.json
 ```
