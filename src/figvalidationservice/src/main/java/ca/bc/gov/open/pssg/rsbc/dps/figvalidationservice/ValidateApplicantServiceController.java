@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgApplicantServiceOrdsResponse;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceResponse;
@@ -34,6 +34,10 @@ public class ValidateApplicantServiceController {
 	@Autowired
 	private FigaroValidationImpl figservice;  // connection to ORDS client. 
 	
+	public ValidateApplicantServiceController(FigaroValidationImpl figservice) {
+		this.figservice = figservice;
+	}
+
 	@RequestMapping(value = "/validateApplicantService",
 			produces = { "application/xml" }, 
 			method = RequestMethod.GET)
@@ -46,8 +50,8 @@ public class ValidateApplicantServiceController {
 		
 		try {
 
-			ValidateOrgApplicantServiceOrdsResponse _ordsResponse = figservice
-					.validateOrgApplicantServiceOrdsResponse(applPartyId, orgPartyId);
+			ValidateApplicantServiceOrdsResponse _ordsResponse = figservice
+					.validateApplicantServiceOrdsResponse(applPartyId, orgPartyId);
 
 			return new ValidateApplicantServiceResponse(_ordsResponse.getStatusMessage(),
 					Integer.parseInt(_ordsResponse.getStatusCode()), _ordsResponse.getValidationResult()

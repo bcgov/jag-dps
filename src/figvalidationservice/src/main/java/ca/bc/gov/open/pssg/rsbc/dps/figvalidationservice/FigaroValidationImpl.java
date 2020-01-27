@@ -4,7 +4,7 @@ import ca.bc.gov.open.ords.figcr.client.api.FigvalidationsApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgApplicantServiceOrdsResponse;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.*;
 import org.slf4j.Logger;
@@ -55,13 +55,13 @@ public class FigaroValidationImpl implements FigaroValidation {
     /*
      * service method to get the response for /validateOrgApplicantServiceOrdsResponse requests
      */
-	public ValidateOrgApplicantServiceOrdsResponse validateOrgApplicantServiceOrdsResponse(String applPartyId,
+	public ValidateApplicantServiceOrdsResponse validateApplicantServiceOrdsResponse(String applPartyId,
 			String orgPartyId) throws FigaroValidationServiceException {
 
 		try {
 			return ordsapi.validateOrgApplicantService(applPartyId, orgPartyId, null);
 		} catch (ApiException ex) {
-			logger.error("Exception caught at Figaro Validation Service, validateOrgApplicantServiceOrdsResponse() : "
+			logger.error("An exception occured while trying to invoke ORDS method validateOrgApplicantServiceOrdsResponse()  : "
 					+ ex.getMessage());
 			ex.printStackTrace();
 			throw new FigaroValidationServiceException(ex.getMessage());
