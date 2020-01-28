@@ -55,8 +55,9 @@ public class FigValidationServiceAppTests {
 		).contains("<respCode>1</respCode>");	
 	}
 	
-
+	 
 	/**
+	 * TODO - Create new test method with ORDS implementation
 	 * ValidateApplicantServiceHttpResponseTest - Basic HTTP test of the ValidateApplicantService validation operation endpoint.
 	 * 
 	 * This test is NOT expected to fetch and test the response against any real data, rather we just want an HTTP response from the 
@@ -66,13 +67,6 @@ public class FigValidationServiceAppTests {
 	 * 
 	 * @throws Exception
 	 */
-	@Test
-	void validateApplicantServiceHttpResponseTest() throws Exception {
-		String request = "/validateApplicantService?orgPartyId=abcdef99901&applPartyId=def9908";
-		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/figvalidationservice" + request,
-		        String.class)
-		).contains("<respCode>0</respCode>");	
-	}
 	
 	/**
 	 * validateApplicantForSharingHttpResponseTest - Basic HTTP test of the validateApplicantForSharing validation operation endpoint.
