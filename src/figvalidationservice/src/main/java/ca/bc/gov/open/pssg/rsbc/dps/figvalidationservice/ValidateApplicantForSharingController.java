@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +26,13 @@ public class ValidateApplicantForSharingController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private FigaroValidationImpl figservice; // connection to ORDS client.
+
+    private final FigaroValidation figaroValidationService;
+
+    public ValidateApplicantForSharingController(@Qualifier("figaroValidation") FigaroValidation figaroValidationService) {
+        this.figaroValidationService = figaroValidationService;
+    }
+
 
     @RequestMapping(value = "/validateApplicantForSharing", produces = {"application/xml"}, method = RequestMethod.GET)
 
@@ -39,11 +44,11 @@ public class ValidateApplicantForSharingController {
     public ValidateApplicantForSharingResponse validateApplicantForSharing(
             @ApiParam(value = "applPartyId", required = false) @RequestParam(value = "applPartyId", defaultValue = "0", required = false) String applPartyId,
             @ApiParam(value = "jurisdictionType", required = false) @RequestParam(value = "jurisdictionType", defaultValue = "", required = false) String jurisdictionType)
-            throws FigaroValidationServiceException {
+    {
 
         try {
 
-            ValidateApplicantForSharingOrdsResponse _response = figservice.validateApplicantForSharing(new ValidateApplicantForSharingRequest(applPartyId, jurisdictionType));
+            ValidateApplicantForSharingOrdsResponse _response = this.figaroValidationService.validateApplicantForSharing(new ValidateApplicantForSharingRequest(applPartyId, jurisdictionType));
 
             return new ValidateApplicantForSharingResponse(_response.getValidationResult(),
                     Integer.parseInt(_response.getStatusCode()),
