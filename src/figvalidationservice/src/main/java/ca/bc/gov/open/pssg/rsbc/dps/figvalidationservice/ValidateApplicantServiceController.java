@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceResponse;
@@ -33,6 +34,10 @@ public class ValidateApplicantServiceController {
 	@Autowired
 	private FigaroValidationImpl figservice;  // connection to ORDS client. 
 	
+	public ValidateApplicantServiceController(FigaroValidationImpl figservice) {
+		this.figservice = figservice;
+	}
+
 	@RequestMapping(value = "/validateApplicantService",
 			produces = { "application/xml" }, 
 			method = RequestMethod.GET)
@@ -44,18 +49,19 @@ public class ValidateApplicantServiceController {
 		 
 		
 		try {
-			
-			 return figservice.validateApplicantService(
-					
-					new ValidateApplicantServiceRequest( 
-							orgPartyId,
-							applPartyId));
-		 
+
+			ValidateApplicantServiceOrdsResponse _ordsResponse = figservice
+					.validateApplicantServiceOrdsResponse(applPartyId, orgPartyId);
+
+			return new ValidateApplicantServiceResponse(_ordsResponse.getStatusMessage(),
+					Integer.parseInt(_ordsResponse.getStatusCode()), _ordsResponse.getValidationResult()
+
+			);
+
 		} catch (FigaroValidationServiceException ex) {
-			logger.error("Exception caught as ValidateApplicantService : " + ex.getMessage()); 
+			logger.error("An exception occured in ValidateApplicantServiceResponse validateApplicantService() : " + ex.getMessage());
 			ex.printStackTrace();
-			return new ValidateApplicantServiceResponse(
-					ex.getMessage(),
+			return new ValidateApplicantServiceResponse(ex.getMessage(),
 					FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD,
 					FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
 		}

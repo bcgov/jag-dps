@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
@@ -52,8 +53,8 @@ public class ValidationController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = GetValidOpenDFCMCase.class) })
     public GetValidOpenDFCMCase getValidOpenDFCMCase(@ApiParam(value = "driversLicense", required = true) @RequestParam(value =
             "driversLicense", required = true) String driversLicense,
-                                                          @ApiParam(value = "surcode", required = true) @RequestParam(value = "surcode",
-                                               required = true) String surcode) {
+                                                          @ApiParam(value = "surcode", required = false) @RequestParam(value = "surcode",
+                                               required = false) String surcode) {
 
         logger.debug("Attempting to get Valid Open Dfcm Case");
 
@@ -63,7 +64,7 @@ public class ValidationController {
             return GetValidOpenDFCMCase.ErrorResponse();
         }
 
-        if(!surcode.matches(SURCODE_REGEX)) {
+        if(StringUtils.isNotEmpty(surcode) && !surcode.matches(SURCODE_REGEX)) {
             logger.error("Invalid surcode format.");
             return GetValidOpenDFCMCase.ErrorResponse();
         }

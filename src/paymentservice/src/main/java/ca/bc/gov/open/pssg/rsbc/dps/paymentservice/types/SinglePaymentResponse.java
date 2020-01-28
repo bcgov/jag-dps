@@ -1,8 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
  * SinglePaymentResponse 
@@ -10,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * @author smillar
  *
  */
-@XmlRootElement
+@JacksonXmlRootElement(localName = "singlePaymentResponse")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SinglePaymentResponse {
 
