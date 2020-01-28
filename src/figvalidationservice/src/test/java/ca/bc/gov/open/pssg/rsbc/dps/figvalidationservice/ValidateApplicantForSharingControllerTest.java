@@ -50,7 +50,7 @@ public class ValidateApplicantForSharingControllerTest {
     public void withValidParametersShouldReturnValidResponse() {
 
         ValidateApplicantForSharingResponse response = sut.validateApplicantForSharing("1", "TEST");
-        Assertions.assertEquals(VALID_STATUS_CODE, response.getRespCode());
+        Assertions.assertEquals(0, response.getRespCode());
         Assertions.assertEquals(VALID, response.getRespMsg());
         Assertions.assertEquals(VALIDATION_RESULT, response.getValidationResult());
     }
@@ -59,7 +59,7 @@ public class ValidateApplicantForSharingControllerTest {
     public void withInvlidResponseShouldReturnValidResponse() {
 
         ValidateApplicantForSharingResponse response = sut.validateApplicantForSharing("2", "TEST");
-        Assertions.assertEquals(INVALID_STATUS_CODE, response.getRespCode());
+        Assertions.assertEquals(-2, response.getRespCode());
         Assertions.assertEquals(INVALID, response.getRespMsg());
     }
 
