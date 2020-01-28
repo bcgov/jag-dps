@@ -1,12 +1,14 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.configuration;
 
+import ca.bc.gov.open.ords.figcr.client.api.FacilityApi;
+import ca.bc.gov.open.ords.figcr.client.api.FigvalidationsApi;
+import ca.bc.gov.open.ords.figcr.client.api.handler.ApiClient;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.facility.FacilityService;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.facility.FacilityServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import ca.bc.gov.open.ords.figcr.client.api.FigvalidationsApi;
-import ca.bc.gov.open.ords.figcr.client.api.handler.ApiClient;
 
 /**
  *
@@ -45,6 +47,14 @@ public class OrdsFigcrConfig {
     @Bean
     public FigvalidationsApi defaultApi(ApiClient apiClient) {
         return new FigvalidationsApi(apiClient);
+    }
+
+    @Bean
+    public FacilityApi facilityApi(ApiClient apiClient) { return new FacilityApi(apiClient); }
+
+    @Bean
+    public FacilityService facilityService(FacilityApi facilityApi) {
+        return new FacilityServiceImpl(facilityApi);
     }
 
 
