@@ -1,6 +1,10 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -10,7 +14,6 @@ import org.mockito.MockitoAnnotations;
 
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantPartyIdResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceResponse;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -72,8 +75,6 @@ public class ValidateApplicantServiceControllerTest {
 	 * Exception controller response
 	 */
 	private final int EXCEPTION_CONTROLLER_RESPCD = -1;
-
-	private final String EXCEPTION_RESPONSE_MESSAGE = "Validation Failure: Applicant Party ID 3243 was not found.";
 
 	/*
 	 * service response
@@ -139,19 +140,13 @@ public class ValidateApplicantServiceControllerTest {
 	 * success
 	 */
 	@Test
-	public void ValidateApplicantServiceControllerSuccess() {
+	public void ValidateApplicantServiceControllerSuccess() throws FigaroValidationServiceException {
 
-		try {
-			validateApplicantServiceResponse = validateApplicantServiceController
-					.validateApplicantService(VALID_ORG_PARTY_ID, VALID_APPL_PARTY_ID);
-			Assert.assertEquals(VALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
-			Assert.assertEquals(VALID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
-			Assert.assertEquals(VALID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
-
-		} catch (FigaroValidationServiceException e) {
-			e.printStackTrace();
-			assert (false);
-		}
+		validateApplicantServiceResponse = validateApplicantServiceController
+				.validateApplicantService(VALID_ORG_PARTY_ID, VALID_APPL_PARTY_ID);
+		Assert.assertEquals(VALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
+		Assert.assertEquals(VALID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
+		Assert.assertEquals(VALID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
 
 	}
 
@@ -159,19 +154,13 @@ public class ValidateApplicantServiceControllerTest {
 	 * failure response when Invalid Org_Party_Id is passed as input argument
 	 */
 	@Test
-	public void InvalidOrgPartyIdFail() {
+	public void InvalidOrgPartyIdFail() throws FigaroValidationServiceException {
 
-		try {
-			validateApplicantServiceResponse = validateApplicantServiceController
-					.validateApplicantService(INVALID_ORG_PARTY_ID, VALID_APPL_PARTY_ID);
-			Assert.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
-			Assert.assertEquals(INVALID_ORG_PARTY_ID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
-			Assert.assertEquals(INVALID_ORG_PARTY_ID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
-
-		} catch (FigaroValidationServiceException e) {
-			e.printStackTrace();
-			assert (false);
-		}
+		validateApplicantServiceResponse = validateApplicantServiceController
+				.validateApplicantService(INVALID_ORG_PARTY_ID, VALID_APPL_PARTY_ID);
+		Assert.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
+		Assert.assertEquals(INVALID_ORG_PARTY_ID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
+		Assert.assertEquals(INVALID_ORG_PARTY_ID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
 
 	}
 
@@ -179,19 +168,13 @@ public class ValidateApplicantServiceControllerTest {
 	 * failure response when Invalid Appl_Party_Id input argument
 	 */
 	@Test
-	public void InvalidApplPartyIdFail() {
+	public void InvalidApplPartyIdFail() throws FigaroValidationServiceException {
 
-		try {
-			validateApplicantServiceResponse = validateApplicantServiceController
-					.validateApplicantService(VALID_ORG_PARTY_ID, INVALID_APPL_PARTY_ID);
-			Assert.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
-			Assert.assertEquals(INVALID_APPL_PARTY_ID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
-			Assert.assertEquals(INVALID_APPL_PARTY_ID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
-
-		} catch (FigaroValidationServiceException e) {
-			e.printStackTrace();
-			assert (false);
-		}
+		validateApplicantServiceResponse = validateApplicantServiceController
+				.validateApplicantService(VALID_ORG_PARTY_ID, INVALID_APPL_PARTY_ID);
+		Assert.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
+		Assert.assertEquals(INVALID_APPL_PARTY_ID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
+		Assert.assertEquals(INVALID_APPL_PARTY_ID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
 
 	}
 
@@ -199,20 +182,13 @@ public class ValidateApplicantServiceControllerTest {
 	 * exception test
 	 */
 	@Test
-	public void ValidateFigaroControllerException() {
+	public void ValidateApplicantServiceControllerException() throws FigaroValidationServiceException {
 
-		try {
-			validateApplicantServiceResponse = validateApplicantServiceController
-					.validateApplicantService(EXCEPTION_ORG_PARTY_ID, EXCEPTION_APPL_PARTY_ID);
-
-			Assert.assertEquals(EXCEPTION_CONTROLLER_RESPCD, validateApplicantServiceResponse.getRespCode());
-			Assert.assertEquals(null, validateApplicantServiceResponse.getRespMsg());
-			Assert.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
-
-		} catch (FigaroValidationServiceException e) {
-			e.printStackTrace();
-			assert (false);
-		}
+		validateApplicantServiceResponse = validateApplicantServiceController
+				.validateApplicantService(EXCEPTION_ORG_PARTY_ID, EXCEPTION_APPL_PARTY_ID);
+		Assert.assertEquals(EXCEPTION_CONTROLLER_RESPCD, validateApplicantServiceResponse.getRespCode());
+		Assert.assertEquals(null, validateApplicantServiceResponse.getRespMsg());
+		Assert.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
 
 	}
 
