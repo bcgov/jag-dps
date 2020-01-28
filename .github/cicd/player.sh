@@ -1,6 +1,6 @@
 #!/bin/bash
 source configurations/project.conf
-source cicd/functions.bash
+source .github/cicd/functions.sh
 #source tests.bash
 
 case "$1" in
