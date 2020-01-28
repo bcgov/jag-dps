@@ -13,7 +13,8 @@ securityDefinitions:
     type: basic
     description: HTTP Basic Authentication.
 tags:
-- name: FIGVALIDATIONS   
+- name: FIGVALIDATIONS
+- name: Facility
 paths:
   /matchingApplicants:
     get:
@@ -121,11 +122,11 @@ paths:
       - basicAuth: []
       description: Validate the applicant party id
       responses:
-         '200':
+        '200':
           description: output of the endpoint
           schema:
             $ref: '#/definitions/validateApplicantPartyIdOrdsResponse'
-         '400':
+        '400':
           description: output of the endpoint
           schema:
             $ref: '#/definitions/errorMessage'
@@ -140,14 +141,15 @@ paths:
         description: Implicit parameter
   /validateFacilityParty:
     get:
+      tags:
+      - Facility
       operationId: validateFacilityParty
       description: Validate the facility party
       responses:
         '200':
           description: output of the endpoint
           schema:
-            type: object
-            properties: {}
+            $ref: '#/definitions/validateFacilityPartyOrdsResponse'
       parameters:
       - name: facility_party_id
         in: query
@@ -174,7 +176,7 @@ paths:
         type: string
         description: Implicit parameter
   /validateOrgApplicantService:
-     get:
+    get:
       operationId: validateOrgApplicantService
       tags:
       - FIGVALIDATIONS
@@ -182,11 +184,11 @@ paths:
       - basicAuth: []
       description: Validate the organization applicant service
       responses:
-         '200':
+        '200':
           description: output of the endpoint
           schema:
             $ref: '#/definitions/validateApplicantServiceOrdsResponse'
-         '400':
+        '400':
           description: output of the endpoint
           schema:
             $ref: '#/definitions/errorMessage'
@@ -304,13 +306,13 @@ definitions:
       drivers_license:
         type: string
       birth_place:
-        type: string  
-      gender: 
-        type: string      
+        type: string
+      gender:
+        type: string
       status_code:
         type: string
       status_message:
-        type: string  
+        type: string
   validateApplicantForSharingOrdsResponse:
     type: object
     required:
@@ -319,6 +321,25 @@ definitions:
     - status_message
     properties:
       validation_result:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  validateFacilityPartyOrdsResponse:
+    type: object
+    required:
+    - validation_result
+    - found_facility_party_id
+    - found_facility_name
+    - status_code
+    - status_message
+    properties:
+      validation_result:
+        type: string
+      found_facility_party_id:
+        type: string
+      found_facility_name:
         type: string
       status_code:
         type: string
@@ -347,4 +368,3 @@ definitions:
         type: string
       status_message:
         type: string   
-
