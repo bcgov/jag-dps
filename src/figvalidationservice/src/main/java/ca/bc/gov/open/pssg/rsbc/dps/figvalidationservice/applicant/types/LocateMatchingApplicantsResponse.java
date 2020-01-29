@@ -1,8 +1,8 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types;
+package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
  * 
@@ -11,8 +11,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * @author shaunmillargov
  *
  */
-@XmlRootElement
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JacksonXmlRootElement(localName = "locateMatchingApplicantsResponse")
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class LocateMatchingApplicantsResponse {
 
 	private String respMsg;
@@ -26,20 +26,15 @@ public class LocateMatchingApplicantsResponse {
 	private String foundBirthPlace; 
 	private String foundGenderTxt;
 	
-	public LocateMatchingApplicantsResponse() {}; 
-	
-	public LocateMatchingApplicantsResponse(String respMsg, int respCode) {
-		super();
+	private LocateMatchingApplicantsResponse(int respCode, String respMsg) {
 		this.respMsg = respMsg;
 		this.respCode = respCode;
-	}; 
+	}
 	
-	public LocateMatchingApplicantsResponse(String respMsg, int respCode, String foundPartyId, String foundSurname,
+	public LocateMatchingApplicantsResponse(int respCode, String respMsg, String foundPartyId, String foundSurname,
 			String foundFirstName, String foundSecondName, String foundBirthDate, String foundDriversLicence,
 			String foundBirthPlace, String foundGenderTxt) {
-		super();
-		this.respMsg = respMsg;
-		this.respCode = respCode;
+		this(respCode, respMsg);
 		this.foundPartyId = foundPartyId;
 		this.foundSurname = foundSurname;
 		this.foundFirstName = foundFirstName;
@@ -88,7 +83,25 @@ public class LocateMatchingApplicantsResponse {
 
 	public String getFoundGenderTxt() {
 		return foundGenderTxt;
-	} 
+	}
+
+	public static LocateMatchingApplicantsResponse ErrorResponse() {
+
+		return new LocateMatchingApplicantsResponse(
+				FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD,
+				FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+
+	}
+
+	public static LocateMatchingApplicantsResponse SuccessResponse(String respCode, String respMsg, String foundPartyId, String foundSurname,
+																   String foundFirstName, String foundSecondName, String foundBirthDate, String foundDriversLicence,
+																   String foundBirthPlace, String foundGenderTxt) {
+
+		return new LocateMatchingApplicantsResponse(Integer.parseInt(respCode), respMsg, foundPartyId, foundSurname,
+				foundFirstName, foundSecondName, foundBirthDate, foundDriversLicence,
+				foundBirthPlace, foundGenderTxt);
+
+	}
 	
 }
 

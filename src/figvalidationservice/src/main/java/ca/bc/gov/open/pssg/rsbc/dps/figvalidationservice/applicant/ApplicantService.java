@@ -4,6 +4,8 @@ import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrd
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantForSharingRequest;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.LocateMatchingApplicantsRequest;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.LocateMatchingApplicantsResponse;
 
 public interface ApplicantService {
 
@@ -12,4 +14,6 @@ public interface ApplicantService {
 
     ValidateApplicantPartyIdOrdsResponse validateApplicantPartyId(String applParyId)
             throws FigaroValidationServiceException;
+
+    LocateMatchingApplicantsResponse locateMatchingApplicants(LocateMatchingApplicantsRequest lmr);
 }

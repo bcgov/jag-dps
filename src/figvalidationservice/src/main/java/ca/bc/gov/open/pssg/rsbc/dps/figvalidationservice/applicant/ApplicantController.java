@@ -7,6 +7,8 @@ import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.Validat
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantForSharingResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantPartyIdResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.LocateMatchingApplicantsRequest;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.LocateMatchingApplicantsResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -101,6 +103,51 @@ public class ApplicantController {
                     FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD);
 
         }
+
+    }
+
+    @RequestMapping(value = "/locateMatchingApplicants",
+            produces = { MediaType.APPLICATION_XML_VALUE },
+            method = RequestMethod.GET)
+    @ApiOperation(value = "locateMatchingApplicants", response = LocateMatchingApplicantsResponse.class, tags={ APPLICANT_API })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = LocateMatchingApplicantsResponse.class) })
+    public LocateMatchingApplicantsResponse locateMatchingApplicants(
+            @ApiParam(value = "applSurname") @RequestParam(value="applSurname", defaultValue="") String applSurname,
+            @ApiParam(value = "applFirstName") @RequestParam(value="applFirstName", defaultValue="") String applFirstName,
+            @ApiParam(value = "applSecondInitial") @RequestParam(value="applSecondInitial", defaultValue="") String applSecondInitial,
+            @ApiParam(value = "applBirthDate") @RequestParam(value="applBirthDate", defaultValue="") String applBirthDate,
+            @ApiParam(value = "applDriversLicence") @RequestParam(value="applDriversLicence", defaultValue="") String applDriversLicence,
+            @ApiParam(value = "applBirthPlace") @RequestParam(value="applBirthPlace", defaultValue="") String applBirthPlace,
+            @ApiParam(value = "applGenderTxt") @RequestParam(value="applGenderTxt", defaultValue="") String applGenderTxt,
+            @ApiParam(value = "applAliasSurname1") @RequestParam(value="applAliasSurname1", defaultValue="") String applAliasSurname1,
+            @ApiParam(value = "applAliasFirstName1") @RequestParam(value="applAliasFirstName1", defaultValue="") String applAliasFirstName1,
+            @ApiParam(value = "applAliasSecondInitial1") @RequestParam(value="applAliasSecondInitial1", defaultValue="") String applAliasSecondInitial1,
+            @ApiParam(value = "applAliasSurname2") @RequestParam(value="applAliasSurname2", defaultValue="") String applAliasSurname2,
+            @ApiParam(value = "applAliasFirstName2") @RequestParam(value="applAliasFirstName2", defaultValue="") String applAliasFirstName2,
+            @ApiParam(value = "applAliasSecondInitial2") @RequestParam(value="applAliasSecondInitial2", defaultValue="") String applAliasSecondInitial2,
+            @ApiParam(value = "applAliasSurname3") @RequestParam(value="applAliasSurname3", defaultValue="") String applAliasSurname3,
+            @ApiParam(value = "applAliasFirstName3") @RequestParam(value="applAliasFirstName3", defaultValue="") String applAliasFirstName3,
+            @ApiParam(value = "applAliasSecondInitial3") @RequestParam(value="applAliasSecondInitial3", defaultValue="") String applAliasSecondInitial3) {
+
+            return applicantService.locateMatchingApplicants(
+
+                    new LocateMatchingApplicantsRequest(
+                            applSurname,
+                            applFirstName,
+                            applSecondInitial,
+                            applBirthDate,
+                            applDriversLicence,
+                            applBirthPlace,
+                            applGenderTxt,
+                            applAliasSurname1,
+                            applAliasFirstName1,
+                            applAliasSecondInitial1,
+                            applAliasSurname2,
+                            applAliasFirstName2,
+                            applAliasSecondInitial2,
+                            applAliasSurname3,
+                            applAliasFirstName3,
+                            applAliasSecondInitial3));
 
     }
 
