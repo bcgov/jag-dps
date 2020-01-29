@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
+package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationImpl;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantServiceResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
