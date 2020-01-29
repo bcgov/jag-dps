@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
  * Applicant Service Implementation using ORDS api
  *
  * @author archanasudha
+ * @author shaunmillargov
  * @author alexjoybc
  *
  */

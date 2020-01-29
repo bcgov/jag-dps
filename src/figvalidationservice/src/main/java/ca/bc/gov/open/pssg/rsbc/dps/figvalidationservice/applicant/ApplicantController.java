@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
  * A Rest Controller for Applicant related operations.
  *
  * @author archanasudha
+ * @author shaunmillargov
  * @author alexjoybc@github
  */
 @RestController
 public class ApplicantController {
 
+    public static final String APPLICANT_API = "Applicant";
     private final ApplicantService applicantService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -35,15 +38,15 @@ public class ApplicantController {
         this.applicantService = applicantService;
     }
 
-    @RequestMapping(value = "/validateApplicantForSharing", produces = {"application/xml"}, method = RequestMethod.GET)
-    @ApiOperation(value = "Validate Applicant For Sharing", response =
-            ValidateApplicantForSharingResponse.class, tags = {"Applicant"})
+    @RequestMapping(value = "/validateApplicantForSharing", produces = { MediaType.APPLICATION_XML_VALUE }, method = RequestMethod.GET)
+    @ApiOperation(value = "validateApplicantForSharing", response =
+            ValidateApplicantForSharingResponse.class, tags = {APPLICANT_API})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response =
             ValidateApplicantForSharingResponse.class)})
     public ValidateApplicantForSharingResponse validateApplicantForSharing(
-            @ApiParam(value = "applPartyId", required = false) @RequestParam(value = "applPartyId", defaultValue = "0"
+            @ApiParam(value = "applPartyId") @RequestParam(value = "applPartyId", defaultValue = "0"
                     , required = false) String applPartyId,
-            @ApiParam(value = "jurisdictionType", required = false) @RequestParam(value = "jurisdictionType",
+            @ApiParam(value = "jurisdictionType") @RequestParam(value = "jurisdictionType",
                     defaultValue = "", required = false) String jurisdictionType) {
 
         try {
@@ -67,12 +70,12 @@ public class ApplicantController {
     }
 
 
-    @RequestMapping(value = "/validateApplicantPartyId", produces = { "application/xml" }, method = RequestMethod.GET)
-    @ApiOperation(value = "Validate Applicant Party Id", notes = "", response = ValidateApplicantPartyIdResponse.class, tags = {"Figaro Validation Services" })
+    @RequestMapping(value = "/validateApplicantPartyId", produces = {  MediaType.APPLICATION_XML_VALUE }, method = RequestMethod.GET)
+    @ApiOperation(value = "validateApplicantPartyId", response = ValidateApplicantPartyIdResponse.class, tags = { APPLICANT_API })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation", response = ValidateApplicantPartyIdResponse.class) })
     public ValidateApplicantPartyIdResponse validateApplicantPartyId(
-            @ApiParam(value = "applPartyId", required = false) @RequestParam(value = "applPartyId", defaultValue = "0") String applPartyId) throws FigaroValidationServiceException {
+            @ApiParam(value = "applPartyId" ) @RequestParam(value = "applPartyId", defaultValue = "0") String applPartyId)  {
 
         try {
 
