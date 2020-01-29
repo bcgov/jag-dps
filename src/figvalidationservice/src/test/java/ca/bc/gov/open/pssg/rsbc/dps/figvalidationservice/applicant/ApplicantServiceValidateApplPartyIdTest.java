@@ -22,31 +22,26 @@ import org.mockito.MockitoAnnotations;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ApplicantServiceValidateApplPartyIdTest {
 
-    public static final String API_EXCEPTION = "api exception";
-    public static final String BIRTH_DATE = "birthDate";
-    public static final String BIRTH_PLACE = "birthPlace";
-    public static final String DRIVER_LICENSE = "DriverLicense";
-    public static final String FIRST_NAME = "FirstName";
-    public static final String GENDER = "Gender";
-    public static final String SECOND_NAME = "SecondName";
-    public static final String SURNAME = "Surname";
-    public static final String STATUS_CODE = "0";
-    public static final String STATUS_MESSAGE = "StatusMessage";
-    public static final String ERROR_STATUS_CODE = "-22";
-    public static final String ERROR_STATUS_MESSAGE = "error";
+    private static final String API_EXCEPTION = "api exception";
+    private static final String BIRTH_DATE = "birthDate";
+    private static final String BIRTH_PLACE = "birthPlace";
+    private static final String DRIVER_LICENSE = "DriverLicense";
+    private static final String FIRST_NAME = "FirstName";
+    private static final String GENDER = "Gender";
+    private static final String SECOND_NAME = "SecondName";
+    private static final String SURNAME = "Surname";
+    private static final String STATUS_CODE = "0";
+    private static final String STATUS_MESSAGE = "StatusMessage";
+    private static final String ERROR_STATUS_CODE = "-22";
+    private static final String ERROR_STATUS_MESSAGE = "error";
+    private static final String GOOD_PARTY_ID = "11111";
+    private static final String BAD_PARTY_ID = "20";
+    private static final String EXCEPTION_PARTY_ID = "00000";
+
     @Mock
     private ApplicantApi applicantApiMock;
 
     private ApplicantServiceImpl sut;
-
-    private final String GOOD_PARTY_ID = "11111";
-    private final String BAD_PARTY_ID = "20";
-    private final String EXCEPTION_PARTY_ID = "00000";
-
-    private final int GOOD_CONTROLLER_RESPCD = 0;
-    private final int BAD_CONTROLLER_RESPCD = -22;
-    private final int FAIL_CONTROLLER_RESPCD = -1;
-
 
     @BeforeAll
     public void SetUp() throws ApiException {

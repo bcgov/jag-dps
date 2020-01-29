@@ -21,11 +21,6 @@ import org.mockito.MockitoAnnotations;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ApplicantControllerValidateApplPartyIdTest {
 
-    @Mock
-    private ApplicantService applicantService;
-
-    private ApplicantController sut;
-
     private static final String SURNAME = "surname";
     private static final String SECONDNAME = "secondname";
     private static final String GENDER = "gender";
@@ -33,20 +28,21 @@ public class ApplicantControllerValidateApplPartyIdTest {
     private static final String DRIVERLICENCE = "driverlicence";
     private static final String BIRTHPLACE = "birthplace";
     private static final String BIRTHDATE = "birthdate";
+    private static final String GOOD_PARTY_ID = "11111";
+    private static final String BAD_PARTY_ID = "20";
+    private static final String EXCEPTION_PARTY_ID = "00000";
+    private static final int GOOD_CONTROLLER_RESPCD = 0;
+    private static final int BAD_CONTROLLER_RESPCD = -22;
+    private static final int FAIL_CONTROLLER_RESPCD = -1;
+    private static final String GOOD_SERVICE_RESPCD = "0";
+    private static final String GOOD_SERVICE_RESPMSG = "Party ID successfully validated.";
+    private static final String BAD_SERVICE_RESPCD = "-22";
+    private static final String BAD_SERVICE_RESPMSG = "Validation Failure: Applicant Party ID 20 is not for an Individual";
 
-    private final String GOOD_PARTY_ID = "11111";
-    private final String BAD_PARTY_ID = "20";
-    private final String EXCEPTION_PARTY_ID = "00000";
+    @Mock
+    private ApplicantService applicantService;
 
-    private final int GOOD_CONTROLLER_RESPCD = 0;
-    private final int BAD_CONTROLLER_RESPCD = -22;
-    private final int FAIL_CONTROLLER_RESPCD = -1;
-
-    private final String GOOD_SERVICE_RESPCD = "0";
-    private final String GOOD_SERVICE_RESPMSG = "Party ID successfully validated.";
-
-    private final String BAD_SERVICE_RESPCD = "-22";
-    private final String BAD_SERVICE_RESPMSG = "Validation Failure: Applicant Party ID 20 is not for an Individual";
+    private ApplicantController sut;
 
     @BeforeAll
     public void SetUp() throws FigaroValidationServiceException {
