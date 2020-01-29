@@ -59,7 +59,7 @@ public class FigaroValidationImpl implements FigaroValidation {
 			String orgPartyId) throws FigaroValidationServiceException {
 
 		try {
-			return ordsapi.validateOrgApplicantService(applPartyId, orgPartyId, null);
+			return ordsapi.validateOrgApplicantService(applPartyId, orgPartyId);
 		} catch (ApiException ex) {
 			logger.error("An exception occured while trying to invoke ORDS method validateOrgApplicantServiceOrdsResponse()  : "
 					+ ex.getMessage());
@@ -93,7 +93,7 @@ public class FigaroValidationImpl implements FigaroValidation {
             throws FigaroValidationServiceException {
 
         try {
-            return ordsapi.validateApplicantPartyId(applPartyId, null);
+            return ordsapi.validateApplicantPartyId(applPartyId);
         } catch (ApiException ex) {
             logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
             ex.printStackTrace();

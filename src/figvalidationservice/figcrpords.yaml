@@ -15,6 +15,7 @@ securityDefinitions:
 tags:
 - name: FIGVALIDATIONS
 - name: Facility
+- name: Org
 paths:
   /matchingApplicants:
     get:
@@ -135,10 +136,6 @@ paths:
         in: query
         type: string
         description: Implicit parameter
-      - name: status_code
-        in: query
-        type: string
-        description: Implicit parameter
   /validateFacilityParty:
     get:
       tags:
@@ -201,20 +198,17 @@ paths:
         in: query
         type: string
         description: Implicit parameter
-      - name: status_code
-        in: query
-        type: string
-        description: Implicit parameter
   /validateOrgDrawDownBalance:
     get:
+      tags:
+        - Org
       operationId: validateOrgDrawDownBalance
       description: Validate the organization draw down balance
       responses:
         '200':
           description: output of the endpoint
           schema:
-            type: object
-            properties: {}
+            $ref: '#/definitions/validateOrgDrawDownBalanceOrdsResponse'
       parameters:
       - name: jurisdiction_type
         in: query
@@ -225,10 +219,6 @@ paths:
         type: string
         description: Implicit parameter
       - name: schedule_type
-        in: query
-        type: string
-        description: Implicit parameter
-      - name: status_code
         in: query
         type: string
         description: Implicit parameter
@@ -356,6 +346,19 @@ definitions:
       status_message:
         type: string
   validateApplicantServiceOrdsResponse:
+    type: object
+    required:
+    - validation_result
+    - status_code
+    - status_message
+    properties:
+      validation_result:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  validateOrgDrawDownBalanceOrdsResponse:
     type: object
     required:
     - validation_result
