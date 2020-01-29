@@ -20,14 +20,15 @@ tags:
 paths:
   /matchingApplicants:
     get:
+      tags:
+      - Applicant
       operationId: matchingApplicants
       description: Locate the matching applicants
       responses:
         '200':
           description: output of the endpoint
           schema:
-            type: object
-            properties: {}
+            $ref: '#/definitions/matchingApplicantsOrdsResponse'
       parameters:
       - name: appl_alias_firstname1
         in: query
@@ -273,6 +274,40 @@ paths:
             type: object
             properties: {}
 definitions:
+  matchingApplicantsOrdsResponse:
+    type: object
+    required:
+    - found_party_id
+    - found_surname
+    - found_first_name
+    - found_second_name
+    - found_birth_date
+    - found_drivers_license
+    - found_birth_place
+    - found_gender
+    - status_code
+    - status_message
+    properties:
+      found_party_id:
+        type: string
+      found_surname:
+        type: string
+      found_first_name:
+        type: string
+      found_second_name:
+        type: string
+      found_birth_date:
+        type: string
+      found_drivers_license:
+        type: string
+      found_birth_place:
+        type: string
+      found_gender:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
   validateApplicantPartyIdOrdsResponse:
     type: object
     required:
