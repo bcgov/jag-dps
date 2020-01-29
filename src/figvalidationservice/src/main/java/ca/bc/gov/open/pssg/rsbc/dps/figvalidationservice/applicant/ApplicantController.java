@@ -1,10 +1,12 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
 
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantForSharingRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantForSharingResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantPartyIdResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -34,8 +36,7 @@ public class ApplicantController {
     }
 
     @RequestMapping(value = "/validateApplicantForSharing", produces = {"application/xml"}, method = RequestMethod.GET)
-
-    @ApiOperation(value = "Validate Applicant For Sharing", notes = "", response =
+    @ApiOperation(value = "Validate Applicant For Sharing", response =
             ValidateApplicantForSharingResponse.class, tags = {"Applicant"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response =
             ValidateApplicantForSharingResponse.class)})
@@ -64,4 +65,40 @@ public class ApplicantController {
         }
 
     }
+
+
+    @RequestMapping(value = "/validateApplicantPartyId", produces = { "application/xml" }, method = RequestMethod.GET)
+    @ApiOperation(value = "Validate Applicant Party Id", notes = "", response = ValidateApplicantPartyIdResponse.class, tags = {"Figaro Validation Services" })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful operation", response = ValidateApplicantPartyIdResponse.class) })
+    public ValidateApplicantPartyIdResponse validateApplicantPartyId(
+            @ApiParam(value = "applPartyId", required = false) @RequestParam(value = "applPartyId", defaultValue = "0") String applPartyId) throws FigaroValidationServiceException {
+
+        try {
+
+            ValidateApplicantPartyIdOrdsResponse _response =  applicantService.validateApplicantPartyId(applPartyId);
+
+            return new ValidateApplicantPartyIdResponse(
+                    _response.getStatusMessage(),
+                    Integer.parseInt(_response.getStatusCode()),
+                    _response.getSurname(),
+                    _response.getFirstName(),
+                    _response.getSecondName(),
+                    _response.getBirthDate(),
+                    _response.getDriversLicense(),
+                    _response.getBirthPlace(),
+                    _response.getGender()
+            );
+
+        } catch (FigaroValidationServiceException ex) {
+            logger.error("Exception caught as ValidatePartyId : " + ex.getMessage());
+            ex.printStackTrace();
+
+            return new ValidateApplicantPartyIdResponse(ex.getMessage(),
+                    FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD);
+
+        }
+
+    }
+
 }

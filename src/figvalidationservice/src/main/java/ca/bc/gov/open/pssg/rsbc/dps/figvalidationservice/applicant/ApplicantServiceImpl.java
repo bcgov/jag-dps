@@ -3,6 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
 import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantForSharingRequest;
 import org.slf4j.Logger;
@@ -45,6 +46,20 @@ public class ApplicantServiceImpl implements ApplicantService {
             ex.printStackTrace();
             throw new FigaroValidationServiceException(ex.getMessage(), ex);
         }
+    }
+
+    @Override
+    public ValidateApplicantPartyIdOrdsResponse validateApplicantPartyId(String applPartyId)
+            throws FigaroValidationServiceException {
+
+        try {
+            return applicantApi.validateApplicantPartyId(applPartyId);
+        } catch (ApiException ex) {
+            logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
+            ex.printStackTrace();
+            throw new FigaroValidationServiceException(ex.getMessage(), ex);
+        }
 
     }
+
 }

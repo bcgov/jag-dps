@@ -118,7 +118,7 @@ paths:
     get:
       operationId: validateApplicantPartyId
       tags:
-      - FIGVALIDATIONS
+      - Applicant
       security:
       - basicAuth: []
       description: Validate the applicant party id
@@ -133,10 +133,6 @@ paths:
             $ref: '#/definitions/errorMessage'
       parameters:
       - name: applicant_party_id
-        in: query
-        type: string
-        description: Implicit parameter
-      - name: status_code
         in: query
         type: string
         description: Implicit parameter
