@@ -9,21 +9,22 @@ metadata:
     tags: java
     template.openshift.io/provider-display-name: BCGov
     template.openshift.io/documentation-url: https://github.com/bcgov/jag-dps/
-
 parameters:
-  - name: APP_NAME
+  - name: NAME
     displayName: Name
     description: A prefix appended to all objects
     required: true
   - name: SOURCE_CONTEXT_DIR
     required: true
-  - name: GIT_URL
+  - name: SOURCE_REPOSITORY_URL
     required: true
-  - name: REPO_REF
+  - name: SOURCE_REPOSITORY_REF
     required: true
-  - name: PROJECT_PREFIX
+  - name: OC_PREFIX
     required: true
-  - name: APP_NAME
+  - name: OC_APP
+    required: true
+  - name: VERSION
     required: true
   - name: SPRING_PROFILES_ACTIVE
     required: true
@@ -61,7 +62,7 @@ objects:
       lookupPolicy:
         local: false
       tags:
-        - name: '${APP_NAME}'
+        - name: '${NAME}'
           annotations: null
           from:
             kind: ImageStreamTag

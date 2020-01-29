@@ -1,6 +1,7 @@
 #!/bin/bash
-export cicd_path=.github/cicd
-source configurations/project.conf
+export cicd_path=".github/cicd"
+export config_path="configurations"
+source ${config_path}/project.conf
 source ${cicd_path}/functions.sh
 #source tests.bash
 

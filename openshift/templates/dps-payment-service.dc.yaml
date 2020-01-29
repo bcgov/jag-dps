@@ -4,17 +4,21 @@ metadata:
   name: dps-payment-service-deployment-config
   creationTimestamp: null
 parameters:
-  - name: APP_NAME
+  - name: NAME
     displayName: Name
     description: A prefix appended to all objects
     required: true
   - name: SOURCE_CONTEXT_DIR
     required: true
-  - name: GIT_URL
+  - name: SOURCE_REPOSITORY_URL
     required: true
-  - name: REPO_REF
+  - name: SOURCE_REPOSITORY_REF
     required: true
-  - name: PROJECT_PREFIX
+  - name: OC_PREFIX
+    required: true
+  - name: OC_APP
+    required: true
+  - name: VERSION
     required: true
   - name: SPRING_PROFILES_ACTIVE
     required: true
@@ -43,16 +47,16 @@ objects:
     apiVersion: v1
     metadata:
       creationTimestamp:
-      labels: ${APP_NAME}:latest
+      labels: ${NAME}:latest
         io.kompose.service: 
-      name: ${APP_NAME}
+      name: ${NAME}
     spec:
       ports:
       - name: "8081"
         port: 8081
         targetPort: 8081
       selector:
-        io.kompose.service: ${APP_NAME}
+        io.kompose.service: ${NAME}
     status:
       loadBalancer: {}
   - kind: ImageStream
@@ -60,14 +64,14 @@ objects:
     metadata:
       creationTimestamp:
       labels:
-        io.kompose.service: ${APP_NAME}
-      name: ${APP_NAME}
+        io.kompose.service: ${NAME}
+      name: ${NAME}
     spec:
       tags:
       - annotations: null
         from:
           kind: ImageStreamTag
-          name: ${APP_NAME}:latest
+          name: ${NAME}:latest
         generation: null
         importPolicy: {}
         name: latest
@@ -81,23 +85,23 @@ objects:
         kompose.version: 1.18.0 (06a2e56)
       creationTimestamp: null
       labels:
-        io.kompose.service: ${APP_NAME}
-      name: ${APP_NAME}
+        io.kompose.service: ${NAME}
+      name: ${NAME}
     spec:
       replicas: 2
       selector:
-        io.kompose.service: ${APP_NAME}
+        io.kompose.service: ${NAME}
       strategy:
         resources: {}
       template:
         metadata:
           creationTimestamp:
           labels:
-            io.kompose.service: ${APP_NAME}
+            io.kompose.service: ${NAME}
         spec:
           containers:
           - image: ''
-            name: ${APP_NAME}
+            name: ${NAME}
             ports:
             - containerPort: 8081
             resources: {}
@@ -108,9 +112,9 @@ objects:
       - imageChangeParams:
           automatic: true
           containerNames:
-          - ${APP_NAME}
+          - ${NAME}
           from:
             kind: ImageStreamTag
-            name: ${APP_NAME}:latest
+            name: ${NAME}:latest
         type: ImageChange
     status: {}
