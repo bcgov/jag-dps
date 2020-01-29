@@ -12,7 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
  *
  */
 @JacksonXmlRootElement(localName = "validateFacilityPartyResponse")
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ValidateFacilityPartyResponse {
 
     private String validationResult;
