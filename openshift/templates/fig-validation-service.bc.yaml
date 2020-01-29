@@ -9,41 +9,87 @@ metadata:
     tags: java
     template.openshift.io/provider-display-name: BCGov
     template.openshift.io/documentation-url: https://github.com/bcgov/jag-dps/
-
 parameters:
-  - name: APP_NAME
+  - name: NAME
     displayName: Name
     description: A prefix appended to all objects
     required: true
+    value: "fig-validation-service"
   - name: SOURCE_CONTEXT_DIR
     required: true
-  - name: GIT_URL
+    value: src
+  - name: SOURCE_REPOSITORY_URL
     required: true
-  - name: REPO_REF
+  - name: SOURCE_REPOSITORY_REF
     required: true
-  - name: PROJECT_PREFIX
+    value: master
+  - name: OC_PREFIX
     required: true
-  - name: APP_NAME
+  - name: OC_APP
     required: true
+  - name: VERSION
+    required: true
+  - name: DPS_SERVICE_NAME
+    required: true
+    value: figvalidationservice
+  - name: MVN_PROFILES
+    required: true
+    value: 'figvalidationservice,splunk'
+  - name: spring_profiles_active
+    required: true
+    value: 'cloud'
 objects:
-  - kind: ImageStream
-    apiVersion: v1
+  - apiVersion: v1
+    kind: ImageStream
     metadata:
-      name: '${NAME}${SUFFIX}'
+      creationTimestamp: null
       labels:
-        shared: 'true'
-      annotations: {}
+        io.kompose.service: '${NAME}'
+      name: '${NAME}'
     spec:
-      lookupPolicy:
-        local: false
       tags:
-        - name: '${APP_NAME}'
-          annotations: null
-          from:
-            kind: ImageStreamTag
-            name: 'fig-validation-service:latest'
-            namespace: openshift
-          generation: 1
-          importPolicy: {}
-          referencePolicy:
-            type: Local
+      - annotations: null
+        from:
+          kind: DockerImage
+          name: '${NAME}'
+        generation: null
+        importPolicy: {}
+        name: latest
+    status:
+      dockerImageRepository: ""
+  - apiVersion: v1
+    kind: BuildConfig
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: '${NAME}'
+      name: '${NAME}'
+    spec:
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: ${NAME}:latest
+      postCommit: {}
+      resources: {}
+      runPolicy: Serial
+      source:
+        contextDir: src/
+        git:
+          ref: ${SOURCE_REPOSITORY_REF}
+          uri: ${SOURCE_REPOSITORY_URL}
+        type: Git
+      strategy:
+        dockerStrategy:
+          env:
+          - name: DPS_SERVICE_NAME
+            value: ${DPS_SERVICE_NAME}
+          - name: MVN_PROFILES
+            value: ${MVN_PROFILES}
+          - name: spring_profiles_active
+            value: ${spring_profiles_active}
+        type: Docker
+      triggers:
+      - type: ConfigChange
+    status:
+      lastVersion: 0

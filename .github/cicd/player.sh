@@ -1,6 +1,8 @@
 #!/bin/bash
-source configurations/project.conf
-source .github/cicd/functions.sh
+export cicd_path=".github/cicd"
+export config_path="configurations"
+source ${config_path}/project.conf
+source ${cicd_path}/functions.sh
 #source tests.bash
 
 case "$1" in
