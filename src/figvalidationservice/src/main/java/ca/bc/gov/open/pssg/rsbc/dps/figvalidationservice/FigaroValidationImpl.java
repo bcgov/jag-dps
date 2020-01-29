@@ -64,7 +64,7 @@ public class FigaroValidationImpl implements FigaroValidation {
 			logger.error("An exception occured while trying to invoke ORDS method validateOrgApplicantServiceOrdsResponse()  : "
 					+ ex.getMessage());
 			ex.printStackTrace();
-			throw new FigaroValidationServiceException(ex.getMessage());
+			throw new FigaroValidationServiceException(ex.getMessage(), ex);
 		}
 
 	}
@@ -83,7 +83,7 @@ public class FigaroValidationImpl implements FigaroValidation {
         } catch (ApiException ex) {
             logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
             ex.printStackTrace();
-            throw new FigaroValidationServiceException(ex.getMessage());
+            throw new FigaroValidationServiceException(ex.getMessage(), ex);
         }
 
     }
@@ -97,7 +97,7 @@ public class FigaroValidationImpl implements FigaroValidation {
         } catch (ApiException ex) {
             logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
             ex.printStackTrace();
-            throw new FigaroValidationServiceException(ex.getMessage());
+            throw new FigaroValidationServiceException(ex.getMessage(), ex);
         }
 
     }

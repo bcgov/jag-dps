@@ -1,5 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller.CalculateSinglePaymentController;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller.CrcController;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations="classpath:test.properties")
@@ -19,7 +22,7 @@ class PaymentserviceApplicationTests {
 	private int port;
 	
 	@Autowired
-	private CalculateSinglePayment calculateSinglePayment;
+	private CalculateSinglePaymentController calculateSinglePayment;
 	
 	@Autowired
 	private CrcController paymentServiceController;

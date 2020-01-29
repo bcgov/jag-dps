@@ -2,7 +2,9 @@ package ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception;
 
 /**
  * 
- * @author smillar
+ * @author shaunmillargov
+ * 
+ * Custom exception for Figaro Validation Operations.
  *
  */
 public class PaymentServiceException extends Exception {
@@ -18,5 +20,9 @@ public class PaymentServiceException extends Exception {
 	
 	public PaymentServiceException(String message) {
 		super(message);
+	}
+	
+	public PaymentServiceException(String message, Throwable cause) {
+		super(message, cause);
 	}
 }
