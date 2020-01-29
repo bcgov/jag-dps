@@ -2,7 +2,10 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
 
 import ca.bc.gov.open.ords.figcr.client.api.FigvalidationsApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantForSharingRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsResponse;
@@ -60,46 +63,13 @@ public class FigaroValidationImpl implements FigaroValidation {
 		try {
 			return ordsapi.validateOrgApplicantService(applPartyId, orgPartyId);
 		} catch (ApiException ex) {
-			logger.error("An exception occured while trying to invoke ORDS method validateOrgApplicantServiceOrdsResponse()  : "
+			logger.error("An exception occurred while trying to invoke ORDS method validateOrgApplicantServiceOrdsResponse()  : "
 					+ ex.getMessage());
 			ex.printStackTrace();
 			throw new FigaroValidationServiceException(ex.getMessage(), ex);
 		}
 
 	}
-
-  @Override
-  /*
-   * service method to get the response for /validateApplicantForSharing requests
-   */
-  public ValidateApplicantForSharingOrdsResponse validateApplicantForSharing(
-          ValidateApplicantForSharingRequest validateApplicantForSharingRequest)
-          throws FigaroValidationServiceException {
-
-
-      try {
-          return ordsapi.validateApplicantForSharing(validateApplicantForSharingRequest.getApplPartyId(), validateApplicantForSharingRequest.getJurisdictionType());
-      } catch (ApiException ex) {
-          logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
-          ex.printStackTrace();
-          throw new FigaroValidationServiceException(ex.getMessage(), ex);
-      }
-
-  }
-
-  @Override
-  public ValidateApplicantPartyIdOrdsResponse validateApplicantPartyId(String applPartyId)
-          throws FigaroValidationServiceException {
-
-      try {
-          return ordsapi.validateApplicantPartyId(applPartyId);
-      } catch (ApiException ex) {
-          logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
-          ex.printStackTrace();
-          throw new FigaroValidationServiceException(ex.getMessage(), ex);
-      }
-
-  }
 
 }
 
