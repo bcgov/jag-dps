@@ -2,7 +2,10 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
 
 import ca.bc.gov.open.ords.figcr.client.api.FigvalidationsApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantForSharingRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsResponse;
@@ -58,9 +61,9 @@ public class FigaroValidationImpl implements FigaroValidation {
 			String orgPartyId) throws FigaroValidationServiceException {
 
 		try {
-			return ordsapi.validateOrgApplicantService(applPartyId, orgPartyId, null);
+			return ordsapi.validateOrgApplicantService(applPartyId, orgPartyId);
 		} catch (ApiException ex) {
-			logger.error("An exception occured while trying to invoke ORDS method validateOrgApplicantServiceOrdsResponse()  : "
+			logger.error("An exception occurred while trying to invoke ORDS method validateOrgApplicantServiceOrdsResponse()  : "
 					+ ex.getMessage());
 			ex.printStackTrace();
 			throw new FigaroValidationServiceException(ex.getMessage(), ex);
