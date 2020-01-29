@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  
+  #############################################################################################
+  ###                               DPS payment service                                     ###
+  #############################################################################################
+  payment-service:
+    build:
+      context: ./src
+      args:
+        - MVN_PROFILES=paymentservice,splunk
+        - DPS_SERVICE_NAME=paymentservice
+    environment: 
+      - spring_profiles_active=cloud,splunk
+      - BAMBORA_PAYMENT_ENDPOINT=
+      - BAMBORA_MERCHANT_ID=
+      - BAMBORA_HASHKEY=
+      - CRC_ENDPOINT_APPROVED=
+      - CRC_ENDPOINT_DECLINED=
+      - CRC_ENDPOINT_ERROR=
+      - SPLUNK_URL=
+      - SPLUNK_TOKEN=
+      - SWAGGER_UI_ENABLED=
+    ports:
+      - "8081:8081"
+    networks:
+      - dps-net

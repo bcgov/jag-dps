@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+
+  #############################################################################################
+  ###                    DPS validation service (Driver Fitness Case Management Service)   ###
+  #############################################################################################
+  dps-validation-service:
+    build:
+      context: ./src
+      args:
+        - spring_profiles_active=cloud
+        - MVN_PROFILES=dpsvalidationservice,splunk
+        - DPS_SERVICE_NAME=dpsvalidationservice
+    environment: 
+      - SWAGGER_UI_ENABLED=true
+      - DFCMS_BASE_PATH=
+    ports:
+      - "8083:8081"
+    networks:
+      - dps-net
