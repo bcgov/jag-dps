@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types;
+package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
