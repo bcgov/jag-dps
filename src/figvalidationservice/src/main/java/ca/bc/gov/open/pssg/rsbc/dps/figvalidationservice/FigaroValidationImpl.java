@@ -2,11 +2,10 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
 
 import ca.bc.gov.open.ords.figcr.client.api.FigvalidationsApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.*;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsRequest;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.LocateMatchingApplicantsResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,38 +68,38 @@ public class FigaroValidationImpl implements FigaroValidation {
 
 	}
 
-    @Override
-    /*
-     * service method to get the response for /validateApplicantForSharing requests
-     */
-    public ValidateApplicantForSharingOrdsResponse validateApplicantForSharing(
-            ValidateApplicantForSharingRequest validateApplicantForSharingRequest)
-            throws FigaroValidationServiceException {
+  @Override
+  /*
+   * service method to get the response for /validateApplicantForSharing requests
+   */
+  public ValidateApplicantForSharingOrdsResponse validateApplicantForSharing(
+          ValidateApplicantForSharingRequest validateApplicantForSharingRequest)
+          throws FigaroValidationServiceException {
 
 
-        try {
-            return ordsapi.validateApplicantForSharing(validateApplicantForSharingRequest.getApplPartyId(), validateApplicantForSharingRequest.getJurisdictionType());
-        } catch (ApiException ex) {
-            logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
-            ex.printStackTrace();
-            throw new FigaroValidationServiceException(ex.getMessage(), ex);
-        }
+      try {
+          return ordsapi.validateApplicantForSharing(validateApplicantForSharingRequest.getApplPartyId(), validateApplicantForSharingRequest.getJurisdictionType());
+      } catch (ApiException ex) {
+          logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
+          ex.printStackTrace();
+          throw new FigaroValidationServiceException(ex.getMessage(), ex);
+      }
 
-    }
+  }
 
-    @Override
-    public ValidateApplicantPartyIdOrdsResponse validateApplicantPartyId(String applPartyId)
-            throws FigaroValidationServiceException {
+  @Override
+  public ValidateApplicantPartyIdOrdsResponse validateApplicantPartyId(String applPartyId)
+          throws FigaroValidationServiceException {
 
-        try {
-            return ordsapi.validateApplicantPartyId(applPartyId);
-        } catch (ApiException ex) {
-            logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
-            ex.printStackTrace();
-            throw new FigaroValidationServiceException(ex.getMessage(), ex);
-        }
+      try {
+          return ordsapi.validateApplicantPartyId(applPartyId);
+      } catch (ApiException ex) {
+          logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
+          ex.printStackTrace();
+          throw new FigaroValidationServiceException(ex.getMessage(), ex);
+      }
 
-    }
+  }
 
 }
 

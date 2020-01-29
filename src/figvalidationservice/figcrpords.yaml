@@ -14,6 +14,7 @@ securityDefinitions:
     description: HTTP Basic Authentication.
 tags:
 - name: FIGVALIDATIONS
+- name: Applicant
 - name: Facility
 - name: Org
 paths:
@@ -96,7 +97,7 @@ paths:
     get:
       operationId: validateApplicantForSharing
       tags:
-      - FIGVALIDATIONS
+      - Applicant
       security:
       - basicAuth: []
       description: Validate the applicant for sharing
@@ -118,7 +119,7 @@ paths:
     get:
       operationId: validateApplicantPartyId
       tags:
-      - FIGVALIDATIONS
+      - Applicant
       security:
       - basicAuth: []
       description: Validate the applicant party id
