@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
+package ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.PaymentServiceConstants;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.configuration.CrcProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.BeanstreamEndpointResponse;
 import io.swagger.annotations.ApiOperation;

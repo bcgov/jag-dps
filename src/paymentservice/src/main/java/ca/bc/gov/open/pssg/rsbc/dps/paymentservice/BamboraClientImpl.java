@@ -129,7 +129,7 @@ public class BamboraClientImpl implements PaymentClient {
 		
 		} catch (Exception ex) {
 			logger.fatal("Error at calculateSinglePaymentURL: " + ex.getMessage());
-			throw new PaymentServiceException(ex.getMessage());
+			throw new PaymentServiceException(ex.getMessage(), ex);
 			
 		} finally {
 			//MDC.remove(PaymentServiceConstants.PAYMENT_CORRELATION_ID);

@@ -1,6 +1,8 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
+package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.controller;
 
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationImpl;
+import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantForSharingRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types.ValidateApplicantForSharingResponse;

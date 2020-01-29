@@ -1,9 +1,11 @@
-package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
+package ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,30 +14,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.BamboraClientImpl;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.PaymentClient;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.PaymentServiceConstants;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.PaymentServiceConstants.BamboraTransType;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentResponse;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * 
- * CalculateSinglePayment Controller.
+ * CalculateSinglePaymentController.
  * 
  * @author smillar
  *
  */
 @RestController
-public class CalculateSinglePayment {
+public class CalculateSinglePaymentController {
 
-	private static final Logger logger = LogManager.getLogger(CalculateSinglePayment.class);
+	private static final Logger logger = LogManager.getLogger(CalculateSinglePaymentController.class);
 
 	@Value("${bambora.hostedpaymentendpoint}")
 	private String hostedPaymentEndpoint;

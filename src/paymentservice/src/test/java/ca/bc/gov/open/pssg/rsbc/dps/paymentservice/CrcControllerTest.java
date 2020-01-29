@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.configuration.CrcProperties;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller.CrcController;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.BeanstreamEndpointResponse;
 
 public class CrcControllerTest {
