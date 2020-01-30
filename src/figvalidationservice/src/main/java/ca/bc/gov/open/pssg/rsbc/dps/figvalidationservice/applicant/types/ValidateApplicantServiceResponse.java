@@ -1,8 +1,8 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.types;
-
-import javax.xml.bind.annotation.XmlRootElement;
+package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * 
@@ -18,9 +18,7 @@ public class ValidateApplicantServiceResponse {
 	private String respMsg;
 	private int respCode;
 	private String validationResult;
-	
-	public ValidateApplicantServiceResponse() {}; 
-	
+
 	public ValidateApplicantServiceResponse(String respMsg, int respCode, String validationResult) {
 		super();
 		this.respMsg = respMsg;

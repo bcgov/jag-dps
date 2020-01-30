@@ -48,18 +48,6 @@ public class FigValidationServiceAppTests {
 	 * 
 	 * @throws Exception
 	 */
-	
-	/**
-	 * validateApplicantForSharingHttpResponseTest - Basic HTTP test of the validateApplicantForSharing validation operation endpoint.
-	 * 
-	 * This test is NOT expected to fetch and test the response against any real data, rather we just want an HTTP response from the 
-	 * operation indicating it's working. 
-	 * 
-	 * TODO - A new test will be created
-	 * 
-	 * @throws Exception
-	 */
-
 
 }
 

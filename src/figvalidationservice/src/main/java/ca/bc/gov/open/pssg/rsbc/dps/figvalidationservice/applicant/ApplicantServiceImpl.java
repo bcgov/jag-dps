@@ -5,6 +5,7 @@ import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.MatchingApplicantsOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.LocateMatchingApplicantsRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.LocateMatchingApplicantsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantForSharingRequest;
@@ -106,6 +107,24 @@ public class ApplicantServiceImpl implements ApplicantService {
             logger.error("ORDS client exception: " + ex.getMessage());
             ex.printStackTrace();
             return LocateMatchingApplicantsResponse.ErrorResponse();
+        }
+
+    }
+
+    @Override
+    /*
+     * service method to get the response for /validateOrgApplicantServiceOrdsResponse requests
+     */
+    public ValidateApplicantServiceOrdsResponse validateApplicantService(String applPartyId,
+                                                                                     String orgPartyId) throws FigaroValidationServiceException {
+
+        try {
+            return applicantApi.validateOrgApplicantService(applPartyId, orgPartyId);
+        } catch (ApiException ex) {
+            logger.error("An exception occurred while trying to invoke ORDS method validateOrgApplicantServiceOrdsResponse()  : "
+                    + ex.getMessage());
+            ex.printStackTrace();
+            throw new FigaroValidationServiceException(ex.getMessage(), ex);
         }
 
     }
