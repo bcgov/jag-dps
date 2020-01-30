@@ -16,6 +16,8 @@ import java.util.List;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class OrgControllerTest {
 
+    private static final String CASE_SUCCESS = "1";
+    private static final String CASE_FAIL = "2";
     private static final String FOUND_ORG_PARTY_ID = "1";
     private static final String FOUND_ORG_PARTY_NAME = "Name";
     private static final String FOUND_ORG_PARTY_TYPE = "Type";
@@ -49,8 +51,8 @@ public class OrgControllerTest {
         ValidateOrgPartyResponse successResponse2 = ValidateOrgPartyResponse.SuccessResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE, FOUND_ORG_PARTY_ID, FOUND_ORG_PARTY_NAME, FOUND_ORG_PARTY_TYPE, contactPersons);
         ValidateOrgPartyResponse errorResponse2 = ValidateOrgPartyResponse.ErrorResponse(ERROR_VALIDATION_RESULT);
 
-        Mockito.doReturn(successResponse2).when(orgServiceMock).validateOrgParty(ArgumentMatchers.argThat(x -> x.getOrgCity().equals("1")));
-        Mockito.doReturn(errorResponse2).when(orgServiceMock).validateOrgParty(ArgumentMatchers.argThat(x -> x.getOrgCity().equals("2")));
+        Mockito.doReturn(successResponse2).when(orgServiceMock).validateOrgParty(ArgumentMatchers.argThat(x -> x.getOrgCity().equals(CASE_SUCCESS)));
+        Mockito.doReturn(errorResponse2).when(orgServiceMock).validateOrgParty(ArgumentMatchers.argThat(x -> x.getOrgCity().equals(CASE_FAIL)));
 
         sut = new OrgController(orgServiceMock);
     }
@@ -58,7 +60,7 @@ public class OrgControllerTest {
     @Test
     public void withValidResponseDdbShouldReturnValid() {
 
-        ValidateOrgDrawDownBalanceResponse result = sut.ValidateOrgDrawDownBalance("1", "b", "c");
+        ValidateOrgDrawDownBalanceResponse result = sut.ValidateOrgDrawDownBalance(CASE_SUCCESS, "b", "c");
 
         Assertions.assertEquals(0, result.getRespCode());
         Assertions.assertEquals(STATUS_MESSAGE, result.getRespMsg());
@@ -68,7 +70,7 @@ public class OrgControllerTest {
     @Test
     public void withInvalidResponseDdbShouldReturnValid() {
 
-        ValidateOrgDrawDownBalanceResponse result = sut.ValidateOrgDrawDownBalance("2", "b", "c");
+        ValidateOrgDrawDownBalanceResponse result = sut.ValidateOrgDrawDownBalance(CASE_FAIL, "b", "c");
 
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
@@ -78,7 +80,7 @@ public class OrgControllerTest {
     @Test
     public void withValidResponsePartyShouldReturnValid() {
 
-        ValidateOrgPartyResponse result = sut.ValidateOrgParty("1", "b", "c", "d", "e", "f", "g");
+        ValidateOrgPartyResponse result = sut.ValidateOrgParty(CASE_SUCCESS, "b", "c", "d", "e", "f", "g");
 
         Assertions.assertEquals(FOUND_ORG_PARTY_NAME, result.getFoundOrgName());
         Assertions.assertEquals(FOUND_ORG_PARTY_ID, result.getFoundOrgPartyId());
@@ -98,7 +100,7 @@ public class OrgControllerTest {
     @Test
     public void withInvalidResponsePartyShouldReturnValid() {
 
-        ValidateOrgPartyResponse result = sut.ValidateOrgParty("2", "b", "c", "d", "e", "f", "g");
+        ValidateOrgPartyResponse result = sut.ValidateOrgParty(CASE_FAIL, "b", "c", "d", "e", "f", "g");
 
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());

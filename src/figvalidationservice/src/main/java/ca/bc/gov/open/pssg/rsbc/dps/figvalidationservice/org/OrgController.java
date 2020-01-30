@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,7 @@ public class OrgController {
     }
 
     @RequestMapping(value = "/validateOrgDrawDownBalance",
-            produces = { "application/xml" },
+            produces = { MediaType.APPLICATION_XML_VALUE },
             method = RequestMethod.GET)
     @ApiOperation(value = "Validate Org Draw Down Balance", response = ValidateOrgDrawDownBalanceResponse.class, tags={"Figaro Validation Services"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateOrgDrawDownBalanceResponse.class) })
@@ -41,7 +42,7 @@ public class OrgController {
     }
 
     @RequestMapping(value = "/validateOrgParty",
-            produces = { "application/xml" },
+            produces = { MediaType.APPLICATION_XML_VALUE },
             method = RequestMethod.GET)
     @ApiOperation(value = "Validate Org Party", response = ValidateOrgPartyResponse.class, tags={"Figaro Validation Services"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateOrgPartyResponse.class) })

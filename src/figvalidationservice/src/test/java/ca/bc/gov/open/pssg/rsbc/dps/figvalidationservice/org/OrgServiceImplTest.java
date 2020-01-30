@@ -19,6 +19,9 @@ public class OrgServiceImplTest {
     public static final String API_EXCEPTION = "api exception";
     private OrgServiceImpl sut;
 
+    private static final String CASE_SUCCESS = "1";
+    private static final String CASE_FAIL = "2";
+    private static final String CASE_EXCEPTION = "3";
     private static final String STATUS_CODE = "0";
     private static final String STATUS_MESSAGE = "success";
     private static final String VALIDATION_RESULT = "valid";
@@ -43,9 +46,9 @@ public class OrgServiceImplTest {
         errorResponse1.setStatusMessage(ERROR_MESSAGE);
         errorResponse1.setStatusCode(ERROR_CODE);
 
-        Mockito.when(orgApiMock.validateOrgDrawDownBalance(Mockito.eq("1"), Mockito.anyString(), Mockito.anyString())).thenReturn(successResponse1);
-        Mockito.when(orgApiMock.validateOrgDrawDownBalance(Mockito.eq("2"), Mockito.anyString(), Mockito.anyString())).thenReturn(errorResponse1);
-        Mockito.when(orgApiMock.validateOrgDrawDownBalance(Mockito.eq("3"), Mockito.anyString(), Mockito.anyString())).thenThrow(new ApiException(API_EXCEPTION));
+        Mockito.when(orgApiMock.validateOrgDrawDownBalance(Mockito.eq(CASE_SUCCESS), Mockito.anyString(), Mockito.anyString())).thenReturn(successResponse1);
+        Mockito.when(orgApiMock.validateOrgDrawDownBalance(Mockito.eq(CASE_FAIL), Mockito.anyString(), Mockito.anyString())).thenReturn(errorResponse1);
+        Mockito.when(orgApiMock.validateOrgDrawDownBalance(Mockito.eq(CASE_EXCEPTION), Mockito.anyString(), Mockito.anyString())).thenThrow(new ApiException(API_EXCEPTION));
 
         ValidateOrgPartyOrdsResponse successResponse2 = new ValidateOrgPartyOrdsResponse();
         successResponse2.setValidationResult(VALIDATION_RESULT);
@@ -57,9 +60,9 @@ public class OrgServiceImplTest {
         errorResponse2.setStatusMessage(ERROR_MESSAGE);
         errorResponse2.setStatusCode(ERROR_CODE);
 
-        Mockito.when(orgApiMock.validateOrgParty(Mockito.eq("1"), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(successResponse2);
-        Mockito.when(orgApiMock.validateOrgParty(Mockito.eq("2"), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(errorResponse2);
-        Mockito.when(orgApiMock.validateOrgParty(Mockito.eq("3"), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenThrow(new ApiException(API_EXCEPTION));
+        Mockito.when(orgApiMock.validateOrgParty(Mockito.eq(CASE_SUCCESS), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(successResponse2);
+        Mockito.when(orgApiMock.validateOrgParty(Mockito.eq(CASE_FAIL), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(errorResponse2);
+        Mockito.when(orgApiMock.validateOrgParty(Mockito.eq(CASE_EXCEPTION), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenThrow(new ApiException(API_EXCEPTION));
 
         sut = new OrgServiceImpl(orgApiMock);
     }
@@ -67,7 +70,7 @@ public class OrgServiceImplTest {
     @Test
     public void withValidResponseDdbShouldReturnValidResponse() {
 
-        ValidateOrgDrawDownBalanceResponse result = sut.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest("1", "a", "b"));
+        ValidateOrgDrawDownBalanceResponse result = sut.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest(CASE_SUCCESS, "a", "b"));
 
         Assertions.assertEquals(0, result.getRespCode());
         Assertions.assertEquals(STATUS_MESSAGE, result.getRespMsg());
@@ -77,7 +80,7 @@ public class OrgServiceImplTest {
     @Test
     public void withInvalidResponseDdbShouldReturnValid() {
 
-        ValidateOrgDrawDownBalanceResponse result = sut.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest("2", "a", "b"));
+        ValidateOrgDrawDownBalanceResponse result = sut.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest(CASE_FAIL, "a", "b"));
 
         Assertions.assertEquals(-2, result.getRespCode());
         Assertions.assertEquals(ERROR_MESSAGE, result.getRespMsg());
@@ -87,7 +90,7 @@ public class OrgServiceImplTest {
     @Test
     public void withApiExceptionDdbShouldReturnValid() {
 
-        ValidateOrgDrawDownBalanceResponse result = sut.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest("3", "a", "b"));
+        ValidateOrgDrawDownBalanceResponse result = sut.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest(CASE_EXCEPTION, "a", "b"));
 
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
@@ -97,7 +100,7 @@ public class OrgServiceImplTest {
     @Test
     public void withValidResponsePartyShouldReturnValidResponse() {
 
-        ValidateOrgPartyResponse result = sut.validateOrgParty(new ValidateOrgPartyRequest("1", "a", "b", "c", "d", "e", "f"));
+        ValidateOrgPartyResponse result = sut.validateOrgParty(new ValidateOrgPartyRequest(CASE_SUCCESS, "a", "b", "c", "d", "e", "f"));
 
         Assertions.assertEquals(0, result.getRespCode());
         Assertions.assertEquals(STATUS_MESSAGE, result.getRespMsg());
@@ -107,7 +110,7 @@ public class OrgServiceImplTest {
     @Test
     public void withInvalidResponsePartyShouldReturnValid() {
 
-        ValidateOrgPartyResponse result = sut.validateOrgParty(new ValidateOrgPartyRequest("2", "a", "b", "c", "d", "e", "f"));
+        ValidateOrgPartyResponse result = sut.validateOrgParty(new ValidateOrgPartyRequest(CASE_FAIL, "a", "b", "c", "d", "e", "f"));
 
         Assertions.assertEquals(-2, result.getRespCode());
         Assertions.assertEquals(ERROR_MESSAGE, result.getRespMsg());
@@ -117,7 +120,7 @@ public class OrgServiceImplTest {
     @Test
     public void withApiExceptionPartyShouldReturnValid() {
 
-        ValidateOrgPartyResponse result = sut.validateOrgParty(new ValidateOrgPartyRequest("3", "a", "b", "c", "d", "e", "f"));
+        ValidateOrgPartyResponse result = sut.validateOrgParty(new ValidateOrgPartyRequest(CASE_EXCEPTION, "a", "b", "c", "d", "e", "f"));
 
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
