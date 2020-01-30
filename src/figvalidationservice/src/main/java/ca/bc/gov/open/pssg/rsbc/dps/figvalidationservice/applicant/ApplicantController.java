@@ -156,8 +156,7 @@ public class ApplicantController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateApplicantServiceResponse.class) })
     public ValidateApplicantServiceResponse validateApplicantService(
             @ApiParam(value = "orgPartyId", required = false) @RequestParam(value="orgPartyId", defaultValue="") String orgPartyId,
-            @ApiParam(value = "applPartyId", required = false) @RequestParam(value="applPartyId", defaultValue="") String applPartyId) throws FigaroValidationServiceException {
-
+            @ApiParam(value = "applPartyId", required = false) @RequestParam(value="applPartyId", defaultValue="") String applPartyId) {
 
         try {
 

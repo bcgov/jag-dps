@@ -20,15 +20,18 @@ import org.mockito.MockitoAnnotations;
  * Mocks underlying ORDS service class.
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ApplicantServiceValidateApplicantService {
+public class ApplicantServiceValidateApplicantServiceTest {
 
 
+    public static final String CASE_2 = "2";
     private static final String VALIDATION_RESULT = "result";
     private static final String STATUS_MESSAGE = "success";
     private static final String STATUS_CODE = "0";
     private static final String ERROR_VALIDATION_RESULT = "error_result";
     private static final String ERROR_STATUS_MESSAGE = "fail";
     private static final String ERROR_STATUS_CODE = "-2";
+    public static final String CASE_1 = "1";
+    public static final String CASE_3 = "3";
 
     @Mock
     private ApplicantApi applicantApiMock;
@@ -50,9 +53,10 @@ public class ApplicantServiceValidateApplicantService {
         errorResponse.setStatusMessage(ERROR_STATUS_MESSAGE);
         errorResponse.setStatusCode(ERROR_STATUS_CODE);
 
-        Mockito.when(applicantApiMock.validateOrgApplicantService(Mockito.eq("1"), Mockito.anyString())).thenReturn(successResponse);
-        Mockito.when(applicantApiMock.validateOrgApplicantService(Mockito.eq("2"), Mockito.anyString())).thenReturn(errorResponse);
-        Mockito.when(applicantApiMock.validateOrgApplicantService(Mockito.eq("3"), Mockito.anyString())).thenThrow(ApiException.class);
+        Mockito.when(applicantApiMock.validateOrgApplicantService(Mockito.eq(CASE_1), Mockito.anyString())).thenReturn(successResponse);
+        Mockito.when(applicantApiMock.validateOrgApplicantService(Mockito.eq(CASE_2), Mockito.anyString())).thenReturn(errorResponse);
+        Mockito.when(applicantApiMock.validateOrgApplicantService(Mockito.eq(CASE_3 +
+                ""), Mockito.anyString())).thenThrow(ApiException.class);
 
         sut = new ApplicantServiceImpl(applicantApiMock);
 
@@ -64,7 +68,7 @@ public class ApplicantServiceValidateApplicantService {
     @Test
     public void withValidResponseShouldReturnValidResponse() throws FigaroValidationServiceException {
 
-        ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService("1", "1");
+        ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService(CASE_1, CASE_1);
 
         Assertions.assertEquals(STATUS_CODE, response.getStatusCode());
         Assertions.assertEquals(STATUS_MESSAGE, response.getStatusMessage());
@@ -78,7 +82,7 @@ public class ApplicantServiceValidateApplicantService {
     @Test
     public void withInvalidResponseShouldReturnInvalidResponse() throws FigaroValidationServiceException {
 
-        ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService("2", "1");
+        ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService(CASE_2, CASE_2);
 
         Assertions.assertEquals(ERROR_STATUS_CODE, response.getStatusCode());
         Assertions.assertEquals(ERROR_STATUS_MESSAGE, response.getStatusMessage());
@@ -90,10 +94,10 @@ public class ApplicantServiceValidateApplicantService {
      * exception test
      */
     @Test
-    public void ValidateFigaroControllerException() throws FigaroValidationServiceException {
+    public void WithApiExceptionShouldThrowException() {
 
         Assertions.assertThrows(FigaroValidationServiceException.class, () -> {
-            ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService("3", "3");
+            ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService(CASE_3, CASE_3);
         });
     }
 
