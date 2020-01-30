@@ -2,7 +2,6 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.configuration;
 
 import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.FacilityApi;
-import ca.bc.gov.open.ords.figcr.client.api.FigvalidationsApi;
 import ca.bc.gov.open.ords.figcr.client.api.OrgApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiClient;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.ApplicantService;
@@ -48,11 +47,6 @@ public class OrdsFigcrConfig {
             apiClient.setPassword(ordsFigcrProperties.getPassword());
 
         return apiClient;
-    }
-
-    @Bean
-    public FigvalidationsApi defaultApi(ApiClient apiClient) {
-        return new FigvalidationsApi(apiClient);
     }
 
     @Bean

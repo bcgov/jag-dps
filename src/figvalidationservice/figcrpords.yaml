@@ -13,7 +13,6 @@ securityDefinitions:
     type: basic
     description: HTTP Basic Authentication.
 tags:
-- name: FIGVALIDATIONS
 - name: Applicant
 - name: Facility
 - name: Org
@@ -178,7 +177,7 @@ paths:
     get:
       operationId: validateOrgApplicantService
       tags:
-      - FIGVALIDATIONS
+      - Applicant
       security:
       - basicAuth: []
       description: Validate the organization applicant service
