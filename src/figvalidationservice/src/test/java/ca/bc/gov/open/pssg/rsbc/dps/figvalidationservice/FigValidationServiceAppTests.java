@@ -35,19 +35,5 @@ public class FigValidationServiceAppTests {
 	void contextLoaded() {
 		assertThat(figValidationServiceApp).isNotNull();
 	}
-	
-	 
-	/**
-	 * TODO - Create new test method with ORDS implementation
-	 * ValidateApplicantServiceHttpResponseTest - Basic HTTP test of the ValidateApplicantService validation operation endpoint.
-	 * 
-	 * This test is NOT expected to fetch and test the response against any real data, rather we just want an HTTP response from the 
-	 * operation indicating it's working. 
-	 * 
-	 * TODO - This will require recoding once ORDS has been connected. 
-	 * 
-	 * @throws Exception
-	 */
-
 }
 
