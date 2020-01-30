@@ -225,14 +225,15 @@ paths:
         description: Implicit parameter
   /validateOrgParty:
     get:
+      tags:
+        - Org
       operationId: validateOrgParty
       description: Validate the organization party
       responses:
         '200':
           description: output of the endpoint
           schema:
-            type: object
-            properties: {}
+            $ref: '#/definitions/validateOrgPartyOrdsResponse'
       parameters:
       - name: org_city
         in: query
@@ -372,3 +373,37 @@ definitions:
         type: string
       status_message:
         type: string   
+  validateOrgPartyOrdsResponse:
+    type: object
+    required:
+      - validation_result
+      - found_org_party_id
+      - found_org_name
+      - found_org_type
+      - contact_list
+      - status_code
+      - status_message
+    properties:
+      validation_result:
+        type: string
+      found_org_party_id:
+        type: string
+      found_org_name:
+        type: string
+      found_org_type:
+        type: string
+      contact_persons:
+        type: array
+        items:
+          type: object
+          properties:
+            contact_person_name:
+              type: string
+            contact_person_role:
+              type: string
+            contact_person_party_id:
+              type: string
+      status_code:
+        type: string
+      status_message:
+        type: string

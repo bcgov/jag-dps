@@ -9,4 +9,5 @@ public interface OrgService {
 
     ValidateOrgDrawDownBalanceResponse validateOrgDrawDownBalance(ValidateOrgDrawDownBalanceRequest request);
 
+    ValidateOrgPartyResponse validateOrgParty(ValidateOrgPartyRequest request);
 }
