@@ -20,15 +20,16 @@ import org.mockito.MockitoAnnotations;
  * Mocks underlying ORDS service class.
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ApplicantServiceApplicantServiceValidateApplPartyIdTest {
+public class ApplicantServiceValidateApplicantService {
 
 
-    public static final String VALIDATION_RESULT = "result";
-    public static final String STATUS_MESSAGE = "success";
-    public static final String STATUS_CODE = "0";
-    public static final String ERROR_VALIDATION_RESULT = "error_result";
-    public static final String ERROR_STATUS_MESSAGE = "fail";
-    public static final String ERROR_STATUS_CODE = "-2";
+    private static final String VALIDATION_RESULT = "result";
+    private static final String STATUS_MESSAGE = "success";
+    private static final String STATUS_CODE = "0";
+    private static final String ERROR_VALIDATION_RESULT = "error_result";
+    private static final String ERROR_STATUS_MESSAGE = "fail";
+    private static final String ERROR_STATUS_CODE = "-2";
+    
     @Mock
     private ApplicantApi applicantApiMock;
 
