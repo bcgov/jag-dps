@@ -1,8 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.Country;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.GetCountryRequest;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.GetCountryResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationRequest;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationResponse;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -13,10 +13,10 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 public class CountryEndpoint {
 
 
-    @PayloadRoot(namespace = Keys.NAMESPACE_URI, localPart = "getCountryRequest")
+    @PayloadRoot(namespace = Keys.NAMESPACE_URI, localPart = "outputNotificationRequest")
     @ResponsePayload
-    public GetCountryResponse getOutputNotification(@RequestPayload GetCountryRequest request) {
-        GetCountryResponse response = new GetCountryResponse();
+    public OutputNotificationResponse outputNotificationNotification(@RequestPayload OutputNotificationRequest request) {
+        OutputNotificationResponse response = new OutputNotificationResponse();
         Country country = new Country();
         country.setRespCode("0");
         country.setRespMsg("success");

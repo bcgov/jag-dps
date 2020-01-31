@@ -1,7 +1,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="https://github.com/bcgov/jag-dps"
            targetNamespace="https://github.com/bcgov/jag-dps" elementFormDefault="qualified">
 
-    <xsd:element name="getCountryRequest">
+    <xsd:element name="outputNotificationRequest">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="businessAreaCd" type="tns:businessAreaCd"/>
@@ -10,7 +10,7 @@
         </xsd:complexType>
     </xsd:element>
 
-    <xsd:element name="getCountryResponse">
+    <xsd:element name="outputNotificationResponse">
         <xsd:complexType>
             <xsd:sequence>
                 <xsd:element name="country" type="tns:country"/>
