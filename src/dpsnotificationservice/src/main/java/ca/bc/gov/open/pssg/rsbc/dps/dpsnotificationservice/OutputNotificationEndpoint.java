@@ -10,7 +10,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 
 @Endpoint
-public class CountryEndpoint {
+public class OutputNotificationEndpoint {
 
 
     @PayloadRoot(namespace = Keys.NAMESPACE_URI, localPart = "outputNotificationRequest")
