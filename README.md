@@ -9,6 +9,7 @@ A Document Processing System.
     ├── configurations              # 
     ├── openshift                   # openshift templates and pipeline
     ├── src/                        # application source files
+    │   ├── dpsnotificationservice/ # DPS Notification service  
     │   ├── dpsvalidationservice/   # DPS DFCM service
     |   ├── figvalidationservice/   # DPS Figaro Validator service
     |   ├── paymentservice/         # DPS payment service
@@ -46,38 +47,15 @@ Restart docker-compose with the new changes
 docker-compose up --build -d
 ```
 
+## Dps Service List
 
-## Payment Service
+| Name | Doc | Notes |
+| --- | --- | --- |
+| Payment Service | [Doc](src/paymentservice/README.md) | |
+| DPS Notification Service| [Doc](src/dpsnotificationservice/README.md) | |
+| DPS Validation Service | [Doc](src/dpsvalidationservice/README.md) | |
+| Figaro Validation Service | [Doc](src/figvalidationservice/README.md) | |
 
-See [Doc](src/paymentservice/README.md).
-
-### Install
-
-Run
-
-```bash
-mvn install -P paymentservice
-```
-
-## DPS Validation Service
-
-### Install
-
-Run
-
-```bash
-mvn install -P dpsvalidationservice
-```
-
-## Figaro Validation Service
-
-### Install
-
-Run
-
-```bash
-mvn install -P figvalidationservice
-```
 
 ## Endpoints
 
@@ -101,6 +79,8 @@ mvn install -P figvalidationservice
 | [http://localhost:8083/dpsvalidationservice/actuator/health](http://localhost:8083/dpsvalidationservice/actuator/health) | GET | DPS Validation Service Health | 
 | [http://localhost:8083/dpsvalidationservice/swagger-ui.html](http://localhost:8083/dpsvalidationservice/swagger-ui.html) | GET | DPS Validation Service Swagger-UI |
 | [http://localhost:8083/dpsvalidationservice/v2/api-docs](http://localhost:8083/dpsvalidationservice/v2/api-docs) | GET | DPS Validation Service Swagger |
+| **Output Notification** | --- | --- |
+| [http://localhost:8084/ws/dpsOutputNotification.wsdl](http://localhost:8084/ws/dpsOutputNotification.wsdl) | GET | DPS Output Notification Service WSDL |
 
 # Tests
 
