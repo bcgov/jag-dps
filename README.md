@@ -9,6 +9,7 @@ A Document Processing System.
     ├── configurations              # 
     ├── openshift                   # openshift templates and pipeline
     ├── src/                        # application source files
+    │   ├── notificationworker/     # SPD Notification Worker
     │   ├── dpsnotificationservice/ # DPS Notification service  
     │   ├── dpsvalidationservice/   # DPS DFCM service
     |   ├── figvalidationservice/   # DPS Figaro Validator service
