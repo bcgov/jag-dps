@@ -14,6 +14,7 @@ public class Keys {
     public static final String OUTPUT_NOTIFICATION_VALUE = "outputNotification";
     public static final String OUTPUT_NOTIFICATION_XSD = OUTPUT_NOTIFICATION_VALUE + ".xsd";
 
-
+    public static final String OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_CODE = "0";
+    public static final String OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_MESSAGE = "success";
 
 }

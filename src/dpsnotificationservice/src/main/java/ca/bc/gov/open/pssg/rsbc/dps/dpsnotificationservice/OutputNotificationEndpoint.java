@@ -18,8 +18,8 @@ public class OutputNotificationEndpoint {
     public OutputNotificationResponse outputNotificationNotification(@RequestPayload OutputNotificationRequest request) {
         OutputNotificationResponse response = new OutputNotificationResponse();
         Country country = new Country();
-        country.setRespCode("0");
-        country.setRespMsg("success");
+        country.setRespCode(Keys.OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_CODE);
+        country.setRespMsg(Keys.OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_MESSAGE);
         response.setCountry(country);
         return response;
     }
