@@ -13,7 +13,8 @@ import org.mockito.MockitoAnnotations;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FacilityControllerTest {
 
-
+    private static final String FACILITY_PARTY_ID_SUCCESS = "1";
+    private static final String FACILITY_PARTY_ID_FAIL = "2";
     private static final String FACILITY_NAME = "FacilityName";
     private static final String FOUND_FACILITY_PARTY_ID = "123";
     private static final String STATUS_CODE = "0";
@@ -26,10 +27,8 @@ public class FacilityControllerTest {
 
     private FacilityController sut;
 
-
     @BeforeAll
     public void setup() {
-
 
         MockitoAnnotations.initMocks(this);
 
@@ -37,37 +36,31 @@ public class FacilityControllerTest {
 
         ValidateFacilityPartyResponse errorResponse = ValidateFacilityPartyResponse.ErrorResponse(ERROR_VALIDATION_RESULT);
 
-        Mockito.doReturn(successResponse).when(facilityServiceMock).validateFacilityParty(ArgumentMatchers.argThat(x -> x.getFacilityPartyId().equals("1")));
-        Mockito.doReturn(errorResponse).when(facilityServiceMock).validateFacilityParty(ArgumentMatchers.argThat(x -> x.getFacilityPartyId().equals("2")));
+        Mockito.doReturn(successResponse).when(facilityServiceMock).validateFacilityParty(ArgumentMatchers.argThat(x -> x.getFacilityPartyId().equals(FACILITY_PARTY_ID_SUCCESS)));
+        Mockito.doReturn(errorResponse).when(facilityServiceMock).validateFacilityParty(ArgumentMatchers.argThat(x -> x.getFacilityPartyId().equals(FACILITY_PARTY_ID_FAIL)));
 
         sut = new FacilityController(facilityServiceMock);
-
-
     }
 
     @Test
     public void withValidResponseShouldReturnValid() {
 
-        ValidateFacilityPartyResponse result = sut.ValidateFacilityParty("1", "a", "b", "c", "d", "e");
+        ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_SUCCESS, "a", "b", "c", "d", "e");
 
         Assertions.assertEquals(FACILITY_NAME, result.getFoundFacilityName());
         Assertions.assertEquals(FOUND_FACILITY_PARTY_ID, result.getFoundFacilityPartyId());
         Assertions.assertEquals(0, result.getRespCode());
         Assertions.assertEquals(STATUS_MESSAGE, result.getRespMsg());
         Assertions.assertEquals(VALIDATION_RESULT, result.getValidationResult());
-
     }
 
     @Test
     public void withInvalidResponseShouldReturnValid() {
 
-        ValidateFacilityPartyResponse result = sut.ValidateFacilityParty("2", "a", "b", "c", "d", "e");
+        ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_FAIL, "a", "b", "c", "d", "e");
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
         Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getValidationResult());
-
     }
-
-
 
 }
