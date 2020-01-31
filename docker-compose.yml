@@ -112,18 +112,16 @@ services:
   #############################################################################################
   ###                     SPD Notification Worker                                          ###
   #############################################################################################
-  dps-notification-worker:
+  spd-notification-worker:
     build:
       context: ./src
       args:
-        - MVN_PROFILES=dpsnotificationworker
-        - DPS_SERVICE_NAME=dpsnotificationworker
+        - MVN_PROFILES=spdnotificationworker
+        - DPS_SERVICE_NAME=spdnotificationworker
     ports:
       - "8085:8080"
     networks:
       - dps-net
-
-
   #############################################################################################
   ###                                 SPLUNK DEV BOX                                        ###
   #############################################################################################
