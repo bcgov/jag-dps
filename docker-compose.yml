@@ -109,6 +109,19 @@ services:
       - "8084:8080"
     networks:
       - dps-net
+  #############################################################################################
+  ###                     SPD Notification Worker                                          ###
+  #############################################################################################
+  dps-notification-worker:
+    build:
+      context: ./src
+      args:
+        - MVN_PROFILES=dpsnotificationworker
+        - DPS_SERVICE_NAME=dpsnotificationworker
+    ports:
+      - "8085:8080"
+    networks:
+      - dps-net
 
   #############################################################################################
   ###                             RABBIT MQ SERVER                                          ###
