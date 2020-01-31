@@ -68,6 +68,7 @@
                 <module>paymentservice</module>
                 <module>dpsvalidationservice</module>
                 <module>figvalidationservice</module>
+                <module>dpsnotificationservice</module>
             </modules>
         </profile>
         <profile>
@@ -86,6 +87,12 @@
             <id>figvalidationservice</id>
             <modules>
                 <module>figvalidationservice</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>dpsnotificationservice</id>
+            <modules>
+                <module>dpsnotificationservice</module>
             </modules>
         </profile>
     </profiles>
