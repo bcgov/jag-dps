@@ -24,10 +24,10 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return new ServletRegistrationBean(servlet, "/ws/*");
     }
 
-    @Bean(name = "dpsoutputNotification")
+    @Bean(name = "dpsOutputNotification")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-        wsdl11Definition.setPortTypeName("CountriesPort");
+        wsdl11Definition.setPortTypeName(Keys.OUTPUT_NOTIFICATION_PORT);
         wsdl11Definition.setLocationUri("/ws");
         wsdl11Definition.setTargetNamespace(Keys.NAMESPACE_URI);
         wsdl11Definition.setSchema(countriesSchema);
