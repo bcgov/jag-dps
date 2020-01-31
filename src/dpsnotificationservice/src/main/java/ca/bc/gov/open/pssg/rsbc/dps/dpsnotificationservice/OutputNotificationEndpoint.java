@@ -89,6 +89,8 @@ public class OutputNotificationEndpoint {
 
         } catch (AmqpException amqpException) {
 
+            logger.error("RabbitMq Exception: {}", amqpException.getMessage());
+            amqpException.printStackTrace();
             response2.setRespCode(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE);
             response2.setRespMsg(amqpException.getMessage());
 
