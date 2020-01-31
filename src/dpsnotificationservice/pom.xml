@@ -52,7 +52,6 @@
                 <configuration>
                     <packageName>ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models</packageName>
                     <sources>
-                        <source>${project.basedir}/src/main/resources/outputNotification.xsd</source>
                         <source>${project.basedir}/src/main/resources/countries.xsd</source>
                     </sources>
                 </configuration>

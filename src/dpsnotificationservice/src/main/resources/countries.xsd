@@ -4,7 +4,8 @@
     <xsd:element name="getCountryRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="name" type="xsd:string"/>
+                <xsd:element name="businessAreaCd" type="tns:businessAreaCd"/>
+                <xsd:element name="fileList" type="tns:fileList"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
@@ -24,11 +25,26 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:simpleType name="currency">
+    <xsd:simpleType name="businessAreaCd">
         <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="GBP"/>
-            <xsd:enumeration value="EUR"/>
-            <xsd:enumeration value="PLN"/>
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="50"/>
+            <xsd:whiteSpace value="preserve"/>
         </xsd:restriction>
     </xsd:simpleType>
+
+    <xsd:complexType name="fileList">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="fileId" nillable="true" type="tns:fileId"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="fileId">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="100"/>
+            <xsd:whiteSpace value="preserve"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
 </xsd:schema>
