@@ -9,7 +9,7 @@ A Document Processing System.
     ├── configurations              # 
     ├── openshift                   # openshift templates and pipeline
     ├── src/                        # application source files
-    │   ├── notificationworker/     # SPD Notification Worker
+    │   ├── spdnotificationworker/     # SPD Notification Worker
     │   ├── dpsnotificationservice/ # DPS Notification service  
     │   ├── dpsvalidationservice/   # DPS DFCM service
     |   ├── figvalidationservice/   # DPS Figaro Validator service
@@ -53,7 +53,7 @@ docker-compose up --build -d
 | Name | Doc | Notes |
 | --- | --- | --- |
 | Payment Service | [Doc](src/paymentservice/README.md) | |
-| SPD Notification Worker| [Doc](src/notificationworker/README.md) | |
+| SPD Notification Worker| [Doc](src/spdnotificationworker/README.md) | |
 | DPS Notification Service| [Doc](src/dpsnotificationservice/README.md) | |
 | DPS Validation Service | [Doc](src/dpsvalidationservice/README.md) | |
 | Figaro Validation Service | [Doc](src/figvalidationservice/README.md) | |
