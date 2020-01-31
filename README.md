@@ -53,6 +53,7 @@ docker-compose up --build -d
 | Name | Doc | Notes |
 | --- | --- | --- |
 | Payment Service | [Doc](src/paymentservice/README.md) | |
+| SPD Notification Worker| [Doc](src/notificationworker/README.md) | |
 | DPS Notification Service| [Doc](src/dpsnotificationservice/README.md) | |
 | DPS Validation Service | [Doc](src/dpsvalidationservice/README.md) | |
 | Figaro Validation Service | [Doc](src/figvalidationservice/README.md) | |
