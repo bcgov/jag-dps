@@ -230,18 +230,6 @@ objects:
                     timeout(time: 10, unit: 'MINUTES') {
                      openshift.withCluster() {
                       openshift.withProject() {
-                       //def bcSelector = openshift.selector("bc", "${APP_NAME}")
-                       //bcSelector.object()
-                       //builds = bcSelector.related("builds")
-                       //builds.watch {
-                       //if (it.count() == 0) {
-                       //  return false
-                       // }
-                       //  return true
-                       // }
-                       //builds.untilEach {
-                       // return it.object().status.phase == "Complete"
-                       //}
                        def bld = openshift.startBuild(env.APP_NAME)
                        bld.untilEach {
                          return (it.object().status.phase == "Complete")
@@ -253,7 +241,6 @@ objects:
 
                   }
                 }
-
 
                 if ("${SONAR_ENABLED}"!="false") {
                   stage("Sonar Scan") {
