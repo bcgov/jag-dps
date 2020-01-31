@@ -56,6 +56,8 @@ objects:
         importPolicy: {}
         name: latest
     status:
+      dockerStrategy: 
+        dockerfilePath: openshift.dockerfile
       dockerImageRepository: ""
   - apiVersion: v1
     kind: BuildConfig
