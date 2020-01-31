@@ -48,6 +48,11 @@ public class Keys {
     public static final String OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_CODE = "0";
 
     /**
+     * The output notification error code.
+     */
+    public static final String OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE = "-1";
+
+    /**
      * The output notification success message.
      */
     public static final String OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_MESSAGE = "success";
