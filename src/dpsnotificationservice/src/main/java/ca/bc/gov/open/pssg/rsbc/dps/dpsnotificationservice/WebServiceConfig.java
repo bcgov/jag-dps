@@ -12,6 +12,14 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
+/**
+ *
+ * WebServiceConfig configures the output notification service
+ *
+ * This code is based on https://spring.io/guides/gs/producing-web-service/
+ *
+ * @author alexjobc@github
+ */
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {

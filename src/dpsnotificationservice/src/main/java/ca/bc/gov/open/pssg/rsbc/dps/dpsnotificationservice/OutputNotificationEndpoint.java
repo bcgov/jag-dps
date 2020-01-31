@@ -9,11 +9,20 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 
+/**
+ * Output notifications endpoint
+ *
+ * When a message is submitted to this endpoint, the tenant is identified then a message is queued in the appropriate queue.
+ *
+ *
+ * @author alexjoybc@github
+ *
+ */
 @Endpoint
 public class OutputNotificationEndpoint {
 
 
-    @PayloadRoot(namespace = Keys.NAMESPACE_URI, localPart = "outputNotificationRequest")
+    @PayloadRoot(namespace = Keys.NAMESPACE_URI, localPart = Keys.OUTPUT_NOTIFICATION_REQUEST)
     @ResponsePayload
     public OutputNotificationResponse outputNotificationNotification(@RequestPayload OutputNotificationRequest request) {
         OutputNotificationResponse response = new OutputNotificationResponse();
