@@ -4,6 +4,7 @@ import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.File
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationRequest2;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -31,9 +32,9 @@ public class OutputNotificationEndpointTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        Mockito.doNothing().when(rabbitTemplateMock).convertAndSend(Mockito.eq(BUSINESS_AREA_CD), Mockito.any(OutputNotificationRequest2.class));
+        Mockito.doNothing().when(rabbitTemplateMock).convertAndSend(Mockito.eq(BUSINESS_AREA_CD), Mockito.any(OutputNotificationMessage.class));
         Mockito.doThrow(new AmqpException(AMQP_EXCEPTION)).when(rabbitTemplateMock).convertAndSend(Mockito.eq(
-                EXCEPTION_CASE), Mockito.any(OutputNotificationRequest2.class));
+                EXCEPTION_CASE), Mockito.any(OutputNotificationMessage.class));
 
         sut = new OutputNotificationEndpoint(rabbitTemplateMock);
     }
@@ -97,7 +98,7 @@ public class OutputNotificationEndpointTest {
 
         OutputNotificationRequest request = new OutputNotificationRequest();
         OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd("BusinessAreaCd");
+        request2.setBusinessAreaCd(BUSINESS_AREA_CD);
         FileList fileList = new FileList();
         request2.setFileList(fileList);
         request.setOutputNotificationRequest(request2);
@@ -114,7 +115,7 @@ public class OutputNotificationEndpointTest {
 
         OutputNotificationRequest request = new OutputNotificationRequest();
         OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd("BusinessAreaCd");
+        request2.setBusinessAreaCd(BUSINESS_AREA_CD);
         FileList fileList = new FileList();
         request2.setFileList(fileList);
         request.setOutputNotificationRequest(request2);

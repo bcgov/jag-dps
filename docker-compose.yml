@@ -105,6 +105,8 @@ services:
       args:
         - MVN_PROFILES=dpsnotificationservice
         - DPS_SERVICE_NAME=dpsnotificationservice
+    environment: 
+      - RABBITMQ_HOST:dps-rabbitmq
     ports:
       - "8084:8080"
     networks:

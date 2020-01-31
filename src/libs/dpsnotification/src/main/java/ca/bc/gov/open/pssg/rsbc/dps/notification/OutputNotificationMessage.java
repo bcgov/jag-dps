@@ -9,13 +9,13 @@ import java.util.List;
  * @author alexjoybc@github
  *
  */
-public class outputNotificationMessage {
+public class OutputNotificationMessage {
 
     private String businessAreaCd;
 
     private List<String> fileList =  new ArrayList<String>();
 
-    public outputNotificationMessage(String businessAreaCd) {
+    public OutputNotificationMessage(String businessAreaCd) {
         this.businessAreaCd = businessAreaCd;
     }
 

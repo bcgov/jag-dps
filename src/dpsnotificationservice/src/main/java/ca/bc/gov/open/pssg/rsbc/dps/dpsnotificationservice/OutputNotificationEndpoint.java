@@ -3,6 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationResponse2;
+import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +81,10 @@ public class OutputNotificationEndpoint {
 
             logger.debug("Attempting to publish message to outputNotification exchange with key {}", request.getOutputNotificationRequest().getBusinessAreaCd());
 
-            outputNotificationTopicTemplate.convertAndSend(request.getOutputNotificationRequest().getBusinessAreaCd(), request.getOutputNotificationRequest());
+            OutputNotificationMessage message = new OutputNotificationMessage(request.getOutputNotificationRequest().getBusinessAreaCd());
+            request.getOutputNotificationRequest().getFileList().getFileId().stream().forEach(file -> message.AddFile(file));
+
+            outputNotificationTopicTemplate.convertAndSend(message.getBusinessAreaCd(), message);
             logger.info("Successfully published message to outputNotification exchange with key {}", request.getOutputNotificationRequest().getBusinessAreaCd());
 
 

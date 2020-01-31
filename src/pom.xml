@@ -66,18 +66,19 @@
     </dependencies>
     <profiles>
         <profile>
+            <id>libs</id>
+            <modules>
+                <module>libs/dpsnotification</module>
+            </modules>
+        </profile>
+        <profile>
             <id>all</id>
             <modules>
+                <module>libs/dpsnotification</module>
                 <module>paymentservice</module>
                 <module>dpsvalidationservice</module>
                 <module>figvalidationservice</module>
                 <module>dpsnotificationservice</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>libs</id>
-            <modules>
-                <module>libs/dpsnotification</module>
             </modules>
         </profile>
         <profile>
