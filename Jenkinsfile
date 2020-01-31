@@ -43,6 +43,7 @@ pipeline {
                 def scannerHome = tool 'SonarScanner 4.0';
                 withSonarQubeEnv('DPS Sonar Scan') {
                     sh "${scannerHome}/bin/sonar-scanner"
+                }
             }
         }
         stage('Quality Gate') {
