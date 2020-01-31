@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,9 +30,9 @@ public class FacilityController {
     }
 
     @RequestMapping(value = "/validateFacilityParty",
-            produces = { "application/xml" },
+            produces = { MediaType.APPLICATION_XML_VALUE },
             method = RequestMethod.GET)
-    @ApiOperation(value = "Validate Facility Party", response = ValidateFacilityPartyResponse.class, tags={ "Figaro Validation Services"})
+    @ApiOperation(value = "Validate Facility Party", response = ValidateFacilityPartyResponse.class, tags={"Figaro Validation Services"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateFacilityPartyResponse.class) })
     public ValidateFacilityPartyResponse ValidateFacilityParty(
             @ApiParam(value = "facilityPartyId", required = false) @RequestParam(value="facilityPartyId", defaultValue="") String facilityPartyId,
@@ -43,9 +44,6 @@ public class FacilityController {
 
 
         return this.facilityService.validateFacilityParty(new ValidateFacilityPartyRequest(facilityPartyId, facilitySubname1, facilitySubname2, facilitySubname3, facilitySubname4, facilitySubname5));
-
     }
-
-
 }
 
