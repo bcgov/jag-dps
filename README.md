@@ -58,7 +58,6 @@ docker-compose up --build -d
 | DPS Validation Service | [Doc](src/dpsvalidationservice/README.md) | |
 | Figaro Validation Service | [Doc](src/figvalidationservice/README.md) | |
 
-
 ## Endpoints
 
 | URL | Method | Description |
@@ -83,6 +82,9 @@ docker-compose up --build -d
 | [http://localhost:8083/dpsvalidationservice/v2/api-docs](http://localhost:8083/dpsvalidationservice/v2/api-docs) | GET | DPS Validation Service Swagger |
 | **Output Notification** | --- | --- |
 | [http://localhost:8084/ws/dpsOutputNotification.wsdl](http://localhost:8084/ws/dpsOutputNotification.wsdl) | GET | DPS Output Notification Service WSDL |
+| **SUPPORT APPS** | --- | --- |
+| [RabbitMq](http://localhost:15672) | Rabbit MQ management console | --- |
+| [Splunk](http://localhost:8000) | Splunk Web | --- |
 
 # Tests
 
