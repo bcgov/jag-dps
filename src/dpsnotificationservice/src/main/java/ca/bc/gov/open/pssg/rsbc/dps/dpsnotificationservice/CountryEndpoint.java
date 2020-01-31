@@ -15,7 +15,7 @@ public class CountryEndpoint {
 
     @PayloadRoot(namespace = Keys.NAMESPACE_URI, localPart = "getCountryRequest")
     @ResponsePayload
-    public GetCountryResponse getCountry(@RequestPayload GetCountryRequest request) {
+    public GetCountryResponse getOutputNotification(@RequestPayload GetCountryRequest request) {
         GetCountryResponse response = new GetCountryResponse();
         Country country = new Country();
         country.setRespCode("0");
