@@ -4,21 +4,27 @@
     <xsd:element name="outputNotificationRequest">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="businessAreaCd" type="tns:businessAreaCd"/>
-                <xsd:element name="fileList" type="tns:fileList"/>
+                <xsd:element name="outputNotificationRequest" nillable="true" type="tns:outputNotificationRequest2"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
+
+    <xsd:complexType name="outputNotificationRequest2">
+        <xsd:sequence>
+            <xsd:element name="businessAreaCd" type="tns:businessAreaCd"/>
+            <xsd:element name="fileList" type="tns:fileList"/>
+        </xsd:sequence>
+    </xsd:complexType>
 
     <xsd:element name="outputNotificationResponse">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="country" type="tns:country"/>
+                <xsd:element name="outputNotificationResponse" type="tns:outputNotificationResponse2"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
 
-    <xsd:complexType name="country">
+    <xsd:complexType name="outputNotificationResponse2">
         <xsd:sequence>
             <xsd:element name="respCode" nillable="true" type="xsd:string"/>
             <xsd:element name="respMsg" nillable="true" type="xsd:string"/>
