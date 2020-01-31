@@ -1,5 +1,5 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://spring.io/guides/gs-producing-web-service"
-           targetNamespace="http://spring.io/guides/gs-producing-web-service" elementFormDefault="qualified">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="https://github.com/bcgov/jag-dps"
+           targetNamespace="https://github.com/bcgov/jag-dps" elementFormDefault="qualified">
 
     <xsd:element name="getCountryRequest">
         <xsd:complexType>
