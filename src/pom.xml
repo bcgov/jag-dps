@@ -97,9 +97,9 @@
             </modules>
         </profile>
         <profile>
-            <id>notificationworker</id>
+            <id>spdnotificationworker</id>
             <modules>
-                <module>notificationworker</module>
+                <module>spdnotificationworker</module>
             </modules>
         </profile>
     </profiles>

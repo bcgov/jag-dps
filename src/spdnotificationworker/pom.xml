@@ -12,7 +12,7 @@
 	<artifactId>spdnotificationworker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spdnotificationworker</name>
-	<description>SPD Norification Worker App</description>
+	<description>SPD Notification Worker App</description>
 
 	<properties>
 		<java.version>1.8</java.version>
