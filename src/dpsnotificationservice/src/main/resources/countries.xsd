@@ -1,36 +1,34 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://spring.io/guides/gs-producing-web-service"
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://spring.io/guides/gs-producing-web-service"
            targetNamespace="http://spring.io/guides/gs-producing-web-service" elementFormDefault="qualified">
 
-    <xs:element name="getCountryRequest">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="name" type="xs:string"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+    <xsd:element name="getCountryRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="name" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
 
-    <xs:element name="getCountryResponse">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="country" type="tns:country"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+    <xsd:element name="getCountryResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="country" type="tns:country"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
 
-    <xs:complexType name="country">
-        <xs:sequence>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="population" type="xs:int"/>
-            <xs:element name="capital" type="xs:string"/>
-            <xs:element name="currency" type="tns:currency"/>
-        </xs:sequence>
-    </xs:complexType>
+    <xsd:complexType name="country">
+        <xsd:sequence>
+            <xsd:element name="respCode" nillable="true" type="xsd:string"/>
+            <xsd:element name="respMsg" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
 
-    <xs:simpleType name="currency">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="GBP"/>
-            <xs:enumeration value="EUR"/>
-            <xs:enumeration value="PLN"/>
-        </xs:restriction>
-    </xs:simpleType>
-</xs:schema>
+    <xsd:simpleType name="currency">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="GBP"/>
+            <xsd:enumeration value="EUR"/>
+            <xsd:enumeration value="PLN"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

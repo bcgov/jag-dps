@@ -19,7 +19,8 @@ public class CountryEndpoint {
     public GetCountryResponse getCountry(@RequestPayload GetCountryRequest request) {
         GetCountryResponse response = new GetCountryResponse();
         Country country = new Country();
-        country.setCapital("yo");
+        country.setRespCode("0");
+        country.setRespMsg("success");
         response.setCountry(country);
         return response;
     }
