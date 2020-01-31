@@ -25,17 +25,17 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     }
 
     @Bean(name = "dpsOutputNotification")
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema countriesSchema) {
+    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema outputNotificationSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName(Keys.OUTPUT_NOTIFICATION_PORT);
         wsdl11Definition.setLocationUri("/ws");
         wsdl11Definition.setTargetNamespace(Keys.NAMESPACE_URI);
-        wsdl11Definition.setSchema(countriesSchema);
+        wsdl11Definition.setSchema(outputNotificationSchema);
         return wsdl11Definition;
     }
 
     @Bean
-    public XsdSchema countriesSchema() {
+    public XsdSchema outputNotificationSchema() {
         return new SimpleXsdSchema(new ClassPathResource(Keys.OUTPUT_NOTIFICATION_XSD));
     }
 
