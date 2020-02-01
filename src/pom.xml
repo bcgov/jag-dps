@@ -69,7 +69,6 @@
                 <module>dpsvalidationservice</module>
                 <module>figvalidationservice</module>
                 <module>dpsnotificationservice</module>
-                <module>spdnotificationworker</module>
             </modules>
         </profile>
         <profile>
@@ -94,12 +93,6 @@
             <id>dpsnotificationservice</id>
             <modules>
                 <module>dpsnotificationservice</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>spdnotificationworker</id>
-            <modules>
-                <module>spdnotificationworker</module>
             </modules>
         </profile>
     </profiles>
