@@ -109,20 +109,6 @@ services:
       - "8084:8080"
     networks:
       - dps-net
-  
-  #############################################################################################
-  ###                     SPD Notification Worker                                          ###
-  #############################################################################################
-  spd-notification-worker:
-    build:
-      context: ./src
-      args:
-        - MVN_PROFILES=spdnotificationworker
-        - DPS_SERVICE_NAME=spdnotificationworker
-    ports:
-      - "8085:8080"
-    networks:
-      - dps-net
 
   #############################################################################################
   ###                             RABBIT MQ SERVER                                          ###
@@ -139,7 +125,6 @@ services:
     restart: always
     networks:
       - dps-net
-
 
   #############################################################################################
   ###                                 SPLUNK DEV BOX                                        ###
