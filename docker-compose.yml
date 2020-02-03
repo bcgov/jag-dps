@@ -108,7 +108,7 @@ services:
     environment: 
       - RABBITMQ_HOST=rabbitmq
     ports:
-      - "8084:8080"
+      - "5054:8080"
     networks:
       - dps-net
       

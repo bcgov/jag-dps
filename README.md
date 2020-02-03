@@ -81,7 +81,8 @@ docker-compose up --build -d
 | [http://localhost:8083/dpsvalidationservice/swagger-ui.html](http://localhost:8083/dpsvalidationservice/swagger-ui.html) | GET | DPS Validation Service Swagger-UI |
 | [http://localhost:8083/dpsvalidationservice/v2/api-docs](http://localhost:8083/dpsvalidationservice/v2/api-docs) | GET | DPS Validation Service Swagger |
 | **DPS Output Notification** | --- | --- |
-| [http://localhost:8084/ws/dpsOutputNotification.wsdl](http://localhost:8084/ws/dpsOutputNotification.wsdl) | GET | DPS Output Notification Service WSDL |
+| [http://localhost:5054/dpsnotificationservice/actuator/health](http://localhost:5054/dpsnotificationservice/actuator/health) | GET | DPS Notification Service Health |
+| [http://localhost:5054/ws/dpsOutputNotification.wsdl](http://localhost:5054/ws/dpsOutputNotification.wsdl) | GET | DPS Output Notification Service WSDL |
 | **CRRP Notification Worker** | --- | --- |
 | [http://localhost:5055/crrpnotificationworker/actuator/health](http://localhost:5055/crrpnotificationworker/actuator/health) | GET | CRRP Notification Worker Health |
 | **SUPPORT APPS** | --- | --- |
