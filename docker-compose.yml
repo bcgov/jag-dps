@@ -141,6 +141,7 @@ services:
       - "5056:8080"
     environment: 
       - RABBITMQ_HOST=rabbitmq
+      - FIGCR_BASE_PATH=$FIGCR_BASE_PATH
     networks:
       - dps-net
 

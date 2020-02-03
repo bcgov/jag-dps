@@ -16,6 +16,7 @@ tags:
 - name: Applicant
 - name: Facility
 - name: Org
+- name: Document
 paths:
   /matchingApplicants:
     get:
@@ -275,6 +276,8 @@ paths:
             properties: {}
   /dpsDocument:
     post:
+      tags:
+        - Document
       description: Store a DPS document
       responses:
         '200':
