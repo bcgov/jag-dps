@@ -53,7 +53,7 @@ docker-compose up --build -d
 | Name | Doc | Notes |
 | --- | --- | --- |
 | Payment Service | [Doc](src/paymentservice/README.md) | |
-| SPD Notification Worker| [Doc](src/spdnotificationworker/README.md) | |
+| CRRP Notification Worker| [Doc](src/crrp-notification-worker/README.md) | |
 | DPS Notification Service| [Doc](src/dpsnotificationservice/README.md) | |
 | DPS Validation Service | [Doc](src/dpsvalidationservice/README.md) | |
 | Figaro Validation Service | [Doc](src/figvalidationservice/README.md) | |
@@ -80,8 +80,10 @@ docker-compose up --build -d
 | [http://localhost:8083/dpsvalidationservice/actuator/health](http://localhost:8083/dpsvalidationservice/actuator/health) | GET | DPS Validation Service Health | 
 | [http://localhost:8083/dpsvalidationservice/swagger-ui.html](http://localhost:8083/dpsvalidationservice/swagger-ui.html) | GET | DPS Validation Service Swagger-UI |
 | [http://localhost:8083/dpsvalidationservice/v2/api-docs](http://localhost:8083/dpsvalidationservice/v2/api-docs) | GET | DPS Validation Service Swagger |
-| **Output Notification** | --- | --- |
+| **DPS Output Notification** | --- | --- |
 | [http://localhost:8084/ws/dpsOutputNotification.wsdl](http://localhost:8084/ws/dpsOutputNotification.wsdl) | GET | DPS Output Notification Service WSDL |
+| **CRRP Notification Worker** | --- | --- |
+| [http://localhost:5055/crrpnotificationworker/actuator/health](http://localhost:5055/crrpnotificationworker/actuator/health) | GET | CRRP Notification Worker Health |
 | **SUPPORT APPS** | --- | --- |
 | [RabbitMq](http://localhost:15672) | Rabbit MQ management console | --- |
 | [Splunk](http://localhost:8000) | Splunk Web | --- |

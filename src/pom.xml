@@ -79,7 +79,7 @@
                 <module>dpsvalidationservice</module>
                 <module>figvalidationservice</module>
                 <module>dpsnotificationservice</module>
-                <module>notificationworker</module>
+                <module>crrp-notification-worker</module>
             </modules>
         </profile>
         <profile>
@@ -108,9 +108,9 @@
             </modules>
         </profile>
         <profile>
-            <id>notificationworker</id>
+            <id>crrp-notification-worker</id>
             <modules>
-                <module>notificationworker</module>
+                <module>crrp-notification-worker</module>
             </modules>
         </profile>
     </profiles>

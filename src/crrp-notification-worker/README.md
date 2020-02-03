@@ -1,4 +1,6 @@
-# Getting Started
+# CRRP Notification worker
+
+This Application subscribe to CRRP Output Notification and update FIGARO databse
 
 ### Reference Documentation
 For further reference, please consider the following sections:
@@ -7,8 +9,5 @@ For further reference, please consider the following sections:
 * [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.2.4.RELEASE/maven-plugin/)
 * [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/2.2.4.RELEASE/reference/htmlsingle/#production-ready)
 
-### Guides
-The following guides illustrate how to use some features concretely:
 
-* [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
 

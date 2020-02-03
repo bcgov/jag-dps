@@ -111,17 +111,18 @@ services:
       - "8084:8080"
     networks:
       - dps-net
+      
   #############################################################################################
-  ###                     SPD Notification Worker                                          ###
+  ###                     crrc Notification Worker                                          ###
   #############################################################################################
-  dps-notification-worker:
+  crrp-notification-worker:
     build:
       context: ./src
       args:
-        - MVN_PROFILES=dpsnotificationworker
-        - DPS_SERVICE_NAME=dpsnotificationworker
+        - MVN_PROFILES=crrp-notification-worker
+        - DPS_SERVICE_NAME=crrp-notification-worker
     ports:
-      - "8085:8080"
+      - "5055:8080"
     networks:
       - dps-net
 
