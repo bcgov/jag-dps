@@ -1,10 +1,10 @@
-package ca.bc.gov.open.pssg.rsbc.dps.spd.notificationworker;
+package ca.bc.gov.open.pssg.rsbc.crrp.notification.worker;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class NotificationworkerApplicationTests {
+class CrrpNotificationWorkerApplicationTests {
 
 	@Test
 	void contextLoads() {
