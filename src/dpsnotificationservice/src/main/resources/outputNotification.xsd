@@ -33,9 +33,8 @@
 
     <xsd:simpleType name="businessAreaCd">
         <xsd:restriction base="xsd:string">
-            <xsd:minLength value="1"/>
-            <xsd:maxLength value="50"/>
-            <xsd:whiteSpace value="preserve"/>
+            <xsd:enumeration value="CRRP"/>
+            <xsd:enumeration value="VIPS"/>
         </xsd:restriction>
     </xsd:simpleType>
 
