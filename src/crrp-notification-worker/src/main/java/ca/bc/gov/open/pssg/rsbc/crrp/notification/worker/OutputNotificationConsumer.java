@@ -6,6 +6,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+/**
+ * Comsumes messages pushed to the CRRP Queue
+ *
+ * @author alexjoybc@github
+ */
 @Component
 public class OutputNotificationConsumer {
 
