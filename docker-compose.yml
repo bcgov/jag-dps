@@ -12,7 +12,7 @@ services:
       # TODO: renable sharing logs
       # - ./nginx-log:/var/log/nginx
     ports:
-      - 8080:80
+      - 5050:80
     networks:
       - dps-net
 
