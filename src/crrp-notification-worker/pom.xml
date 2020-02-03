@@ -8,20 +8,26 @@
 		<version>2.2.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>ca.bc.gov.open.pssg.rsbc.dps.spd</groupId>
-	<artifactId>notificationworker</artifactId>
+	<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
+	<artifactId>crrp-notification-worker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>notificationworker</name>
-	<description>Demo project for Spring Boot</description>
+	<name>crrp-notification-worker</name>
+	<description>CRRP Output Notification Worker</description>
 
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 		<dependency>
