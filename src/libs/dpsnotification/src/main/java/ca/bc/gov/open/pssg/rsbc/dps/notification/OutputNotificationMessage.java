@@ -15,6 +15,8 @@ public class OutputNotificationMessage {
 
     private List<String> fileList =  new ArrayList<String>();
 
+    protected OutputNotificationMessage(){ }
+
     public OutputNotificationMessage(String businessAreaCd) {
         this.businessAreaCd = businessAreaCd;
     }

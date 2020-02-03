@@ -123,6 +123,8 @@ services:
         - DPS_SERVICE_NAME=crrp-notification-worker
     ports:
       - "5055:8080"
+    environment: 
+      - RABBITMQ_HOST=rabbitmq
     networks:
       - dps-net
 
