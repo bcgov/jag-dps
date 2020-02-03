@@ -139,6 +139,8 @@ services:
         - DPS_SERVICE_NAME=vips-notification-worker
     ports:
       - "5056:8080"
+    environment: 
+      - RABBITMQ_HOST=rabbitmq
     networks:
       - dps-net
 
