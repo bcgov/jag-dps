@@ -29,8 +29,11 @@ public class OrgServiceImpl implements OrgService {
     public ValidateOrgDrawDownBalanceResponse validateOrgDrawDownBalance(ValidateOrgDrawDownBalanceRequest request) {
 
         try {
-            ValidateOrgDrawDownBalanceOrdsResponse response = this.orgApi.validateOrgDrawDownBalance(request.getJurisdictionType(), request.getOrgPartyId(), request.getScheduleType());
-            return  ValidateOrgDrawDownBalanceResponse.SuccessResponse(response.getValidationResult(), response.getStatusCode(), response.getStatusMessage());
+            ValidateOrgDrawDownBalanceOrdsResponse response =
+                    this.orgApi.validateOrgDrawDownBalance(request.getJurisdictionType(), request.getOrgPartyId(),
+                            request.getScheduleType());
+            return ValidateOrgDrawDownBalanceResponse.SuccessResponse(response.getValidationResult(),
+                    response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
 
@@ -45,15 +48,23 @@ public class OrgServiceImpl implements OrgService {
     public ValidateOrgPartyResponse validateOrgParty(ValidateOrgPartyRequest request) {
 
         try {
-            ValidateOrgPartyOrdsResponse response = this.orgApi.validateOrgParty(request.getOrgCity(), request.getOrgPartyId(), request.getOrgSubname1(), request.getOrgSubname2(), request.getOrgSubname3(), request.getOrgSubname4(), request.getOrgSubname5());
+            ValidateOrgPartyOrdsResponse response = this.orgApi.validateOrgParty(request.getOrgCity(),
+                    request.getOrgPartyId(), request.getOrgSubname1(), request.getOrgSubname2(),
+                    request.getOrgSubname3(), request.getOrgSubname4(), request.getOrgSubname5());
             List<ValidateOrgPartyOrdsResponseContactPersons> contactOrdsList = response.getContactPersons();
 
-            List<ValidateOrgPartyContactPersonResponse> contactList = new ArrayList<ValidateOrgPartyContactPersonResponse>();
-            for (ValidateOrgPartyOrdsResponseContactPersons contact: contactOrdsList) {
-                contactList.add(ValidateOrgPartyContactPersonResponse.SuccessResponse(contact.getContactPersonName(), contact.getContactPersonRole(), contact.getContactPersonPartyId()));
+            List<ValidateOrgPartyContactPersonResponse> contactList =
+                    new ArrayList<ValidateOrgPartyContactPersonResponse>();
+
+            if (contactOrdsList != null) {
+                for (ValidateOrgPartyOrdsResponseContactPersons contact : contactOrdsList) {
+                    contactList.add(ValidateOrgPartyContactPersonResponse.SuccessResponse(contact.getContactPersonName(), contact.getContactPersonRole(), contact.getContactPersonPartyId()));
+                }
             }
 
-            return  ValidateOrgPartyResponse.SuccessResponse(response.getValidationResult(), response.getStatusCode(), response.getStatusMessage(), response.getFoundOrgPartyId(), response.getFoundOrgName(), response.getFoundOrgType(), contactList);
+            return ValidateOrgPartyResponse.SuccessResponse(response.getValidationResult(), response.getStatusCode(),
+                    response.getStatusMessage(), response.getFoundOrgPartyId(), response.getFoundOrgName(),
+                    response.getFoundOrgType(), contactList);
 
         } catch (ApiException ex) {
 

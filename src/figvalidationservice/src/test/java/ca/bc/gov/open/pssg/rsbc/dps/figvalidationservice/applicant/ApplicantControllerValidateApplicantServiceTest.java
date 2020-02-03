@@ -1,11 +1,9 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
 
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.ApplicantController;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.ApplicantServiceImpl;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantServiceResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -140,9 +138,9 @@ public class ApplicantControllerValidateApplicantServiceTest {
 
         validateApplicantServiceResponse = sut
                 .validateApplicantService(VALID_ORG_PARTY_ID, VALID_APPL_PARTY_ID);
-        Assert.assertEquals(VALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
-        Assert.assertEquals(VALID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
-        Assert.assertEquals(VALID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
+        Assertions.assertEquals(VALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
+        Assertions.assertEquals(VALID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
+        Assertions.assertEquals(VALID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
 
     }
 
@@ -154,9 +152,9 @@ public class ApplicantControllerValidateApplicantServiceTest {
 
         validateApplicantServiceResponse = sut
                 .validateApplicantService(INVALID_ORG_PARTY_ID, VALID_APPL_PARTY_ID);
-        Assert.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
-        Assert.assertEquals(INVALID_ORG_PARTY_ID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
-        Assert.assertEquals(INVALID_ORG_PARTY_ID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
+        Assertions.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
+        Assertions.assertEquals(INVALID_ORG_PARTY_ID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
+        Assertions.assertEquals(INVALID_ORG_PARTY_ID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
 
     }
 
@@ -168,9 +166,9 @@ public class ApplicantControllerValidateApplicantServiceTest {
 
         validateApplicantServiceResponse = sut
                 .validateApplicantService(VALID_ORG_PARTY_ID, INVALID_APPL_PARTY_ID);
-        Assert.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
-        Assert.assertEquals(INVALID_APPL_PARTY_ID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
-        Assert.assertEquals(INVALID_APPL_PARTY_ID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
+        Assertions.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
+        Assertions.assertEquals(INVALID_APPL_PARTY_ID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
+        Assertions.assertEquals(INVALID_APPL_PARTY_ID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
 
     }
 
@@ -182,9 +180,9 @@ public class ApplicantControllerValidateApplicantServiceTest {
 
         validateApplicantServiceResponse = sut
                 .validateApplicantService(EXCEPTION_ORG_PARTY_ID, EXCEPTION_APPL_PARTY_ID);
-        Assert.assertEquals(EXCEPTION_CONTROLLER_RESPCD, validateApplicantServiceResponse.getRespCode());
-        Assert.assertEquals(null, validateApplicantServiceResponse.getRespMsg());
-        Assert.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
+        Assertions.assertEquals(EXCEPTION_CONTROLLER_RESPCD, validateApplicantServiceResponse.getRespCode());
+        Assertions.assertEquals(null, validateApplicantServiceResponse.getRespMsg());
+        Assertions.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
 
     }
 
