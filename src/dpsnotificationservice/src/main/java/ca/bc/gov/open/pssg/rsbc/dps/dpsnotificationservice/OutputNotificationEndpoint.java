@@ -4,7 +4,6 @@ import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.Outp
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationResponse2;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
@@ -36,7 +35,6 @@ public class OutputNotificationEndpoint {
         this.outputNotificationTopicTemplate = outputNotificationTopicTemplate;
     }
 
-
     @PayloadRoot(namespace = Keys.NAMESPACE_URI, localPart = Keys.OUTPUT_NOTIFICATION_REQUEST)
     @ResponsePayload
     public OutputNotificationResponse outputNotificationNotification(@RequestPayload OutputNotificationRequest request) {
@@ -53,7 +51,7 @@ public class OutputNotificationEndpoint {
             return response;
         }
 
-        if(StringUtils.isBlank(request.getOutputNotificationRequest().getBusinessAreaCd())) {
+        if(request.getOutputNotificationRequest().getBusinessAreaCd() == null) {
             logger.error("Missing OutputNotificationRequest.getBusinessAreaCd");
             response2.setRespCode(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE);
             response2.setRespMsg("OutputNotificationRequest.getBusinessAreaCd is required");
@@ -81,12 +79,11 @@ public class OutputNotificationEndpoint {
 
             logger.debug("Attempting to publish message to outputNotification exchange with key {}", request.getOutputNotificationRequest().getBusinessAreaCd());
 
-            OutputNotificationMessage message = new OutputNotificationMessage(request.getOutputNotificationRequest().getBusinessAreaCd());
+            OutputNotificationMessage message = new OutputNotificationMessage(request.getOutputNotificationRequest().getBusinessAreaCd().value());
             request.getOutputNotificationRequest().getFileList().getFileId().stream().forEach(file -> message.AddFile(file));
 
             outputNotificationTopicTemplate.convertAndSend(message.getBusinessAreaCd(), message);
             logger.info("Successfully published message to outputNotification exchange with key {}", request.getOutputNotificationRequest().getBusinessAreaCd());
-
 
             response2.setRespCode(Keys.OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_CODE);
             response2.setRespMsg(Keys.OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_MESSAGE);

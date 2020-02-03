@@ -1,9 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice;
 
-import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.FileList;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationRequest;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationRequest2;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationResponse;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.*;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,7 +18,7 @@ public class OutputNotificationEndpointTest {
 
     public static final String AMQP_EXCEPTION = "amqp exception";
     public static final String BUSINESS_AREA_CD = "BusinessAreaCd";
-    public static final String EXCEPTION_CASE = "Exception";
+    public static final String EXCEPTION_CASE = "VIPS";
     public static final String TEST_FILE = "test.file";
     private OutputNotificationEndpoint sut;
 
@@ -68,7 +65,6 @@ public class OutputNotificationEndpointTest {
 
         OutputNotificationRequest request = new OutputNotificationRequest();
         OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd("   ");
         request.setOutputNotificationRequest(request2);
 
         OutputNotificationResponse response = sut.outputNotificationNotification(request);
@@ -83,7 +79,7 @@ public class OutputNotificationEndpointTest {
 
         OutputNotificationRequest request = new OutputNotificationRequest();
         OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd(BUSINESS_AREA_CD);
+        request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
         request.setOutputNotificationRequest(request2);
 
         OutputNotificationResponse response = sut.outputNotificationNotification(request);
@@ -98,7 +94,7 @@ public class OutputNotificationEndpointTest {
 
         OutputNotificationRequest request = new OutputNotificationRequest();
         OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd(BUSINESS_AREA_CD);
+        request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
         FileList fileList = new FileList();
         request2.setFileList(fileList);
         request.setOutputNotificationRequest(request2);
@@ -115,7 +111,7 @@ public class OutputNotificationEndpointTest {
 
         OutputNotificationRequest request = new OutputNotificationRequest();
         OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd(BUSINESS_AREA_CD);
+        request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
         FileList fileList = new FileList();
         request2.setFileList(fileList);
         request.setOutputNotificationRequest(request2);
@@ -132,7 +128,7 @@ public class OutputNotificationEndpointTest {
 
         OutputNotificationRequest request = new OutputNotificationRequest();
         OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd("BusinessAreaCd");
+        request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
         FileList fileList = new FileList();
         fileList.getFileId().add("test.file");
         request2.setFileList(fileList);
@@ -151,7 +147,7 @@ public class OutputNotificationEndpointTest {
 
         OutputNotificationRequest request = new OutputNotificationRequest();
         OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd(EXCEPTION_CASE);
+        request2.setBusinessAreaCd(BusinessAreaCd.VIPS);
         FileList fileList = new FileList();
         fileList.getFileId().add(TEST_FILE);
         request2.setFileList(fileList);
