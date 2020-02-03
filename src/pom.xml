@@ -4,6 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>libs/dpsnotification</module>
+        <module>libs/figaro-ords-client</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -75,6 +76,7 @@
             <id>all</id>
             <modules>
                 <module>libs/dpsnotification</module>
+                <module>libs/figaro-ords-client</module>
                 <module>paymentservice</module>
                 <module>dpsvalidationservice</module>
                 <module>figvalidationservice</module>
@@ -98,6 +100,7 @@
         <profile>
             <id>figvalidationservice</id>
             <modules>
+                <module>libs/figaro-ords-client</module>
                 <module>figvalidationservice</module>
             </modules>
         </profile>
