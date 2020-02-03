@@ -10,6 +10,14 @@ import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
+/**
+ * Configures RabbitMq Producer
+ *
+ *
+ * @author alexjoybc@github
+ *
+ */
 @Configuration
 public class RabbitMqConfiguration {
 
