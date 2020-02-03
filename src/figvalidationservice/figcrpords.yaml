@@ -273,6 +273,22 @@ paths:
           schema:
             type: object
             properties: {}
+  /dpsDocument:
+    post:
+      description: Store a DPS document
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/dpsDocumentResponse'
+      consumes:
+        - application/json
+      parameters:
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/dpsDocumentRequestBody'
 definitions:
   matchingApplicantsOrdsResponse:
     type: object
@@ -406,17 +422,17 @@ definitions:
       status_code:
         type: string
       status_message:
-        type: string   
+        type: string
   validateOrgPartyOrdsResponse:
     type: object
     required:
-      - validation_result
-      - found_org_party_id
-      - found_org_name
-      - found_org_type
-      - contact_list
-      - status_code
-      - status_message
+    - validation_result
+    - found_org_party_id
+    - found_org_name
+    - found_org_type
+    - contact_list
+    - status_code
+    - status_message
     properties:
       validation_result:
         type: string
@@ -437,6 +453,29 @@ definitions:
               type: string
             contact_person_party_id:
               type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  dpsDocumentRequestBody:
+    type: object
+    required:
+    - server_name
+    - file_name
+    properties:
+      server_name:
+        type: string
+      file_name:
+        type: string
+  dpsDocumentResponse:
+    type: object
+    required:
+    - guid
+    - status_code
+    - status_message
+    properties:
+      guid:
+        type: string
       status_code:
         type: string
       status_message:
