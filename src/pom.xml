@@ -80,6 +80,7 @@
                 <module>figvalidationservice</module>
                 <module>dpsnotificationservice</module>
                 <module>crrp-notification-worker</module>
+                <module>vips-notification-worker</module>
             </modules>
         </profile>
         <profile>
@@ -110,7 +111,15 @@
         <profile>
             <id>crrp-notification-worker</id>
             <modules>
+                <module>libs/dpsnotification</module>
                 <module>crrp-notification-worker</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>vips-notification-worker</id>
+            <modules>
+                <module>libs/dpsnotification</module>
+                <module>vips-notification-worker</module>
             </modules>
         </profile>
     </profiles>

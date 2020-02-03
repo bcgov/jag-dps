@@ -57,6 +57,7 @@ docker-compose up --build -d
 | DPS Notification Service| [Doc](src/dpsnotificationservice/README.md) | |
 | DPS Validation Service | [Doc](src/dpsvalidationservice/README.md) | |
 | Figaro Validation Service | [Doc](src/figvalidationservice/README.md) | |
+| VIPS Notification Worker| [Doc](src/vips-notification-worker/README.md) | |
 
 ## Endpoints
 
@@ -84,7 +85,12 @@ docker-compose up --build -d
 | [http://localhost:5054/dpsnotificationservice/actuator/health](http://localhost:5054/dpsnotificationservice/actuator/health) | GET | DPS Notification Service Health |
 | [http://localhost:5050/ws/dpsOutputNotification.wsdl](http://localhost:5050/ws/dpsOutputNotification.wsdl) | GET | DPS Output Notification Service WSDL |
 | **CRRP Notification Worker** | --- | --- |
-| [http://localhost:5054/crrpnotificationworker/actuator/health](http://localhost:5054/crrpnotificationworker/actuator/health) | GET | CRRP Notification Worker Health |
+| [http://localhost:5055/crrpnotificationworker/actuator/health](http://localhost:5054/crrpnotificationworker/actuator/health) | GET | CRRP Notification 
+| **CRRP Notification Worker** | --- | --- |
+| [http://localhost:5056/vipsnotificationworker/actuator/health](http://localhost:5056/vipsnotificationworker/actuator/health) | GET | CRRP Notification 
+
+
+Worker Health |
 | **SUPPORT APPS** | --- | --- |
 | [RabbitMq](http://localhost:15672) | Rabbit MQ management console | --- |
 | [Splunk](http://localhost:8000) | Splunk Web | --- |

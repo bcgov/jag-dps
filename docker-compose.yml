@@ -113,7 +113,7 @@ services:
       - dps-net
       
   #############################################################################################
-  ###                     crrc Notification Worker                                          ###
+  ###                     CRRP Notification Worker                                          ###
   #############################################################################################
   crrp-notification-worker:
     build:
@@ -125,6 +125,20 @@ services:
       - "5055:8080"
     environment: 
       - RABBITMQ_HOST=rabbitmq
+    networks:
+      - dps-net
+
+  #############################################################################################
+  ###                     VIPS Notification Worker                                          ###
+  #############################################################################################
+  vips-notification-worker:
+    build:
+      context: ./src
+      args:
+        - MVN_PROFILES=vips-notification-worker
+        - DPS_SERVICE_NAME=vips-notification-worker
+    ports:
+      - "5056:8080"
     networks:
       - dps-net
 
