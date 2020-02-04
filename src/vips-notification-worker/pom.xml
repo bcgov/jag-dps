@@ -19,6 +19,7 @@
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -32,6 +33,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
 		<dependency>
@@ -49,6 +55,12 @@
 		<dependency>
 			<groupId>ca.bc.gov.open</groupId>
 			<artifactId>dpsnotification</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
+			<artifactId>figaro-ords-client</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
