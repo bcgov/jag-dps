@@ -81,7 +81,7 @@
                 <module>dpsvalidationservice</module>
                 <module>figvalidationservice</module>
                 <module>dpsnotificationservice</module>
-                <module>crrp-notification-worker</module>
+                <module>spd-notification-worker</module>
                 <module>vips-notification-worker</module>
             </modules>
         </profile>
@@ -112,10 +112,10 @@
             </modules>
         </profile>
         <profile>
-            <id>crrp-notification-worker</id>
+            <id>spd-notification-worker</id>
             <modules>
                 <module>libs/dpsnotification</module>
-                <module>crrp-notification-worker</module>
+                <module>spd-notification-worker</module>
             </modules>
         </profile>
         <profile>
