@@ -120,5 +120,13 @@ Run the collection
 
 ```bash
 cd tests/postman
-newman run DPS-Service-Api.postman_collection.json -e dps-env.postman_environment.json
+newman run DPS-Service-Api.postman_collection.json -e dps-local-env.postman_environment.json
+```
+
+Run the with the datafile
+
+
+```bash
+cd tests/postman
+newman run DPS-Service-Api.postman_collection.json -e dps-local-env.postman_environment.json -d get-valid-open-dfcm-case-datafile.json
 ```
