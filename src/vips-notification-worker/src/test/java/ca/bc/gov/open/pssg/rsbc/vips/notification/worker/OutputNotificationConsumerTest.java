@@ -31,7 +31,7 @@ public class OutputNotificationConsumerTest {
 
         MockitoAnnotations.initMocks(this);
 
-        Mockito.when(sftpServiceMock.getContent(Mockito.eq(CASE_1))).thenReturn(fakeContent());
+        Mockito.when(sftpServiceMock.getContent(Mockito.eq(CASE_1 + ".xml"))).thenReturn(fakeContent());
 
         sut = new OutputNotificationConsumer(sftpServiceMock);
     }
@@ -40,8 +40,7 @@ public class OutputNotificationConsumerTest {
     public void withAMessageShouldProcess() {
 
         Assertions.assertDoesNotThrow(() -> {
-            OutputNotificationMessage message = new OutputNotificationMessage(Keys.VIPS_VALUE, fileId);
-            message.AddFile(CASE_1);
+            OutputNotificationMessage message = new OutputNotificationMessage(Keys.VIPS_VALUE, CASE_1);
             sut.receiveMessage(message);
         });
 
