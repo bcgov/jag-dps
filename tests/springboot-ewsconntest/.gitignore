@@ -1,0 +1,12 @@
+HELP.md
+target/
+.mvn/
+
+### STS ###
+.classpath
+.factorypath
+.project
+.settings/
+
+### VS Code ###
+.vscode/
