@@ -12,7 +12,7 @@ services:
       # TODO: renable sharing logs
       # - ./nginx-log:/var/log/nginx
     ports:
-      - 8080:80
+      - 5050:80
     networks:
       - dps-net
 
@@ -79,7 +79,7 @@ services:
       - dps-net
   
   #############################################################################################
-  ###                    DPS validation service (Driver Fitness Case Management Service)   ###
+  ###        DPS validation service (Driver Fitness Case Management Service)                ###
   #############################################################################################
   dps-validation-service:
     build:
@@ -96,6 +96,81 @@ services:
     networks:
       - dps-net
 
+  #############################################################################################
+  ###                     DPS Notification Service                                          ###
+  #############################################################################################
+  dps-notification-service:
+    build:
+      context: ./src
+      args:
+        - MVN_PROFILES=dpsnotificationservice
+        - DPS_SERVICE_NAME=dpsnotificationservice
+    environment: 
+      - RABBITMQ_HOST=rabbitmq
+    ports:
+      - "5054:8080"
+    networks:
+      - dps-net
+      
+  #############################################################################################
+  ###                     CRRP Notification Worker                                          ###
+  #############################################################################################
+  crrp-notification-worker:
+    build:
+      context: ./src
+      args:
+        - MVN_PROFILES=crrp-notification-worker
+        - DPS_SERVICE_NAME=crrp-notification-worker
+    ports:
+      - "5055:8080"
+    environment: 
+      - RABBITMQ_HOST=rabbitmq
+    networks:
+      - dps-net
+
+  #############################################################################################
+  ###                     VIPS Notification Worker                                          ###
+  #############################################################################################
+  vips-notification-worker:
+    build:
+      context: ./src
+      args:
+        - MVN_PROFILES=vips-notification-worker
+        - DPS_SERVICE_NAME=vips-notification-worker
+    ports:
+      - "5056:8080"
+    environment: 
+      - RABBITMQ_HOST=rabbitmq
+      - FIGCR_BASE_PATH=$FIGCR_BASE_PATH
+    networks:
+      - dps-net
+
+  #############################################################################################
+  ###                             SFTP SERVER                                               ###
+  #############################################################################################
+  dps-sftp:
+    image: atmoz/sftp
+    ports:
+      - "22:22"
+    command: admin:admin:::upload
+    networks:
+      - dps-net
+
+  #############################################################################################
+  ###                             RABBIT MQ SERVER                                          ###
+  #############################################################################################
+  dps-rabbitmq:
+    image: rabbitmq:3.7.15-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+        - data-rabbit:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached
+    restart: always
+    networks:
+      - dps-net
 
   #############################################################################################
   ###                                 SPLUNK DEV BOX                                        ###
@@ -116,7 +191,7 @@ services:
 
 
 volumes:
-  nginx-log:
+  data-rabbit:
 
 networks: 
   dps-net:

@@ -8,7 +8,9 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
  *
  */
 public class FigaroValidationServiceConstants {
-	
+
+	private FigaroValidationServiceConstants() {}
+
 	private static final String VALIDATION_CORRELATION_ID = "correlationId";
 	
 	// Response code types; anything >= 0 is good, anything < 0 is bad. 

@@ -2,6 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>libs/dpsnotification</module>
+        <module>libs/figaro-ords-client</module>
+    </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -63,11 +67,22 @@
     </dependencies>
     <profiles>
         <profile>
+            <id>libs</id>
+            <modules>
+                <module>libs/dpsnotification</module>
+            </modules>
+        </profile>
+        <profile>
             <id>all</id>
             <modules>
+                <module>libs/dpsnotification</module>
+                <module>libs/figaro-ords-client</module>
                 <module>paymentservice</module>
                 <module>dpsvalidationservice</module>
                 <module>figvalidationservice</module>
+                <module>dpsnotificationservice</module>
+                <module>crrp-notification-worker</module>
+                <module>vips-notification-worker</module>
             </modules>
         </profile>
         <profile>
@@ -85,7 +100,29 @@
         <profile>
             <id>figvalidationservice</id>
             <modules>
+                <module>libs/figaro-ords-client</module>
                 <module>figvalidationservice</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>dpsnotificationservice</id>
+            <modules>
+                <module>libs/dpsnotification</module>
+                <module>dpsnotificationservice</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>crrp-notification-worker</id>
+            <modules>
+                <module>libs/dpsnotification</module>
+                <module>crrp-notification-worker</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>vips-notification-worker</id>
+            <modules>
+                <module>libs/dpsnotification</module>
+                <module>vips-notification-worker</module>
             </modules>
         </profile>
     </profiles>

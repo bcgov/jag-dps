@@ -1,0 +1,598 @@
+swagger: '2.0'
+info:
+  title: ORDS generated API for web
+  version: 1.0.0
+host: localhost
+basePath: "/ords/deva/figcrpords/web"
+schemes:
+- http
+produces:
+- application/json
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: HTTP Basic Authentication.
+tags:
+- name: Applicant
+- name: Facility
+- name: Org
+- name: Document
+paths:
+  /matchingApplicants:
+    get:
+      tags:
+      - Applicant
+      operationId: matchingApplicants
+      description: Locate the matching applicants
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/matchingApplicantsOrdsResponse'
+      parameters:
+      - name: appl_alias_firstname1
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_alias_firstname2
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_alias_firstname3
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_alias_secondinitial1
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_alias_secondinitial2
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_alias_secondinitial3
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_alias_surname1
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_alias_surname2
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_alias_surname3
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_birthdate
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_birthplace
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_driverslicense
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_firstname
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_gender
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_secondinitial
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: appl_surname
+        in: query
+        type: string
+        description: Implicit parameter
+  /validateApplicantForSharing:
+    get:
+      operationId: validateApplicantForSharing
+      tags:
+      - Applicant
+      security:
+      - basicAuth: []
+      description: Validate the applicant for sharing
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/validateApplicantForSharingOrdsResponse'
+      parameters:
+      - name: applicant_party_id
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: jurisdiction_type
+        in: query
+        type: string
+        description: Implicit parameter
+  /validateApplicantPartyId:
+    get:
+      operationId: validateApplicantPartyId
+      tags:
+      - Applicant
+      security:
+      - basicAuth: []
+      description: Validate the applicant party id
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/validateApplicantPartyIdOrdsResponse'
+        '400':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/errorMessage'
+      parameters:
+      - name: applicant_party_id
+        in: query
+        type: string
+        description: Implicit parameter
+  /validateFacilityParty:
+    get:
+      tags:
+      - Facility
+      operationId: validateFacilityParty
+      description: Validate the facility party
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/validateFacilityPartyOrdsResponse'
+      parameters:
+      - name: facility_party_id
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: facility_subname1
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: facility_subname2
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: facility_subname3
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: facility_subname4
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: facility_subname5
+        in: query
+        type: string
+        description: Implicit parameter
+  /validateOrgApplicantService:
+    get:
+      operationId: validateOrgApplicantService
+      tags:
+      - Applicant
+      security:
+      - basicAuth: []
+      description: Validate the organization applicant service
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/validateApplicantServiceOrdsResponse'
+        '400':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/errorMessage'
+      parameters:
+      - name: appl_party_id
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: org_party_id
+        in: query
+        type: string
+        description: Implicit parameter
+  /validateOrgDrawDownBalance:
+    get:
+      tags:
+        - Org
+      operationId: validateOrgDrawDownBalance
+      description: Validate the organization draw down balance
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/validateOrgDrawDownBalanceOrdsResponse'
+      parameters:
+      - name: jurisdiction_type
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: org_party_id
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: schedule_type
+        in: query
+        type: string
+        description: Implicit parameter
+  /validateOrgParty:
+    get:
+      tags:
+        - Org
+      operationId: validateOrgParty
+      description: Validate the organization party
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/validateOrgPartyOrdsResponse'
+      parameters:
+      - name: org_city
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: org_party_id
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: org_subname1
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: org_subname2
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: org_subname3
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: org_subname4
+        in: query
+        type: string
+        description: Implicit parameter
+      - name: org_subname5
+        in: query
+        type: string
+        description: Implicit parameter
+  /health:
+    get:
+      operationId: health
+      description: Dummy endpoint to check that API calls are working
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            type: object
+            properties: {}
+  /dpsDocument:
+    post:
+      tags:
+        - Document
+      description: Store a DPS document
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/dpsDocumentOrdsResponse'
+      consumes:
+        - application/json
+      parameters:
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/dpsDocumentOrdsRequestBody'
+  /dpsDataIntoFigaro:
+    post:
+      tags:
+        - Document
+      description: Populate DPS data into figaro
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/dpsDataIntoFigaroOrdsResponse'
+      consumes:
+        - application/json
+      parameters:
+        - name: payload
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/dpsDataIntoFigaroOrdsRequestBody'
+definitions:
+  matchingApplicantsOrdsResponse:
+    type: object
+    required:
+    - found_party_id
+    - found_surname
+    - found_first_name
+    - found_second_name
+    - found_birth_date
+    - found_drivers_license
+    - found_birth_place
+    - found_gender
+    - status_code
+    - status_message
+    properties:
+      found_party_id:
+        type: string
+      found_surname:
+        type: string
+      found_first_name:
+        type: string
+      found_second_name:
+        type: string
+      found_birth_date:
+        type: string
+      found_drivers_license:
+        type: string
+      found_birth_place:
+        type: string
+      found_gender:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  validateApplicantPartyIdOrdsResponse:
+    type: object
+    required:
+    - surname
+    - first_name
+    - second_name
+    - birth_date
+    - drivers_license
+    - birth_place
+    - gender
+    - status_code
+    - status_message
+    properties:
+      surname:
+        type: string
+      first_name:
+        type: string
+      second_name:
+        type: string
+      birth_date:
+        type: string
+      drivers_license:
+        type: string
+      birth_place:
+        type: string
+      gender:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  validateApplicantForSharingOrdsResponse:
+    type: object
+    required:
+    - validation_result
+    - status_code
+    - status_message
+    properties:
+      validation_result:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  validateFacilityPartyOrdsResponse:
+    type: object
+    required:
+    - validation_result
+    - found_facility_party_id
+    - found_facility_name
+    - status_code
+    - status_message
+    properties:
+      validation_result:
+        type: string
+      found_facility_party_id:
+        type: string
+      found_facility_name:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  errorMessage:
+    type: object
+    required:
+    - status_code
+    - status_message
+    properties:
+      status_code:
+        type: string
+      status_message:
+        type: string
+  validateApplicantServiceOrdsResponse:
+    type: object
+    required:
+    - validation_result
+    - status_code
+    - status_message
+    properties:
+      validation_result:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  validateOrgDrawDownBalanceOrdsResponse:
+    type: object
+    required:
+    - validation_result
+    - status_code
+    - status_message
+    properties:
+      validation_result:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  validateOrgPartyOrdsResponse:
+    type: object
+    required:
+    - validation_result
+    - found_org_party_id
+    - found_org_name
+    - found_org_type
+    - contact_list
+    - status_code
+    - status_message
+    properties:
+      validation_result:
+        type: string
+      found_org_party_id:
+        type: string
+      found_org_name:
+        type: string
+      found_org_type:
+        type: string
+      contact_persons:
+        type: array
+        items:
+          type: object
+          properties:
+            contact_person_name:
+              type: string
+            contact_person_role:
+              type: string
+            contact_person_party_id:
+              type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  dpsDocumentOrdsRequestBody:
+    type: object
+    required:
+    - server_name
+    - file_name
+    properties:
+      server_name:
+        type: string
+      file_name:
+        type: string
+  dpsDocumentOrdsResponse:
+    type: object
+    required:
+    - guid
+    - status_code
+    - status_message
+    properties:
+      guid:
+        type: string
+      status_code:
+        type: string
+      status_message:
+        type: string
+  dpsDataIntoFigaroOrdsRequestBody:
+    type: object
+    properties:
+      schedule_type:
+        type: string
+      jurisdiction_type:
+        type: string
+      processing_stream:
+        type: string
+      application_category:
+        type: string
+      payment_method:
+        type: string
+      non_fin_reject_reason:
+        type: string
+      application_signed_yn:
+        type: string
+      application_signed_date:
+        type: string
+      application_guardian_signed_yn:
+        type: string
+      application_payment_id:
+        type: string
+      application_incomplete_reason:
+        type: string
+      application_validate_username:
+        type: string
+      application_document_guid:
+        type: string
+      appl_party_id:
+        type: string
+      appl_surname:
+        type: string
+      appl_first_name:
+        type: string
+      appl_second_name:
+        type: string
+      appl_birth_date:
+        type: string
+      appl_gender:
+        type: string
+      appl_birth_place:
+        type: string
+      appl_addl_surname1:
+        type: string
+      appl_addl_first_name1:
+        type: string
+      appl_addl_second_name1:
+        type: string
+      appl_addl_surname2:
+        type: string
+      appl_addl_first_name2:
+        type: string
+      appl_addl_second_name2:
+        type: string
+      appl_addl_surname3:
+        type: string
+      appl_addl_first_name3:
+        type: string
+      appl_addl_second_name3:
+        type: string
+      appl_street_address:
+        type: string
+      appl_city:
+        type: string
+      appl_province:
+        type: string
+      appl_country:
+        type: string
+      appl_postal_code:
+        type: string
+      appl_drivers_licence:
+        type: string
+      appl_phone_number:
+        type: string
+      appl_email_address:
+        type: string
+      appl_org_party_id:
+        type: string
+      appl_org_facility_party_id:
+        type: string
+      appl_org_facility_name:
+        type: string
+      appl_org_contact_party_id:
+        type: string
+  dpsDataIntoFigaroOrdsResponse:
+    type: object
+    required:
+    - status_code
+    - status_message
+    properties:
+      status_code:
+        type: string
+      status_message:
+        type: string

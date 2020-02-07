@@ -1,6 +1,7 @@
 {
 	"info": {
-		"_postman_id": "3a1477fe-4eab-4e1e-bfd5-31f82e92ab16",
+
+		"_postman_id": "878451f8-6f9d-409e-8319-3ccde41ff775",
 		"name": "DPS-Service-Api",
 		"description": "A Collection of request to test DPS Service Api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -94,7 +95,7 @@
 					},
 					"response": [
 						{
-							"name": "Forbidden",
+
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -118,8 +119,8 @@
 									]
 								}
 							},
-							"status": "Forbidden",
-							"code": 403,
+							"status": "Not Found",
+							"code": 404,
 							"_postman_previewlanguage": "text",
 							"header": [
 								{
@@ -205,7 +206,7 @@
 							"body": ""
 						},
 						{
-							"name": "Successful operation",
+							"name": "Forbidden",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -229,19 +230,62 @@
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "xml",
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
 							"header": [
 								{
 									"key": "Content-Type",
-									"value": "application/xml"
+									"value": "text/plain"
 								}
 							],
 							"cookie": [],
-							"body": "<element>\n <caseDesc>(string)</caseDesc>\n <int>(string)</int>\n</element>"
+
+
 						}
 					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "dps-notification-service",
+			"item": [
+				{
+					"name": "push notification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:jag=\"https://github.com/bcgov/jag-dps\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <jag:outputNotificationRequest>\r\n         <jag:outputNotificationRequest>\r\n            <jag:businessAreaCd>VIPS</jag:businessAreaCd>\r\n            <jag:fileList>\r\n               <!--1 or more repetitions:-->\r\n               <jag:fileId>upload/test.xml</jag:fileId>\r\n            </jag:fileList>\r\n         </jag:outputNotificationRequest>\r\n      </jag:outputNotificationRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5054/dpsnotificationservice/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5054",
+							"path": [
+								"dpsnotificationservice",
+								"ws"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
