@@ -84,7 +84,7 @@ public class DocumentServiceImplTest {
         DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody(SCHEDULE_TYPE_EXCEPTION, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
         DpsDataIntoFigaroResponse result = sut.dpsDataIntoFigaro(request);
 
-        Assertions.assertEquals(FigaroServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
+        Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
     }
 }
