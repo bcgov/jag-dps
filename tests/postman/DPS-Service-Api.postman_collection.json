@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c919065c-d742-44d5-8d8d-e523ccb079c0",
+		"_postman_id": "878451f8-6f9d-409e-8319-3ccde41ff775",
 		"name": "DPS-Service-Api",
 		"description": "A Collection of request to test DPS Service Api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -100,43 +100,6 @@
 							"body": "<element>\n <caseDesc>(string)</caseDesc>\n <int>(string)</int>\n</element>"
 						},
 						{
-							"name": "Not Found",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"getValidOpenDFCMCase"
-									],
-									"query": [
-										{
-											"key": "driversLicense",
-											"value": "<string>"
-										},
-										{
-											"key": "surcode",
-											"value": "<string>"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "text/plain"
-								}
-							],
-							"cookie": [],
-							"body": ""
-						},
-						{
 							"name": "Forbidden",
 							"originalRequest": {
 								"method": "GET",
@@ -163,6 +126,43 @@
 							},
 							"status": "Forbidden",
 							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
 							"_postman_previewlanguage": "text",
 							"header": [
 								{
@@ -268,7 +268,7 @@
 					},
 					"response": [
 						{
-							"name": "Forbidden",
+							"name": "Not Found",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -282,8 +282,8 @@
 									]
 								}
 							},
-							"status": "Forbidden",
-							"code": 403,
+							"status": "Not Found",
+							"code": 404,
 							"_postman_previewlanguage": "text",
 							"header": [
 								{
@@ -349,7 +349,7 @@
 							"body": ""
 						},
 						{
-							"name": "Not Found",
+							"name": "Forbidden",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -363,8 +363,8 @@
 									]
 								}
 							},
-							"status": "Not Found",
-							"code": 404,
+							"status": "Forbidden",
+							"code": 403,
 							"_postman_previewlanguage": "text",
 							"header": [
 								{
@@ -611,75 +611,6 @@
 							"body": ""
 						},
 						{
-							"name": "Successful operation",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"getSinglePaymentURL"
-									],
-									"query": [
-										{
-											"key": "transType",
-											"value": "<string>"
-										},
-										{
-											"key": "invoiceNumber",
-											"value": "<string>"
-										},
-										{
-											"key": "approvedPage",
-											"value": "<string>"
-										},
-										{
-											"key": "declinedPage",
-											"value": "<string>"
-										},
-										{
-											"key": "errorPage",
-											"value": "<string>"
-										},
-										{
-											"key": "totalItemsAmount",
-											"value": "<string>"
-										},
-										{
-											"key": "ref1",
-											"value": "<string>"
-										},
-										{
-											"key": "ref2",
-											"value": "<string>"
-										},
-										{
-											"key": "ref3",
-											"value": "<string>"
-										},
-										{
-											"key": "minutesToExpire",
-											"value": "<string>"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "xml",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/xml"
-								}
-							],
-							"cookie": [],
-							"body": "<element>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n <respValue>(string)</respValue>\n</element>"
-						},
-						{
 							"name": "Forbidden",
 							"originalRequest": {
 								"method": "GET",
@@ -747,8 +678,119 @@
 							],
 							"cookie": [],
 							"body": ""
+						},
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "xml",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/xml"
+								}
+							],
+							"cookie": [],
+							"body": "<element>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n <respValue>(string)</respValue>\n</element>"
 						}
 					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "dps-notification-service",
+			"item": [
+				{
+					"name": "push notification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:jag=\"https://github.com/bcgov/jag-dps\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <jag:outputNotificationRequest>\r\n         <jag:outputNotificationRequest>\r\n            <jag:businessAreaCd>VIPS</jag:businessAreaCd>\r\n            <jag:fileList>\r\n               <!--1 or more repetitions:-->\r\n               <jag:fileId>upload/test.xml</jag:fileId>\r\n            </jag:fileList>\r\n         </jag:outputNotificationRequest>\r\n      </jag:outputNotificationRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5054/dpsnotificationservice/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5054",
+							"path": [
+								"dpsnotificationservice",
+								"ws"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
