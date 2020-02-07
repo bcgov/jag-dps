@@ -40,7 +40,7 @@ public class OutputNotificationConsumerTest {
     public void withAMessageShouldProcess() {
 
         Assertions.assertDoesNotThrow(() -> {
-            OutputNotificationMessage message = new OutputNotificationMessage(Keys.VIPS_VALUE);
+            OutputNotificationMessage message = new OutputNotificationMessage(Keys.VIPS_VALUE, fileId);
             message.AddFile(CASE_1);
             sut.receiveMessage(message);
         });

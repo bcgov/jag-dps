@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 /**
  * Comsumes messages pushed to the CRRP Queue
@@ -19,6 +18,7 @@ import java.util.Optional;
 @Component
 public class OutputNotificationConsumer {
 
+    public static final String METATADATA_EXTENSION = ".xml";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final SftpService sftpService;
@@ -33,21 +33,19 @@ public class OutputNotificationConsumer {
 
         logger.info("received message for {}", message.getBusinessAreaCd());
 
-        Optional<String> fileName = message.getFileList().stream().findFirst();
+        ByteArrayInputStream bin = sftpService.getContent(buildFileName(message.getFileId()));
 
-        if(fileName.isPresent()) {
+        logger.info("successfully downloaded file [{}]", buildFileName(message.getFileId()));
 
-            ByteArrayInputStream bin = sftpService.getContent(fileName.get());
+        int n = bin.available();
+        byte[] bytes = new byte[n];
+        bin.read(bytes, 0, n);
+        logger.info(new String(bytes, StandardCharsets.UTF_8));
 
-            logger.info("successfully downloaded file [{}]", fileName.get());
+    }
 
-            int n = bin.available();
-            byte[] bytes = new byte[n];
-            bin.read(bytes, 0, n);
-            logger.info(new String(bytes, StandardCharsets.UTF_8));
-
-        }
-
+    private String buildFileName(String fileId) {
+        return fileId + METATADATA_EXTENSION;
     }
 
 }

@@ -1,8 +1,5 @@
 package ca.bc.gov.open.pssg.rsbc.dps.notification;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * An outputNotification Message to allow communication between workers
  *
@@ -13,24 +10,21 @@ public class OutputNotificationMessage {
 
     private String businessAreaCd;
 
-    private List<String> fileList =  new ArrayList<String>();
+    private String fileId;
 
     protected OutputNotificationMessage(){ }
 
-    public OutputNotificationMessage(String businessAreaCd) {
+    public OutputNotificationMessage(String businessAreaCd, String fileId) {
         this.businessAreaCd = businessAreaCd;
+        this.fileId = fileId;
     }
 
     public String getBusinessAreaCd() {
         return businessAreaCd;
     }
 
-    public List<String> getFileList() {
-        return fileList;
-    }
 
-    public void AddFile(String fileName) {
-        fileList.add(fileName);
+    public String getFileId() {
+        return fileId;
     }
-
 }

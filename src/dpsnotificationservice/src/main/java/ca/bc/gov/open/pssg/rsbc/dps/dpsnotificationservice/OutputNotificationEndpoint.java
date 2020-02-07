@@ -77,13 +77,15 @@ public class OutputNotificationEndpoint {
 
         try {
 
-            logger.debug("Attempting to publish message to outputNotification exchange with key {}", request.getOutputNotificationRequest().getBusinessAreaCd());
+            request.getOutputNotificationRequest().getFileList().getFileId().stream().forEach(file -> {
 
-            OutputNotificationMessage message = new OutputNotificationMessage(request.getOutputNotificationRequest().getBusinessAreaCd().value());
-            request.getOutputNotificationRequest().getFileList().getFileId().stream().forEach(file -> message.AddFile(file));
+                OutputNotificationMessage message = new OutputNotificationMessage(request.getOutputNotificationRequest().getBusinessAreaCd().value(), file);
 
-            outputNotificationTopicTemplate.convertAndSend(message.getBusinessAreaCd(), message);
-            logger.info("Successfully published message to outputNotification exchange with key {}", request.getOutputNotificationRequest().getBusinessAreaCd());
+                logger.debug("Attempting to publish message to outputNotification exchange with key [{}], fileId: [{}]", message.getBusinessAreaCd(), message.getFileId());
+                outputNotificationTopicTemplate.convertAndSend(message.getBusinessAreaCd(), message);
+                logger.info("Successfully published message to outputNotification exchange with key [{}], fileId: [{}]", message.getBusinessAreaCd(), message.getFileId());
+
+            });
 
             response2.setRespCode(Keys.OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_CODE);
             response2.setRespMsg(Keys.OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_MESSAGE);
