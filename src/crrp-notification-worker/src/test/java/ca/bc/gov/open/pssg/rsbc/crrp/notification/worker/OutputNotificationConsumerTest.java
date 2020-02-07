@@ -20,7 +20,7 @@ public class OutputNotificationConsumerTest {
     public void withAMessageShouldProcess() {
 
         Assertions.assertDoesNotThrow(() -> {
-            sut.receiveMessage(new OutputNotificationMessage(Keys.CRRP_QUEUE_NAME, fileId));
+            sut.receiveMessage(new OutputNotificationMessage(Keys.CRRP_QUEUE_NAME, "fileid"));
         });
 
     }
