@@ -1,8 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.crrp.notification.worker.configuration;
 
-import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.DocumentApi;
-import ca.bc.gov.open.ords.figcr.client.api.FacilityApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiClient;
 import ca.bc.gov.open.pssg.rsbc.crrp.notification.worker.document.DocumentService;
 import ca.bc.gov.open.pssg.rsbc.crrp.notification.worker.document.DocumentServiceImpl;
