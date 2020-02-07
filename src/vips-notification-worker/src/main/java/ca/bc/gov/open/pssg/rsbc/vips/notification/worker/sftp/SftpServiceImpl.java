@@ -14,6 +14,7 @@ import java.io.InputStream;
 
 public class SftpServiceImpl implements SftpService {
 
+    public static final int BUFFER_SIZE = 8000;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final Session session;
@@ -27,9 +28,9 @@ public class SftpServiceImpl implements SftpService {
         ByteArrayInputStream result = null;
         ChannelSftp channelSftp = null;
 
-        byte[] buff = new byte[8000];
+        byte[] buff = new byte[BUFFER_SIZE];
 
-        int bytesRead = 0;
+        int bytesRead;
 
         try {
 
