@@ -152,7 +152,7 @@ services:
     image: atmoz/sftp
     ports:
       - "22:22"
-    command: admin:admin:1001
+    command: admin:admin:::upload
     networks:
       - dps-net
 
