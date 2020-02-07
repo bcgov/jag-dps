@@ -15,26 +15,35 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7e83e05d-6392-49a5-b3b2-8f299b87feb3",
+								"id": "4f11191b-793e-44da-b7d4-8c730af62bbb",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
 									"pm.test(\"Assert Json Response\", function () {",
+									"    ",
 									"    var responseJson = xml2Json(responseBody);",
+									"    ",
 									"    pm.expect(responseJson.beanstreamEndpointResponse.approved).not.to.be.empty;",
 									"    pm.expect(responseJson.beanstreamEndpointResponse.declined).not.to.be.empty;",
 									"    pm.expect(responseJson.beanstreamEndpointResponse.error).not.to.be.empty;",
 									"    pm.expect(responseJson.beanstreamEndpointResponse.respCode).to.eql(\"0\");",
 									"    pm.expect(responseJson.beanstreamEndpointResponse.respMsg).to.eql(\"success\");",
 									"    ",
-									"    ",
+									"    // Stores the returned urls in to the environment variables",
 									"    pm.environment.set(\"approved-url\", responseJson.beanstreamEndpointResponse.approved);",
 									"    pm.environment.set(\"declined-url\", responseJson.beanstreamEndpointResponse.declined);",
 									"    pm.environment.set(\"error-url\", responseJson.beanstreamEndpointResponse.error);",
-									"    ",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
+									"",
+									"",
+									"",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -58,33 +67,6 @@
 						}
 					},
 					"response": [
-						{
-							"name": "Successful operation",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/bamboraconfiguration",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"bamboraconfiguration"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "xml",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/xml"
-								}
-							],
-							"cookie": [],
-							"body": "<element>\n <approved>(string)</approved>\n <declined>(string)</declined>\n <error>(string)</error>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n</element>"
-						},
 						{
 							"name": "Not Found",
 							"originalRequest": {
@@ -113,7 +95,7 @@
 							"body": ""
 						},
 						{
-							"name": "Unauthorized",
+							"name": "Successful operation",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -127,17 +109,17 @@
 									]
 								}
 							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "text",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "xml",
 							"header": [
 								{
 									"key": "Content-Type",
-									"value": "text/plain"
+									"value": "application/xml"
 								}
 							],
 							"cookie": [],
-							"body": ""
+							"body": "<element>\n <approved>(string)</approved>\n <declined>(string)</declined>\n <error>(string)</error>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n</element>"
 						},
 						{
 							"name": "Forbidden",
@@ -156,6 +138,33 @@
 							},
 							"status": "Forbidden",
 							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/bamboraconfiguration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"bamboraconfiguration"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
 							"_postman_previewlanguage": "text",
 							"header": [
 								{
@@ -199,6 +208,11 @@
 									"pm.test(\"Should contain hashExpiry\", function() {",
 									"    pm.expect(responseJson.singlePaymentResponse.respValue).to.include(\"hashExpiry\").to.be.a('string').that.is.not.empty;",
 									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
+									"",
 									""
 								],
 								"type": "text/javascript"
@@ -414,6 +428,341 @@
 							"body": "<element>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n <respValue>(string)</respValue>\n</element>"
 						},
 						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "getSinglePaymentURLErrorValidation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "143c9c18-0cb8-4781-afaa-94927fb9c855",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var responseJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Assert Json Response\", function () {",
+									"    pm.expect(responseJson.singlePaymentResponse.respCode).to.eql(\"-1\");",
+									"    pm.expect(responseJson.singlePaymentResponse.respMsg).to.eql(\"Missing transType parameter\");",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml;charset=UTF-8\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1e0be1bd-0105-4bdb-9862-47550c3bcd93",
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/paymentservice/getSinglePaymentURL?approvedPage={{approved-url}}&declinedPage={{declined-url}}&errorPage={{error-url}}&ref1=ref1&ref2=ref2&ref3=ref3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"paymentservice",
+								"getSinglePaymentURL"
+							],
+							"query": [
+								{
+									"key": "transType",
+									"value": "P",
+									"description": "transType",
+									"disabled": true
+								},
+								{
+									"key": "invoiceNumber",
+									"value": "1",
+									"description": "invoiceNumber",
+									"disabled": true
+								},
+								{
+									"key": "approvedPage",
+									"value": "{{approved-url}}",
+									"description": "approvedPage"
+								},
+								{
+									"key": "declinedPage",
+									"value": "{{declined-url}}",
+									"description": "declinedPage"
+								},
+								{
+									"key": "errorPage",
+									"value": "{{error-url}}",
+									"description": "errorPage"
+								},
+								{
+									"key": "totalItemsAmount",
+									"value": "100",
+									"description": "totalItemsAmount",
+									"disabled": true
+								},
+								{
+									"key": "ref1",
+									"value": "ref1",
+									"description": "ref1"
+								},
+								{
+									"key": "ref2",
+									"value": "ref2",
+									"description": "ref2"
+								},
+								{
+									"key": "ref3",
+									"value": "ref3",
+									"description": "ref3"
+								},
+								{
+									"key": "minutesToExpire",
+									"value": "5",
+									"description": "minutesToExpire",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
 							"name": "Forbidden",
 							"originalRequest": {
 								"method": "GET",
@@ -550,6 +899,75 @@
 							],
 							"cookie": [],
 							"body": ""
+						},
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "xml",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/xml"
+								}
+							],
+							"cookie": [],
+							"body": "<element>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n <respValue>(string)</respValue>\n</element>"
 						}
 					]
 				}
