@@ -113,14 +113,14 @@ services:
       - dps-net
       
   #############################################################################################
-  ###                     CRRP Notification Worker                                          ###
+  ###                     SPD Notification Worker                                          ###
   #############################################################################################
-  crrp-notification-worker:
+  spd-notification-worker:
     build:
       context: ./src
       args:
-        - MVN_PROFILES=crrp-notification-worker
-        - DPS_SERVICE_NAME=crrp-notification-worker
+        - MVN_PROFILES=spd-notification-worker
+        - DPS_SERVICE_NAME=spd-notification-worker
     ports:
       - "5055:8080"
     environment: 
