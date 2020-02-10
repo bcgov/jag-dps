@@ -33,7 +33,7 @@ public class OutputNotificationConsumerTest {
 
         Mockito.when(sftpServiceMock.getContent(Mockito.eq(CASE_1 + ".xml"))).thenReturn(fakeContent());
 
-        sut = new OutputNotificationConsumer(sftpServiceMock);
+        sut = new OutputNotificationConsumer(sftpServiceMock, null);
     }
 
     @Test

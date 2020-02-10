@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author alexjoybc@github
  *
  */
-@ConfigurationProperties(prefix = "vips.sftp")
+@ConfigurationProperties(prefix = "dps.sftp")
 public class SftpProperties {
 
     private String host;
@@ -16,6 +16,7 @@ public class SftpProperties {
     private String username;
     private String password;
     private String knownHosts;
+    private String remoteLocation;
 
     public String getKnownHosts() {
         return knownHosts;
@@ -57,7 +58,8 @@ public class SftpProperties {
         this.password = password;
     }
 
+    public String getRemoteLocation() { return remoteLocation; }
 
-
+    public void setRemoteLocation(String remoteLocation) { this.remoteLocation = remoteLocation; }
 
 }
