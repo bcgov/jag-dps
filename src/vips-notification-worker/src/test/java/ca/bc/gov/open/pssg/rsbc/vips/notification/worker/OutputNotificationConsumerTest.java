@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
+import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.sftp.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.sftp.SftpService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,6 +17,7 @@ import java.io.ByteArrayInputStream;
 public class OutputNotificationConsumerTest {
 
     public static final String CASE_1 = "case1";
+    public static final String REMOTE_LOCATION = "remote";
     private OutputNotificationConsumer sut;
 
     @Mock
@@ -31,9 +33,14 @@ public class OutputNotificationConsumerTest {
 
         MockitoAnnotations.initMocks(this);
 
-        Mockito.when(sftpServiceMock.getContent(Mockito.eq(CASE_1 + ".xml"))).thenReturn(fakeContent());
+        Mockito.when(sftpServiceMock.getContent(Mockito.eq(REMOTE_LOCATION + "/release/" + CASE_1 + ".xml"))).thenReturn(fakeContent());
+        Mockito.when(sftpServiceMock.getContent(Mockito.eq(REMOTE_LOCATION + "/release/" + CASE_1 + ".PDF"))).thenReturn(fakeContent());
 
-        sut = new OutputNotificationConsumer(sftpServiceMock, null);
+        SftpProperties sftpProperties= new SftpProperties();
+        sftpProperties.setRemoteLocation(REMOTE_LOCATION);
+
+
+        sut = new OutputNotificationConsumer(sftpServiceMock, sftpProperties);
     }
 
     @Test
@@ -48,3 +55,4 @@ public class OutputNotificationConsumerTest {
 
 
 }
+
