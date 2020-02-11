@@ -5,6 +5,7 @@
     <modules>
         <module>libs/dpsnotification</module>
         <module>libs/figaro-ords-client</module>
+        <module>libs/dps-sftp-starter</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -78,6 +79,7 @@
                 <module>libs/dpsnotification</module>
                 <module>libs/figaro-ords-client</module>
                 <module>libs/vips-ords-client</module>
+                <module>libs/dps-sftp-starter</module>
                 <module>paymentservice</module>
                 <module>dpsvalidationservice</module>
                 <module>figvalidationservice</module>
@@ -116,6 +118,7 @@
             <id>spd-notification-worker</id>
             <modules>
                 <module>libs/dpsnotification</module>
+                <module>libs/dps-sftp-starter</module>
                 <module>spd-notification-worker</module>
             </modules>
         </profile>
@@ -123,6 +126,7 @@
             <id>vips-notification-worker</id>
             <modules>
                 <module>libs/dpsnotification</module>
+                <module>libs/dps-sftp-starter</module>
                 <module>libs/vips-ords-client</module>
                 <module>vips-notification-worker</module>
             </modules>

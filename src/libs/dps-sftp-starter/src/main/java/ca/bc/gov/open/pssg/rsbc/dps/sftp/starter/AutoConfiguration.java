@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.vips.notification.worker.sftp;
+package ca.bc.gov.open.pssg.rsbc.dps.sftp.starter;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties(SftpProperties.class)
-public class SftpConfiguration {
+public class AutoConfiguration {
 
 
     /**

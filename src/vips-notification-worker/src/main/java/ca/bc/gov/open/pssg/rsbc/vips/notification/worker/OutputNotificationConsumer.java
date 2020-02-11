@@ -1,8 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
-import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.sftp.SftpProperties;
-import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.sftp.SftpService;
+import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
+import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -31,7 +31,6 @@ public class OutputNotificationConsumer {
         this.sftpService = sftpService;
         this.sftpProperties = sftpProperties;
     }
-
 
     @RabbitListener(queues = Keys.VIPS_QUEUE_NAME)
     public void receiveMessage(OutputNotificationMessage message) {
