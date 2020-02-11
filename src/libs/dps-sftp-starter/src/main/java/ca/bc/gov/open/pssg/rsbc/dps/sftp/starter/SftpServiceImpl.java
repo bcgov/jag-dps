@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.vips.notification.worker.sftp;
+package ca.bc.gov.open.pssg.rsbc.dps.sftp.starter;
 
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSchException;

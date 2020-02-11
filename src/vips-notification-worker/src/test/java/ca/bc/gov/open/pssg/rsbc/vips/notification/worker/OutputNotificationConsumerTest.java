@@ -1,8 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
-import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.sftp.SftpProperties;
-import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.sftp.SftpService;
+import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
+import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

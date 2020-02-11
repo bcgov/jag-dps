@@ -1,5 +1,5 @@
-package ca.bc.gov.open.pssg.rsbc.vips.notification.worker.sftp;
-
+import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
+import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpServiceImpl;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
