@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author shaunmillargov
  *
  */
-@ConfigurationProperties(prefix = "vips-notification-worker.service.ords.vips.client")
+@ConfigurationProperties(prefix = "ords.vips.client")
 public class OrdsVipsProperties {
 
     private String basePath;

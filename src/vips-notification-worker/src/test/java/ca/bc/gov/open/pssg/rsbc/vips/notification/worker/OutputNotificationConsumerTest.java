@@ -3,6 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;
+import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document.DocumentService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,9 @@ public class OutputNotificationConsumerTest {
     @Mock
     private SftpService sftpServiceMock;
 
+    @Mock
+    private DocumentService documentServiceMock;
+
     private ByteArrayInputStream fakeContent() {
         String content = "fake content";
         return new ByteArrayInputStream(content.getBytes());
@@ -40,7 +44,7 @@ public class OutputNotificationConsumerTest {
         sftpProperties.setRemoteLocation(REMOTE_LOCATION);
 
 
-        sut = new OutputNotificationConsumer(sftpServiceMock, sftpProperties);
+        sut = new OutputNotificationConsumer(sftpServiceMock, sftpProperties, documentServiceMock);
     }
 
     @Test

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:complexType name="KofaxOutputMetadata">
+        <xsd:sequence>
+            <xsd:element name="Data" nillable="true">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="BatchData" nillable="true">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="BatchId" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="FaxReceivedDate" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="ImportDate" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="ImportID" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="OriginatingNumber" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="ProgramType" nillable="true" type="xsd:string"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="DocumentData" nillable="true">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="externalFile" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="adpNumber" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="documentPages" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="dType" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="irpNumber" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="policeFileNo" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="ulNumber" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="validationUser" nillable="true" type="xsd:string"/>
+                                    <xsd:element name="vinoiNumber" nillable="true" type="xsd:string"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
