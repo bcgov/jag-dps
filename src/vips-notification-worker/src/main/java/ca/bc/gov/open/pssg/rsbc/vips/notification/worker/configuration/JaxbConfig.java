@@ -22,7 +22,7 @@ public class JaxbConfig {
      */
     @Bean
     public JAXBContext kofaxOutputMetadataContext() throws JAXBException {
-        logger.info("Configuring prosecution report JAXBContext");
+        logger.info("Configuring kofax output JAXBContext");
         return JAXBContext.newInstance(Data.class);
     }
 
