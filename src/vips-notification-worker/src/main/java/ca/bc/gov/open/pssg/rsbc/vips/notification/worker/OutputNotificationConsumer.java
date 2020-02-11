@@ -3,7 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;
-import ca.bc.gov.open.pssg.rsbc.dps.vips.notification.worker.generated.models.KofaxOutputMetadata;
+import ca.bc.gov.open.pssg.rsbc.dps.vips.notification.worker.generated.models.Data;
 import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document.DocumentService;
 import com.migcomponents.migbase64.Base64;
 import org.slf4j.Logger;
@@ -40,7 +40,8 @@ public class OutputNotificationConsumer {
     private final JAXBContext kofaxOutputMetadataContext;
 
     public OutputNotificationConsumer(SftpService sftpService, SftpProperties sftpProperties,
-                                      DocumentService documentService, @Qualifier("kofaxOutputMetadataContext")JAXBContext kofaxOutputMetadataContext) {
+                                      DocumentService documentService,
+                                      @Qualifier("kofaxOutputMetadataContext")JAXBContext kofaxOutputMetadataContext) {
         this.sftpService = sftpService;
         this.sftpProperties = sftpProperties;
         this.documentService = documentService;
@@ -55,12 +56,11 @@ public class OutputNotificationConsumer {
         logger.info("successfully downloaded file [{}]", buildFileName(message.getFileId(), METATADATA_EXTENSION));
 
         String base64 =  getBase64Metadata(metadata);
-        KofaxOutputMetadata metadataXml = unmarshallMetadataXml(metadata);
+        Data metadataXml = unmarshallMetadataXml(metadata);
 
         logger.info("received message for {}", message.getBusinessAreaCd());
         byte[] image = getImage(message.getFileId());
         logger.info("successfully downloaded file [{}]", buildFileName(message.getFileId(), IMAGE_EXTENSION));
-
     }
 
     private String buildFileName(String fileId, String extension) {
@@ -77,17 +77,14 @@ public class OutputNotificationConsumer {
         return new String(bytes);
     }
 
-
-
     private String getBase64Metadata(String content) {
         return Base64.encodeToString(content.getBytes(), false);
     }
 
-    private KofaxOutputMetadata unmarshallMetadataXml(String content) throws JAXBException {
+    private Data unmarshallMetadataXml(String content) throws JAXBException {
 
         Unmarshaller unmarshaller = this.kofaxOutputMetadataContext.createUnmarshaller();
-        return (KofaxOutputMetadata) unmarshaller.unmarshal(new StringReader(content));
-
+        return (Data) unmarshaller.unmarshal(new StringReader(content));
     }
 
     private byte[] getImage(String fileId) {
@@ -99,8 +96,5 @@ public class OutputNotificationConsumer {
         imageBin.read(bytes, 0, n);
 
         return bytes;
-
     }
-
-
 }
