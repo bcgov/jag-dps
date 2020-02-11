@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import javax.xml.bind.JAXBContext;
 import java.io.ByteArrayInputStream;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -26,6 +27,9 @@ public class OutputNotificationConsumerTest {
 
     @Mock
     private DocumentService documentServiceMock;
+
+    @Mock
+    private JAXBContext jaxbContextMock;
 
     private ByteArrayInputStream fakeContent() {
         String content = "fake content";
@@ -44,7 +48,7 @@ public class OutputNotificationConsumerTest {
         sftpProperties.setRemoteLocation(REMOTE_LOCATION);
 
 
-        sut = new OutputNotificationConsumer(sftpServiceMock, sftpProperties, documentServiceMock);
+        sut = new OutputNotificationConsumer(sftpServiceMock, sftpProperties, documentServiceMock, jaxbContextMock);
     }
 
     @Test
