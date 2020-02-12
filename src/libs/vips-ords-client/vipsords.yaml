@@ -38,8 +38,6 @@ paths:
           description: output of the endpoint
           schema:
             $ref: '#/definitions/errorMessage'
-      consumes:
-        - base64
       parameters:
         - name: type_code
           in: query
@@ -71,7 +69,7 @@ paths:
           required: true
           schema:
             type: string
-            format: byte
+            format: binary
 definitions:
   vipsDocumentOrdsResponse:
     type: object

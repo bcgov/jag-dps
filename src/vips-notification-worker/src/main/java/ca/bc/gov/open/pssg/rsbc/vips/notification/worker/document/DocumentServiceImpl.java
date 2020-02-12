@@ -6,6 +6,8 @@ import ca.bc.gov.open.ords.vips.client.api.model.VipsDocumentOrdsResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+
 
 /**
  * Document Service Implementation using ORDS services.
@@ -22,7 +24,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public VipsDocumentResponse vipsDocument(String typeCode, String metadata, String mimeType, String mimeSubType, String authGuid, byte[] body) {
+    public VipsDocumentResponse vipsDocument(String typeCode, String metadata, String mimeType, String mimeSubType, String authGuid, File body) {
 
         try {
             VipsDocumentOrdsResponse response = this.documentApi.vipsDocumentPost(typeCode, metadata, mimeType, mimeSubType, authGuid, body);
