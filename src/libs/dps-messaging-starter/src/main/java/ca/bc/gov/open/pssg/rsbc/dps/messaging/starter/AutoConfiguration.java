@@ -1,6 +1,5 @@
-package ca.bc.gov.open.pssg.rsbc.spd.notification.worker.messaging;
+package ca.bc.gov.open.pssg.rsbc.dps.messaging.starter;
 
-import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.Keys;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -10,16 +9,15 @@ import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
-/**
- * Configures RabbitMq Producer
- *
- *
- * @author alexjoybc@github
- *
- */
 @Configuration
-public class RabbitMqConfiguration {
+public class AutoConfiguration {
+
+
+    private final DpsMessagingProperties dpsMessagingProperties;
+
+    public AutoConfiguration(DpsMessagingProperties dpsMessagingProperties) {
+        this.dpsMessagingProperties = dpsMessagingProperties;
+    }
 
     /**
      * Configures the rabbitMq connection factory.
@@ -46,19 +44,19 @@ public class RabbitMqConfiguration {
     @Bean
     public Queue crrpOutputNotificationQueue() {
         return QueueBuilder
-                .durable(Keys.CRRP_QUEUE_NAME)
+                .durable(dpsMessagingProperties.getQueueName())
                 .build();
     }
 
     @Bean
     public TopicExchange outputNotificationTopic() {
-        return new TopicExchange(Keys.OUTPUT_NOTIFICATION_VALUE, true, false);
+        return new TopicExchange(dpsMessagingProperties.getExchangeName(), true, false);
     }
 
     @Bean
     public Binding documentReadyBinding(Queue crrpOutputNotificationQueue, TopicExchange outputNotificationTopic) {
         return BindingBuilder.bind(crrpOutputNotificationQueue).to(outputNotificationTopic)
-                .with(Keys.CRRP_VALUE);
+                .with(dpsMessagingProperties.getRoutingKey());
     }
 
     @Bean
