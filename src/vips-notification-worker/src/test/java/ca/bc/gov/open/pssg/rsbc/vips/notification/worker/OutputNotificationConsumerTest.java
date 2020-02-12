@@ -3,7 +3,9 @@ package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;
+import ca.bc.gov.open.pssg.rsbc.dps.vips.notification.worker.generated.models.Data;
 import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document.DocumentService;
+import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document.VipsDocumentResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,16 +14,19 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import ca.bc.gov.open.pssg.rsbc.dps.vips.notification.worker.generated.models.Data;
-
-import javax.xml.bind.JAXBContext;
 import java.io.ByteArrayInputStream;
 import java.io.Reader;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class OutputNotificationConsumerTest {
+
+    private static final String TYPE_CODE_SUCCESS = "1";
+    private static final String DOCUMENT_ID = "123";
+    private static final String STATUS_CODE = "0";
+    private static final String STATUS_MESSAGE = "success";
 
     public static final String CASE_1 = "case1";
     public static final String REMOTE_LOCATION = "remote";
@@ -38,9 +43,6 @@ public class OutputNotificationConsumerTest {
 
     @Mock
     private Unmarshaller unmarshallerMock;
-
-    @Mock
-    private Data dataMock;
 
     private ByteArrayInputStream fakeContent() {
         String content = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n" +
@@ -75,11 +77,18 @@ public class OutputNotificationConsumerTest {
         Mockito.when(sftpServiceMock.getContent(Mockito.eq(REMOTE_LOCATION + "/release/" + CASE_1 + ".xml"))).thenReturn(fakeContent());
         Mockito.when(sftpServiceMock.getContent(Mockito.eq(REMOTE_LOCATION + "/release/" + CASE_1 + ".PDF"))).thenReturn(fakeContent());
 
-        SftpProperties sftpProperties= new SftpProperties();
+        SftpProperties sftpProperties = new SftpProperties();
         sftpProperties.setRemoteLocation(REMOTE_LOCATION);
 
+        Data dataSuccess = new Data();
+        dataSuccess.setDocumentData(new Data.DocumentData());
+        dataSuccess.getDocumentData().setDType(TYPE_CODE_SUCCESS);
+
         Mockito.when(jaxbContextMock.createUnmarshaller()).thenReturn(unmarshallerMock);
-        Mockito.when(unmarshallerMock.unmarshal(Mockito.any(Reader.class))).thenReturn(dataMock);
+        Mockito.when(unmarshallerMock.unmarshal(Mockito.any(Reader.class))).thenReturn(dataSuccess);
+
+        VipsDocumentResponse successResponse = VipsDocumentResponse.SuccessResponse(DOCUMENT_ID, STATUS_CODE, STATUS_MESSAGE);
+        Mockito.when(documentServiceMock.vipsDocument( Mockito.eq(TYPE_CODE_SUCCESS), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),Mockito.any())).thenReturn(successResponse);
 
         sut = new OutputNotificationConsumer(sftpServiceMock, sftpProperties, documentServiceMock, jaxbContextMock);
     }
