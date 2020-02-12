@@ -65,13 +65,6 @@ public class OutputNotificationConsumer {
         File image = getImage(message.getFileId());
         logger.info("successfully downloaded file [{}]", buildFileName(message.getFileId(), IMAGE_EXTENSION));
 
-        // base64 has the / slash character which confuses ords parsing of urls.
-        // instead convert / to - which is used by other base64 encoders.
-        // see:  https://en.wikipedia.org/wiki/base64#variants_summary_table
-        base64Metadata = base64Metadata.replace('/','_');
-        base64Metadata = base64Metadata.replace('+','-');
-        base64Metadata = base64Metadata.replaceAll("\r\n", "");
-
         VipsDocumentResponse vipsDocumentResponse = documentService.vipsDocument(metadataXml.getDocumentData().getDType(), base64Metadata, MIME, MIME_SUBTYPE, "unused", image);
         logger.info("vipsDocumentResponse: documentId {}, respCode {}, respMsg {}", vipsDocumentResponse.getDocumentId(), vipsDocumentResponse.getRespCode(), vipsDocumentResponse.getRespMsg());
     }
@@ -91,7 +84,16 @@ public class OutputNotificationConsumer {
     }
 
     private String getBase64Metadata(String content) {
-        return Base64.encodeToString(content.getBytes(), false);
+        String base64Metadata = Base64.encodeToString(content.getBytes(), false);
+
+        // base64 has the / slash character which confuses ords parsing of urls.
+        // instead convert / to - which is used by other base64 encoders.
+        // see:  https://en.wikipedia.org/wiki/base64#variants_summary_table
+        base64Metadata = base64Metadata.replace('/','_');
+        base64Metadata = base64Metadata.replace('+','-');
+        base64Metadata = base64Metadata.replaceAll("\r\n", "");
+
+        return base64Metadata;
     }
 
     private Data unmarshallMetadataXml(String content) throws JAXBException {
