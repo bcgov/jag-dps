@@ -1,14 +1,13 @@
 {
 	"info": {
-
-		"_postman_id": "878451f8-6f9d-409e-8319-3ccde41ff775",
+		"_postman_id": "b83487b2-e0a7-42a2-a8a0-62f6923c831f",
 		"name": "DPS-Service-Api",
 		"description": "A Collection of request to test DPS Service Api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "dsp-validation-service",
+			"name": "dps-validation-service",
 			"item": [
 				{
 					"name": "getValidOpenDFCMCase",
@@ -19,16 +18,16 @@
 								"id": "db152f0b-fda9-446a-9855-e897ebc24584",
 								"exec": [
 									"",
-									"pm.test(\"Status code is 200\", function () {",
+									"pm.test(\"Status code is 200\", () => {",
 									"    pm.response.to.have.status(200);",
 									"});",
 									"",
-									"var responseJson = xml2Json(responseBody);",
-									"var respInt = pm.expect(responseJson.GetValidOpenDFCMCase.int);",
-									"var respCaseDesc = pm.expect(responseJson.GetValidOpenDFCMCase.caseDesc);",
+									"const responseJson = xml2Json(responseBody);",
+									"const respInt = pm.expect(responseJson.GetValidOpenDFCMCase.int);",
+									"const respCaseDesc = pm.expect(responseJson.GetValidOpenDFCMCase.caseDesc);",
 									"",
 									"// Validates the positive inputs",
-									"pm.test(\"Should match the valid expected results\", function() {",
+									"pm.test(\"Should match the valid expected results\", () => {",
 									"    if(pm.iterationData.get('validData'=== true)) {",
 									"   respCaseDesc.to.eql(pm.iterationData.get('expectedCase'));",
 									"   respInt.to.eql(pm.iterationData.get('expectedInt'));",
@@ -36,7 +35,7 @@
 									"});",
 									"",
 									"// Validates the negative inputs",
-									"pm.test(\"Should accept valid data only\", function() {",
+									"pm.test(\"Should accept valid data only\", () => {",
 									"    if(pm.iterationData.get('isValid'=== true)) {",
 									"        respCaseDesc.to.be.a('String').that.is.not.empty;",
 									"        respInt.to.eql(pm.iterationData.get('expectedInt'));",
@@ -46,7 +45,7 @@
 									"    }",
 									"});",
 									"",
-									"pm.test(\"Content-Type is present\", function () {",
+									"pm.test(\"Content-Type is present\", () => {",
 									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
 									"});",
 									"",
@@ -95,7 +94,81 @@
 					},
 					"response": [
 						{
-
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "xml",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/xml"
+								}
+							],
+							"cookie": [],
+							"body": "<element>\n <caseDesc>(string)</caseDesc>\n <int>(string)</int>\n</element>"
+						},
+						{
+							"name": "Not Found",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -167,125 +240,30 @@
 							],
 							"cookie": [],
 							"body": ""
-						},
-						{
-							"name": "Not Found",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"getValidOpenDFCMCase"
-									],
-									"query": [
-										{
-											"key": "driversLicense",
-											"value": "<string>"
-										},
-										{
-											"key": "surcode",
-											"value": "<string>"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "text/plain"
-								}
-							],
-							"cookie": [],
-							"body": ""
-						},
-						{
-							"name": "Forbidden",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"getValidOpenDFCMCase"
-									],
-									"query": [
-										{
-											"key": "driversLicense",
-											"value": "<string>"
-										},
-										{
-											"key": "surcode",
-											"value": "<string>"
-										}
-									]
-								}
-							},
-							"status": "Forbidden",
-							"code": 403,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "text/plain"
-								}
-							],
-							"cookie": [],
-
-
 						}
 					]
 				}
 			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "dps-notification-service",
-			"item": [
+			"event": [
 				{
-					"name": "push notification",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "text/xml",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:jag=\"https://github.com/bcgov/jag-dps\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <jag:outputNotificationRequest>\r\n         <jag:outputNotificationRequest>\r\n            <jag:businessAreaCd>VIPS</jag:businessAreaCd>\r\n            <jag:fileList>\r\n               <!--1 or more repetitions:-->\r\n               <jag:fileId>upload/test.xml</jag:fileId>\r\n            </jag:fileList>\r\n         </jag:outputNotificationRequest>\r\n      </jag:outputNotificationRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
-							"options": {
-								"raw": {
-									"language": "xml"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5054/dpsnotificationservice/ws",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5054",
-							"path": [
-								"dpsnotificationservice",
-								"ws"
-							]
-						}
-					},
-					"response": []
+					"listen": "prerequest",
+					"script": {
+						"id": "441ef714-e17a-4b9c-b2e9-12e787112093",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9a27aa15-3966-42ef-86f1-9f9dae0dc420",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			],
 			"protocolProfileBehavior": {}
