@@ -1,12 +1,12 @@
 [
 {
-      "/ comment": "Test for valid existig record 1",
+  "/ comment": "Test for valid existig record 1",
    
-      "driversLicense": "1000010",
-      "surcode": "PEL",
-      "expectedCase": "ROUTINE - PROFESSIONAL",
-      "expectedInt": "2",
-      "validData": "true"
+  "driversLicense": "1000010",
+  "surcode": "PEL",
+  "expectedCase": "ROUTINE - PROFESSIONAL",
+  "expectedInt": "2",
+  "validData": "true"
 },
 {
    "/ comment": "Test for valid existig record 2",
@@ -75,7 +75,7 @@
    "expectedInt": "-2"
 },
 {
-   "/ comment": "Test for basic sql vulnerability",
+   "/ comment": "Test with sql command",
 
    "driversLicense": "SELECT /*!32302 1/0, */ 1 FROM tablename",
    "surcode": "--comment",
@@ -83,7 +83,7 @@
    "expectedInt": "-2"
 },
 {
-   "/ comment": "Test for basic sql vulnerability",
+   "/ comment": "Test for sql command",
 
    "driversLicense": "--SELECT * FROM information_schema.tables",
    "surcode": "SELECT * FROM all_tables",

@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "7ba03519-98f5-4114-b64d-449e6bb5074e",
+		"name": "DPS-Service-Api-Fig",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "figaro-validation-service",
+			"item": [
+				{
+					"name": "figLocateMatchingApplicants",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "bb4c7b8e-2402-4b5e-b7b2-16a30f3e78bc",
+								"exec": [
+									"pm.environment.set(\"baseUrl\", 'http://localhost:5050');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "fc645a38-3dc4-42c9-9c93-8dd362033cd4",
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const jsonResponse = xml2Json(responseBody);",
+									"const respBodyObj = pm.expect(jsonResponse.locateMatchingApplicantsResponse);",
+									"",
+									"pm.test(\"Assert the responses for a valid request\", () => {",
+									"    if(pm.iterationData.get(\"isValid\" === true)) {",
+									"        (respBodyObj.foundPartyId).to.be.a(int).and.not.to.be.empty;",
+									"        (respBodyObj.foundSurname).to.eql(pm.iterationData.get('applSurname'));",
+									"        (respBodyObj.firstName).to.eql(pm.iterationData.get('applFirstName'));",
+									"        (respBodyObj.foundBirthDate).to.eql(pm.iterationData.get('applBirthDate'));",
+									"        (respBodyObj.foundDriversLicence).to.be.a(int).and.not.to.be.empty;",
+									"        (respBodyObj.foundBirthPlace).to.eql(pm.iterationData.get('applBirthPlace'));",
+									"        (respBodyObj.genderfoundGenderTxt).to.eql(pm.iterationData.get('applGenderTxt'));",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respCode).to.eql(\"1\");",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respMsg).to.include(\"Success - found Party Id\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert the response for invalid request\", () => {",
+									"    if(pm.iterationData.get(\"isValid\" === false)){",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respCode).to.eql(\"0\");",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respMsg).to.eql(\"No matches found - new Applicant will be created in FIGARO.\");",
+									"    }",
+									"});",
+									"        ",
+									"pm.test(\"Assert the response for failed request\", () => {",
+									"    if(pm.iterationData.get(\"isValid\" === 'fail')) {",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respCode).to.eql(\"-1\");",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respMsg).to.eql(\"F\");",
+									"    }",
+									"});",
+									"   ",
+									"pm.test(\"Content-Type is present and xml\", () => {",
+									"    pm.response.to.have.header(\"Content-Type\", 'application/xml');",
+									"});",
+									"",
+									"    "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/figvalidationservice/locateMatchingApplicants?applSurname={{applSurname}}&applFirstName={{applFirstName}}&applBirthDate={{applBirthDate}}&applBirthPlace={{applBirthPlace}}&applGenderTxt={{applGenderTxt}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"figvalidationservice",
+								"locateMatchingApplicants"
+							],
+							"query": [
+								{
+									"key": "applSurname",
+									"value": "{{applSurname}}"
+								},
+								{
+									"key": "applFirstName",
+									"value": "{{applFirstName}}"
+								},
+								{
+									"key": "applBirthDate",
+									"value": "{{applBirthDate}}"
+								},
+								{
+									"key": "applBirthPlace",
+									"value": "{{applBirthPlace}}"
+								},
+								{
+									"key": "applGenderTxt",
+									"value": "{{applGenderTxt}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
