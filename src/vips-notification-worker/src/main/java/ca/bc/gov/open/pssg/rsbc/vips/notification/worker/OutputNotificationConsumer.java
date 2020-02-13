@@ -33,6 +33,8 @@ public class OutputNotificationConsumer {
     private static final String MIME = "application";
     private static final String MIME_SUBTYPE = "pdf";
 
+    private static final int SUCCESS_CODE = 0;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final SftpService sftpService;
@@ -51,30 +53,58 @@ public class OutputNotificationConsumer {
     }
 
     @RabbitListener(queues = Keys.VIPS_QUEUE_NAME)
-    public void receiveMessage(OutputNotificationMessage message) throws JAXBException, IOException {
+    public void receiveMessage(OutputNotificationMessage message) throws JAXBException {
 
         logger.info("received message for {}", message.getBusinessAreaCd());
-        String metadata = getMetadata(message.getFileId());
-        logger.info("successfully downloaded file [{}]", buildFileName(message.getFileId(), METATADATA_EXTENSION));
+        String metadataReleaseFileName = buildFileName(message.getFileId(), Keys.SFTP_RELEASE_DIR, METATADATA_EXTENSION);
+        String metadata = getMetadata(metadataReleaseFileName);
+        logger.info("successfully downloaded file [{}]", metadataReleaseFileName);
 
         logger.info("metadata: {}", metadata);
         String base64Metadata =  getBase64Metadata(metadata);
         Data metadataXml = unmarshallMetadataXml(metadata);
 
         logger.info("received message for {}", message.getBusinessAreaCd());
-        File image = getImage(message.getFileId());
-        logger.info("successfully downloaded file [{}]", buildFileName(message.getFileId(), IMAGE_EXTENSION));
+        try {
 
-        VipsDocumentResponse vipsDocumentResponse = documentService.vipsDocument(metadataXml.getDocumentData().getDType(), base64Metadata, MIME, MIME_SUBTYPE, "unused", image);
-        logger.info("vipsDocumentResponse: documentId {}, respCode {}, respMsg {}", vipsDocumentResponse.getDocumentId(), vipsDocumentResponse.getRespCode(), vipsDocumentResponse.getRespMsg());
+            File image = null;
+            String imageReleaseFileName = buildFileName(message.getFileId(), Keys.SFTP_RELEASE_DIR, IMAGE_EXTENSION);
+            image = getImage(message.getFileId(), imageReleaseFileName);
+            logger.info("successfully downloaded file [{}]", imageReleaseFileName);
+
+            VipsDocumentResponse vipsDocumentResponse = documentService.vipsDocument(metadataXml.getDocumentData().getDType(), base64Metadata, MIME, MIME_SUBTYPE, "unused", image);
+            logger.info("vipsDocumentResponse: documentId {}, respCode {}, respMsg {}", vipsDocumentResponse.getDocumentId(), vipsDocumentResponse.getRespCode(), vipsDocumentResponse.getRespMsg());
+
+            if (vipsDocumentResponse.getRespCode() == SUCCESS_CODE) {
+                // Move xml and pdf files to archive directory
+                moveFiles(message.getFileId(), Keys.SFTP_ARCHIVE_DIR, metadataReleaseFileName, imageReleaseFileName);
+            } else {
+                // Move xml and pdf files to error directory
+                moveFiles(message.getFileId(), Keys.SFTP_ERROR_DIR, metadataReleaseFileName, imageReleaseFileName);
+            }
+
+        } catch (IOException e) {
+            logger.error("IOException while trying to get file from sftp server {}", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    private String buildFileName(String fileId, String extension) {
-        return MessageFormat.format("{0}/release/{1}.{2}",sftpProperties.getRemoteLocation(), fileId, extension);
+    private void moveFiles(String fileId, String directory, String xmlFileName, String pdfFileName) {
+        String destinationFilename = buildFileName(fileId, directory, METATADATA_EXTENSION);
+        logger.info("move file from {} to {}", xmlFileName, destinationFilename);
+        sftpService.moveFile(xmlFileName, destinationFilename);
+
+        destinationFilename = buildFileName(fileId, directory, IMAGE_EXTENSION);
+        logger.info("move file from {} to {}", pdfFileName, destinationFilename);
+        sftpService.moveFile(pdfFileName, destinationFilename);
     }
 
-    private String getMetadata(String fileId) {
-        ByteArrayInputStream metadataBin = sftpService.getContent(buildFileName(fileId, METATADATA_EXTENSION));
+    private String buildFileName(String fileId, String directory, String extension) {
+        return MessageFormat.format("{0}/{1}/{2}.{3}", sftpProperties.getRemoteLocation(), directory, fileId, extension);
+    }
+
+    private String getMetadata(String xmlReleaseFileName) {
+        ByteArrayInputStream metadataBin = sftpService.getContent(xmlReleaseFileName);
 
         int n = metadataBin.available();
         byte[] bytes = new byte[n];
@@ -101,9 +131,8 @@ public class OutputNotificationConsumer {
         return (Data) unmarshaller.unmarshal(new StringReader(content));
     }
 
-    private File getImage(String fileId) throws IOException {
+    private File getImage(String fileId, String filename) throws IOException {
 
-        String filename = buildFileName(fileId, IMAGE_EXTENSION);
         logger.info("sftp filename: {}", filename);
         ByteArrayInputStream imageBin = sftpService.getContent(filename);
 

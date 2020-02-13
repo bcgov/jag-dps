@@ -4,4 +4,6 @@ import java.io.ByteArrayInputStream;
 
 public interface SftpService {
     ByteArrayInputStream getContent(String remoteFilename) throws DpsSftpException;
+
+    void moveFile(String remoteFileName, String destinationFilename) throws DpsSftpException;
 }

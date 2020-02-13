@@ -23,6 +23,10 @@ public class SftpServiceImplTest {
     public static final String CASE_2 = "case2";
     public static final String CASE_3 = "case3";
     public static final String CASE_4 = "case4";
+
+    public static final String FILE_1 = "file1";
+    public static final String FILE_2 = "file2";
+
     @Mock
     private Session sessionMock;
 
@@ -36,7 +40,6 @@ public class SftpServiceImplTest {
         String result = FAKE_INPUT_STREAM;
 
         return new ByteArrayInputStream(result.getBytes());
-
     }
 
     @BeforeEach
@@ -50,8 +53,10 @@ public class SftpServiceImplTest {
         Mockito.when(channelSftpMock.get(CASE_3)).thenThrow(SftpException.class);
         Mockito.when(channelSftpMock.get(CASE_4)).thenReturn(null);
 
-        sut = new SftpServiceImpl(sessionMock);
+        Mockito.when(channelSftpMock.get(FILE_1)).thenReturn(fakeInputStream());
+        Mockito.when(channelSftpMock.get(FILE_2)).thenReturn(fakeInputStream());
 
+        sut = new SftpServiceImpl(sessionMock);
     }
 
     @Test
@@ -64,7 +69,6 @@ public class SftpServiceImplTest {
         result.read(bytes, 0, n);
 
         Assertions.assertEquals(FAKE_INPUT_STREAM, new String(bytes));
-
     }
 
     @Test
@@ -80,6 +84,11 @@ public class SftpServiceImplTest {
         Assertions.assertThrows(DpsSftpException.class, () -> {
             ByteArrayInputStream result = sut.getContent(CASE_3);
         });
+    }
+
+    @Test
+    public void withValidFileShouldMove() {
+        sut.moveFile(FILE_1, FILE_2);
     }
 
 }
