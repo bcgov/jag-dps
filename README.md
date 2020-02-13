@@ -116,10 +116,16 @@ cd tests/postman
 newman run DPS-Service-Api.postman_collection.json -e dps-local-env.postman_environment.json
 ```
 
-Run the with the datafile
+Run the collection with datafile
 
+DPS Validation Service
 
 ```bash
 cd tests/postman
 newman run DPS-Service-Api.postman_collection.json -e dps-local-env.postman_environment.json -d get-valid-open-dfcm-case-datafile.json
 ```
+Fig validation service
+
+```bash
+ newman run DPS-Service-Api-Fig.postman_collection.json -e dps-local-env.postman_environment.json -d fig-locate-matching-applicants-datafile.json
+ ```
