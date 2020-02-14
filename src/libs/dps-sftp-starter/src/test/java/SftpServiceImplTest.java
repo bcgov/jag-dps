@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -53,9 +54,6 @@ public class SftpServiceImplTest {
         Mockito.when(channelSftpMock.get(CASE_3)).thenThrow(SftpException.class);
         Mockito.when(channelSftpMock.get(CASE_4)).thenReturn(null);
 
-        Mockito.when(channelSftpMock.get(FILE_1)).thenReturn(fakeInputStream());
-        Mockito.when(channelSftpMock.get(FILE_2)).thenReturn(fakeInputStream());
-
         sut = new SftpServiceImpl(sessionMock);
     }
 
@@ -88,7 +86,25 @@ public class SftpServiceImplTest {
 
     @Test
     public void withValidFileShouldMove() {
-        sut.moveFile(FILE_1, FILE_2);
+        Assertions.assertDoesNotThrow( () -> {
+            sut.moveFile(FILE_1, FILE_2);
+        });
+    }
+
+    @Test
+    public void withMoveFileJSchExceptionShouldThrowDpsSftpException() throws JSchException {
+        Mockito.when(sessionMock.openChannel(Mockito.eq("sftp"))).thenThrow(JSchException.class);
+        Assertions.assertThrows(DpsSftpException.class, () -> {
+            sut.moveFile(FILE_1, FILE_2);
+        });
+    }
+
+    @Test
+    public void withMoveFileSftpExceptionShouldThrowDpsSftpException() throws SftpException {
+        Mockito.doThrow(SftpException.class).when(channelSftpMock).rename(Mockito.anyString(), Mockito.anyString());
+        Assertions.assertThrows(DpsSftpException.class, () -> {
+            sut.moveFile(FILE_1, FILE_2);
+        });
     }
 
 }
