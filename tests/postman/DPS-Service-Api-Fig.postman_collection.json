@@ -112,6 +112,88 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "fig-validate-applicant-service",
+			"item": [
+				{
+					"name": "figValidateApplicantService",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "683afee9-3f17-4bbe-a25e-ac2bab22ce32",
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"const jsonResponse = xml2Json(responseBody);",
+									"const respBodyObj = pm.expect(jsonResponse.validateApplicantServiceResponse);",
+									"",
+									"pm.test(\"Assert the responses for a valid request\", () => {",
+									"    if(pm.iterationData.get(\"isValid\" === true)) {",
+									"        (respBodyObj.validationResult).to.eql('P');",
+									"        (respBodyObj.respCode).to.eql('0');",
+									"        (respBodyObj.respMsg).to.eql('Validation passed');",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert the responses for a invalid request\", () => {",
+									"    if(pm.iterationData.get(\"isValid\" === false)) {",
+									"        (respBodyObj.validationResult).to.eql('F');",
+									"        (respBodyObj.respCode).to.eql('-1');",
+									"        (respBodyObj.respMsg).to.eql('Validation passed');",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert the responses for a valid request with correct format\", () => {",
+									"    if(pm.iterationData.get(\"isValid\" === \"trueFormat\")) {",
+									"        (respBodyObj.validationResult).to.eql('F');",
+									"        (respBodyObj.respCode).to.be.int.and.not.be.empty;",
+									"        (respBodyObj.respMsg).to.include('Validation Failure:');",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/figvalidationservice/validateApplicantService?orgPartyId={{orgPartyID}}&applPartyId={{applPartyId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"figvalidationservice",
+								"validateApplicantService"
+							],
+							"query": [
+								{
+									"key": "orgPartyId",
+									"value": "{{orgPartyID}}"
+								},
+								{
+									"key": "applPartyId",
+									"value": "{{applPartyId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}
