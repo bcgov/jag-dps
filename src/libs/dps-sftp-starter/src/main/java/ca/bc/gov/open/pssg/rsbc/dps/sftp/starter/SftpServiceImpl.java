@@ -33,7 +33,6 @@ public class SftpServiceImpl implements SftpService {
         int bytesRead;
 
         try {
-
             logger.debug("Attempting to open sftp channel");
             channelSftp = (ChannelSftp) session.openChannel("sftp");
             channelSftp.connect();
@@ -70,8 +69,39 @@ public class SftpServiceImpl implements SftpService {
         }
 
         return result;
-
     }
 
+    /**
+     * Move the file to a destination
+     *
+     * @param remoteFileName
+     * @param destinationFilename
+     * @throws DpsSftpException
+     */
+    public void moveFile(String remoteFileName, String destinationFilename) throws DpsSftpException {
 
+        ChannelSftp channelSftp = null;
+
+        try {
+            logger.debug("Attempting to open sftp channel");
+            channelSftp = (ChannelSftp) session.openChannel("sftp");
+            channelSftp.connect();
+            logger.debug("Successfully connected to sftp server");
+
+            channelSftp.rename(remoteFileName, destinationFilename);
+            logger.debug("Successfully renamed files on the sftp server from {} to {}", remoteFileName, destinationFilename);
+
+        } catch (JSchException e) {
+            logger.error("JSchException while trying to get file from sftp server {}", e.getMessage());
+            e.printStackTrace();
+            throw new DpsSftpException(e.getMessage(), e.getCause());
+        } catch (SftpException e) {
+            logger.error("SftpException while trying to get file from sftp server {}", e.getMessage());
+            e.printStackTrace();
+            throw new DpsSftpException(e.getMessage(), e.getCause());
+        } finally {
+            if(channelSftp != null && channelSftp.isConnected())
+                channelSftp.disconnect();
+        }
+    }
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -23,6 +24,10 @@ public class SftpServiceImplTest {
     public static final String CASE_2 = "case2";
     public static final String CASE_3 = "case3";
     public static final String CASE_4 = "case4";
+
+    public static final String FILE_1 = "file1";
+    public static final String FILE_2 = "file2";
+
     @Mock
     private Session sessionMock;
 
@@ -36,7 +41,6 @@ public class SftpServiceImplTest {
         String result = FAKE_INPUT_STREAM;
 
         return new ByteArrayInputStream(result.getBytes());
-
     }
 
     @BeforeEach
@@ -51,7 +55,6 @@ public class SftpServiceImplTest {
         Mockito.when(channelSftpMock.get(CASE_4)).thenReturn(null);
 
         sut = new SftpServiceImpl(sessionMock);
-
     }
 
     @Test
@@ -64,7 +67,6 @@ public class SftpServiceImplTest {
         result.read(bytes, 0, n);
 
         Assertions.assertEquals(FAKE_INPUT_STREAM, new String(bytes));
-
     }
 
     @Test
@@ -79,6 +81,29 @@ public class SftpServiceImplTest {
     public void withSftpExceptionShouldThrowDpsSftpException() {
         Assertions.assertThrows(DpsSftpException.class, () -> {
             ByteArrayInputStream result = sut.getContent(CASE_3);
+        });
+    }
+
+    @Test
+    public void withValidFileShouldMove() {
+        Assertions.assertDoesNotThrow( () -> {
+            sut.moveFile(FILE_1, FILE_2);
+        });
+    }
+
+    @Test
+    public void withMoveFileJSchExceptionShouldThrowDpsSftpException() throws JSchException {
+        Mockito.when(sessionMock.openChannel(Mockito.eq("sftp"))).thenThrow(JSchException.class);
+        Assertions.assertThrows(DpsSftpException.class, () -> {
+            sut.moveFile(FILE_1, FILE_2);
+        });
+    }
+
+    @Test
+    public void withMoveFileSftpExceptionShouldThrowDpsSftpException() throws SftpException {
+        Mockito.doThrow(SftpException.class).when(channelSftpMock).rename(Mockito.anyString(), Mockito.anyString());
+        Assertions.assertThrows(DpsSftpException.class, () -> {
+            sut.moveFile(FILE_1, FILE_2);
         });
     }
 
