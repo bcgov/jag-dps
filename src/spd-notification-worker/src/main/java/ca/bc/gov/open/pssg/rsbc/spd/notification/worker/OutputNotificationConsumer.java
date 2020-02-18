@@ -1,6 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.spd.notification.worker;
 
-import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
+import ca.bc.gov.open.pssg.rsbc.dps.files.notification.OutputNotificationMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

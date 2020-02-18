@@ -3,10 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
-        <module>libs/dpsnotification</module>
+        <module>libs/dps-notification</module>
         <module>libs/figaro-ords-client</module>
         <module>libs/dps-sftp-starter</module>
         <module>libs/dps-messaging-starter</module>
+        <module>libs/dps-files</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -71,13 +72,14 @@
         <profile>
             <id>libs</id>
             <modules>
-                <module>libs/dpsnotification</module>
+                <module>libs/dps-notification</module>
             </modules>
         </profile>
         <profile>
             <id>all</id>
             <modules>
-                <module>libs/dpsnotification</module>
+                <module>libs/dps-notification</module>
+                <module>libs/dps-files</module>
                 <module>libs/figaro-ords-client</module>
                 <module>libs/vips-ords-client</module>
                 <module>libs/dps-sftp-starter</module>
@@ -112,14 +114,15 @@
         <profile>
             <id>dpsnotificationservice</id>
             <modules>
-                <module>libs/dpsnotification</module>
+                <module>libs/dps-notification</module>
                 <module>dpsnotificationservice</module>
             </modules>
         </profile>
         <profile>
             <id>spd-notification-worker</id>
             <modules>
-                <module>libs/dpsnotification</module>
+                <module>libs/dps-notification</module>
+                <module>libs/dps-files</module>
                 <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/figaro-ords-client</module>
@@ -129,7 +132,8 @@
         <profile>
             <id>vips-notification-worker</id>
             <modules>
-                <module>libs/dpsnotification</module>
+                <module>libs/dps-notification</module>
+                <module>libs/dps-files</module>
                 <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/vips-ords-client</module>

@@ -48,8 +48,8 @@
         </dependency>
 
         <dependency>
-            <groupId>ca.bc.gov.open</groupId>
-            <artifactId>dpsnotification</artifactId>
+            <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
+            <artifactId>dps-notification</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

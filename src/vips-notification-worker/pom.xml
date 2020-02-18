@@ -70,8 +70,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>ca.bc.gov.open</groupId>
-			<artifactId>dpsnotification</artifactId>
+			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
+			<artifactId>dps-notification</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
@@ -90,6 +90,12 @@
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-messaging-starter</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
+			<artifactId>dps-files</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
