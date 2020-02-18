@@ -3,21 +3,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>ca.bc.gov.open</groupId>
-        <artifactId>dps</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath>
-          ../pom.xml
-        </relativePath>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.4.RELEASE</version>
+        <relativePath/>
     </parent>
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
-    <artifactId>figvalidationservice</artifactId>
+    <artifactId>figaro-validation-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>figvalidationservice</name>
+    <name>figaro-validation-service</name>
     <description>FIGARO DPS Validation Service module</description>
 
     <properties>
-        <!-- include properties that are specific to dpsvalidationservice -->
+        <java.version>1.8</java.version>
+        <springfox-swagger-version>2.6.1</springfox-swagger-version>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <default-package>ca.bc.gov.open.ords.figcr.client</default-package>
         <swagger-annotations-version>1.5.8</swagger-annotations-version>
         <jersey-version>2.27</jersey-version>
@@ -28,12 +28,49 @@
     </properties>
 
     <dependencies>
-        
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-swagger-version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-swagger-version}</version>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
@@ -69,12 +106,12 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>${jersey-version}</version>
         </dependency>
-        
-         <dependency>
-			<groupId>org.glassfish.jersey.inject</groupId>
-			<artifactId>jersey-hk2</artifactId>
-			 <version>${jersey-version}</version>
-		</dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey-version}</version>
+        </dependency>
 
         <!-- @Nullable annotation -->
         <dependency>
@@ -140,9 +177,9 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        
+
     </dependencies>
-    
+
     <profiles>
         <profile>
 

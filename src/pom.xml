@@ -86,7 +86,7 @@
                 <module>libs/dps-messaging-starter</module>
                 <module>paymentservice</module>
                 <module>dpsvalidationservice</module>
-                <module>figvalidationservice</module>
+                <module>figaro-validation-service</module>
                 <module>dpsnotificationservice</module>
                 <module>spd-notification-worker</module>
                 <module>vips-notification-worker</module>
@@ -105,10 +105,10 @@
             </modules>
         </profile>
         <profile>
-            <id>figvalidationservice</id>
+            <id>figaro-validation-service</id>
             <modules>
                 <module>libs/figaro-ords-client</module>
-                <module>figvalidationservice</module>
+                <module>figaro-validation-service</module>
             </modules>
         </profile>
         <profile>
