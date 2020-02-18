@@ -5,20 +5,20 @@ A Document Processing System.
 ## Project Structure
 
     .
-    ├── .github                     # Contains GitHub Related sources
-    ├── configurations              # 
-    ├── openshift                   # openshift templates and pipeline
-    ├── src/                        # application source files
-    │   ├── spdnotificationworker/     # SPD Notification Worker
-    │   ├── dpsnotificationservice/ # DPS Notification service  
-    │   ├── dpsvalidationservice/   # DPS DFCM service
-    |   ├── figvalidationservice/   # DPS Figaro Validator service
-    |   ├── paymentservice/         # DPS payment service
-    │   └── service-api             # DPS service api
-    ├── tests                       # Tests files
-    ├── docker-compose.yml          # docker compose definition
-    ├── LICENSE                     # Apache License
-    └── README.md                   # This file.
+    ├── .github                             # Contains GitHub Related sources
+    ├── configurations                      # 
+    ├── openshift                           # openshift templates and pipeline
+    ├── src/                                # application source files
+    │   ├── spdnotificationworker/             # SPD Notification Worker
+    │   ├── dpsnotificationservice/         # DPS Notification service  
+    │   ├── dpsvalidationservice/           # DPS DFCM service
+    |   ├── figaro-validation-service/      # DPS Figaro Validator service
+    |   ├── paymentservice/                 # DPS payment service
+    │   └── service-api                     # DPS service api
+    ├── tests                               # Tests files
+    ├── docker-compose.yml                  # docker compose definition
+    ├── LICENSE                             # Apache License
+    └── README.md                           # This file.
 
 ## Run
 
@@ -56,7 +56,7 @@ docker-compose up --build -d
 | CRRP Notification Worker| [Doc](src/crrp-notification-worker/README.md) | |
 | DPS Notification Service| [Doc](src/dpsnotificationservice/README.md) | |
 | DPS Validation Service | [Doc](src/dpsvalidationservice/README.md) | |
-| Figaro Validation Service | [Doc](src/figvalidationservice/README.md) | |
+| Figaro Validation Service | [Doc](src/figaro-validation-service/README.md) | |
 | VIPS Notification Worker| [Doc](src/vips-notification-worker/README.md) | |
 
 ## Endpoints
