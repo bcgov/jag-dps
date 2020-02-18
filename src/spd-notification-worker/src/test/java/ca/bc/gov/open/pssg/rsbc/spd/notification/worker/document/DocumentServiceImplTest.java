@@ -4,6 +4,8 @@ import ca.bc.gov.open.ords.figcr.client.api.DocumentApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.DpsDataIntoFigaroOrdsRequestBody;
 import ca.bc.gov.open.ords.figcr.client.api.model.DpsDataIntoFigaroOrdsResponse;
+import ca.bc.gov.open.ords.figcr.client.api.model.DpsDocumentOrdsRequestBody;
+import ca.bc.gov.open.ords.figcr.client.api.model.DpsDocumentOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.FigaroServiceConstants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,6 +25,12 @@ public class DocumentServiceImplTest {
     private static final String SCHEDULE_TYPE_SUCCESS = "1";
     private static final String SCHEDULE_TYPE_FAIL = "2";
     private static final String SCHEDULE_TYPE_EXCEPTION = "3";
+
+    private static final String GUID = "123";
+    private static final String SERVER_NAME_SUCCESS = "1";
+    private static final String SERVER_NAME_FAIL  = "2";
+    private static final String SERVER_NAME_EXCEPTION = "3";
+
     private static final String STATUS_CODE = "0";
     private static final String STATUS_MESSAGE = "success";
     private static final String ERROR_MESSAGE = "error";
@@ -35,6 +43,8 @@ public class DocumentServiceImplTest {
     public void setup() throws ApiException {
         MockitoAnnotations.initMocks(this);
 
+        //-------------------------------------
+        // Setup related to dpsDataIntoFigaroPost
         DpsDataIntoFigaroOrdsResponse successResponse = new DpsDataIntoFigaroOrdsResponse();
         successResponse.setStatusMessage(STATUS_MESSAGE);
         successResponse.setStatusCode(STATUS_CODE);
@@ -47,13 +57,38 @@ public class DocumentServiceImplTest {
         successRequestBody.setScheduleType(SCHEDULE_TYPE_SUCCESS);
         Mockito.doReturn(successResponse).when(documentApiMock).dpsDataIntoFigaroPost(ArgumentMatchers.argThat(x -> x.getScheduleType().equals(SCHEDULE_TYPE_SUCCESS)));
 
-        DpsDataIntoFigaroOrdsRequestBody failRequestBody = new DpsDataIntoFigaroOrdsRequestBody();
-        failRequestBody.setScheduleType(SCHEDULE_TYPE_FAIL);
+        DpsDataIntoFigaroOrdsRequestBody errorRequestBody = new DpsDataIntoFigaroOrdsRequestBody();
+        errorRequestBody.setScheduleType(SCHEDULE_TYPE_FAIL);
         Mockito.doReturn(errorResponse).when(documentApiMock).dpsDataIntoFigaroPost(ArgumentMatchers.argThat(x -> x.getScheduleType().equals(SCHEDULE_TYPE_FAIL)));
 
         DpsDataIntoFigaroOrdsRequestBody exceptionRequestBody = new DpsDataIntoFigaroOrdsRequestBody();
         exceptionRequestBody.setScheduleType(SCHEDULE_TYPE_EXCEPTION);
         Mockito.doThrow(new ApiException(API_EXCEPTION)).when(documentApiMock).dpsDataIntoFigaroPost(ArgumentMatchers.argThat(x -> x.getScheduleType().equals(SCHEDULE_TYPE_EXCEPTION)));
+
+        //-------------------------------------
+        // Setup related to dpsDocumentPost
+        DpsDocumentOrdsResponse success2Response = new DpsDocumentOrdsResponse();
+        success2Response.setGuid(GUID);
+        success2Response.setStatusMessage(STATUS_MESSAGE);
+        success2Response.setStatusCode(STATUS_CODE);
+
+        DpsDocumentOrdsResponse error2Response = new DpsDocumentOrdsResponse();
+        error2Response.setGuid("");
+        error2Response.setStatusMessage(ERROR_MESSAGE);
+        error2Response.setStatusCode(ERROR_CODE);
+
+        DpsDocumentOrdsRequestBody success2RequestBody = new DpsDocumentOrdsRequestBody();
+        success2RequestBody.setServerName(SERVER_NAME_SUCCESS);
+        Mockito.doReturn(success2Response).when(documentApiMock).dpsDocumentPost(ArgumentMatchers.argThat(x -> x.getServerName().equals(SERVER_NAME_SUCCESS)));
+
+        DpsDocumentOrdsRequestBody error2RequestBody = new DpsDocumentOrdsRequestBody();
+        error2RequestBody.setServerName(SERVER_NAME_FAIL);
+        Mockito.doReturn(error2Response).when(documentApiMock).dpsDocumentPost(ArgumentMatchers.argThat(x -> x.getServerName().equals(SERVER_NAME_FAIL)));
+
+        DpsDocumentOrdsRequestBody exception2RequestBody = new DpsDocumentOrdsRequestBody();
+        exception2RequestBody.setServerName(SERVER_NAME_EXCEPTION);
+        Mockito.doThrow(new ApiException(API_EXCEPTION)).when(documentApiMock).dpsDocumentPost(ArgumentMatchers.argThat(x -> x.getServerName().equals(SERVER_NAME_EXCEPTION)));
+
 
         sut = new DocumentServiceImpl(documentApiMock);
     }
@@ -83,6 +118,37 @@ public class DocumentServiceImplTest {
 
         DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody(SCHEDULE_TYPE_EXCEPTION, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
         DpsDataIntoFigaroResponse result = sut.dpsDataIntoFigaro(request);
+
+        Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
+    }
+
+    @Test
+    public void withValid2ResponseShouldReturnValidResponse() {
+
+        DpsDocumentRequestBody request = new DpsDocumentRequestBody(SERVER_NAME_SUCCESS, "a");
+        DpsDocumentResponse result = sut.dpsDocument(request);
+
+        Assertions.assertEquals(GUID, result.getGuid());
+        Assertions.assertEquals(0, result.getRespCode());
+        Assertions.assertEquals(STATUS_MESSAGE, result.getRespMsg());
+    }
+
+    @Test
+    public void withInvalid2ResponseShouldReturnValid() {
+
+        DpsDocumentRequestBody request = new DpsDocumentRequestBody(SERVER_NAME_FAIL, "a");
+        DpsDocumentResponse result = sut.dpsDocument(request);
+
+        Assertions.assertEquals(-2, result.getRespCode());
+        Assertions.assertEquals(ERROR_MESSAGE, result.getRespMsg());
+    }
+
+    @Test
+    public void withApi2ExceptionShouldReturnValid() {
+
+        DpsDocumentRequestBody request = new DpsDocumentRequestBody(SERVER_NAME_EXCEPTION, "a");
+        DpsDocumentResponse result = sut.dpsDocument(request);
 
         Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_FAILURE_CD, result.getRespCode());
         Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_BOOLEAN_FALSE, result.getRespMsg());

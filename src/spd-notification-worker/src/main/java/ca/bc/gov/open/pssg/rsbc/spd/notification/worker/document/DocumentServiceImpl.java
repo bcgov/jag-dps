@@ -4,6 +4,8 @@ import ca.bc.gov.open.ords.figcr.client.api.DocumentApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.DpsDataIntoFigaroOrdsRequestBody;
 import ca.bc.gov.open.ords.figcr.client.api.model.DpsDataIntoFigaroOrdsResponse;
+import ca.bc.gov.open.ords.figcr.client.api.model.DpsDocumentOrdsRequestBody;
+import ca.bc.gov.open.ords.figcr.client.api.model.DpsDocumentOrdsResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +72,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         try {
             DpsDataIntoFigaroOrdsResponse response = this.documentApi.dpsDataIntoFigaroPost(ordsRequestBody);
-            return  DpsDataIntoFigaroResponse.SuccessResponse(response.getStatusCode(), response.getStatusMessage());
+            return DpsDataIntoFigaroResponse.SuccessResponse(response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
 
@@ -78,6 +80,26 @@ public class DocumentServiceImpl implements DocumentService {
             ex.printStackTrace();
 
             return DpsDataIntoFigaroResponse.ErrorResponse(ex.getMessage());
+        }
+    }
+
+    @Override
+    public DpsDocumentResponse dpsDocument(DpsDocumentRequestBody request) {
+
+        DpsDocumentOrdsRequestBody ordsRequestBody = new DpsDocumentOrdsRequestBody();
+        ordsRequestBody.setServerName(request.getServerName());
+        ordsRequestBody.setFileName(request.getFileName());
+
+        try {
+            DpsDocumentOrdsResponse response = this.documentApi.dpsDocumentPost(ordsRequestBody);
+            return DpsDocumentResponse.SuccessResponse(response.getGuid(), response.getStatusCode(), response.getStatusMessage());
+
+        } catch (ApiException ex) {
+
+            logger.error("Document Service did throw exception: " + ex.getMessage());
+            ex.printStackTrace();
+
+            return DpsDocumentResponse.ErrorResponse(ex.getMessage());
         }
     }
 
