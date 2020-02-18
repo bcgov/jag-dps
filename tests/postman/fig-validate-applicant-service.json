@@ -1,0 +1,58 @@
+[
+    {
+        "/ comment": "Valid inputs",
+
+        "orgPartyID": "23444",
+        "applPartyId":"209",
+        "isValid": "true"
+    },
+    {
+        "/ comment": "Valid inputs",
+
+        "orgPartyID": "23444",
+        "applPartyId":"210",
+        "isValid": "true"
+    },
+    {
+        "/ comment": "Invalid inputs",
+
+        "orgPartyID": "Test",
+        "applPartyId":"7828379",
+        "isValid": "false"
+    },
+    {
+        "/ comment": "Invalid inputs",
+
+        "orgPartyID": "&^*(%$",
+        "applPartyId":"Test",
+        "isValid": "false"
+    },
+    {
+        "/ comment": "Invalid inputs",
+
+        "orgPartyID": "-092390",
+        "applPartyId":"<Script>testinput</script>",
+        "isValid": "false"
+    },
+    {
+        "/ comment": "Invalid inputs",
+
+        "orgPartyID": "23434.080",
+        "applPartyId":"1989",
+        "isValid": "false"
+    },
+    {
+        "/ comment": "Invalid inputs",
+
+        "orgPartyID": "1",
+        "applPartyId":"276",
+        "isValid": "trueFormat"
+    },
+    {
+        "/ comment": "Invalid inputs",
+
+        "orgPartyID": "_23444",
+        "applPartyId":"9",
+        "isValid": "false"
+    }
+]
