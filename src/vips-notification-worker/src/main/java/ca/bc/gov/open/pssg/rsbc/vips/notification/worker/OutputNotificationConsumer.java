@@ -1,5 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 
+import ca.bc.gov.open.pssg.rsbc.dps.notification.FileInfo;
+import ca.bc.gov.open.pssg.rsbc.dps.notification.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;
@@ -38,15 +40,17 @@ public class OutputNotificationConsumer {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final SftpService sftpService;
+    private final FileService fileService;
     private final SftpProperties sftpProperties;
     private final DocumentService documentService;
     private final JAXBContext kofaxOutputMetadataContext;
 
     public OutputNotificationConsumer(SftpService sftpService,
-                                      SftpProperties sftpProperties,
+                                      FileService fileService, SftpProperties sftpProperties,
                                       DocumentService documentService,
-                                      @Qualifier("kofaxOutputMetadataContext")JAXBContext kofaxOutputMetadataContext) {
+                                      @Qualifier("kofaxOutputMetadataContext") JAXBContext kofaxOutputMetadataContext) {
         this.sftpService = sftpService;
+        this.fileService = fileService;
         this.sftpProperties = sftpProperties;
         this.documentService = documentService;
         this.kofaxOutputMetadataContext = kofaxOutputMetadataContext;
@@ -55,13 +59,19 @@ public class OutputNotificationConsumer {
     @RabbitListener(queues = Keys.VIPS_QUEUE_NAME)
     public void receiveMessage(OutputNotificationMessage message) throws JAXBException {
 
+
+        FileInfo fileInfo = new FileInfo(message.getFileId(), IMAGE_EXTENSION, sftpProperties.getRemoteLocation(),
+                Keys.SFTP_RELEASE_DIR, Keys.SFTP_ARCHIVE_DIR, Keys.SFTP_ERROR_DIR);
+
+
         logger.info("received message for {}", message.getBusinessAreaCd());
-        String metadataReleaseFileName = buildFileName(message.getFileId(), Keys.SFTP_RELEASE_DIR, METATADATA_EXTENSION);
+        String metadataReleaseFileName = buildFileName(message.getFileId(), Keys.SFTP_RELEASE_DIR,
+                METATADATA_EXTENSION);
         String metadata = getMetadata(metadataReleaseFileName);
         logger.info("successfully downloaded file [{}]", metadataReleaseFileName);
 
         logger.info("metadata: {}", metadata);
-        String base64Metadata =  getBase64Metadata(metadata);
+        String base64Metadata = getBase64Metadata(metadata);
         Data metadataXml = unmarshallMetadataXml(metadata);
 
         logger.info("received message for {}", message.getBusinessAreaCd());
@@ -72,15 +82,19 @@ public class OutputNotificationConsumer {
             image = getImage(message.getFileId(), imageReleaseFileName);
             logger.info("successfully downloaded file [{}]", imageReleaseFileName);
 
-            VipsDocumentResponse vipsDocumentResponse = documentService.vipsDocument(metadataXml.getDocumentData().getDType(), base64Metadata, MIME, MIME_SUBTYPE, "unused", image);
-            logger.info("vipsDocumentResponse: documentId {}, respCode {}, respMsg {}", vipsDocumentResponse.getDocumentId(), vipsDocumentResponse.getRespCode(), vipsDocumentResponse.getRespMsg());
+            VipsDocumentResponse vipsDocumentResponse =
+                    documentService.vipsDocument(metadataXml.getDocumentData().getDType(), base64Metadata, MIME,
+                            MIME_SUBTYPE, "unused", image);
+            logger.info("vipsDocumentResponse: documentId {}, respCode {}, respMsg {}",
+                    vipsDocumentResponse.getDocumentId(), vipsDocumentResponse.getRespCode(),
+                    vipsDocumentResponse.getRespMsg());
 
             if (vipsDocumentResponse.getRespCode() == SUCCESS_CODE) {
                 // Move xml and pdf files to archive directory
-                moveFiles(message.getFileId(), Keys.SFTP_ARCHIVE_DIR, metadataReleaseFileName, imageReleaseFileName);
+                fileService.MoveFilesToArchive(fileInfo);
             } else {
                 // Move xml and pdf files to error directory
-                moveFiles(message.getFileId(), Keys.SFTP_ERROR_DIR, metadataReleaseFileName, imageReleaseFileName);
+                fileService.MoveFilesToError(fileInfo);
             }
 
         } catch (IOException e) {
@@ -89,18 +103,9 @@ public class OutputNotificationConsumer {
         }
     }
 
-    private void moveFiles(String fileId, String directory, String xmlFileName, String pdfFileName) {
-        String destinationFilename = buildFileName(fileId, directory, METATADATA_EXTENSION);
-        logger.info("move file from {} to {}", xmlFileName, destinationFilename);
-        sftpService.moveFile(xmlFileName, destinationFilename);
-
-        destinationFilename = buildFileName(fileId, directory, IMAGE_EXTENSION);
-        logger.info("move file from {} to {}", pdfFileName, destinationFilename);
-        sftpService.moveFile(pdfFileName, destinationFilename);
-    }
-
     private String buildFileName(String fileId, String directory, String extension) {
-        return MessageFormat.format("{0}/{1}/{2}.{3}", sftpProperties.getRemoteLocation(), directory, fileId, extension);
+        return MessageFormat.format("{0}/{1}/{2}.{3}", sftpProperties.getRemoteLocation(), directory, fileId,
+                extension);
     }
 
     private String getMetadata(String xmlReleaseFileName) {
@@ -119,8 +124,8 @@ public class OutputNotificationConsumer {
         // base64 has the / slash character which confuses ords parsing of urls.
         // instead convert / to - which is used by other base64 encoders.
         // see:  https://en.wikipedia.org/wiki/base64#variants_summary_table
-        base64Metadata = base64Metadata.replace('/','_');
-        base64Metadata = base64Metadata.replace('+','-');
+        base64Metadata = base64Metadata.replace('/', '_');
+        base64Metadata = base64Metadata.replace('+', '-');
         base64Metadata = base64Metadata.replaceAll("\r\n", "");
 
         return base64Metadata;

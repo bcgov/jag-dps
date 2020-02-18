@@ -1,5 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 
+import ca.bc.gov.open.pssg.rsbc.dps.notification.FileInfo;
+import ca.bc.gov.open.pssg.rsbc.dps.notification.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;
@@ -34,6 +36,9 @@ public class OutputNotificationConsumerTest {
 
     @Mock
     private SftpService sftpServiceMock;
+
+    @Mock
+    private FileService fileServiceMock;
 
     @Mock
     private DocumentService documentServiceMock;
@@ -77,6 +82,10 @@ public class OutputNotificationConsumerTest {
         Mockito.when(sftpServiceMock.getContent(Mockito.eq(REMOTE_LOCATION + "/release/" + CASE_1 + ".xml"))).thenReturn(fakeContent());
         Mockito.when(sftpServiceMock.getContent(Mockito.eq(REMOTE_LOCATION + "/release/" + CASE_1 + ".PDF"))).thenReturn(fakeContent());
 
+        Mockito.doNothing().when(fileServiceMock).MoveFilesToArchive(Mockito.any(FileInfo.class));
+        Mockito.doNothing().when(fileServiceMock).MoveFilesToError(Mockito.any(FileInfo.class));
+
+
         SftpProperties sftpProperties = new SftpProperties();
         sftpProperties.setRemoteLocation(REMOTE_LOCATION);
 
@@ -90,7 +99,7 @@ public class OutputNotificationConsumerTest {
         VipsDocumentResponse successResponse = VipsDocumentResponse.SuccessResponse(DOCUMENT_ID, STATUS_CODE, STATUS_MESSAGE);
         Mockito.when(documentServiceMock.vipsDocument( Mockito.eq(TYPE_CODE_SUCCESS), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),Mockito.any())).thenReturn(successResponse);
 
-        sut = new OutputNotificationConsumer(sftpServiceMock, sftpProperties, documentServiceMock, jaxbContextMock);
+        sut = new OutputNotificationConsumer(sftpServiceMock, fileServiceMock, sftpProperties, documentServiceMock, jaxbContextMock);
     }
 
     @Test
