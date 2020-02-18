@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.notification;
+package ca.bc.gov.open.pssg.rsbc.dps.files.notification;
 
 /**
  * An outputNotification Message to allow communication between workers

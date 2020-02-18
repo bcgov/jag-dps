@@ -1,6 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.spd.notification.worker;
 
-import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
+import ca.bc.gov.open.pssg.rsbc.dps.files.notification.OutputNotificationMessage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

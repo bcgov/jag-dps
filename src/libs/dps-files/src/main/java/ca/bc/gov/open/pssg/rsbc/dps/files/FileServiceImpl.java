@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.notification;
+package ca.bc.gov.open.pssg.rsbc.dps.files;
 
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;

@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.notification;
+package ca.bc.gov.open.pssg.rsbc.dps.files;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
