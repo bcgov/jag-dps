@@ -18,9 +18,6 @@ public class FileServiceImplTest {
     public static final String FILE_ID = "fileId";
     public static final String IMAGE_EXTENSION = "pdf";
     public static final String ROOT_FOLDER = "rootFolder";
-    public static final String RELEASE_FOLDER_NAME = "releaseFolderName";
-    public static final String ARCHIVE_FOLDER_NAME = "archiveFolderName";
-    public static final String ERROR_FOLDER_NAME = "errorFolderName";
 
     @Mock
     private SftpService sftpServiceMock;
@@ -35,34 +32,34 @@ public class FileServiceImplTest {
     @Test
     public void WithFileInfoItShouldMoveFilesToArchive() {
 
-        FileInfo fileInfo = new FileInfo(FILE_ID, IMAGE_EXTENSION, ROOT_FOLDER, RELEASE_FOLDER_NAME, ARCHIVE_FOLDER_NAME, ERROR_FOLDER_NAME);
+        FileInfo fileInfo = new FileInfo(FILE_ID, IMAGE_EXTENSION, ROOT_FOLDER);
 
-        Assertions.assertDoesNotThrow(() -> sut.MoveFilesToArchive(fileInfo));
-
-        Mockito.verify(sftpServiceMock, Mockito.times(1))
-                .moveFile(Mockito.eq("rootFolder/releaseFolderName/fileId.pdf"),
-                        Mockito.eq("rootFolder/archiveFolderName/fileId.pdf"));
+        Assertions.assertDoesNotThrow(() -> sut.moveFilesToArchive(fileInfo));
 
         Mockito.verify(sftpServiceMock, Mockito.times(1))
-                .moveFile(Mockito.eq("rootFolder/releaseFolderName/fileId.xml"),
-                        Mockito.eq("rootFolder/archiveFolderName/fileId.xml"));
+                .moveFile(Mockito.eq("rootFolder/release/fileId.pdf"),
+                        Mockito.eq("rootFolder/archive/fileId.pdf"));
+
+        Mockito.verify(sftpServiceMock, Mockito.times(1))
+                .moveFile(Mockito.eq("rootFolder/release/fileId.xml"),
+                        Mockito.eq("rootFolder/archive/fileId.xml"));
 
     }
 
     @Test
     public void WithFileInfoItShouldMoveMetaDataToArchive() {
 
-        FileInfo fileInfo = new FileInfo(FILE_ID, IMAGE_EXTENSION, ROOT_FOLDER, RELEASE_FOLDER_NAME, ARCHIVE_FOLDER_NAME, ERROR_FOLDER_NAME);
+        FileInfo fileInfo = new FileInfo(FILE_ID, IMAGE_EXTENSION, ROOT_FOLDER);
 
-        Assertions.assertDoesNotThrow(() -> sut.MoveFilesToError(fileInfo));
-
-        Mockito.verify(sftpServiceMock, Mockito.times(1))
-                .moveFile(Mockito.eq("rootFolder/releaseFolderName/fileId.pdf"),
-                        Mockito.eq("rootFolder/errorFolderName/fileId.pdf"));
+        Assertions.assertDoesNotThrow(() -> sut.moveFilesToError(fileInfo));
 
         Mockito.verify(sftpServiceMock, Mockito.times(1))
-                .moveFile(Mockito.eq("rootFolder/releaseFolderName/fileId.xml"),
-                        Mockito.eq("rootFolder/errorFolderName/fileId.xml"));
+                .moveFile(Mockito.eq("rootFolder/release/fileId.pdf"),
+                        Mockito.eq("rootFolder/error/fileId.pdf"));
+
+        Mockito.verify(sftpServiceMock, Mockito.times(1))
+                .moveFile(Mockito.eq("rootFolder/release/fileId.xml"),
+                        Mockito.eq("rootFolder/error/fileId.xml"));
 
     }
 

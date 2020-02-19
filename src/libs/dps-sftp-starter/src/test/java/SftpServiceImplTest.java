@@ -4,17 +4,19 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SftpServiceImplTest {
@@ -58,29 +60,28 @@ public class SftpServiceImplTest {
     }
 
     @Test
-    public void withValidContentShouldReturnContent() {
+    public void withValidContentShouldReturnContent() throws IOException {
 
-        ByteArrayInputStream result = sut.getContent(CASE_1);
+        InputStream result = sut.getContent(CASE_1);
 
-        int n = result.available();
-        byte[] bytes = new byte[n];
-        result.read(bytes, 0, n);
+        String text =  IOUtils.toString(result, StandardCharsets.UTF_8.name());
 
-        Assertions.assertEquals(FAKE_INPUT_STREAM, new String(bytes));
+        Assertions.assertEquals(FAKE_INPUT_STREAM, text);
+
     }
 
     @Test
     public void withJSchExceptionShouldThrowDpsSftpException() throws JSchException {
         Mockito.when(sessionMock.openChannel(Mockito.eq("sftp"))).thenThrow(JSchException.class);
         Assertions.assertThrows(DpsSftpException.class, () -> {
-            ByteArrayInputStream result = sut.getContent(CASE_2);
+            InputStream result = sut.getContent(CASE_2);
         });
     }
 
     @Test
     public void withSftpExceptionShouldThrowDpsSftpException() {
         Assertions.assertThrows(DpsSftpException.class, () -> {
-            ByteArrayInputStream result = sut.getContent(CASE_3);
+            InputStream result = sut.getContent(CASE_3);
         });
     }
 

@@ -51,16 +51,8 @@ public class SftpServiceImpl implements SftpService {
             byte[] data = bao.toByteArray();
             result = new ByteArrayInputStream(data);
 
-        } catch (JSchException e) {
-            logger.error("JSchException while trying to get file from sftp server {}", e.getMessage());
-            e.printStackTrace();
-            throw new DpsSftpException(e.getMessage(), e.getCause());
-        } catch (SftpException e) {
-            logger.error("SftpException while trying to get file from sftp server {}", e.getMessage());
-            e.printStackTrace();
-            throw new DpsSftpException(e.getMessage(), e.getCause());
-        } catch (IOException e) {
-            logger.error("IOException while trying to get file from sftp server {}", e.getMessage());
+        } catch (JSchException | SftpException | IOException e) {
+            logger.error("{} while trying to get file from sftp server {}", e.getClass().getSimpleName(), e.getMessage());
             e.printStackTrace();
             throw new DpsSftpException(e.getMessage(), e.getCause());
         } finally {
@@ -91,12 +83,8 @@ public class SftpServiceImpl implements SftpService {
             channelSftp.rename(remoteFileName, destinationFilename);
             logger.debug("Successfully renamed files on the sftp server from {} to {}", remoteFileName, destinationFilename);
 
-        } catch (JSchException e) {
-            logger.error("JSchException while trying to get file from sftp server {}", e.getMessage());
-            e.printStackTrace();
-            throw new DpsSftpException(e.getMessage(), e.getCause());
-        } catch (SftpException e) {
-            logger.error("SftpException while trying to get file from sftp server {}", e.getMessage());
+        } catch (JSchException | SftpException e) {
+            logger.error("{} while trying to get file from sftp server {}", e.getClass().getSimpleName(), e.getMessage());
             e.printStackTrace();
             throw new DpsSftpException(e.getMessage(), e.getCause());
         } finally {

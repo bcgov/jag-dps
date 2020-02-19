@@ -3,6 +3,8 @@ package ca.bc.gov.open.pssg.rsbc.dps.files;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;
 
+import java.io.InputStream;
+
 /**
  * Implementation of the FileService using sftp server.
  *
@@ -23,7 +25,7 @@ public class FileServiceImpl implements FileService {
      * @throws DpsSftpException
      */
     @Override
-    public void MoveFilesToArchive(FileInfo fileInfo) throws DpsSftpException {
+    public void moveFilesToArchive(FileInfo fileInfo) throws DpsSftpException {
         sftpService.moveFile(fileInfo.getImageReleaseFileName(), fileInfo.getImageArchiveFileName());
         sftpService.moveFile(fileInfo.getMetaDataReleaseFileName(), fileInfo.getMetaDataArchiveFileName());
     }
@@ -35,9 +37,19 @@ public class FileServiceImpl implements FileService {
      * @throws DpsSftpException
      */
     @Override
-    public void MoveFilesToError(FileInfo fileInfo) throws DpsSftpException {
+    public void moveFilesToError(FileInfo fileInfo) throws DpsSftpException {
         sftpService.moveFile(fileInfo.getImageReleaseFileName(), fileInfo.getImageErrorFileName());
         sftpService.moveFile(fileInfo.getMetaDataReleaseFileName(), fileInfo.getMetaDataErrorFileName());
+    }
+
+    @Override
+    public InputStream getImageFileContent(FileInfo fileInfo) throws DpsSftpException {
+        return sftpService.getContent(fileInfo.getImageReleaseFileName());
+    }
+
+    @Override
+    public InputStream getMetadataFileContent(FileInfo fileInfo) throws DpsSftpException {
+        return sftpService.getContent(fileInfo.getMetaDataReleaseFileName());
     }
 
 }

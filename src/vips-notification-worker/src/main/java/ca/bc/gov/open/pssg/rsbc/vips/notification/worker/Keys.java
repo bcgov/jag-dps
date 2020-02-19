@@ -20,8 +20,5 @@ public class Keys {
      */
     public static final String OUTPUT_NOTIFICATION_VALUE = "outputNotification";
 
-    public static final String SFTP_RELEASE_DIR = "release";
-    public static final String SFTP_ARCHIVE_DIR = "archive";
-    public static final String SFTP_ERROR_DIR = "error";
 
 }
