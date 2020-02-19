@@ -1,0 +1,39 @@
+[
+    {
+        "/ comment": "Party Id not found",
+        "applPartyId": "9988",
+        "jurisdictionType": "WWCH",
+        "resp": "notFound"
+    },
+    {
+        "/ comment": "No sharable results",
+        "applPartyId": "209",
+        "jurisdictionType": "WWCH",
+        "resp": "noResults"
+    },
+    {
+        "/ comment": "Not for an indivudial",
+        "applPartyId": "208",
+        "jurisdictionType": "WWCH",
+        "resp": "notIndividual"
+    },
+    {
+        "/ comment": "Party Id not found",
+        "applPartyId": "234.33",
+        "jurisdictionType": "WWCH",
+        "resp": "notFound"
+    },
+    {
+        "/ comment": "Invalid Jurisdiction Type",
+        "applPartyId": "209",
+        "jurisdictionType": "6521",
+        "resp": "invalidJurs"
+    },
+    {
+        "/ comment": "Invalid data Type",
+        "applPartyId": "Some",
+        "jurisdictionType": "text",
+        "resp": "inValidDataType"
+    }
+    
+]
