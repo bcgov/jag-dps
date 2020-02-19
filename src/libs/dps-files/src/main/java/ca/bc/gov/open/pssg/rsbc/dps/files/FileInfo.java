@@ -10,33 +10,20 @@ import java.text.MessageFormat;
  */
 public class FileInfo {
 
-    private String releaseFolderName;
-    private String archiveFolderName;
-    private String errorFolderName;
+    private static final String RELEASE_FOLDER_NAME = "release";
+    private static final String ERROR_FOLDER_NAME = "error";
+    private static final String ARCHIVE_FOLDER_NAME = "archive";
+
     private String rootFolder;
     private String fileId;
     private String imageExtension;
 
-    public FileInfo(String fileId,String imageExtension, String rootFolder,String releaseFolderName, String archiveFolderName, String errorFolderName) {
-        this.releaseFolderName = releaseFolderName;
-        this.archiveFolderName = archiveFolderName;
-        this.errorFolderName = errorFolderName;
+    public FileInfo(String fileId,String imageExtension, String rootFolder) {
         this.rootFolder = rootFolder;
         this.fileId = fileId;
         this.imageExtension = imageExtension;
     }
 
-    public String getReleaseFolderName() {
-        return releaseFolderName;
-    }
-
-    public String getArchiveFolderName() {
-        return archiveFolderName;
-    }
-
-    public String getErrorFolderName() {
-        return errorFolderName;
-    }
 
     public String getRootFolder() {
         return rootFolder;
@@ -51,27 +38,29 @@ public class FileInfo {
     }
 
     public String getImageReleaseFileName() {
-        return buildImageFileName(this.releaseFolderName);
+        return buildImageFileName(RELEASE_FOLDER_NAME);
     }
 
     public String getImageErrorFileName() {
-        return buildImageFileName(this.errorFolderName);
+        return buildImageFileName(ERROR_FOLDER_NAME);
     }
 
     public String getImageArchiveFileName() {
-        return buildImageFileName(this.archiveFolderName);
+        return buildImageFileName(ARCHIVE_FOLDER_NAME);
     }
 
     public String getMetaDataReleaseFileName() {
-        return buildMetaDataFilename(this.releaseFolderName);
+        return buildMetaDataFilename(RELEASE_FOLDER_NAME);
     }
 
     public String getMetaDataErrorFileName() {
-        return buildMetaDataFilename(this.errorFolderName);
+
+        return buildMetaDataFilename(ERROR_FOLDER_NAME);
     }
 
     public String getMetaDataArchiveFileName() {
-        return buildMetaDataFilename(this.archiveFolderName);
+
+        return buildMetaDataFilename(ARCHIVE_FOLDER_NAME);
     }
 
     private String buildMetaDataFilename(String folderName) {
@@ -84,6 +73,11 @@ public class FileInfo {
 
     private String buildFileName(String folderName, String extension) {
         return MessageFormat.format("{0}/{1}/{2}.{3}", this.rootFolder, folderName , this.fileId, extension);
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("FileInfo: original metadata: [{0}], original image: [{1}]", this.getMetaDataReleaseFileName(), this.getImageReleaseFileName());
     }
 
 }

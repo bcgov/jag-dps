@@ -3,15 +3,16 @@ package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileInfo;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.files.notification.OutputNotificationMessage;
+import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
-import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;
 import ca.bc.gov.open.pssg.rsbc.dps.vips.notification.worker.generated.models.Data;
 import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document.DocumentService;
 import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document.VipsDocumentResponse;
 import com.migcomponents.migbase64.Base64;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -20,36 +21,35 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
-import java.text.MessageFormat;
+import java.nio.charset.StandardCharsets;
 
 /**
- * Comsumes messages pushed to the CRRP Queue
+ * Comsumes messages pushed to the VIPS Queue
  *
  * @author alexjoybc@github
  */
 @Component
 public class OutputNotificationConsumer {
 
-    public static final String METATADATA_EXTENSION = "xml";
-    public static final String IMAGE_EXTENSION = "PDF";
+
+    private static final String IMAGE_EXTENSION = "PDF";
     private static final String MIME = "application";
     private static final String MIME_SUBTYPE = "pdf";
-
     private static final int SUCCESS_CODE = 0;
+    private static final String DPS_FILE_ID_KEY = "dps.fileId";
+    private static final String DPS_BUSINESS_AREA_CD_KEY = "dps.businessAreaCd";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final SftpService sftpService;
     private final FileService fileService;
     private final SftpProperties sftpProperties;
     private final DocumentService documentService;
     private final JAXBContext kofaxOutputMetadataContext;
 
-    public OutputNotificationConsumer(SftpService sftpService,
-                                      FileService fileService, SftpProperties sftpProperties,
+    public OutputNotificationConsumer(FileService fileService,
+                                      SftpProperties sftpProperties,
                                       DocumentService documentService,
                                       @Qualifier("kofaxOutputMetadataContext") JAXBContext kofaxOutputMetadataContext) {
-        this.sftpService = sftpService;
         this.fileService = fileService;
         this.sftpProperties = sftpProperties;
         this.documentService = documentService;
@@ -57,95 +57,88 @@ public class OutputNotificationConsumer {
     }
 
     @RabbitListener(queues = Keys.VIPS_QUEUE_NAME)
-    public void receiveMessage(OutputNotificationMessage message) throws JAXBException {
+    public void receiveMessage(OutputNotificationMessage message) {
 
+        logger.info("received new {}", message);
 
-        FileInfo fileInfo = new FileInfo(message.getFileId(), IMAGE_EXTENSION, sftpProperties.getRemoteLocation(),
-                Keys.SFTP_RELEASE_DIR, Keys.SFTP_ARCHIVE_DIR, Keys.SFTP_ERROR_DIR);
+        MDC.put(DPS_FILE_ID_KEY, message.getFileId());
+        MDC.put(DPS_BUSINESS_AREA_CD_KEY, message.getBusinessAreaCd());
 
+        FileInfo fileInfo = new FileInfo(message.getFileId(), IMAGE_EXTENSION, sftpProperties.getRemoteLocation());
 
-        logger.info("received message for {}", message.getBusinessAreaCd());
-        String metadataReleaseFileName = buildFileName(message.getFileId(), Keys.SFTP_RELEASE_DIR,
-                METATADATA_EXTENSION);
-        String metadata = getMetadata(metadataReleaseFileName);
-        logger.info("successfully downloaded file [{}]", metadataReleaseFileName);
-
-        logger.info("metadata: {}", metadata);
-        String base64Metadata = getBase64Metadata(metadata);
-        Data metadataXml = unmarshallMetadataXml(metadata);
-
-        logger.info("received message for {}", message.getBusinessAreaCd());
         try {
 
-            File image = null;
-            String imageReleaseFileName = buildFileName(message.getFileId(), Keys.SFTP_RELEASE_DIR, IMAGE_EXTENSION);
-            image = getImage(message.getFileId(), imageReleaseFileName);
-            logger.info("successfully downloaded file [{}]", imageReleaseFileName);
+            logger.debug("attempting to download file [{}]", fileInfo.getMetaDataReleaseFileName());
+            String metadata = getMetadata(fileInfo);
+            logger.info("successfully downloaded file [{}]", fileInfo.getMetaDataReleaseFileName());
 
             VipsDocumentResponse vipsDocumentResponse =
-                    documentService.vipsDocument(metadataXml.getDocumentData().getDType(), base64Metadata, MIME,
-                            MIME_SUBTYPE, "unused", image);
-            logger.info("vipsDocumentResponse: documentId {}, respCode {}, respMsg {}",
-                    vipsDocumentResponse.getDocumentId(), vipsDocumentResponse.getRespCode(),
-                    vipsDocumentResponse.getRespMsg());
+                    documentService.vipsDocument(
+                            unmarshallMetadataXml(metadata).getDocumentData().getDType(),
+                            Base64.encodeToString(metadata.getBytes(),false),
+                            MIME,
+                            MIME_SUBTYPE,
+                            "",
+                            getImage(fileInfo));
+
+            logger.info("successfully created new {}", vipsDocumentResponse);
 
             if (vipsDocumentResponse.getRespCode() == SUCCESS_CODE) {
-                // Move xml and pdf files to archive directory
-                fileService.MoveFilesToArchive(fileInfo);
+                moveFilesToArchive(fileInfo);
             } else {
-                // Move xml and pdf files to error directory
-                fileService.MoveFilesToError(fileInfo);
+                moveFilesToError(fileInfo);
             }
 
-        } catch (IOException e) {
-            logger.error("IOException while trying to get file from sftp server {}", e.getMessage());
+        } catch (IOException | JAXBException e) {
+            logger.error("{} while processing file id [{}]: {}", e.getClass().getSimpleName(), fileInfo.getFileId(), e.getMessage());
+            moveFilesToError(fileInfo);
             e.printStackTrace();
+        } catch (DpsSftpException e) {
+            logger.error("{} while processing file id [{}]: {}", e.getClass().getSimpleName(), fileInfo.getFileId(), e.getMessage());
+            e.printStackTrace();
+        } finally {
+            MDC.remove(DPS_FILE_ID_KEY);
+            MDC.remove(DPS_BUSINESS_AREA_CD_KEY);
         }
+
     }
 
-    private String buildFileName(String fileId, String directory, String extension) {
-        return MessageFormat.format("{0}/{1}/{2}.{3}", sftpProperties.getRemoteLocation(), directory, fileId,
-                extension);
-    }
-
-    private String getMetadata(String xmlReleaseFileName) {
-        ByteArrayInputStream metadataBin = sftpService.getContent(xmlReleaseFileName);
-
-        int n = metadataBin.available();
-        byte[] bytes = new byte[n];
-        metadataBin.read(bytes, 0, n);
-
-        return new String(bytes);
-    }
-
-    private String getBase64Metadata(String content) {
-        String base64Metadata = Base64.encodeToString(content.getBytes(), false);
-
-        // base64 has the / slash character which confuses ords parsing of urls.
-        // instead convert / to - which is used by other base64 encoders.
-        // see:  https://en.wikipedia.org/wiki/base64#variants_summary_table
-        base64Metadata = base64Metadata.replace('/', '_');
-        base64Metadata = base64Metadata.replace('+', '-');
-        base64Metadata = base64Metadata.replaceAll("\r\n", "");
-
-        return base64Metadata;
+    private String getMetadata(FileInfo fileInfo) throws IOException {
+        logger.debug("attempting get file metadata");
+        InputStream is = fileService.getMetadataFileContent(fileInfo);
+        return IOUtils.toString(is, StandardCharsets.UTF_8.name());
     }
 
     private Data unmarshallMetadataXml(String content) throws JAXBException {
+
+        logger.debug("attempting to serialize file");
         Unmarshaller unmarshaller = this.kofaxOutputMetadataContext.createUnmarshaller();
         return (Data) unmarshaller.unmarshal(new StringReader(content));
     }
 
-    private File getImage(String fileId, String filename) throws IOException {
+    private File getImage(FileInfo fileInfo) throws IOException {
 
-        logger.info("sftp filename: {}", filename);
-        ByteArrayInputStream imageBin = sftpService.getContent(filename);
+        logger.debug("attempting to get file: {}", fileInfo.getImageReleaseFileName());
 
-        File imageTempFile = File.createTempFile(fileId, "." + IMAGE_EXTENSION);
+        File imageTempFile = File.createTempFile(fileInfo.getFileId(), "." + IMAGE_EXTENSION);
         imageTempFile.deleteOnExit();
+
         try (FileOutputStream out = new FileOutputStream(imageTempFile)) {
-            IOUtils.copy(imageBin, out);
+            IOUtils.copy(fileService.getImageFileContent(fileInfo), out);
         }
+        logger.info("successfully downloaded file [{}]", fileInfo.getImageReleaseFileName());
+
         return imageTempFile;
     }
+
+    private void moveFilesToArchive(FileInfo fileInfo) {
+        fileService.moveFilesToArchive(fileInfo);
+        logger.info("files have been moved to archive location, {}", fileInfo);
+    }
+
+    private void moveFilesToError(FileInfo fileInfo) {
+        fileService.moveFilesToError(fileInfo);
+        logger.warn("files have been moved to error location, {}", fileInfo);
+    }
+
 }

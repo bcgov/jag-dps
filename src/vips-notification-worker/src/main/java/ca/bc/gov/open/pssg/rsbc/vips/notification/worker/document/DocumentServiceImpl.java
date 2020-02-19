@@ -27,7 +27,7 @@ public class DocumentServiceImpl implements DocumentService {
     public VipsDocumentResponse vipsDocument(String typeCode, String metadata, String mimeType, String mimeSubType, String authGuid, File body) {
 
         try {
-            VipsDocumentOrdsResponse response = this.documentApi.vipsDocumentPost(typeCode, metadata, mimeType, mimeSubType, authGuid, body);
+            VipsDocumentOrdsResponse response = this.documentApi.vipsDocumentPost(typeCode, SanitizeBase64(metadata), mimeType, mimeSubType, authGuid, body);
             return  VipsDocumentResponse.SuccessResponse(response.getDocumentId(), response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
@@ -37,6 +37,13 @@ public class DocumentServiceImpl implements DocumentService {
 
             return VipsDocumentResponse.ErrorResponse(ex.getMessage());
         }
+    }
+
+    private String SanitizeBase64(String value) {
+        return value
+                .replace('/', '_')
+                .replace('+', '-')
+                .replaceAll("\r\n", "");
     }
 
 }

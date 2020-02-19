@@ -4,6 +4,8 @@ import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.FigaroServiceConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import java.text.MessageFormat;
+
 /**
  *
  * Represents the VIPS document Response
@@ -51,4 +53,10 @@ public class VipsDocumentResponse {
 
         return new VipsDocumentResponse(documentIdStr, Integer.parseInt(respCodeStr), respMsg);
     }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("VIPS document: Id [{0}], respCode [{1}], respMsg [{2}]", this.documentId, this.respCode, this.respMsg);
+    }
+
 }
