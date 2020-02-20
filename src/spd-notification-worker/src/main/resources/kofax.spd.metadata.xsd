@@ -1,75 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:complexType name="KofaxOutputMetadata">
-        <xsd:sequence>
-            <xsd:element name="Data" nillable="true">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="BatchData" nillable="true">
-                            <xsd:complexType>
-                                <xsd:sequence>
-                                    <xsd:element name="BatchId" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="FaxReceivedDate" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="ImportDate" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="ImportID" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="OriginatingNumber" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="ProgramType" nillable="true" type="xsd:string"/>
-                                </xsd:sequence>
-                            </xsd:complexType>
-                        </xsd:element>
-                        <xsd:element name="DocumentData" nillable="true">
-                            <xsd:complexType>
-                                <xsd:sequence>
-                                    <xsd:element name="externalFile" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplicationIncompleteReason" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="documentType" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pnApplPartyId" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplPhoneNumber" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pnOrgFacilityPartyId" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pnOrgPartyId" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplAddlFirstName1" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplAddlFirstName2" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplAddlFirstName3" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplAddlSecondName1" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplAddlSecondName2" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplAddlSecondName3" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplAddlSurname1" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplAddlSurname2" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplAddlSurname3" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplBirthPlaceTxt" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplCityNm" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplCountryNm" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplDriversLicence" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplEmailAddress" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplBirthDate" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplFirstName" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplGenderTxt" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplicationCategory" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplicationGuardianSignedYN" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplicationNonFinRejectRsn" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplicationPaymentId" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplicationPaymentMethod" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplicationSignedDate" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplicationSignedYN" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplPostalCode" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplProvinceNm" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplSecondName" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplStreetAddress" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvApplSurname" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvDocumentType" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="processingStream" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvJurisdictionType" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvOrgFacilityName" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvProcessingStream" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvScheduleType" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pnOrgContactPartyId" nillable="true" type="xsd:string"/>
-                                    <xsd:element name="pvValidationUser" nillable="true" type="xsd:string"/>
-                                </xsd:sequence>
-                            </xsd:complexType>
-                        </xsd:element>
-                    </xsd:sequence>
-                </xsd:complexType>
-            </xsd:element>
-        </xsd:sequence>
-    </xsd:complexType>
+    <xsd:element name="Data" nillable="true">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="BatchData" nillable="true">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="BatchId" nillable="true" type="xsd:string"/>
+                            <xsd:element name="FaxReceivedDate" nillable="true" type="xsd:string"/>
+                            <xsd:element name="ImportDate" nillable="true" type="xsd:string"/>
+                            <xsd:element name="ImportID" nillable="true" type="xsd:string"/>
+                            <xsd:element name="OriginatingNumber" nillable="true" type="xsd:string"/>
+                            <xsd:element name="ProgramType" nillable="true" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="DocumentData" nillable="true">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="externalFile" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplicationIncompleteReason" nillable="true" type="xsd:string"/>
+                            <xsd:element name="documentType" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pnApplPartyId" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplPhoneNumber" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pnOrgFacilityPartyId" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pnOrgPartyId" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplAddlFirstName1" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplAddlFirstName2" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplAddlFirstName3" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplAddlSecondName1" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplAddlSecondName2" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplAddlSecondName3" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplAddlSurname1" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplAddlSurname2" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplAddlSurname3" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplBirthPlaceTxt" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplCityNm" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplCountryNm" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplDriversLicence" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplEmailAddress" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplBirthDate" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplFirstName" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplGenderTxt" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplicationCategory" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplicationGuardianSignedYN" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplicationNonFinRejectRsn" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplicationPaymentId" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplicationPaymentMethod" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplicationSignedDate" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplicationSignedYN" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplPostalCode" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplProvinceNm" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplSecondName" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplStreetAddress" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvApplSurname" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvDocumentType" nillable="true" type="xsd:string"/>
+                            <xsd:element name="processingStream" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvJurisdictionType" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvOrgFacilityName" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvProcessingStream" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvScheduleType" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pnOrgContactPartyId" nillable="true" type="xsd:string"/>
+                            <xsd:element name="pvValidationUser" nillable="true" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
 </xsd:schema>
