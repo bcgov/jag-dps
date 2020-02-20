@@ -31,16 +31,15 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class OutputNotificationConsumer {
 
+    private static final String IMAGE_EXTENSION = "PDF";
+    private static final int SUCCESS_CODE = 0;
+    private static final String DPS_FILE_ID_KEY = "dps.fileId";
+    private static final String DPS_BUSINESS_AREA_CD_KEY = "dps.businessAreaCd";
+
     private final FileService fileService;
     private final SftpProperties sftpProperties;
     private final DocumentService documentService;
     private final JAXBContext kofaxOutputMetadataContext;
-
-    public static final String IMAGE_EXTENSION = "PDF";
-
-    private static final int SUCCESS_CODE = 0;
-    private static final String DPS_FILE_ID_KEY = "dps.fileId";
-    private static final String DPS_BUSINESS_AREA_CD_KEY = "dps.businessAreaCd";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -66,18 +65,22 @@ public class OutputNotificationConsumer {
         logger.info("fileInfo {}", fileInfo.toString());
 
         try {
-            DpsDocumentRequestBody documentRequestBody = new DpsDocumentRequestBody(sftpProperties.getHost(), fileInfo.getImageReleaseFileName());
-//            logger.info("dpsDocumentRequestBody: {}", documentRequestBody.toString());
+
+            logger.debug("attempting to download file [{}]", fileInfo.getMetaDataReleaseFileName());
+            String metadata = getMetadata(fileInfo);
+            logger.info("successfully downloaded file [{}]", fileInfo.getMetaDataReleaseFileName());
+
+            DpsDocumentRequestBody documentRequestBody = new DpsDocumentRequestBody(sftpProperties.getHost(),
+                    fileInfo.getImageReleaseFileName());
+            logger.info("dpsDocumentRequestBody: {}", documentRequestBody.toString());
 
             DpsDocumentResponse documentResponse = documentService.dpsDocument(documentRequestBody);
             logger.info("dpsDocumentResponse: {}", documentResponse.toString());
 
             if (documentResponse.getRespCode() == SUCCESS_CODE) {
 
-                logger.debug("attempting to download file [{}]", fileInfo.getMetaDataReleaseFileName());
-                String metadata = getMetadata(fileInfo);
-                logger.info("successfully downloaded file [{}]", fileInfo.getMetaDataReleaseFileName());
-//                logger.info("metaDataReleaseFileName {}", metadata);
+
+                logger.info("metaDataReleaseFileName {}", metadata);
 
                 Data parsedData = unmarshallMetadataXml(metadata);
                 Data.DocumentData documentData = parsedData.getDocumentData();
@@ -126,24 +129,27 @@ public class OutputNotificationConsumer {
                         .withApplOrgContactPartyId(documentData.getPnOrgContactPartyId())
                         .build();
 
-                DpsDataIntoFigaroResponse figaroResponse = documentService.dpsDataIntoFigaro(dpsDataIntoFigaroRequestBody);
+                DpsDataIntoFigaroResponse figaroResponse =
+                        documentService.dpsDataIntoFigaro(dpsDataIntoFigaroRequestBody);
                 logger.info("dpsDataIntoFigaroResponse: {}", figaroResponse.toString());
 
-//                if (figaroResponse.getRespCode() == SUCCESS_CODE) {
-//                    fileService.moveFilesToArchive(fileInfo);
-//                } else {
-//                    fileService.moveFilesToError(fileInfo);
-//                }
-//            } else {
-//                fileService.moveFilesToError(fileInfo);
+                if (figaroResponse.getRespCode() == SUCCESS_CODE) {
+                    fileService.moveFilesToArchive(fileInfo);
+                } else {
+                    fileService.moveFilesToError(fileInfo);
+                }
+            } else {
+                fileService.moveFilesToError(fileInfo);
             }
 
         } catch (IOException | JAXBException e) {
-            logger.error("{} while processing file id [{}]: {}", e.getClass().getSimpleName(), fileInfo.getFileId(), e.getMessage());
-//            fileService.moveFilesToError(fileInfo);
+            logger.error("{} while processing file id [{}]: {}", e.getClass().getSimpleName(), fileInfo.getFileId(),
+                    e.getMessage());
+            fileService.moveFilesToError(fileInfo);
             e.printStackTrace();
         } catch (DpsSftpException e) {
-            logger.error("{} while processing file id [{}]: {}", e.getClass().getSimpleName(), fileInfo.getFileId(), e.getMessage());
+            logger.error("{} while processing file id [{}]: {}", e.getClass().getSimpleName(), fileInfo.getFileId(),
+                    e.getMessage());
             e.printStackTrace();
         } finally {
             MDC.remove(DPS_FILE_ID_KEY);
