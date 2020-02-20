@@ -96,7 +96,7 @@ public class DocumentServiceImplTest {
     @Test
     public void withValidResponseShouldReturnValidResponse() {
 
-        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody(SCHEDULE_TYPE_SUCCESS, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withApplFirstName("test").build();
         DpsDataIntoFigaroResponse result = sut.dpsDataIntoFigaro(request);
 
         Assertions.assertEquals(0, result.getRespCode());
@@ -106,7 +106,7 @@ public class DocumentServiceImplTest {
     @Test
     public void withInvalidResponseShouldReturnValid() {
 
-        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody(SCHEDULE_TYPE_FAIL, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withApplFirstName("test").build();
         DpsDataIntoFigaroResponse result = sut.dpsDataIntoFigaro(request);
 
         Assertions.assertEquals(-2, result.getRespCode());
@@ -116,7 +116,7 @@ public class DocumentServiceImplTest {
     @Test
     public void withApiExceptionShouldReturnValid() {
 
-        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody(SCHEDULE_TYPE_EXCEPTION, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withApplFirstName("test").build();
         DpsDataIntoFigaroResponse result = sut.dpsDataIntoFigaro(request);
 
         Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_FAILURE_CD, result.getRespCode());

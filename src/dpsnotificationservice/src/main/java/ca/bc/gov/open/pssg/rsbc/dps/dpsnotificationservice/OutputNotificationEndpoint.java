@@ -3,7 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationRequest;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice.generated.models.OutputNotificationResponse2;
-import ca.bc.gov.open.pssg.rsbc.dps.files.notification.OutputNotificationMessage;
+import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;

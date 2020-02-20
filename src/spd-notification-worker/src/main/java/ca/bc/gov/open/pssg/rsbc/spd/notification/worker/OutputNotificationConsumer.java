@@ -2,7 +2,7 @@ package ca.bc.gov.open.pssg.rsbc.spd.notification.worker;
 
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileInfo;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
-import ca.bc.gov.open.pssg.rsbc.dps.files.notification.OutputNotificationMessage;
+import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.spd.notification.worker.generated.models.Data;
@@ -35,7 +35,6 @@ public class OutputNotificationConsumer {
     private final SftpProperties sftpProperties;
     private final DocumentService documentService;
     private final JAXBContext kofaxOutputMetadataContext;
-    private final DpsDataIntoFigaroRequestBodyAdapterToMapper mapper;
 
     public static final String IMAGE_EXTENSION = "PDF";
 
@@ -45,12 +44,10 @@ public class OutputNotificationConsumer {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public OutputNotificationConsumer(DpsDataIntoFigaroRequestBodyAdapterToMapper mapper,
-                                      FileService fileService,
+    public OutputNotificationConsumer(FileService fileService,
                                       SftpProperties sftpProperties,
                                       DocumentService documentService,
                                       @Qualifier("kofaxOutputMetadataContext") JAXBContext kofaxOutputMetadataContext) {
-        this.mapper = mapper;
         this.fileService = fileService;
         this.sftpProperties = sftpProperties;
         this.documentService = documentService;
@@ -83,8 +80,7 @@ public class OutputNotificationConsumer {
                 Data parsedData = unmarshallMetadataXml(metadata);
                 Data.DocumentData documentData = parsedData.getDocumentData();
 
-                DpsDataIntoFigaroRequestBody figaroRequestBody = this.mapper.dpsDataIntoFigaroRequestBodyAdapterToMapper(
-                    new DpsDataIntoFigaroRequestBodyAdapterImpl.Builder()
+                DpsDataIntoFigaroRequestBody dpsDataIntoFigaroRequestBody = new DpsDataIntoFigaroRequestBody.Builder()
                         .withScheduleType(documentData.getPvScheduleType())
                         .withJurisdictionType(documentData.getPvJurisdictionType())
                         .withProcessingStream(documentData.getPvProcessingStream())
@@ -126,9 +122,9 @@ public class OutputNotificationConsumer {
                         .withApplOrgFacilityPartyId(documentData.getPnOrgFacilityPartyId())
                         .withApplOrgFacilityName(documentData.getPvOrgFacilityName())
                         .withApplOrgContactPartyId(documentData.getPnOrgContactPartyId())
-                        .build());
+                        .build();
 
-                DpsDataIntoFigaroResponse figaroResponse = documentService.dpsDataIntoFigaro(figaroRequestBody);
+                DpsDataIntoFigaroResponse figaroResponse = documentService.dpsDataIntoFigaro(dpsDataIntoFigaroRequestBody);
                 logger.info("DpsDataIntoFigaroResponse: respCode {}, respMsg {}", figaroResponse.getRespCode(), figaroResponse.getRespMsg());
 
                 if (figaroResponse.getRespCode() == SUCCESS_CODE) {

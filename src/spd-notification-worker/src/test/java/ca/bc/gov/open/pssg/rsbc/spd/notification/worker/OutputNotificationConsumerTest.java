@@ -2,12 +2,13 @@ package ca.bc.gov.open.pssg.rsbc.spd.notification.worker;
 
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileInfo;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
-import ca.bc.gov.open.pssg.rsbc.dps.files.notification.OutputNotificationMessage;
+import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.spd.notification.worker.generated.models.Data;
-import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document.*;
-import com.migcomponents.migbase64.Base64;
+import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document.DocumentService;
+import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document.DpsDataIntoFigaroRequestBody;
+import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document.DpsDocumentRequestBody;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
@@ -18,7 +19,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.Reader;
 import java.text.MessageFormat;
 
@@ -111,8 +111,6 @@ public class OutputNotificationConsumerTest {
     @Mock
     private Unmarshaller unmarshallerMock;
 
-    @Mock
-    private DpsDataIntoFigaroRequestBodyAdapterToMapper mapperMock;
 
     @BeforeEach
     public void setUp() throws JAXBException {
@@ -143,7 +141,7 @@ public class OutputNotificationConsumerTest {
 //        DpsDocumentRequestBody documentErrorRequestBody = new DpsDocumentRequestBody(Mockito.anyString(), CASE_SFTP_EXCEPTION);
 //        Mockito.when(documentServiceMock.dpsDocument(documentErrorRequestBody)).thenReturn(errorResponse);
 
-        sut = new OutputNotificationConsumer(mapperMock, fileServiceMock, sftpProperties, documentServiceMock, jaxbContextMock);
+        sut = new OutputNotificationConsumer(fileServiceMock, sftpProperties, documentServiceMock, jaxbContextMock);
     }
 
     @DisplayName("Success: test with valid message")
@@ -225,7 +223,8 @@ public class OutputNotificationConsumerTest {
             sut.receiveMessage(message);
         });
 
-        DpsDataIntoFigaroRequestBody requestBody = new DpsDataIntoFigaroRequestBody(CASE_API_ERROR_CODE, Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        DpsDataIntoFigaroRequestBody requestBody = new DpsDataIntoFigaroRequestBody();
+
         Mockito.verify(documentServiceMock, Mockito.times(1)).dpsDataIntoFigaro(requestBody);
 
         Mockito.verify(fileServiceMock, Mockito.times(1)).moveFilesToError(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_API_ERROR_CODE)));

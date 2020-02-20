@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.files.notification;
+package ca.bc.gov.open.pssg.rsbc.dps.notification;
 
 import java.text.MessageFormat;
 
