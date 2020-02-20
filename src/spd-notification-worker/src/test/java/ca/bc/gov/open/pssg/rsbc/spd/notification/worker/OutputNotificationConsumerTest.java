@@ -175,8 +175,6 @@ public class OutputNotificationConsumerTest {
             OutputNotificationMessage message = new OutputNotificationMessage(Keys.CRRP_VALUE, CASE_1);
             sut.receiveMessage(message);
         });
-        DpsDocumentRequestBody requestBody = new DpsDocumentRequestBody(Mockito.anyString(), CASE_1);
-        Mockito.verify(documentServiceMock, Mockito.times(1)).dpsDocument(requestBody);
 
 //        DpsDocumentRequestBody requestBody = new DpsDocumentRequestBody(Mockito.anyString(), CASE_1);
 //        Mockito.verify(documentServiceMock, Mockito.times(1)).dpsDocument(requestBody);
