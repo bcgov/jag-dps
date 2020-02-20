@@ -67,15 +67,17 @@ public class OutputNotificationConsumer {
 
         try {
             DpsDocumentRequestBody documentRequestBody = new DpsDocumentRequestBody(sftpProperties.getHost(), fileInfo.getImageReleaseFileName());
+//            logger.info("dpsDocumentRequestBody: {}", documentRequestBody.toString());
 
             DpsDocumentResponse documentResponse = documentService.dpsDocument(documentRequestBody);
-            logger.info("DpsDocumentResponse: guid {}, respCode {}, respMsg {}", documentResponse.getGuid(), documentResponse.getRespCode(), documentResponse.getRespMsg());
+            logger.info("dpsDocumentResponse: {}", documentResponse.toString());
 
             if (documentResponse.getRespCode() == SUCCESS_CODE) {
 
                 logger.debug("attempting to download file [{}]", fileInfo.getMetaDataReleaseFileName());
                 String metadata = getMetadata(fileInfo);
                 logger.info("successfully downloaded file [{}]", fileInfo.getMetaDataReleaseFileName());
+//                logger.info("metaDataReleaseFileName {}", metadata);
 
                 Data parsedData = unmarshallMetadataXml(metadata);
                 Data.DocumentData documentData = parsedData.getDocumentData();
@@ -125,20 +127,20 @@ public class OutputNotificationConsumer {
                         .build();
 
                 DpsDataIntoFigaroResponse figaroResponse = documentService.dpsDataIntoFigaro(dpsDataIntoFigaroRequestBody);
-                logger.info("DpsDataIntoFigaroResponse: respCode {}, respMsg {}", figaroResponse.getRespCode(), figaroResponse.getRespMsg());
+                logger.info("dpsDataIntoFigaroResponse: {}", figaroResponse.toString());
 
-                if (figaroResponse.getRespCode() == SUCCESS_CODE) {
-                    fileService.moveFilesToArchive(fileInfo);
-                } else {
-                    fileService.moveFilesToError(fileInfo);
-                }
-            } else {
-                fileService.moveFilesToError(fileInfo);
+//                if (figaroResponse.getRespCode() == SUCCESS_CODE) {
+//                    fileService.moveFilesToArchive(fileInfo);
+//                } else {
+//                    fileService.moveFilesToError(fileInfo);
+//                }
+//            } else {
+//                fileService.moveFilesToError(fileInfo);
             }
 
         } catch (IOException | JAXBException e) {
             logger.error("{} while processing file id [{}]: {}", e.getClass().getSimpleName(), fileInfo.getFileId(), e.getMessage());
-            fileService.moveFilesToError(fileInfo);
+//            fileService.moveFilesToError(fileInfo);
             e.printStackTrace();
         } catch (DpsSftpException e) {
             logger.error("{} while processing file id [{}]: {}", e.getClass().getSimpleName(), fileInfo.getFileId(), e.getMessage());

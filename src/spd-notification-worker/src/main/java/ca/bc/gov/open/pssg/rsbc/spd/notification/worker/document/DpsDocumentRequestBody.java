@@ -24,4 +24,15 @@ public class DpsDocumentRequestBody {
     public String getFileName() {
         return fileName;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class DpsDocumentRequestBody {\n");
+
+        sb.append("    serverName: ").append(serverName).append("\n");
+        sb.append("    fileName: ").append(fileName).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
 }

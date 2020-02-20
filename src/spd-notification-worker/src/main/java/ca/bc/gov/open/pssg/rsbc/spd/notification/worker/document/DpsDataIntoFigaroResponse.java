@@ -41,4 +41,15 @@ public class DpsDataIntoFigaroResponse {
 
         return new DpsDataIntoFigaroResponse(Integer.parseInt(respCodeStr), respMsg);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class DpsDataIntoFigaroResponse {\n");
+
+        sb.append("    respCode: ").append(respCode).append("\n");
+        sb.append("    respMsg: ").append(respMsg).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
 }

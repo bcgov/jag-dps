@@ -4,7 +4,6 @@ import ca.bc.gov.open.ords.figcr.client.api.DocumentApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.DpsDataIntoFigaroOrdsRequestBody;
 import ca.bc.gov.open.ords.figcr.client.api.model.DpsDataIntoFigaroOrdsResponse;
-import ca.bc.gov.open.ords.figcr.client.api.model.DpsDocumentOrdsRequestBody;
 import ca.bc.gov.open.ords.figcr.client.api.model.DpsDocumentOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.FigaroServiceConstants;
 import org.junit.jupiter.api.Assertions;
@@ -77,18 +76,9 @@ public class DocumentServiceImplTest {
         error2Response.setStatusMessage(ERROR_MESSAGE);
         error2Response.setStatusCode(ERROR_CODE);
 
-        DpsDocumentOrdsRequestBody success2RequestBody = new DpsDocumentOrdsRequestBody();
-        success2RequestBody.setServerName(SERVER_NAME_SUCCESS);
         Mockito.doReturn(success2Response).when(documentApiMock).dpsDocumentPost(ArgumentMatchers.argThat(x -> x.getServerName().equals(SERVER_NAME_SUCCESS)));
-
-        DpsDocumentOrdsRequestBody error2RequestBody = new DpsDocumentOrdsRequestBody();
-        error2RequestBody.setServerName(SERVER_NAME_FAIL);
         Mockito.doReturn(error2Response).when(documentApiMock).dpsDocumentPost(ArgumentMatchers.argThat(x -> x.getServerName().equals(SERVER_NAME_FAIL)));
-
-        DpsDocumentOrdsRequestBody exception2RequestBody = new DpsDocumentOrdsRequestBody();
-        exception2RequestBody.setServerName(SERVER_NAME_EXCEPTION);
         Mockito.doThrow(new ApiException(API_EXCEPTION)).when(documentApiMock).dpsDocumentPost(ArgumentMatchers.argThat(x -> x.getServerName().equals(SERVER_NAME_EXCEPTION)));
-
 
         sut = new DocumentServiceImpl(documentApiMock);
     }
@@ -96,7 +86,7 @@ public class DocumentServiceImplTest {
     @Test
     public void withValidResponseShouldReturnValidResponse() {
 
-        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withApplFirstName("test").build();
+        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withScheduleType(SCHEDULE_TYPE_SUCCESS).build();
         DpsDataIntoFigaroResponse result = sut.dpsDataIntoFigaro(request);
 
         Assertions.assertEquals(0, result.getRespCode());
@@ -106,7 +96,7 @@ public class DocumentServiceImplTest {
     @Test
     public void withInvalidResponseShouldReturnValid() {
 
-        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withApplFirstName("test").build();
+        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withScheduleType(SCHEDULE_TYPE_FAIL).build();
         DpsDataIntoFigaroResponse result = sut.dpsDataIntoFigaro(request);
 
         Assertions.assertEquals(-2, result.getRespCode());
@@ -116,7 +106,7 @@ public class DocumentServiceImplTest {
     @Test
     public void withApiExceptionShouldReturnValid() {
 
-        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withApplFirstName("test").build();
+        DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withScheduleType(SCHEDULE_TYPE_EXCEPTION).build();
         DpsDataIntoFigaroResponse result = sut.dpsDataIntoFigaro(request);
 
         Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_FAILURE_CD, result.getRespCode());

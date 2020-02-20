@@ -52,4 +52,16 @@ public class DpsDocumentResponse {
 
         return new DpsDocumentResponse(guid, Integer.parseInt(respCodeStr), respMsg);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class DpsDocumentResponse {\n");
+
+        sb.append("    guid: ").append(guid).append("\n");
+        sb.append("    respCode: ").append(respCode).append("\n");
+        sb.append("    respMsg: ").append(respMsg).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
 }
