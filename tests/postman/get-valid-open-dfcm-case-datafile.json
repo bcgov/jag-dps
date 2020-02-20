@@ -1,12 +1,11 @@
-[
-{
-  "/ comment": "Test for valid existig record 1",
-   
-  "driversLicense": "1000010",
-  "surcode": "PEL",
-  "expectedCase": "ROUTINE - PROFESSIONAL",
-  "expectedInt": "2",
-  "validData": "true"
+[{
+   "/ comment": "Test for valid existig record 1",
+
+   "driversLicense": "1000010",
+   "surcode": "PEL",
+   "expectedCase": "ROUTINE - PROFESSIONAL",
+   "expectedInt": "2",
+   "validData": "true"
 },
 {
    "/ comment": "Test for valid existig record 2",
@@ -91,4 +90,3 @@
    "expectedInt": "-2"
 }
 ]
-

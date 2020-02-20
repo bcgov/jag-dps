@@ -1,72 +1,65 @@
 [
-{
-"/ comment" : "Checks response with valid inputs",
-
-"applSurname": "MOUSE",
-"applFirstName": "MINNIE",
-"applBirthDate": "1950-01-10",
-"applBirthPlace": "DISNEY",
-"applGenderTxt":"F",
-"isValid": "true"
-},
-{
-"/ comment" : "Checks response with valid inputs required params",
-
-"applSurname": "MOUSE",
-"applFirstName": "MINNIE",
-"applBirthDate": "1950-01-10",
-"applBirthPlace": "",
-"applGenderTxt":"",
-"isValid": "true"
-},
-{
-"/ comment" : "Checks response with invalid inputs but valid format",
-    
-"applSurname": "Tom",
-"applFirstName": "Cartoon",
-"applBirthDate": "2013-12-31",
-"applBirthPlace": "CartoonNetwork",
-"applGenderTxt":"M",
-"isValid": "false"
-},
-{
-"/ comment" : "Checks response with invalid inputs",
-
-"applSurname": "Really Long Surname with spaces",
-"applFirstName": "Long first name that is longer than the first name",
-"applBirthDate": "2019-02-29",
-"applBirthPlace": "RANDOM CiTY",
-"applGenderTxt":"F",
-"isValid": "fail"
-},
-{
-"/ comment" : "Checks response with invalid inputs",
-
-"applSurname": "4281#$%@",
-"applFirstName": "AVD __093423.",
-"applBirthDate": "(*(*()",
-"applBirthPlace": "RANDOM CiTY",
-"applGenderTxt":"S",
-"isValid": "false"
-},
-{
-"/ comment" : "Checks response with invalid inputs",
-
-"applSurname": "*&&*(()",
-"applFirstName": "MINNIE",
-"applBirthDate": "2019-02-29",
-"applBirthPlace": "RANDOM CiTY",
-"applGenderTxt":"-90",
-"isValid": "fail"
-},
-{
-"/ comment" : "Checks response with invalid inputs",
-
-"applSurname": "'1 or = 1'",
-"applFirstName": 1011010001,
-"applBirthDate": "100-222-2--",
-"applBirthPlace": "RANDOM CiTY",
-"applGenderTxt":"F",
-"isValid": "fail"
-}
+    {
+        "/ comment": "Checks response with valid inputs",
+        "applSurname": "MOUSE",
+        "applFirstName": "MINNIE",
+        "applBirthDate": "1950-01-10",
+        "applBirthPlace": "DISNEY",
+        "applGenderTxt": "F",
+        "isValid": "true"
+    },
+    {
+        "/ comment": "Checks response with valid inputs required params",
+        "applSurname": "MOUSE",
+        "applFirstName": "MINNIE",
+        "applBirthDate": "1950-01-10",
+        "applBirthPlace": "",
+        "applGenderTxt": "",
+        "isValid": "true"
+    },
+    {
+        "/ comment": "Checks response with invalid inputs but valid format",
+        "applSurname": "Tom",
+        "applFirstName": "Cartoon",
+        "applBirthDate": "2013-12-31",
+        "applBirthPlace": "CartoonNetwork",
+        "applGenderTxt": "M",
+        "isValid": "false"
+    },
+    {
+        "/ comment": "Checks response with invalid inputs",
+        "applSurname": "Really Long Surname with spaces",
+        "applFirstName": "Long first name that is longer than the first name",
+        "applBirthDate": "2019-02-29",
+        "applBirthPlace": "RANDOM CiTY",
+        "applGenderTxt": "F",
+        "isValid": "fail"
+    },
+    {
+        "/ comment": "Checks response with invalid inputs",
+        "applSurname": "4281#$%@",
+        "applFirstName": "AVD __093423.",
+        "applBirthDate": "(*(*()",
+        "applBirthPlace": "RANDOM CiTY",
+        "applGenderTxt": "S",
+        "isValid": "false"
+    },
+    {
+        "/ comment": "Checks response with invalid inputs",
+        "applSurname": "*&&*(()",
+        "applFirstName": "MINNIE",
+        "applBirthDate": "2019-02-29",
+        "applBirthPlace": "application/html",
+        "applGenderTxt": "-90",
+        "isValid": "fail"
+    },
+    {
+        "/ comment": "Checks response with invalid inputs",
+        "applSurname": "'1 or = 1'",
+        "applFirstName": 1011010001,
+        "applBirthDate": "100-222-2--",
+        "applBirthPlace": "RANDOM CiTY",
+        "applGenderTxt": "F",
+        "isValid": "fail"
+    }
 ]

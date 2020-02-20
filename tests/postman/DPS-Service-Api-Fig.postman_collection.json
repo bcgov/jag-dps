@@ -12,30 +12,17 @@
 					"name": "figLocateMatchingApplicants",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"id": "bb4c7b8e-2402-4b5e-b7b2-16a30f3e78bc",
-								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://localhost:5050');"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
-								"id": "fc645a38-3dc4-42c9-9c93-8dd362033cd4",
+								"id": "65c85334-6585-44d3-ac0c-9b03c109f577",
 								"exec": [
-									"",
-									"pm.test(\"Status code is 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"});",
+									"eval(pm.globals.get(\"commonTests\"))();",
 									"",
 									"const jsonResponse = xml2Json(responseBody);",
 									"const respBodyObj = pm.expect(jsonResponse.locateMatchingApplicantsResponse);",
 									"",
 									"pm.test(\"Assert the responses for a valid request\", () => {",
-									"    if(pm.iterationData.get(\"isValid\" === true)) {",
+									"    if(pm.iterationData.get(\"isValid\" === \"true\")) {",
 									"        (respBodyObj.foundPartyId).to.be.a(int).and.not.to.be.empty;",
 									"        (respBodyObj.foundSurname).to.eql(pm.iterationData.get('applSurname'));",
 									"        (respBodyObj.firstName).to.eql(pm.iterationData.get('applFirstName'));",
@@ -49,24 +36,30 @@
 									"});",
 									"",
 									"pm.test(\"Assert the response for invalid request\", () => {",
-									"    if(pm.iterationData.get(\"isValid\" === false)){",
+									"    if(pm.iterationData.get(\"isValid\") === \"false\") {",
 									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respCode).to.eql(\"0\");",
 									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respMsg).to.eql(\"No matches found - new Applicant will be created in FIGARO.\");",
 									"    }",
 									"});",
 									"        ",
 									"pm.test(\"Assert the response for failed request\", () => {",
-									"    if(pm.iterationData.get(\"isValid\" === 'fail')) {",
+									"    if(pm.iterationData.get(\"isValid\") === \"fail\") {",
 									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respCode).to.eql(\"-1\");",
 									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respMsg).to.eql(\"F\");",
 									"    }",
 									"});",
-									"   ",
-									"pm.test(\"Content-Type is present and xml\", () => {",
-									"    pm.response.to.have.header(\"Content-Type\", 'application/xml');",
-									"});",
-									"",
-									"    "
+									"  ",
+									"        "
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "46f2fa17-349f-4b8e-a675-470de403812d",
+								"exec": [
+									"pm.environment.set(\"baseUrl\", 'http://localhost:5050');"
 								],
 								"type": "text/javascript"
 							}
@@ -124,37 +117,57 @@
 							"script": {
 								"id": "683afee9-3f17-4bbe-a25e-ac2bab22ce32",
 								"exec": [
+									"eval(pm.globals.get(\"commonTests\"))();",
 									"",
-									"pm.test(\"Status code is 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"const jsonResponse = xml2Json(responseBody);",
-									"const respBodyObj = pm.expect(jsonResponse.validateApplicantServiceResponse);",
+									"const jsonResponse = xml2Json(responseBody);    ",
 									"",
 									"pm.test(\"Assert the responses for a valid request\", () => {",
-									"    if(pm.iterationData.get(\"isValid\" === true)) {",
-									"        (respBodyObj.validationResult).to.eql('P');",
-									"        (respBodyObj.respCode).to.eql('0');",
-									"        (respBodyObj.respMsg).to.eql('Validation passed');",
+									"    if(pm.iterationData.get(\"isValid\") === \"true\") {",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql('P');",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql('0');",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.eql('Validation passed.');",
 									"    }",
 									"});",
 									"",
 									"pm.test(\"Assert the responses for a invalid request\", () => {",
-									"    if(pm.iterationData.get(\"isValid\" === false)) {",
-									"        (respBodyObj.validationResult).to.eql('F');",
-									"        (respBodyObj.respCode).to.eql('-1');",
-									"        (respBodyObj.respMsg).to.eql('Validation passed');",
+									"    if(pm.iterationData.get(\"isValid\") === \"false\") {",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql('F');",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql('-1');",
 									"    }",
 									"});",
 									"",
 									"pm.test(\"Assert the responses for a valid request with correct format\", () => {",
-									"    if(pm.iterationData.get(\"isValid\" === \"trueFormat\")) {",
-									"        (respBodyObj.validationResult).to.eql('F');",
-									"        (respBodyObj.respCode).to.be.int.and.not.be.empty;",
-									"        (respBodyObj.respMsg).to.include('Validation Failure:');",
+									"    if(pm.iterationData.get(\"isValid\") === 'trueFormat') {",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql('F');",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).not.to.be.empty;",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.include('Validation Failure:');",
 									"    }",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Assert the response for Party id not for an individual\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'notIndividual') {",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql(\"-22\");",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: Applicant Party ID \");",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql(\"F\");",
+									"    }",
+									"});",
+									" ",
+									"pm.test(\"Assert the response for party id not found\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'notFound') {",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql(\"-21\");",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: Applicant Party ID\");",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql(\"F\");",
+									"    }",
+									"});",
+									"    ",
+									"pm.test(\"Assert the response for org id not found\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'noOrgId') {",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql(\"-11\");",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: Organization Party ID\");",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql(\"F\");",
+									"    }",
+									"});",
+									"        "
 								],
 								"type": "text/javascript"
 							}
@@ -186,6 +199,103 @@
 								{
 									"key": "applPartyId",
 									"value": "{{applPartyId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "fig-validate-applicant-sharing",
+			"item": [
+				{
+					"name": "figvalidateApplicantForSharing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5cfee195-55d1-40af-b13c-d8b3fe4c0e72",
+								"exec": [
+									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"const respJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Party id is not found\", () => {",
+									"    if(pm.iterationData.get(\"resp\") === 'notFound') {",
+									"        pm.expect(respJson.ValidateApplicantForSharingResponse.validationResult).to.eql(\"F\");",
+									"        pm.expect(respJson.ValidateApplicantForSharingResponse.respCode).to.eql(\"-21\");",
+									"        pm.expect(respJson.ValidateApplicantForSharingResponse.respMsg).to.include(\"Validation Failure: Applicant Party ID\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"No shreable results found\", () => {",
+									"    if(pm.iterationData.get(\"resp\") === 'noResults') {",
+									"        pm.expect(respJson.ValidateApplicantForSharingResponse.validationResult).to.eql(\"F\");",
+									"        pm.expect(respJson.ValidateApplicantForSharingResponse.respCode).to.eql(\"-1\");",
+									"        pm.expect(respJson.ValidateApplicantForSharingResponse.respMsg).to.eql(\"Validation Failure: No shareable results found for the Applicant.\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"No shreable results found\", () => {",
+									"    if(pm.iterationData.get(\"resp\") === 'notIndividual') {",
+									"       pm.expect(respJson.ValidateApplicantForSharingResponse.validationResult).to.eql(\"F\");",
+									"       pm.expect(respJson.ValidateApplicantForSharingResponse.respCode).to.eql(\"-22\");",
+									"       pm.expect(respJson.ValidateApplicantForSharingResponse.respMsg).to.include(\"not for an Individual.\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Invalid Jurisdiction Type\", () => {",
+									"    if(pm.iterationData.get(\"resp\") === 'invalidJurs') {",
+									"        pm.expect(respJson.ValidateApplicantForSharingResponse.respCode).to.eql(\"-33\");",
+									"        pm.expect(respJson.ValidateApplicantForSharingResponse.respMsg).to.include(\"Validation Failure: Invalid Jurisdiction Type\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Invalid data Type\", () => {",
+									"    if(pm.iterationData.get(\"resp\") === 'inValidDataType') {",
+									"        pm.expect(respJson.ValidateApplicantForSharingResponse.validationResult).to.eql(\"F\");",
+									"        pm.expect(respJson.ValidateApplicantForSharingResponse.respCode).to.eql(\"-1\");",
+									"        pm.expect(respJson.ValidateApplicantForSharingResponse.respMsg).to.include(\"appl_party_id must be a number\");",
+									"    }",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "cf634d16-54d6-4287-bf0c-b29400c73f83",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/figvalidationservice/validateApplicantForSharing?applPartyId={{applPartyId}}&jurisdictionType={{jurisdictionType}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"figvalidationservice",
+								"validateApplicantForSharing"
+							],
+							"query": [
+								{
+									"key": "applPartyId",
+									"value": "{{applPartyId}}"
+								},
+								{
+									"key": "jurisdictionType",
+									"value": "{{jurisdictionType}}"
 								}
 							]
 						}
