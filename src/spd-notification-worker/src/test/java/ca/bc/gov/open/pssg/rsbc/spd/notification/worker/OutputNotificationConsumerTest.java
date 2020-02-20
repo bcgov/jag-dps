@@ -6,10 +6,7 @@ import ca.bc.gov.open.pssg.rsbc.dps.files.notification.OutputNotificationMessage
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.spd.notification.worker.generated.models.Data;
-import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document.DocumentService;
-import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document.DpsDataIntoFigaroRequestBodyAdapterToMapper;
-import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document.DpsDocumentRequestBody;
-import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document.DpsDocumentResponse;
+import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document.*;
 import com.migcomponents.migbase64.Base64;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
@@ -160,85 +157,79 @@ public class OutputNotificationConsumerTest {
             OutputNotificationMessage message = new OutputNotificationMessage(Keys.CRRP_VALUE, CASE_1);
             sut.receiveMessage(message);
         });
+        DpsDocumentRequestBody requestBody = new DpsDocumentRequestBody(Mockito.anyString(), CASE_1);
+        Mockito.verify(documentServiceMock, Mockito.times(1)).dpsDocument(requestBody);
 
-//        Mockito.verify(documentServiceMock, Mockito.times(1)).dpsDocument(
-//                Mockito.eq(TYPE_CODE_SUCCESS),
-//                Mockito.eq(Base64.encodeToString(getMetadata(TYPE_CODE_SUCCESS).getBytes(),false)),
-//                Mockito.eq("application"),
-//                Mockito.eq("pdf"),
-//                Mockito.anyString(),
-//                Mockito.any(File.class));
-//
-//        Mockito.verify(fileServiceMock, Mockito.times(1)).moveFilesToArchive(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_1)));
-
+        Mockito.verify(fileServiceMock, Mockito.times(1)).moveFilesToArchive(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_1)));
     }
-    /*
-        @DisplayName("Exception: test when fileService throws exception.")
-        @Test
-        public void withSftpErrorShouldStop() {
 
-            Assertions.assertDoesNotThrow(() -> {
-                OutputNotificationMessage message = new OutputNotificationMessage(Keys.VIPS_VALUE, CASE_SFTP_EXCEPTION);
-                sut.receiveMessage(message);
-            });
+    @DisplayName("Exception: test when fileService throws exception.")
+    @Test
+    public void withSftpErrorShouldStop() {
 
-            Mockito.verify(documentServiceMock, Mockito.never()).vipsDocument(
-                    Mockito.anyString(),
-                    Mockito.eq(Base64.encodeToString(METADATA.getBytes(),false)),
-                    Mockito.eq("application"),
-                    Mockito.eq("pdf"),
-                    Mockito.anyString(),
-                    Mockito.any(File.class));
+        Assertions.assertDoesNotThrow(() -> {
+            OutputNotificationMessage message = new OutputNotificationMessage(Keys.CRRP_VALUE, CASE_SFTP_EXCEPTION);
+            sut.receiveMessage(message);
+        });
 
-            Mockito.verify(fileServiceMock, Mockito.never()).moveFilesToArchive(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_1)));
-        }
+        DpsDocumentRequestBody requestBody = new DpsDocumentRequestBody(Mockito.anyString(), CASE_SFTP_EXCEPTION);
+        Mockito.verify(documentServiceMock, Mockito.never()).dpsDocument(requestBody);
 
-        @DisplayName("Exception: test serialization of xml failed.")
-        @Test
-        public void withJaxbExceptionShouldMoveFilesToError() throws JAXBException {
+        Mockito.verify(fileServiceMock, Mockito.never()).moveFilesToArchive(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_1)));
+    }
 
-            Mockito.when(jaxbContextMock.createUnmarshaller()).thenThrow(JAXBException.class);
+    @DisplayName("Exception: test serialization of xml failed.")
+    @Test
+    public void withJaxbExceptionShouldMoveFilesToError() throws JAXBException {
 
-            Assertions.assertDoesNotThrow(() -> {
-                OutputNotificationMessage message = new OutputNotificationMessage(Keys.VIPS_VALUE, CASE_JAXB_EXCEPTION);
-                sut.receiveMessage(message);
-            });
+        Mockito.when(jaxbContextMock.createUnmarshaller()).thenThrow(JAXBException.class);
 
-            Mockito.verify(documentServiceMock, Mockito.never()).vipsDocument(
-                    Mockito.anyString(),
-                    Mockito.eq(Base64.encodeToString(METADATA.getBytes(),false)),
-                    Mockito.eq("application"),
-                    Mockito.eq("pdf"),
-                    Mockito.anyString(),
-                    Mockito.any(File.class));
+        Assertions.assertDoesNotThrow(() -> {
+            OutputNotificationMessage message = new OutputNotificationMessage(Keys.CRRP_VALUE, CASE_JAXB_EXCEPTION);
+            sut.receiveMessage(message);
+        });
 
-            Mockito.verify(fileServiceMock, Mockito.never()).moveFilesToError(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_SFTP_EXCEPTION)));
-        }
+        DpsDocumentRequestBody requestBody = new DpsDocumentRequestBody(Mockito.anyString(), CASE_JAXB_EXCEPTION);
+        Mockito.verify(documentServiceMock, Mockito.never()).dpsDocument(requestBody);
 
-        @DisplayName("Error, when document service return an error code")
-        @Test
-        public void withApiException() throws JAXBException {
+        Mockito.verify(fileServiceMock, Mockito.never()).moveFilesToError(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_SFTP_EXCEPTION)));
+    }
 
-            Mockito.when(jaxbContextMock.createUnmarshaller()).thenReturn(unmarshallerMock);
-            Mockito.when(unmarshallerMock.unmarshal(Mockito.any(Reader.class))).thenReturn(getData(TYPE_CODE_ERROR));
+    @DisplayName("Error, when document service - dpsDocument return an error code")
+    @Test
+    public void withApiException1() throws JAXBException {
 
-            Assertions.assertDoesNotThrow(() -> {
-                OutputNotificationMessage message = new OutputNotificationMessage(Keys.VIPS_VALUE, CASE_API_ERROR_CODE);
-                sut.receiveMessage(message);
-            });
+        Mockito.when(jaxbContextMock.createUnmarshaller()).thenReturn(unmarshallerMock);
+        Mockito.when(unmarshallerMock.unmarshal(Mockito.any(Reader.class))).thenReturn(getData(TYPE_CODE_ERROR));
 
-            Mockito.verify(documentServiceMock, Mockito.times(1)).vipsDocument(
-                    Mockito.eq(TYPE_CODE_ERROR),
-                    Mockito.eq(Base64.encodeToString(getMetadata(TYPE_CODE_ERROR).getBytes(),false)),
-                    Mockito.eq("application"),
-                    Mockito.eq("pdf"),
-                    Mockito.anyString(),
-                    Mockito.any(File.class));
+        Assertions.assertDoesNotThrow(() -> {
+            OutputNotificationMessage message = new OutputNotificationMessage(Keys.CRRP_VALUE, CASE_API_ERROR_CODE);
+            sut.receiveMessage(message);
+        });
 
-            Mockito.verify(fileServiceMock, Mockito.times(1)).moveFilesToError(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_API_ERROR_CODE)));
+        DpsDocumentRequestBody requestBody = new DpsDocumentRequestBody(Mockito.anyString(), CASE_API_ERROR_CODE);
+        Mockito.verify(documentServiceMock, Mockito.times(1)).dpsDocument(requestBody);
 
-        }
-    */
+        Mockito.verify(fileServiceMock, Mockito.times(1)).moveFilesToError(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_API_ERROR_CODE)));
+    }
+
+    @DisplayName("Error, when document service - dpsDataIntoFigaro return an error code")
+    @Test
+    public void withApiException2() throws JAXBException {
+
+        Mockito.when(jaxbContextMock.createUnmarshaller()).thenReturn(unmarshallerMock);
+        Mockito.when(unmarshallerMock.unmarshal(Mockito.any(Reader.class))).thenReturn(getData(TYPE_CODE_ERROR));
+
+        Assertions.assertDoesNotThrow(() -> {
+            OutputNotificationMessage message = new OutputNotificationMessage(Keys.CRRP_VALUE, CASE_API_ERROR_CODE);
+            sut.receiveMessage(message);
+        });
+
+        DpsDataIntoFigaroRequestBody requestBody = new DpsDataIntoFigaroRequestBody(CASE_API_ERROR_CODE, Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        Mockito.verify(documentServiceMock, Mockito.times(1)).dpsDataIntoFigaro(requestBody);
+
+        Mockito.verify(fileServiceMock, Mockito.times(1)).moveFilesToError(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_API_ERROR_CODE)));
+    }
 
     private Data getData(String scheduleType) {
         Data dataSuccess = new Data();
