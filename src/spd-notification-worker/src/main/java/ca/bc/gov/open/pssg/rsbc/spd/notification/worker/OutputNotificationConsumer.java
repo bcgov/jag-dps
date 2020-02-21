@@ -78,7 +78,7 @@ public class OutputNotificationConsumer {
             DpsDocumentResponse documentResponse = documentService.dpsDocument(documentRequestBody);
 
             if (documentResponse.getRespCode() == SUCCESS_CODE) {
-                logger.info("success: {}", documentResponse);
+                logger.info("success: {} with {}", documentResponse, fileInfo);
 
                 DpsDataIntoFigaroRequestBody dpsDataIntoFigaroRequestBody = new DpsDataIntoFigaroRequestBody.Builder()
                         .withScheduleType(documentData.getPvScheduleType())
@@ -128,14 +128,14 @@ public class OutputNotificationConsumer {
                         documentService.dpsDataIntoFigaro(dpsDataIntoFigaroRequestBody);
 
                 if (figaroResponse.getRespCode() == SUCCESS_CODE) {
-                    logger.info("success: {}", figaroResponse);
+                    logger.info("success: {} with {}", figaroResponse, fileInfo);
                     fileService.moveFilesToArchive(fileInfo);
                 } else {
-                    logger.error("error: {}", figaroResponse);
+                    logger.error("error: {} with {}", figaroResponse, fileInfo);
                     fileService.moveFilesToError(fileInfo);
                 }
             } else {
-                logger.error("error: {}", documentResponse);
+                logger.error("error: {} with {}", documentResponse, fileInfo);
                 fileService.moveFilesToError(fileInfo);
             }
 
