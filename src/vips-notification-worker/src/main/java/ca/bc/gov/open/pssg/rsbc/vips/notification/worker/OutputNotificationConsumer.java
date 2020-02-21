@@ -81,11 +81,11 @@ public class OutputNotificationConsumer {
                             "",
                             getImage(fileInfo));
 
-            logger.info("successfully created new {}", vipsDocumentResponse);
-
             if (vipsDocumentResponse.getRespCode() == SUCCESS_CODE) {
+                logger.info("success: {} with {}", vipsDocumentResponse, fileInfo);
                 moveFilesToArchive(fileInfo);
             } else {
+                logger.error("error: {} with {}", vipsDocumentResponse, fileInfo);
                 moveFilesToError(fileInfo);
             }
 
@@ -100,7 +100,6 @@ public class OutputNotificationConsumer {
             MDC.remove(DPS_FILE_ID_KEY);
             MDC.remove(DPS_BUSINESS_AREA_CD_KEY);
         }
-
     }
 
     private String getMetadata(FileInfo fileInfo) throws IOException {

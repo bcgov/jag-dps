@@ -56,7 +56,7 @@ public class VipsDocumentResponse {
 
     @Override
     public String toString() {
-        return MessageFormat.format("VIPS document: Id [{0}], respCode [{1}], respMsg [{2}]", this.documentId, this.respCode, this.respMsg);
+        return MessageFormat.format("VipsDocumentResponse: documentId [{0}], respCode [{1}], respMsg [{2}]", this.documentId, this.respCode, this.respMsg);
     }
 
 }
