@@ -70,6 +70,9 @@ public class OutputNotificationConsumer {
             String metadata = getMetadata(fileInfo);
             logger.info("successfully downloaded file [{}]", fileInfo.getMetaDataReleaseFileName());
 
+            Data parsedData = unmarshallMetadataXml(metadata);
+            Data.DocumentData documentData = parsedData.getDocumentData();
+
             DpsDocumentRequestBody documentRequestBody = new DpsDocumentRequestBody(sftpProperties.getHost(),
                     fileInfo.getImageReleaseFileName());
             logger.info("dpsDocumentRequestBody: {}", documentRequestBody.toString());
@@ -78,12 +81,6 @@ public class OutputNotificationConsumer {
             logger.info("dpsDocumentResponse: {}", documentResponse.toString());
 
             if (documentResponse.getRespCode() == SUCCESS_CODE) {
-
-
-                logger.info("metaDataReleaseFileName {}", metadata);
-
-                Data parsedData = unmarshallMetadataXml(metadata);
-                Data.DocumentData documentData = parsedData.getDocumentData();
 
                 DpsDataIntoFigaroRequestBody dpsDataIntoFigaroRequestBody = new DpsDataIntoFigaroRequestBody.Builder()
                         .withScheduleType(documentData.getPvScheduleType())
