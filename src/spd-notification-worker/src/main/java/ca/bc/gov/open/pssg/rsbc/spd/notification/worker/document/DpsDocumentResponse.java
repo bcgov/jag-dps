@@ -4,6 +4,8 @@ import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.FigaroServiceConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import java.text.MessageFormat;
+
 /**
  *
  * Represents the DPS Document Response
@@ -55,13 +57,6 @@ public class DpsDocumentResponse {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class DpsDocumentResponse {\n");
-
-        sb.append("    guid: ").append(guid).append("\n");
-        sb.append("    respCode: ").append(respCode).append("\n");
-        sb.append("    respMsg: ").append(respMsg).append("\n");
-        sb.append("}");
-        return sb.toString();
+        return MessageFormat.format("DpsDocumentResponse: guid [{0}], respCode [{1}], respMsg [{2}]", this.guid, this.respCode, this.respMsg);
     }
 }

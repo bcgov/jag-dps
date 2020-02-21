@@ -4,6 +4,8 @@ import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.FigaroServiceConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+import java.text.MessageFormat;
+
 /**
  *
  * Represents the DPS Data Into Figaro Response
@@ -44,12 +46,6 @@ public class DpsDataIntoFigaroResponse {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class DpsDataIntoFigaroResponse {\n");
-
-        sb.append("    respCode: ").append(respCode).append("\n");
-        sb.append("    respMsg: ").append(respMsg).append("\n");
-        sb.append("}");
-        return sb.toString();
+        return MessageFormat.format("DpsDataIntoFigaroResponse: respCode [{0}], respMsg [{1}]", this.respCode, this.respMsg);
     }
 }
