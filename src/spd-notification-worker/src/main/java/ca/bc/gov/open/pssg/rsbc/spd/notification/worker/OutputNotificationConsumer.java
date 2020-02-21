@@ -62,7 +62,6 @@ public class OutputNotificationConsumer {
         MDC.put(DPS_BUSINESS_AREA_CD_KEY, message.getBusinessAreaCd());
 
         FileInfo fileInfo = new FileInfo(message.getFileId(), IMAGE_EXTENSION, sftpProperties.getRemoteLocation());
-        logger.info("fileInfo {}", fileInfo.toString());
 
         try {
 
@@ -75,10 +74,9 @@ public class OutputNotificationConsumer {
 
             DpsDocumentRequestBody documentRequestBody = new DpsDocumentRequestBody(sftpProperties.getHost(),
                     fileInfo.getImageReleaseFileName());
-            logger.info("dpsDocumentRequestBody: {}", documentRequestBody.toString());
 
             DpsDocumentResponse documentResponse = documentService.dpsDocument(documentRequestBody);
-            logger.info("dpsDocumentResponse: {}", documentResponse.toString());
+            logger.info("dpsDocumentResponse: {}", documentResponse);
 
             if (documentResponse.getRespCode() == SUCCESS_CODE) {
 
@@ -128,7 +126,7 @@ public class OutputNotificationConsumer {
 
                 DpsDataIntoFigaroResponse figaroResponse =
                         documentService.dpsDataIntoFigaro(dpsDataIntoFigaroRequestBody);
-                logger.info("dpsDataIntoFigaroResponse: {}", figaroResponse.toString());
+                logger.info("dpsDataIntoFigaroResponse: {}", figaroResponse);
 
                 if (figaroResponse.getRespCode() == SUCCESS_CODE) {
                     fileService.moveFilesToArchive(fileInfo);
