@@ -54,12 +54,10 @@ public class FileInfo {
     }
 
     public String getMetaDataErrorFileName() {
-
         return buildMetaDataFilename(ERROR_FOLDER_NAME);
     }
 
     public String getMetaDataArchiveFileName() {
-
         return buildMetaDataFilename(ARCHIVE_FOLDER_NAME);
     }
 

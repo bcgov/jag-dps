@@ -2,7 +2,7 @@ package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileInfo;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
-import ca.bc.gov.open.pssg.rsbc.dps.files.notification.OutputNotificationMessage;
+import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.vips.notification.worker.generated.models.Data;
