@@ -24,7 +24,7 @@ public class HealthCheck implements HealthIndicator {
     public Health health() {
 
         int httpStatusCode = check(); // perform a health check for the ORDS health endpoint
-        logger.info("Health Check returns HTTP Status Code: {}", httpStatusCode);
+        logger.debug("Health Check returns HTTP Status Code: {}", httpStatusCode);
 
         if (httpStatusCode != HTTP_STATUS_OK) {
             return Health.down().withDetail("HTTP Status Code", httpStatusCode).build();
