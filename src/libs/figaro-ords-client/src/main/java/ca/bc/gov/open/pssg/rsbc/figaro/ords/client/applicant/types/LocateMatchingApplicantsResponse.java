@@ -1,6 +1,6 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types;
 
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -88,8 +88,8 @@ public class LocateMatchingApplicantsResponse {
 	public static LocateMatchingApplicantsResponse ErrorResponse() {
 
 		return new LocateMatchingApplicantsResponse(
-				FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD,
-				FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+				FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD,
+				FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
 
 	}
 

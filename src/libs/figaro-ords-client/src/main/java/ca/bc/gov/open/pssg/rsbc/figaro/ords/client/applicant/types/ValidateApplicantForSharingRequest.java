@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types;
 
 /**
  * 

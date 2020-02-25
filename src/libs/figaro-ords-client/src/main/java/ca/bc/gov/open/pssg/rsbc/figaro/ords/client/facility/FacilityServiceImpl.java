@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.facility;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility;
 
 import ca.bc.gov.open.ords.figcr.client.api.FacilityApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;

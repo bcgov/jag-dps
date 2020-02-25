@@ -1,9 +1,8 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant;
 
 import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -66,28 +65,26 @@ public class ApplicantServiceValidateApplicantServiceTest {
      * success
      */
     @Test
-    public void withValidResponseShouldReturnValidResponse() throws FigaroValidationServiceException {
+    public void withValidResponseShouldReturnValidResponse() throws ApiException {
 
         ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService(CASE_1, CASE_1);
 
         Assertions.assertEquals(STATUS_CODE, response.getStatusCode());
         Assertions.assertEquals(STATUS_MESSAGE, response.getStatusMessage());
         Assertions.assertEquals(VALIDATION_RESULT, response.getValidationResult());
-
     }
 
     /**
      * failure to find party id
      */
     @Test
-    public void withInvalidResponseShouldReturnInvalidResponse() throws FigaroValidationServiceException {
+    public void withInvalidResponseShouldReturnInvalidResponse() throws ApiException {
 
         ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService(CASE_2, CASE_2);
 
         Assertions.assertEquals(ERROR_STATUS_CODE, response.getStatusCode());
         Assertions.assertEquals(ERROR_STATUS_MESSAGE, response.getStatusMessage());
         Assertions.assertEquals(ERROR_VALIDATION_RESULT, response.getValidationResult());
-
     }
 
     /**
@@ -96,7 +93,7 @@ public class ApplicantServiceValidateApplicantServiceTest {
     @Test
     public void WithApiExceptionShouldThrowException() {
 
-        Assertions.assertThrows(FigaroValidationServiceException.class, () -> {
+        Assertions.assertThrows(ApiException.class, () -> {
             ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService(CASE_3, CASE_3);
         });
     }

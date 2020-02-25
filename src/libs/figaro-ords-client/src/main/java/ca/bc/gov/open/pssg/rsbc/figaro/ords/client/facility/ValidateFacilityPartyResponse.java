@@ -1,6 +1,6 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.facility;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility;
 
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -69,10 +69,9 @@ public class ValidateFacilityPartyResponse {
     public static ValidateFacilityPartyResponse ErrorResponse(String validationResult) {
         return new ValidateFacilityPartyResponse(
                 validationResult,
-                FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD,
-                FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+                FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD,
+                FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
     }
-
 
     public static ValidateFacilityPartyResponse SuccessResponse(String validationResult, String respCodeStr, String respMsg, String foundFacilityPartyId,
                                                 String foundFacilityName) {

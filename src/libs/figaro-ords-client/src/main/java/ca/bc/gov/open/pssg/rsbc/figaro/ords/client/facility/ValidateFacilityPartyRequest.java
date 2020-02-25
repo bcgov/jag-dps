@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.facility;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility;
 
 /**
  *  Represents a Validate Facility Requests

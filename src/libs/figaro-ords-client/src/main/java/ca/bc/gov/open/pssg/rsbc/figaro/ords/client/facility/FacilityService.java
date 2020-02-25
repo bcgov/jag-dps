@@ -1,5 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.facility;
-
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility;
 
 /**
  * Collection of validation services for facilities.
