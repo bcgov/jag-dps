@@ -1,6 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.facility;
 
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.FacilityService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -45,7 +47,7 @@ public class FacilityControllerTest {
     @Test
     public void withValidResponseShouldReturnValid() {
 
-        ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_SUCCESS, "a", "b", "c", "d", "e");
+        ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_SUCCESS, "a", "b", "c", "d", "e");
 
         Assertions.assertEquals(FACILITY_NAME, result.getFoundFacilityName());
         Assertions.assertEquals(FOUND_FACILITY_PARTY_ID, result.getFoundFacilityPartyId());
@@ -57,9 +59,9 @@ public class FacilityControllerTest {
     @Test
     public void withInvalidResponseShouldReturnValid() {
 
-        ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_FAIL, "a", "b", "c", "d", "e");
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
+        ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_FAIL, "a", "b", "c", "d", "e");
+        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
         Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getValidationResult());
     }
 

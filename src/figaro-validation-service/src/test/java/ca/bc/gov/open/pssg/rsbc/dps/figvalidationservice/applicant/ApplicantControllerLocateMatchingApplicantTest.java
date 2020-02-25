@@ -1,7 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
 
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.LocateMatchingApplicantsResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.ApplicantServiceImpl;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.LocateMatchingApplicantsResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

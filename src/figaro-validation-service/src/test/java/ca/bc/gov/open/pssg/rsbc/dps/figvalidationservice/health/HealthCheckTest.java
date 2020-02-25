@@ -3,7 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.health;
 import ca.bc.gov.open.ords.figcr.client.api.HealthApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.HealthOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.HealthService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health.HealthService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

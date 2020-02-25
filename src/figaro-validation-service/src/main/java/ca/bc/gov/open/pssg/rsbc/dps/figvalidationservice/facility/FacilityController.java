@@ -1,5 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.facility;
 
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.FacilityService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyRequest;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -32,7 +35,7 @@ public class FacilityController {
     @RequestMapping(value = "/validateFacilityParty",
             produces = { MediaType.APPLICATION_XML_VALUE },
             method = RequestMethod.GET)
-    @ApiOperation(value = "Validate Facility Party", response = ValidateFacilityPartyResponse.class, tags={"Figaro Validation Services"})
+    @ApiOperation(value = "Validate Facility Party", response = ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse.class, tags={"Figaro Validation Services"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateFacilityPartyResponse.class) })
     public ValidateFacilityPartyResponse ValidateFacilityParty(
             @ApiParam(value = "facilityPartyId", required = false) @RequestParam(value="facilityPartyId", defaultValue="") String facilityPartyId,
