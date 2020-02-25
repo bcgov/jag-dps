@@ -42,7 +42,7 @@ services:
     build:
       context: ./src
       args:
-        - MVN_PROFILES=paymentservice,splunk
+        - MVN_PROFILES=paymentservice,openshift
         - DPS_SERVICE_NAME=paymentservice
     environment: 
       - spring_profiles_active=cloud,splunk
