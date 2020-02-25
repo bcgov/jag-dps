@@ -14,6 +14,7 @@ securityDefinitions:
     description: HTTP Basic Authentication.
 tags:
 - name: DFCMS
+- name: Health
 paths:
   /caseSequenceNumber:
     get:
@@ -43,7 +44,8 @@ paths:
   /health:
     get:
       tags:
-      - DFCMS
+        - Health
+      operationId: health
       security:
       - basicAuth: []
       description: Dummy endpoint to check that API calls are working
@@ -51,9 +53,27 @@ paths:
         '200':
           description: output of the endpoint
           schema:
-            type: object
-            properties: {}
+            $ref: '#/definitions/healthOrdsResponse'
 definitions:
+  healthOrdsResponse:
+    type: object
+    required:
+      - appid
+      - method
+      - status
+      - host
+      - instance
+    properties:
+      appid:
+        type: string
+      method:
+        type: string
+      status:
+        type: string
+      host:
+        type: string
+      instance:
+        type: string
   caseSequenceNumberResponse:
     type: object
     required:
