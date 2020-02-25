@@ -1,11 +1,11 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.org;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization;
 
 /**
  * Collection of validation services for orgs.
  *
  * @author carolcarpenterjustice
  */
-public interface OrgService {
+public interface OrganizationService {
 
     ValidateOrgDrawDownBalanceResponse validateOrgDrawDownBalance(ValidateOrgDrawDownBalanceRequest request);
 

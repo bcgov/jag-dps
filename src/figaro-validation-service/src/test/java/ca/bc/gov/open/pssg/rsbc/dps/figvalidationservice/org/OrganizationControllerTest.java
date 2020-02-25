@@ -1,6 +1,10 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.org;
 
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization.OrganizationService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization.ValidateOrgDrawDownBalanceResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization.ValidateOrgPartyContactPersonResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization.ValidateOrgPartyResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -14,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class OrgControllerTest {
+public class OrganizationControllerTest {
 
     private static final String CASE_SUCCESS = "1";
     private static final String CASE_FAIL = "2";
@@ -30,9 +34,9 @@ public class OrgControllerTest {
     private static final String ERROR_VALIDATION_RESULT = "invalid";
 
     @Mock
-    private OrgService orgServiceMock;
+    private OrganizationService organizationServiceMock;
 
-    private OrgController sut;
+    private OrganizationController sut;
 
     @BeforeAll
     public void setup() {
@@ -42,8 +46,8 @@ public class OrgControllerTest {
         ValidateOrgDrawDownBalanceResponse successResponse1 = ValidateOrgDrawDownBalanceResponse.SuccessResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE);
         ValidateOrgDrawDownBalanceResponse errorResponse1 = ValidateOrgDrawDownBalanceResponse.ErrorResponse(ERROR_VALIDATION_RESULT);
 
-        Mockito.doReturn(successResponse1).when(orgServiceMock).validateOrgDrawDownBalance(ArgumentMatchers.argThat(x -> x.getJurisdictionType().equals("1")));
-        Mockito.doReturn(errorResponse1).when(orgServiceMock).validateOrgDrawDownBalance(ArgumentMatchers.argThat(x -> x.getJurisdictionType().equals("2")));
+        Mockito.doReturn(successResponse1).when(organizationServiceMock).validateOrgDrawDownBalance(ArgumentMatchers.argThat(x -> x.getJurisdictionType().equals("1")));
+        Mockito.doReturn(errorResponse1).when(organizationServiceMock).validateOrgDrawDownBalance(ArgumentMatchers.argThat(x -> x.getJurisdictionType().equals("2")));
 
         List<ValidateOrgPartyContactPersonResponse> contactPersons = new ArrayList<ValidateOrgPartyContactPersonResponse>();
         contactPersons.add(ValidateOrgPartyContactPersonResponse.SuccessResponse(FOUND_ORG_CONTACT_NAME, FOUND_ORG_CONTACT_ROLE, FOUND_ORG_CONTACT_PARTY_ID));
@@ -51,10 +55,10 @@ public class OrgControllerTest {
         ValidateOrgPartyResponse successResponse2 = ValidateOrgPartyResponse.SuccessResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE, FOUND_ORG_PARTY_ID, FOUND_ORG_PARTY_NAME, FOUND_ORG_PARTY_TYPE, contactPersons);
         ValidateOrgPartyResponse errorResponse2 = ValidateOrgPartyResponse.ErrorResponse(ERROR_VALIDATION_RESULT);
 
-        Mockito.doReturn(successResponse2).when(orgServiceMock).validateOrgParty(ArgumentMatchers.argThat(x -> x.getOrgCity().equals(CASE_SUCCESS)));
-        Mockito.doReturn(errorResponse2).when(orgServiceMock).validateOrgParty(ArgumentMatchers.argThat(x -> x.getOrgCity().equals(CASE_FAIL)));
+        Mockito.doReturn(successResponse2).when(organizationServiceMock).validateOrgParty(ArgumentMatchers.argThat(x -> x.getOrgCity().equals(CASE_SUCCESS)));
+        Mockito.doReturn(errorResponse2).when(organizationServiceMock).validateOrgParty(ArgumentMatchers.argThat(x -> x.getOrgCity().equals(CASE_FAIL)));
 
-        sut = new OrgController(orgServiceMock);
+        sut = new OrganizationController(organizationServiceMock);
     }
 
     @Test

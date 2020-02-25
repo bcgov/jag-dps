@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.org;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization;
 
 import ca.bc.gov.open.ords.figcr.client.api.OrgApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
@@ -16,12 +16,12 @@ import java.util.List;
  *
  * @author carolcarpenterjustice
  */
-public class OrgServiceImpl implements OrgService {
+public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrgApi orgApi;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public OrgServiceImpl(OrgApi orgApi) {
+    public OrganizationServiceImpl(OrgApi orgApi) {
         this.orgApi = orgApi;
     }
 
@@ -68,7 +68,7 @@ public class OrgServiceImpl implements OrgService {
 
         } catch (ApiException ex) {
 
-            logger.error("Validate Org Service did throw exception: " + ex.getMessage());
+            logger.error("Validate Organization Service did throw exception: " + ex.getMessage());
             ex.printStackTrace();
 
             return ValidateOrgPartyResponse.ErrorResponse(ex.getMessage());

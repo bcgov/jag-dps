@@ -1,6 +1,6 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.org;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization;
 
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -49,8 +49,8 @@ public class ValidateOrgDrawDownBalanceResponse {
     public static ValidateOrgDrawDownBalanceResponse ErrorResponse(String validationResult) {
         return new ValidateOrgDrawDownBalanceResponse(
                 validationResult,
-                FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD,
-                FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+                FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD,
+                FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
     }
 
     public static ValidateOrgDrawDownBalanceResponse SuccessResponse(String validationResult, String respCodeStr, String respMsg) {

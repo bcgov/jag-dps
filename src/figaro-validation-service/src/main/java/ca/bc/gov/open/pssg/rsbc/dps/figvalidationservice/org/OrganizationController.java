@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.org;
 
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -18,14 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
  * @author carolcarpenterjustice
  */
 @RestController
-public class OrgController {
+public class OrganizationController {
 
-    private final OrgService orgService;
+    private final OrganizationService organizationService;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public OrgController(OrgService orgService) {
-        this.orgService = orgService;
+    public OrganizationController(OrganizationService organizationService) {
+        this.organizationService = organizationService;
     }
 
     @RequestMapping(value = "/validateOrgDrawDownBalance",
@@ -38,7 +39,7 @@ public class OrgController {
             @ApiParam(value = "orgPartyId", required = false) @RequestParam(value="orgPartyId", defaultValue="") String orgPartyId,
             @ApiParam(value = "scheduleType", required = false) @RequestParam(value="scheduleType", defaultValue="") String scheduleType) {
 
-        return this.orgService.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest(jurisdictionType, orgPartyId, scheduleType));
+        return this.organizationService.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest(jurisdictionType, orgPartyId, scheduleType));
     }
 
     @RequestMapping(value = "/validateOrgParty",
@@ -55,6 +56,6 @@ public class OrgController {
             @ApiParam(value = "orgSubname4", required = false) @RequestParam(value="orgSubname4", defaultValue="") String orgSubname4,
             @ApiParam(value = "orgSubname5", required = false) @RequestParam(value="orgSubname5", defaultValue="") String orgSubname5) {
 
-        return this.orgService.validateOrgParty(new ValidateOrgPartyRequest(orgCity, orgPartyId, orgSubname1, orgSubname2, orgSubname3, orgSubname4, orgSubname5));
+        return this.organizationService.validateOrgParty(new ValidateOrgPartyRequest(orgCity, orgPartyId, orgSubname1, orgSubname2, orgSubname3, orgSubname4, orgSubname5));
     }
 }

@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.figaro.ords.client;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health;
 
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 

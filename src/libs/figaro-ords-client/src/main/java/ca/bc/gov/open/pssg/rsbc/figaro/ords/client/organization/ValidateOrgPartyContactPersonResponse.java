@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.org;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;

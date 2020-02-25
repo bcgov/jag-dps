@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.figaro.ords.client;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health;
 
 /**
  *  Represents a Health Response

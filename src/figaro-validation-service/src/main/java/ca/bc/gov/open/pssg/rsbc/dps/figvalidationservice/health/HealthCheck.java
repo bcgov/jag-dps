@@ -1,9 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.health;
 
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
-import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.HealthResponse;
-import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.HealthService;
-import io.swagger.annotations.Api;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health.HealthResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health.HealthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.health.Health;

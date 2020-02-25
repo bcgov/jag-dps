@@ -3,8 +3,8 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantForSharingResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.ApplicantService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantForSharingResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class ApplicantControllerValidateApplicantForSharingTest {
     private ApplicantService applicantServiceMock;
 
     @BeforeAll
-    public void setup() throws ApiException, FigaroValidationServiceException {
+    public void setup() throws ApiException {
 
         MockitoAnnotations.initMocks(this);
 
@@ -48,7 +48,7 @@ public class ApplicantControllerValidateApplicantForSharingTest {
 
         Mockito.doReturn(successResponse).when(applicantServiceMock).validateApplicantForSharing(ArgumentMatchers.argThat(x -> x.getApplPartyId().equals("1")));
         Mockito.doReturn(errorResponse).when(applicantServiceMock).validateApplicantForSharing(ArgumentMatchers.argThat(x -> x.getApplPartyId().equals("2")));
-        Mockito.doThrow(new FigaroValidationServiceException(API_EXCEPTION)).when(applicantServiceMock).validateApplicantForSharing(ArgumentMatchers.argThat(x -> x.getApplPartyId().equals("3")));
+        Mockito.doThrow(new ApiException(API_EXCEPTION)).when(applicantServiceMock).validateApplicantForSharing(ArgumentMatchers.argThat(x -> x.getApplPartyId().equals("3")));
 
         sut = new ApplicantController(applicantServiceMock);
 
@@ -56,7 +56,7 @@ public class ApplicantControllerValidateApplicantForSharingTest {
 
 
     @Test
-    public void withValidResponseShouldReturnValidResponse() throws FigaroValidationServiceException {
+    public void withValidResponseShouldReturnValidResponse() throws ApiException {
 
         ValidateApplicantForSharingResponse response = sut.validateApplicantForSharing("1", "type");
 
@@ -66,7 +66,7 @@ public class ApplicantControllerValidateApplicantForSharingTest {
     }
 
     @Test
-    public void withErrorResponseShouldReturnErrorResponse() throws FigaroValidationServiceException {
+    public void withErrorResponseShouldReturnErrorResponse() throws ApiException {
 
         ValidateApplicantForSharingResponse response = sut.validateApplicantForSharing("2", "type");
 
@@ -76,7 +76,7 @@ public class ApplicantControllerValidateApplicantForSharingTest {
     }
 
     @Test
-    public void withExceptionShouldReturnErrorResponse() throws FigaroValidationServiceException {
+    public void withExceptionShouldReturnErrorResponse() throws ApiException {
 
         ValidateApplicantForSharingResponse response = sut.validateApplicantForSharing("3", "type");
 

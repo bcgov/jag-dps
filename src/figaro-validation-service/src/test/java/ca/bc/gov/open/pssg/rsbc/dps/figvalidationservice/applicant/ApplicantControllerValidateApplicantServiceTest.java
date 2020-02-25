@@ -1,8 +1,9 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
 
+import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantServiceResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.ApplicantServiceImpl;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantServiceResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -93,7 +94,7 @@ public class ApplicantControllerValidateApplicantServiceTest {
     private final String INVALID_SERVICE_VALIDATION_RESULT = "F";
 
     @BeforeAll
-    public void SetUp() throws FigaroValidationServiceException {
+    public void SetUp() throws ApiException {
 
         ValidateApplicantServiceOrdsResponse validOrdsServiceResp = new ValidateApplicantServiceOrdsResponse();
         validOrdsServiceResp.setStatusCode(VALID_SERVICE_STATUS_CODE);
@@ -123,67 +124,61 @@ public class ApplicantControllerValidateApplicantServiceTest {
 
         Mockito.when(
                 applicantServiceMock.validateApplicantService(EXCEPTION_ORG_PARTY_ID, EXCEPTION_APPL_PARTY_ID))
-                .thenThrow(FigaroValidationServiceException.class);
-
+                .thenThrow(ApiException.class);
 
         sut = new ApplicantController(applicantServiceMock);
-
     }
 
     /**
      * success
      */
     @Test
-    public void ValidateApplicantServiceControllerSuccess() throws FigaroValidationServiceException {
+    public void ValidateApplicantServiceControllerSuccess() throws ApiException {
 
         validateApplicantServiceResponse = sut
                 .validateApplicantService(VALID_ORG_PARTY_ID, VALID_APPL_PARTY_ID);
         Assertions.assertEquals(VALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
         Assertions.assertEquals(VALID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
         Assertions.assertEquals(VALID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
-
     }
 
     /**
      * failure response when Invalid Org_Party_Id is passed as input argument
      */
     @Test
-    public void InvalidOrgPartyIdFail() throws FigaroValidationServiceException {
+    public void InvalidOrgPartyIdFail() throws ApiException {
 
         validateApplicantServiceResponse = sut
                 .validateApplicantService(INVALID_ORG_PARTY_ID, VALID_APPL_PARTY_ID);
         Assertions.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
         Assertions.assertEquals(INVALID_ORG_PARTY_ID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
         Assertions.assertEquals(INVALID_ORG_PARTY_ID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
-
     }
 
     /**
      * failure response when Invalid Appl_Party_Id input argument
      */
     @Test
-    public void InvalidApplPartyIdFail() throws FigaroValidationServiceException {
+    public void InvalidApplPartyIdFail() throws ApiException {
 
         validateApplicantServiceResponse = sut
                 .validateApplicantService(VALID_ORG_PARTY_ID, INVALID_APPL_PARTY_ID);
         Assertions.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
         Assertions.assertEquals(INVALID_APPL_PARTY_ID_RESPONSE_MESSAGE, validateApplicantServiceResponse.getRespMsg());
         Assertions.assertEquals(INVALID_APPL_PARTY_ID_RESPONSE_CODE, validateApplicantServiceResponse.getRespCode());
-
     }
 
     /**
      * exception test
      */
     @Test
-    public void ValidateApplicantServiceControllerException() throws FigaroValidationServiceException {
+    public void ValidateApplicantServiceControllerException() throws ApiException {
 
         validateApplicantServiceResponse = sut
                 .validateApplicantService(EXCEPTION_ORG_PARTY_ID, EXCEPTION_APPL_PARTY_ID);
         Assertions.assertEquals(EXCEPTION_CONTROLLER_RESPCD, validateApplicantServiceResponse.getRespCode());
         Assertions.assertEquals(null, validateApplicantServiceResponse.getRespMsg());
         Assertions.assertEquals(INVALID_VALIDATION_RESULT, validateApplicantServiceResponse.getValidationResult());
-
     }
 
 }

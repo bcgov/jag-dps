@@ -1,12 +1,12 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
 
+import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.*;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantServiceResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.ApplicantService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -59,12 +59,12 @@ public class ApplicantController {
                     Integer.parseInt(_response.getStatusCode()),
                     _response.getStatusMessage());
 
-        } catch (FigaroValidationServiceException ex) {
+        } catch (ApiException ex) {
             logger.error("Exception caught as validateApplicantForSharing : " + ex.getMessage());
             ex.printStackTrace();
             return new ValidateApplicantForSharingResponse(ex.getMessage(),
-                    FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD,
-                    FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+                    FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD,
+                    FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
         }
 
     }
@@ -93,12 +93,12 @@ public class ApplicantController {
                     _response.getGender()
             );
 
-        } catch (FigaroValidationServiceException ex) {
+        } catch (ApiException ex) {
             logger.error("Exception caught as ValidatePartyId : " + ex.getMessage());
             ex.printStackTrace();
 
             return new ValidateApplicantPartyIdResponse(ex.getMessage(),
-                    FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD);
+                    FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD);
 
         }
 
@@ -167,12 +167,12 @@ public class ApplicantController {
                     Integer.parseInt(_ordsResponse.getStatusCode()), _ordsResponse.getValidationResult()
             );
 
-        } catch (FigaroValidationServiceException ex) {
-            logger.error("An exception occured in ValidateApplicantServiceResponse validateApplicantService() : " + ex.getMessage());
+        } catch (ApiException ex) {
+            logger.error("An exception occurred in ValidateApplicantServiceResponse validateApplicantService() : " + ex.getMessage());
             ex.printStackTrace();
             return new ValidateApplicantServiceResponse(ex.getMessage(),
-                    FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD,
-                    FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+                    FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD,
+                    FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
         }
 
     }

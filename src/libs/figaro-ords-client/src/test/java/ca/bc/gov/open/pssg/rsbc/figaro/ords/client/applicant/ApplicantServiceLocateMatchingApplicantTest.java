@@ -1,11 +1,11 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant;
 
 import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.MatchingApplicantsOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.LocateMatchingApplicantsRequest;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.LocateMatchingApplicantsResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.LocateMatchingApplicantsRequest;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.LocateMatchingApplicantsResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -217,8 +217,8 @@ public class ApplicantServiceLocateMatchingApplicantTest {
                         APPL_ALIAS_FIRST_NAME_3,
                         APPL_ALIAS_SECOND_INITIAL_3));
 
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, response.getRespMsg());
+        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
+        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, response.getRespMsg());
 
     }
 

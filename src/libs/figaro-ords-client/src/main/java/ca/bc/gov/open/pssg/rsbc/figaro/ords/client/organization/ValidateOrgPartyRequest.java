@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.org;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization;
 
 /**
  *  Represents a Validate Org Party Requests

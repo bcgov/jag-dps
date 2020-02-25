@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.figaro.ords.client;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health;
 
 import ca.bc.gov.open.ords.figcr.client.api.HealthApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;

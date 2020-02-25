@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant;
 
 import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
@@ -6,10 +6,9 @@ import ca.bc.gov.open.ords.figcr.client.api.model.MatchingApplicantsOrdsResponse
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.LocateMatchingApplicantsRequest;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.LocateMatchingApplicantsResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantForSharingRequest;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.LocateMatchingApplicantsRequest;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.LocateMatchingApplicantsResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantForSharingRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,32 +36,32 @@ public class ApplicantServiceImpl implements ApplicantService {
      *
      * @param validateApplicantForSharingRequest
      * @return
-     * @throws FigaroValidationServiceException
+     * @throws ApiException
      */
     @Override
     public ValidateApplicantForSharingOrdsResponse validateApplicantForSharing(
             ValidateApplicantForSharingRequest validateApplicantForSharingRequest)
-            throws FigaroValidationServiceException {
+            throws ApiException {
 
         try {
             return applicantApi.validateApplicantForSharing(validateApplicantForSharingRequest.getApplPartyId(), validateApplicantForSharingRequest.getJurisdictionType());
         } catch (ApiException ex) {
             logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
             ex.printStackTrace();
-            throw new FigaroValidationServiceException(ex.getMessage(), ex);
+            throw ex;
         }
     }
 
     @Override
     public ValidateApplicantPartyIdOrdsResponse validateApplicantPartyId(String applPartyId)
-            throws FigaroValidationServiceException {
+            throws ApiException {
 
         try {
             return applicantApi.validateApplicantPartyId(applPartyId);
         } catch (ApiException ex) {
             logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
             ex.printStackTrace();
-            throw new FigaroValidationServiceException(ex.getMessage(), ex);
+            throw ex;
         }
 
     }
@@ -116,7 +115,7 @@ public class ApplicantServiceImpl implements ApplicantService {
      * service method to get the response for /validateOrgApplicantServiceOrdsResponse requests
      */
     public ValidateApplicantServiceOrdsResponse validateApplicantService(String applPartyId,
-                                                                                     String orgPartyId) throws FigaroValidationServiceException {
+                                                                                     String orgPartyId) throws ApiException {
 
         try {
             return applicantApi.validateOrgApplicantService(applPartyId, orgPartyId);
@@ -124,7 +123,7 @@ public class ApplicantServiceImpl implements ApplicantService {
             logger.error("An exception occurred while trying to invoke ORDS method validateOrgApplicantServiceOrdsResponse()  : "
                     + ex.getMessage());
             ex.printStackTrace();
-            throw new FigaroValidationServiceException(ex.getMessage(), ex);
+            throw ex;
         }
 
     }

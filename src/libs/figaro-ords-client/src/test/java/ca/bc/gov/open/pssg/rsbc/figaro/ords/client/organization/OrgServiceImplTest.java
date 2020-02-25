@@ -1,10 +1,10 @@
-package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.org;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization;
 
 import ca.bc.gov.open.ords.figcr.client.api.OrgApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgDrawDownBalanceOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgPartyOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations;
 public class OrgServiceImplTest {
 
     public static final String API_EXCEPTION = "api exception";
-    private OrgServiceImpl sut;
+    private OrganizationServiceImpl sut;
 
     private static final String CASE_SUCCESS = "1";
     private static final String CASE_FAIL = "2";
@@ -64,7 +64,7 @@ public class OrgServiceImplTest {
         Mockito.when(orgApiMock.validateOrgParty(Mockito.eq(CASE_FAIL), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(errorResponse2);
         Mockito.when(orgApiMock.validateOrgParty(Mockito.eq(CASE_EXCEPTION), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenThrow(new ApiException(API_EXCEPTION));
 
-        sut = new OrgServiceImpl(orgApiMock);
+        sut = new OrganizationServiceImpl(orgApiMock);
     }
 
     @Test
@@ -92,8 +92,8 @@ public class OrgServiceImplTest {
 
         ValidateOrgDrawDownBalanceResponse result = sut.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest(CASE_EXCEPTION, "a", "b"));
 
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
+        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
         Assertions.assertEquals(API_EXCEPTION, result.getValidationResult());
     }
 
@@ -122,8 +122,8 @@ public class OrgServiceImplTest {
 
         ValidateOrgPartyResponse result = sut.validateOrgParty(new ValidateOrgPartyRequest(CASE_EXCEPTION, "a", "b", "c", "d", "e", "f"));
 
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
+        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
         Assertions.assertEquals(API_EXCEPTION, result.getValidationResult());
     }
 }
