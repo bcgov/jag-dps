@@ -95,7 +95,7 @@
     <profiles>
         <profile>
 
-            <id>splunk</id>
+            <id>openshift</id>
 
             <repositories>
                 <repository>
