@@ -15,10 +15,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class DpsValidationserviceApplicationTests {
 
-    @Autowired
-    private TestRestTemplate restTemplate;
     @LocalServerPort
     private int port;
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
+    @Autowired
+    private DpsValidationserviceApplication dpsValidationserviceApplication;
+
+    @Test
+    void contextLoaded() {
+        assertThat(dpsValidationserviceApplication).isNotNull();
+    }
 
     @Test
     void getValidOpenDFCMCase() throws Exception {

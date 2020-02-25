@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcms;
 
 import ca.bc.gov.open.ords.dfcms.client.api.DfcmsApi;
 import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiException;

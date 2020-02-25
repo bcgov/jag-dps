@@ -1,10 +1,11 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcms;
 
 import ca.bc.gov.open.ords.dfcms.client.api.DfcmsApi;
 import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.dfcms.client.api.model.CaseSequenceNumberResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm.GetValidOpenDFCMCase;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcsm.ValidationController;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.DpsValidationServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcms.GetValidOpenDFCMCase;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcms.ValidationController;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ class ValidationControllerTest {
     public static final String EXPECTED_STATUS = "2";
     public static final String EXPECTED_DESCRIPTION = "ROUTINE - PROFESSIONAL";
     @Mock
-    public DfcmsApi dfcrmsApiMock;
+    public DfcmsApi dfcmsApiMock;
 
     private ValidationController sut;
 
@@ -36,17 +37,17 @@ class ValidationControllerTest {
 
         MockitoAnnotations.initMocks(this);
         try {
-            Mockito.when(dfcrmsApiMock.caseSequenceNumberGet("1234567", "PEL"))
+            Mockito.when(dfcmsApiMock.caseSequenceNumberGet("1234567", "PEL"))
                     .thenReturn(caseSequenceNumberResponse);
 
             // emulating non 200 response
-            Mockito.when(dfcrmsApiMock.caseSequenceNumberGet("1234568", "EXP")).thenThrow(ApiException.class);
+            Mockito.when(dfcmsApiMock.caseSequenceNumberGet("1234568", "EXP")).thenThrow(ApiException.class);
 
         } catch (ApiException e) {
             e.printStackTrace();
         }
 
-        sut = new ValidationController(dfcrmsApiMock);
+        sut = new ValidationController(dfcmsApiMock);
 
     }
 
