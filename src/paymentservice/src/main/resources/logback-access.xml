@@ -15,7 +15,7 @@
             <url>${SPLUNK_URL}</url>
             <token>${SPLUNK_TOKEN}</token>
             <source>payment-service</source>
-            <sourcetype>dps-logs</sourcetype>
+            <sourcetype>dps-access-logs</sourcetype>
             <middleware>HttpEventCollectorUnitTestMiddleware</middleware>
             <disableCertificateValidation>true</disableCertificateValidation>
             <batch_size_count>1</batch_size_count>
