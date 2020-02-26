@@ -1,9 +1,10 @@
-package ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document;
+package ca.bc.gov.open.pssg.rsbc.vips.ords.client;
 
 import ca.bc.gov.open.ords.vips.client.api.DocumentApi;
 import ca.bc.gov.open.ords.vips.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.vips.client.api.model.VipsDocumentOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.FigaroServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.DocumentServiceImpl;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.VipsDocumentResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -75,7 +76,7 @@ public class DocumentServiceImplTest {
 
         VipsDocumentResponse result = sut.vipsDocument(TYPE_CODE_EXCEPTION, "a", "b", "c", "d", null);
 
-        Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
+        Assertions.assertEquals(VipsOrdsClientConstants.FIGARO_SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(VipsOrdsClientConstants.FIGARO_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
     }
 }
