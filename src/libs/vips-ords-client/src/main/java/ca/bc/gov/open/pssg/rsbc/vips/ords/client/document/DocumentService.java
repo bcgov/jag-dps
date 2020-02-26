@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document;
+package ca.bc.gov.open.pssg.rsbc.vips.ords.client.document;
 
 import java.io.File;
 
