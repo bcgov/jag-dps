@@ -2,8 +2,8 @@ package ca.bc.gov.open.pssg.rsbc.vips.notification.worker.configuration;
 
 import ca.bc.gov.open.ords.vips.client.api.DocumentApi;
 import ca.bc.gov.open.ords.vips.client.api.handler.ApiClient;
-import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document.DocumentService;
-import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document.DocumentServiceImpl;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.DocumentService;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.DocumentServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

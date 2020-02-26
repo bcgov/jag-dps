@@ -1,6 +1,6 @@
-package ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document;
+package ca.bc.gov.open.pssg.rsbc.vips.ords.client.document;
 
-import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.FigaroServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.VipsOrdsClientConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -45,8 +45,8 @@ public class VipsDocumentResponse {
 
     public static VipsDocumentResponse ErrorResponse(String validationResult) {
         return new VipsDocumentResponse(
-                FigaroServiceConstants.FIGARO_SERVICE_FAILURE_CD,
-                FigaroServiceConstants.FIGARO_SERVICE_BOOLEAN_FALSE);
+                VipsOrdsClientConstants.FIGARO_SERVICE_FAILURE_CD,
+                VipsOrdsClientConstants.FIGARO_SERVICE_BOOLEAN_FALSE);
     }
 
     public static VipsDocumentResponse SuccessResponse(String documentIdStr, String respCodeStr, String respMsg) {
