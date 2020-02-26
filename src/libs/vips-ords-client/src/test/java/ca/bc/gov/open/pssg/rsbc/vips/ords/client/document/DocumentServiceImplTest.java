@@ -79,8 +79,8 @@ public class DocumentServiceImplTest {
 
         VipsDocumentResponse result = sut.vipsDocument(TYPE_CODE_EXCEPTION, "a", "b", "c", "d", null);
 
-        Assertions.assertEquals(VipsOrdsClientConstants.FIGARO_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(VipsOrdsClientConstants.FIGARO_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
+        Assertions.assertEquals(VipsOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(API_EXCEPTION, result.getRespMsg());
     }
 
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
