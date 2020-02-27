@@ -75,8 +75,7 @@ public class DocumentServiceImpl implements DocumentService {
             return DpsDataIntoFigaroResponse.SuccessResponse(response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
-
-            logger.error("Document Service did throw exception: " + ex.getMessage());
+            logger.error("Exception caught as Document Service, dpsDataIntoFigaro : " + ex.getMessage());
             ex.printStackTrace();
 
             return DpsDataIntoFigaroResponse.ErrorResponse(ex.getMessage());
@@ -95,8 +94,7 @@ public class DocumentServiceImpl implements DocumentService {
             return DpsDocumentResponse.SuccessResponse(response.getGuid(), response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
-
-            logger.error("Document Service did throw exception: " + ex.getMessage());
+            logger.error("Exception caught as Document Service, dpsDocument : " + ex.getMessage());
             ex.printStackTrace();
 
             return DpsDocumentResponse.ErrorResponse(ex.getMessage());

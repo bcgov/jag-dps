@@ -1,9 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
 
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.ApplicantService;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.*;
@@ -39,10 +36,8 @@ public class ApplicantController {
     }
 
     @RequestMapping(value = "/validateApplicantForSharing", produces = { MediaType.APPLICATION_XML_VALUE }, method = RequestMethod.GET)
-    @ApiOperation(value = "validateApplicantForSharing", response =
-            ValidateApplicantForSharingResponse.class, tags = {APPLICANT_API})
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response =
-            ValidateApplicantForSharingResponse.class)})
+    @ApiOperation(value = "validateApplicantForSharing", response = ValidateApplicantForSharingResponse.class, tags = {APPLICANT_API})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateApplicantForSharingResponse.class)})
     public ValidateApplicantForSharingResponse validateApplicantForSharing(
             @ApiParam(value = "applPartyId") @RequestParam(value = "applPartyId", defaultValue = "0"
                     , required = false) String applPartyId,
@@ -51,13 +46,13 @@ public class ApplicantController {
 
         try {
 
-            ValidateApplicantForSharingOrdsResponse _response =
+            ValidateApplicantForSharingResponse _response =
                     applicantService.validateApplicantForSharing(new ValidateApplicantForSharingRequest(applPartyId,
                             jurisdictionType));
 
             return new ValidateApplicantForSharingResponse(_response.getValidationResult(),
-                    Integer.parseInt(_response.getStatusCode()),
-                    _response.getStatusMessage());
+                    _response.getRespCode(),
+                    _response.getRespMsg());
 
         } catch (ApiException ex) {
             logger.error("Exception caught as validateApplicantForSharing : " + ex.getMessage());
@@ -66,31 +61,29 @@ public class ApplicantController {
                     FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
                     FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE);
         }
-
     }
 
 
     @RequestMapping(value = "/validateApplicantPartyId", produces = {  MediaType.APPLICATION_XML_VALUE }, method = RequestMethod.GET)
     @ApiOperation(value = "validateApplicantPartyId", response = ValidateApplicantPartyIdResponse.class, tags = { APPLICANT_API })
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful operation", response = ValidateApplicantPartyIdResponse.class) })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateApplicantPartyIdResponse.class) })
     public ValidateApplicantPartyIdResponse validateApplicantPartyId(
             @ApiParam(value = "applPartyId" ) @RequestParam(value = "applPartyId", defaultValue = "0") String applPartyId)  {
 
         try {
 
-            ValidateApplicantPartyIdOrdsResponse _response =  applicantService.validateApplicantPartyId(applPartyId);
+            ValidateApplicantPartyIdResponse _response =  applicantService.validateApplicantPartyId(applPartyId);
 
             return new ValidateApplicantPartyIdResponse(
-                    _response.getStatusMessage(),
-                    Integer.parseInt(_response.getStatusCode()),
-                    _response.getSurname(),
-                    _response.getFirstName(),
-                    _response.getSecondName(),
-                    _response.getBirthDate(),
-                    _response.getDriversLicense(),
-                    _response.getBirthPlace(),
-                    _response.getGender()
+                    _response.getRespMsg(),
+                    _response.getRespCode(),
+                    _response.getFoundSurname(),
+                    _response.getFoundFirstName(),
+                    _response.getFoundSecondName(),
+                    _response.getFoundBirthDate(),
+                    _response.getFoundDriversLicence(),
+                    _response.getFoundBirthPlace(),
+                    _response.getFoundGenderTxt()
             );
 
         } catch (ApiException ex) {
@@ -99,14 +92,10 @@ public class ApplicantController {
 
             return new ValidateApplicantPartyIdResponse(ex.getMessage(),
                     FigaroOrdsClientConstants.SERVICE_FAILURE_CD);
-
         }
-
     }
 
-    @RequestMapping(value = "/locateMatchingApplicants",
-            produces = { MediaType.APPLICATION_XML_VALUE },
-            method = RequestMethod.GET)
+    @RequestMapping(value = "/locateMatchingApplicants", produces = { MediaType.APPLICATION_XML_VALUE }, method = RequestMethod.GET)
     @ApiOperation(value = "locateMatchingApplicants", response = LocateMatchingApplicantsResponse.class, tags={ APPLICANT_API })
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = LocateMatchingApplicantsResponse.class) })
     public LocateMatchingApplicantsResponse locateMatchingApplicants(
@@ -146,35 +135,28 @@ public class ApplicantController {
                             applAliasSurname3,
                             applAliasFirstName3,
                             applAliasSecondInitial3));
-
     }
 
-    @RequestMapping(value = "/validateApplicantService",
-            produces = { MediaType.APPLICATION_XML_VALUE },
-            method = RequestMethod.GET)
-    @ApiOperation(value = "Validate Applicant Service", response = ValidateApplicantServiceResponse.class, tags={ APPLICANT_API })
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateApplicantServiceResponse.class) })
-    public ValidateApplicantServiceResponse validateApplicantService(
+    @RequestMapping(value = "/validateApplicantService", produces = { MediaType.APPLICATION_XML_VALUE }, method = RequestMethod.GET)
+    @ApiOperation(value = "Validate Applicant Service", response = ValidateOrgApplicantServiceResponse.class, tags={ APPLICANT_API })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateOrgApplicantServiceResponse.class) })
+    public ValidateOrgApplicantServiceResponse validateOrgApplicantService(
             @ApiParam(value = "orgPartyId", required = false) @RequestParam(value="orgPartyId", defaultValue="") String orgPartyId,
             @ApiParam(value = "applPartyId", required = false) @RequestParam(value="applPartyId", defaultValue="") String applPartyId) {
 
         try {
 
-            ValidateApplicantServiceOrdsResponse _ordsResponse = applicantService
-                    .validateApplicantService(applPartyId, orgPartyId);
+            ValidateOrgApplicantServiceResponse _response = applicantService
+                    .validateOrgApplicantService(applPartyId, orgPartyId);
 
-            return new ValidateApplicantServiceResponse(_ordsResponse.getStatusMessage(),
-                    Integer.parseInt(_ordsResponse.getStatusCode()), _ordsResponse.getValidationResult()
-            );
+            return new ValidateOrgApplicantServiceResponse(_response.getValidationResult(), _response.getRespCode(), _response.getRespMsg());
 
         } catch (ApiException ex) {
-            logger.error("An exception occurred in ValidateApplicantServiceResponse validateApplicantService() : " + ex.getMessage());
+            logger.error("An exception occurred in ValidateOrgApplicantServiceResponse validateOrgApplicantService() : " + ex.getMessage());
             ex.printStackTrace();
-            return new ValidateApplicantServiceResponse(ex.getMessage(),
+            return new ValidateOrgApplicantServiceResponse(ex.getMessage(),
                     FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
                     FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE);
         }
-
     }
-
 }

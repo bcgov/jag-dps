@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Org Service Implementation using ORDS services.
+ * Organization Service Implementation using ORDS services.
  *
  * @author carolcarpenterjustice
  */
@@ -36,8 +36,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                     response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
-
-            logger.error("Validate Org Service did throw exception: " + ex.getMessage());
+            logger.error("Exception caught as Organization Service, validateOrgDrawDownBalance : " + ex.getMessage());
             ex.printStackTrace();
 
             return ValidateOrgDrawDownBalanceResponse.ErrorResponse(ex.getMessage());
@@ -67,8 +66,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                     response.getFoundOrgType(), contactList);
 
         } catch (ApiException ex) {
-
-            logger.error("Validate Organization Service did throw exception: " + ex.getMessage());
+            logger.error("Exception caught as Organization Service, validateOrgParty : " + ex.getMessage());
             ex.printStackTrace();
 
             return ValidateOrgPartyResponse.ErrorResponse(ex.getMessage());

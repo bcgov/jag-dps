@@ -2,7 +2,8 @@ package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant;
 
 import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgApplicantServiceOrdsResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateOrgApplicantServiceResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -14,12 +15,12 @@ import org.mockito.MockitoAnnotations;
 /**
  * @author shaunmillargov
  * <p>
- * ValidateApplicantPartyId Controller test class.
+ * validateOrgApplicantService service test class.
  * <p>
  * Mocks underlying ORDS service class.
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ApplicantServiceValidateApplicantServiceTest {
+public class ApplicantServiceValidateOrgTest {
 
 
     public static final String CASE_2 = "2";
@@ -42,12 +43,12 @@ public class ApplicantServiceValidateApplicantServiceTest {
 
         MockitoAnnotations.initMocks(this);
 
-        ValidateApplicantServiceOrdsResponse successResponse = new ValidateApplicantServiceOrdsResponse();
+        ValidateOrgApplicantServiceOrdsResponse successResponse = new ValidateOrgApplicantServiceOrdsResponse();
         successResponse.setValidationResult(VALIDATION_RESULT);
         successResponse.setStatusMessage(STATUS_MESSAGE);
         successResponse.setStatusCode(STATUS_CODE);
 
-        ValidateApplicantServiceOrdsResponse errorResponse = new ValidateApplicantServiceOrdsResponse();
+        ValidateOrgApplicantServiceOrdsResponse errorResponse = new ValidateOrgApplicantServiceOrdsResponse();
         errorResponse.setValidationResult(ERROR_VALIDATION_RESULT);
         errorResponse.setStatusMessage(ERROR_STATUS_MESSAGE);
         errorResponse.setStatusCode(ERROR_STATUS_CODE);
@@ -58,7 +59,6 @@ public class ApplicantServiceValidateApplicantServiceTest {
                 ""), Mockito.anyString())).thenThrow(ApiException.class);
 
         sut = new ApplicantServiceImpl(applicantApiMock);
-
     }
 
     /**
@@ -67,10 +67,10 @@ public class ApplicantServiceValidateApplicantServiceTest {
     @Test
     public void withValidResponseShouldReturnValidResponse() throws ApiException {
 
-        ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService(CASE_1, CASE_1);
+        ValidateOrgApplicantServiceResponse response = sut.validateOrgApplicantService(CASE_1, CASE_1);
 
-        Assertions.assertEquals(STATUS_CODE, response.getStatusCode());
-        Assertions.assertEquals(STATUS_MESSAGE, response.getStatusMessage());
+        Assertions.assertEquals(Integer.parseInt(STATUS_CODE), response.getRespCode());
+        Assertions.assertEquals(STATUS_MESSAGE, response.getRespMsg());
         Assertions.assertEquals(VALIDATION_RESULT, response.getValidationResult());
     }
 
@@ -80,10 +80,10 @@ public class ApplicantServiceValidateApplicantServiceTest {
     @Test
     public void withInvalidResponseShouldReturnInvalidResponse() throws ApiException {
 
-        ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService(CASE_2, CASE_2);
+        ValidateOrgApplicantServiceResponse response = sut.validateOrgApplicantService(CASE_2, CASE_2);
 
-        Assertions.assertEquals(ERROR_STATUS_CODE, response.getStatusCode());
-        Assertions.assertEquals(ERROR_STATUS_MESSAGE, response.getStatusMessage());
+        Assertions.assertEquals(Integer.parseInt(ERROR_STATUS_CODE), response.getRespCode());
+        Assertions.assertEquals(ERROR_STATUS_MESSAGE, response.getRespMsg());
         Assertions.assertEquals(ERROR_VALIDATION_RESULT, response.getValidationResult());
     }
 
@@ -94,7 +94,7 @@ public class ApplicantServiceValidateApplicantServiceTest {
     public void WithApiExceptionShouldThrowException() {
 
         Assertions.assertThrows(ApiException.class, () -> {
-            ValidateApplicantServiceOrdsResponse response = sut.validateApplicantService(CASE_3, CASE_3);
+            ValidateOrgApplicantServiceResponse response = sut.validateOrgApplicantService(CASE_3, CASE_3);
         });
     }
 

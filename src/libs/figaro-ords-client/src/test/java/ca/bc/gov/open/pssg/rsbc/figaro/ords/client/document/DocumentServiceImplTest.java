@@ -89,7 +89,7 @@ public class DocumentServiceImplTest {
         DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withScheduleType(SCHEDULE_TYPE_SUCCESS).build();
         DpsDataIntoFigaroResponse result = sut.dpsDataIntoFigaro(request);
 
-        Assertions.assertEquals(0, result.getRespCode());
+        Assertions.assertEquals(Integer.parseInt(STATUS_CODE), result.getRespCode());
         Assertions.assertEquals(STATUS_MESSAGE, result.getRespMsg());
     }
 
@@ -99,7 +99,7 @@ public class DocumentServiceImplTest {
         DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withScheduleType(SCHEDULE_TYPE_FAIL).build();
         DpsDataIntoFigaroResponse result = sut.dpsDataIntoFigaro(request);
 
-        Assertions.assertEquals(-2, result.getRespCode());
+        Assertions.assertEquals(Integer.parseInt(ERROR_CODE), result.getRespCode());
         Assertions.assertEquals(ERROR_MESSAGE, result.getRespMsg());
     }
 
@@ -120,7 +120,7 @@ public class DocumentServiceImplTest {
         DpsDocumentResponse result = sut.dpsDocument(request);
 
         Assertions.assertEquals(GUID, result.getGuid());
-        Assertions.assertEquals(0, result.getRespCode());
+        Assertions.assertEquals(Integer.parseInt(STATUS_CODE), result.getRespCode());
         Assertions.assertEquals(STATUS_MESSAGE, result.getRespMsg());
     }
 
@@ -130,7 +130,7 @@ public class DocumentServiceImplTest {
         DpsDocumentRequestBody request = new DpsDocumentRequestBody(SERVER_NAME_FAIL, "a");
         DpsDocumentResponse result = sut.dpsDocument(request);
 
-        Assertions.assertEquals(-2, result.getRespCode());
+        Assertions.assertEquals(Integer.parseInt(ERROR_CODE), result.getRespCode());
         Assertions.assertEquals(ERROR_MESSAGE, result.getRespMsg());
     }
 

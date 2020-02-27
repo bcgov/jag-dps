@@ -1,5 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types;
 
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -36,7 +38,17 @@ public class ValidateApplicantForSharingResponse {
         return respMsg;
     }
 
+    public static ValidateApplicantForSharingResponse ErrorResponse(String errorMessage) {
+        return new ValidateApplicantForSharingResponse(
+                FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE,
+                FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
+                errorMessage);
+    }
 
+    public static ValidateApplicantForSharingResponse SuccessResponse(String validationResult, String respCodeStr, String respMsg) {
+
+        return new ValidateApplicantForSharingResponse(validationResult, Integer.parseInt(respCodeStr), respMsg);
+    }
 }
 
 

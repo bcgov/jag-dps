@@ -3,6 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant;
 import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantPartyIdResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import org.mockito.MockitoAnnotations;
 /**
  * @author shaunmillargov
  * <p>
- * ValidateApplicantPartyId Controller test class.
+ * validateApplicantPartyId service test class.
  * <p>
  * Mocks underlying ORDS service class.
  */
@@ -81,17 +82,17 @@ public class ApplicantServiceValidateApplPartyIdTest {
     @Test
     public void withValidResponseShouldReturnValidResponse() throws ApiException {
 
-        ValidateApplicantPartyIdOrdsResponse response = sut.validateApplicantPartyId(GOOD_PARTY_ID);
+        ValidateApplicantPartyIdResponse response = sut.validateApplicantPartyId(GOOD_PARTY_ID);
 
-        Assertions.assertEquals(BIRTH_DATE, response.getBirthDate());
-        Assertions.assertEquals(BIRTH_PLACE, response.getBirthPlace());
-        Assertions.assertEquals(DRIVER_LICENSE, response.getDriversLicense());
-        Assertions.assertEquals(FIRST_NAME, response.getFirstName());
-        Assertions.assertEquals(GENDER, response.getGender());
-        Assertions.assertEquals(SECOND_NAME, response.getSecondName());
-        Assertions.assertEquals(SURNAME, response.getSurname());
-        Assertions.assertEquals(STATUS_CODE, response.getStatusCode());
-        Assertions.assertEquals(STATUS_MESSAGE, response.getStatusMessage());
+        Assertions.assertEquals(BIRTH_DATE, response.getFoundBirthDate());
+        Assertions.assertEquals(BIRTH_PLACE, response.getFoundBirthPlace());
+        Assertions.assertEquals(DRIVER_LICENSE, response.getFoundDriversLicence());
+        Assertions.assertEquals(FIRST_NAME, response.getFoundFirstName());
+        Assertions.assertEquals(GENDER, response.getFoundGenderTxt());
+        Assertions.assertEquals(SECOND_NAME, response.getFoundSecondName());
+        Assertions.assertEquals(SURNAME, response.getFoundSurname());
+        Assertions.assertEquals(Integer.parseInt(STATUS_CODE), response.getRespCode());
+        Assertions.assertEquals(STATUS_MESSAGE, response.getRespMsg());
     }
 
     /**
@@ -99,9 +100,9 @@ public class ApplicantServiceValidateApplPartyIdTest {
      */
     @Test
     public void withInvalidResponseShouldReturnInvalidResponse() throws ApiException {
-        ValidateApplicantPartyIdOrdsResponse response = sut.validateApplicantPartyId(BAD_PARTY_ID);
-        Assertions.assertEquals(ERROR_STATUS_CODE, response.getStatusCode());
-        Assertions.assertEquals(ERROR_STATUS_MESSAGE, response.getStatusMessage());
+        ValidateApplicantPartyIdResponse response = sut.validateApplicantPartyId(BAD_PARTY_ID);
+        Assertions.assertEquals(Integer.parseInt(ERROR_STATUS_CODE), response.getRespCode());
+        Assertions.assertEquals(ERROR_STATUS_MESSAGE, response.getRespMsg());
     }
 
     /**
@@ -111,7 +112,7 @@ public class ApplicantServiceValidateApplPartyIdTest {
     public void ValidateFigaroControllerException() throws ApiException {
 
         Assertions.assertThrows(ApiException.class, () -> {
-            ValidateApplicantPartyIdOrdsResponse response = sut.validateApplicantPartyId(EXCEPTION_PARTY_ID);
+            ValidateApplicantPartyIdResponse response = sut.validateApplicantPartyId(EXCEPTION_PARTY_ID);
         });
     }
 

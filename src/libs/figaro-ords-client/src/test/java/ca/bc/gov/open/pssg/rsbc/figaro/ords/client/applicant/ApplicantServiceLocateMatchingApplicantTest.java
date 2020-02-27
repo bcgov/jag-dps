@@ -163,8 +163,6 @@ public class ApplicantServiceLocateMatchingApplicantTest {
         Assertions.assertEquals(FOUND_SURNAME, response.getFoundSurname());
         Assertions.assertEquals(0, response.getRespCode());
         Assertions.assertEquals(STATUS_MESSAGE, response.getRespMsg());
-
-
     }
 
     @Test
@@ -191,8 +189,6 @@ public class ApplicantServiceLocateMatchingApplicantTest {
 
         Assertions.assertEquals(-22, response.getRespCode());
         Assertions.assertEquals(ERROR_STATUS_MESSAGE, response.getRespMsg());
-
-
     }
 
     @Test
@@ -219,7 +215,6 @@ public class ApplicantServiceLocateMatchingApplicantTest {
 
         Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, response.getRespCode());
         Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE, response.getRespMsg());
-
     }
 
 }

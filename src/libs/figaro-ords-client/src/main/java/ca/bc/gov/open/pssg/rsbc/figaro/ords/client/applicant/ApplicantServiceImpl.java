@@ -5,10 +5,8 @@ import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.MatchingApplicantsOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantServiceOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.LocateMatchingApplicantsRequest;
-import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.LocateMatchingApplicantsResponse;
-import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantForSharingRequest;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgApplicantServiceOrdsResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,45 +32,49 @@ public class ApplicantServiceImpl implements ApplicantService {
      *
      * service method to get the response for /validateApplicantForSharing requests
      *
-     * @param validateApplicantForSharingRequest
+     * @param request
      * @return
      * @throws ApiException
      */
     @Override
-    public ValidateApplicantForSharingOrdsResponse validateApplicantForSharing(
-            ValidateApplicantForSharingRequest validateApplicantForSharingRequest)
+    public ValidateApplicantForSharingResponse validateApplicantForSharing(ValidateApplicantForSharingRequest request)
             throws ApiException {
 
         try {
-            return applicantApi.validateApplicantForSharing(validateApplicantForSharingRequest.getApplPartyId(), validateApplicantForSharingRequest.getJurisdictionType());
+            ValidateApplicantForSharingOrdsResponse response = this.applicantApi.validateApplicantForSharing(
+                    request.getApplPartyId(), request.getJurisdictionType());
+            return ValidateApplicantForSharingResponse.SuccessResponse(response.getValidationResult(),
+                    response.getStatusCode(), response.getStatusMessage());
+
         } catch (ApiException ex) {
-            logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
+            logger.error("Exception caught as Applicant Service, validateApplicantForSharing : " + ex.getMessage());
             ex.printStackTrace();
             throw ex;
         }
     }
 
     @Override
-    public ValidateApplicantPartyIdOrdsResponse validateApplicantPartyId(String applPartyId)
+    public ValidateApplicantPartyIdResponse validateApplicantPartyId(String applPartyId)
             throws ApiException {
 
         try {
-            return applicantApi.validateApplicantPartyId(applPartyId);
+            ValidateApplicantPartyIdOrdsResponse response = this.applicantApi.validateApplicantPartyId(applPartyId);
+            return ValidateApplicantPartyIdResponse.SuccessResponse(response.getStatusCode(), response.getStatusMessage(),
+                    response.getSurname(), response.getFirstName(), response.getSecondName(), response.getBirthDate(),
+                    response.getDriversLicense(), response.getBirthPlace(), response.getGender());
+
         } catch (ApiException ex) {
-            logger.error("Exception caught as Figaro Validator Service, ValidatePartyId : " + ex.getMessage());
+            logger.error("Exception caught as Applicant Service, validateApplicantPartyId : " + ex.getMessage());
             ex.printStackTrace();
             throw ex;
         }
-
     }
-
 
     @Override
     public LocateMatchingApplicantsResponse locateMatchingApplicants(LocateMatchingApplicantsRequest lmr) {
 
         try {
-
-            MatchingApplicantsOrdsResponse response = applicantApi.matchingApplicants(
+            MatchingApplicantsOrdsResponse response = this.applicantApi.matchingApplicants(
                     lmr.getApplAliasFirstName1(),
                     lmr.getApplAliasFirstName2(),
                     lmr.getApplAliasFirstName3(),
@@ -103,29 +105,26 @@ public class ApplicantServiceImpl implements ApplicantService {
                     response.getFoundGender());
 
         } catch (ApiException ex) {
-            logger.error("ORDS client exception: " + ex.getMessage());
+            logger.error("Exception caught as Applicant Service, locateMatchingApplicants : " + ex.getMessage());
             ex.printStackTrace();
             return LocateMatchingApplicantsResponse.ErrorResponse();
         }
-
     }
 
     @Override
     /*
-     * service method to get the response for /validateOrgApplicantServiceOrdsResponse requests
+     * service method to get the response for /validateApplicantService requests
      */
-    public ValidateApplicantServiceOrdsResponse validateApplicantService(String applPartyId,
-                                                                                     String orgPartyId) throws ApiException {
+    public ValidateOrgApplicantServiceResponse validateOrgApplicantService(String applPartyId,
+                                                                     String orgPartyId) throws ApiException {
 
         try {
-            return applicantApi.validateOrgApplicantService(applPartyId, orgPartyId);
+            ValidateOrgApplicantServiceOrdsResponse response = this.applicantApi.validateOrgApplicantService(applPartyId, orgPartyId);
+            return ValidateOrgApplicantServiceResponse.SuccessResponse(response.getValidationResult(), response.getStatusCode(), response.getStatusMessage());
         } catch (ApiException ex) {
-            logger.error("An exception occurred while trying to invoke ORDS method validateOrgApplicantServiceOrdsResponse()  : "
-                    + ex.getMessage());
+            logger.error("Exception caught as Applicant Service, validateOrgApplicantService : " + ex.getMessage());
             ex.printStackTrace();
             throw ex;
         }
-
     }
-
 }
