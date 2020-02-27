@@ -44,10 +44,10 @@ public class DpsDocumentResponse {
         return respMsg;
     }
 
-    public static DpsDocumentResponse ErrorResponse(String validationResult) {
+    public static DpsDocumentResponse ErrorResponse(String errorMessage) {
         return new DpsDocumentResponse(
                 FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
-                FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE);
+                errorMessage);
     }
 
     public static DpsDocumentResponse SuccessResponse(String guid, String respCodeStr, String respMsg) {

@@ -33,10 +33,10 @@ public class DpsDataIntoFigaroResponse {
         return respMsg;
     }
 
-    public static DpsDataIntoFigaroResponse ErrorResponse(String validationResult) {
+    public static DpsDataIntoFigaroResponse ErrorResponse(String errorMessage) {
         return new DpsDataIntoFigaroResponse(
                 FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
-                FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE);
+                errorMessage);
     }
 
     public static DpsDataIntoFigaroResponse SuccessResponse(String respCodeStr, String respMsg) {
