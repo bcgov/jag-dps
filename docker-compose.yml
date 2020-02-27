@@ -68,7 +68,7 @@ services:
       context: ./src
       args:
         - spring_profiles_active=cloud
-        - MVN_PROFILES=figvalidationservice,splunk
+        - MVN_PROFILES=figvalidationservice,openshift
         - DPS_SERVICE_NAME=figvalidationservice
     environment: 
       - SWAGGER_UI_ENABLED=true
@@ -86,8 +86,8 @@ services:
       context: ./src
       args:
         - spring_profiles_active=cloud
-        - MVN_PROFILES=dpsvalidationservice,splunk
-        - DPS_SERVICE_NAME=dpsvalidationservice
+        - MVN_PROFILES=dps-validation-service,splunk
+        - DPS_SERVICE_NAME=dps-validation-service
     environment: 
       - SWAGGER_UI_ENABLED=true
       - DFCMS_BASE_PATH=$DFCMS_BASE_PATH
