@@ -73,6 +73,11 @@
             <id>libs</id>
             <modules>
                 <module>libs/dps-notification</module>
+                <module>libs/dps-files</module>
+                <module>libs/figaro-ords-client</module>
+                <module>libs/vips-ords-client</module>
+                <module>libs/dps-sftp-starter</module>
+                <module>libs/dps-messaging-starter</module>
             </modules>
         </profile>
         <profile>
