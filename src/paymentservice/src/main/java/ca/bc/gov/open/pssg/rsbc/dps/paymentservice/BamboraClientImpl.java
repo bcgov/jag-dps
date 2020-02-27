@@ -1,19 +1,16 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.StringUtils;
-
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Bambora Client class Implementation
@@ -31,7 +28,6 @@ public class BamboraClientImpl implements PaymentClient {
 	private String merchantId = null;
 	private String hashKey = null;
 	private int minutesToExpire;
-	private String correlationId = null;
 	
 	public URL getHostedPaymentServiceURL() {
 		return hostedPaymentURL;
@@ -47,10 +43,6 @@ public class BamboraClientImpl implements PaymentClient {
 
 	public int getMinutesToExpire() {
 		return minutesToExpire;
-	}
-	
-	public String getCorrelationId() {
-		return correlationId;
 	}
 
 	// constructor
@@ -68,18 +60,13 @@ public class BamboraClientImpl implements PaymentClient {
 	 * Note: Refer to See https://help.na.bambora.com/hc/en-us/articles/115010303987-Hash-validation-for-Checkout for a complete 
 	 * description on the Payment URL calculation. 
 	 * 
-	 * @param singlePaymentRequest
+	 * @param spr
 	 * @return
 	 * @throws PaymentServiceException
 	 */
 	@Override
 	public URL calculateSinglePaymentURL(SinglePaymentRequest spr)
 			throws PaymentServiceException {
-		
-		// add correlationId if non provided in request. 
-		if (StringUtils.isEmpty(spr.getCorrelationId())) {
-			this.correlationId = generateUniqueCorrelationId();
-		}
 		
 		String redirect = null;
 		
@@ -131,8 +118,6 @@ public class BamboraClientImpl implements PaymentClient {
 			logger.fatal("Error at calculateSinglePaymentURL: " + ex.getMessage());
 			throw new PaymentServiceException(ex.getMessage(), ex);
 			
-		} finally {
-			//MDC.remove(PaymentServiceConstants.PAYMENT_CORRELATION_ID);
 		}
 	}
 
@@ -149,12 +134,4 @@ public class BamboraClientImpl implements PaymentClient {
 		return digest.toUpperCase();
 	}
 	
-	/**
-	 * 
-	 * generateUniqueCorrelationId - provides a new correlationId. 
-	 * @return
-	 */
-	private String generateUniqueCorrelationId() {
-        return UUID.randomUUID().toString();
-    }
 }
