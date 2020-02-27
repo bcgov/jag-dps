@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types;
 
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,13 +25,17 @@ public class ValidateApplicantPartyIdResponse {
 	private String foundDriversLicence; 
 	private String foundBirthPlace; 
 	private String foundGenderTxt;
-	
+
+
+	private ValidateApplicantPartyIdResponse(int respCode, String respMsg) {
+		this.respCode = respCode;
+		this.respMsg = respMsg;
+	}
 
 	public ValidateApplicantPartyIdResponse(String respMsg, int respCode, String foundSurname, String foundFirstName,
 			String foundSecondName, String foundBirthDate, String foundDriversLicence, String foundBirthPlace,
 			String foundGenderTxt) {
-		this.respMsg = respMsg;
-		this.respCode = respCode;
+		this(respCode, respMsg);
 		this.foundSurname = foundSurname;
 		this.foundFirstName = foundFirstName;
 		this.foundSecondName = foundSecondName;
@@ -79,8 +84,22 @@ public class ValidateApplicantPartyIdResponse {
 
 	public String getFoundGenderTxt() {
 		return foundGenderTxt;
-	}; 
-	
+	};
+
+	public static ValidateApplicantPartyIdResponse ErrorResponse(String errorMessage) {
+		return new ValidateApplicantPartyIdResponse(
+				FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
+				errorMessage);
+	}
+
+	public static ValidateApplicantPartyIdResponse SuccessResponse(String respCodeStr, String respMsg, String foundSurname, String foundFirstName,
+																   String foundSecondName, String foundBirthDate, String foundDriversLicence, String foundBirthPlace,
+																   String foundGenderTxt) {
+
+		return new ValidateApplicantPartyIdResponse(respMsg, Integer.parseInt(respCodeStr), foundSurname, foundFirstName,
+				foundSecondName, foundBirthDate, foundDriversLicence, foundBirthPlace,
+				foundGenderTxt);
+	}
 }
 
 

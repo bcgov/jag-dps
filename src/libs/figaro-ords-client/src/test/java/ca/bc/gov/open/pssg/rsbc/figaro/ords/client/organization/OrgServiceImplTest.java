@@ -72,7 +72,7 @@ public class OrgServiceImplTest {
 
         ValidateOrgDrawDownBalanceResponse result = sut.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest(CASE_SUCCESS, "a", "b"));
 
-        Assertions.assertEquals(0, result.getRespCode());
+        Assertions.assertEquals(Integer.parseInt(STATUS_CODE), result.getRespCode());
         Assertions.assertEquals(STATUS_MESSAGE, result.getRespMsg());
         Assertions.assertEquals(VALIDATION_RESULT, result.getValidationResult());
     }
@@ -82,7 +82,7 @@ public class OrgServiceImplTest {
 
         ValidateOrgDrawDownBalanceResponse result = sut.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest(CASE_FAIL, "a", "b"));
 
-        Assertions.assertEquals(-2, result.getRespCode());
+        Assertions.assertEquals(Integer.parseInt(ERROR_CODE), result.getRespCode());
         Assertions.assertEquals(ERROR_MESSAGE, result.getRespMsg());
         Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getValidationResult());
     }
@@ -102,7 +102,7 @@ public class OrgServiceImplTest {
 
         ValidateOrgPartyResponse result = sut.validateOrgParty(new ValidateOrgPartyRequest(CASE_SUCCESS, "a", "b", "c", "d", "e", "f"));
 
-        Assertions.assertEquals(0, result.getRespCode());
+        Assertions.assertEquals(Integer.parseInt(STATUS_CODE), result.getRespCode());
         Assertions.assertEquals(STATUS_MESSAGE, result.getRespMsg());
         Assertions.assertEquals(VALIDATION_RESULT, result.getValidationResult());
     }
@@ -112,7 +112,7 @@ public class OrgServiceImplTest {
 
         ValidateOrgPartyResponse result = sut.validateOrgParty(new ValidateOrgPartyRequest(CASE_FAIL, "a", "b", "c", "d", "e", "f"));
 
-        Assertions.assertEquals(-2, result.getRespCode());
+        Assertions.assertEquals(Integer.parseInt(ERROR_CODE), result.getRespCode());
         Assertions.assertEquals(ERROR_MESSAGE, result.getRespMsg());
         Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getValidationResult());
     }

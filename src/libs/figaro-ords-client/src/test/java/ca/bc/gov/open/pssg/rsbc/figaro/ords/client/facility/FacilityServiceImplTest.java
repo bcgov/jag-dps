@@ -65,7 +65,7 @@ public class FacilityServiceImplTest {
 
         Assertions.assertEquals(FACILITY_NAME, result.getFoundFacilityName());
         Assertions.assertEquals(FOUND_FACILITY_PARTY_ID, result.getFoundFacilityPartyId());
-        Assertions.assertEquals(0, result.getRespCode());
+        Assertions.assertEquals(Integer.parseInt(STATUS_CODE), result.getRespCode());
         Assertions.assertEquals(STATUS_MESSAGE, result.getRespMsg());
         Assertions.assertEquals(VALIDATION_RESULT, result.getValidationResult());
     }
@@ -74,7 +74,7 @@ public class FacilityServiceImplTest {
     public void withInvalidResponseShouldReturnValid() {
 
         ValidateFacilityPartyResponse result = sut.validateFacilityParty(new ValidateFacilityPartyRequest(FACILITY_PARTY_ID_FAIL, "a", "b", "c", "d", "e"));
-        Assertions.assertEquals(-2, result.getRespCode());
+        Assertions.assertEquals(Integer.parseInt(ERROR_CODE), result.getRespCode());
         Assertions.assertEquals(ERROR_MESSAGE, result.getRespMsg());
         Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getValidationResult());
     }

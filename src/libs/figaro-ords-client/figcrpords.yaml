@@ -187,7 +187,7 @@ paths:
         '200':
           description: output of the endpoint
           schema:
-            $ref: '#/definitions/validateApplicantServiceOrdsResponse'
+            $ref: '#/definitions/validateOrgApplicantServiceOrdsResponse'
         '400':
           description: output of the endpoint
           schema:
@@ -439,7 +439,7 @@ definitions:
         type: string
       status_message:
         type: string
-  validateApplicantServiceOrdsResponse:
+  validateOrgApplicantServiceOrdsResponse:
     type: object
     required:
     - validation_result
