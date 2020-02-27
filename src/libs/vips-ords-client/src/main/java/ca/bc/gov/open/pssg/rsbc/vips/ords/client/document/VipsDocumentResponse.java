@@ -43,10 +43,10 @@ public class VipsDocumentResponse {
         return respMsg;
     }
 
-    public static VipsDocumentResponse ErrorResponse(String validationResult) {
+    public static VipsDocumentResponse ErrorResponse(String errorMessage) {
         return new VipsDocumentResponse(
-                VipsOrdsClientConstants.FIGARO_SERVICE_FAILURE_CD,
-                VipsOrdsClientConstants.FIGARO_SERVICE_BOOLEAN_FALSE);
+                VipsOrdsClientConstants.SERVICE_FAILURE_CD,
+                errorMessage);
     }
 
     public static VipsDocumentResponse SuccessResponse(String documentIdStr, String respCodeStr, String respMsg) {

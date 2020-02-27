@@ -1,10 +1,13 @@
-package ca.bc.gov.open.pssg.rsbc.vips.ords.client;
+package ca.bc.gov.open.pssg.rsbc.vips.ords.client.document;
 
 import ca.bc.gov.open.ords.vips.client.api.DocumentApi;
+import ca.bc.gov.open.ords.vips.client.api.HealthApi;
 import ca.bc.gov.open.ords.vips.client.api.handler.ApiException;
+import ca.bc.gov.open.ords.vips.client.api.model.HealthOrdsResponse;
 import ca.bc.gov.open.ords.vips.client.api.model.VipsDocumentOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.DocumentServiceImpl;
-import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.VipsDocumentResponse;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.VipsOrdsClientConstants;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.health.HealthResponse;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.health.HealthServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -76,7 +79,51 @@ public class DocumentServiceImplTest {
 
         VipsDocumentResponse result = sut.vipsDocument(TYPE_CODE_EXCEPTION, "a", "b", "c", "d", null);
 
-        Assertions.assertEquals(VipsOrdsClientConstants.FIGARO_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(VipsOrdsClientConstants.FIGARO_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
+        Assertions.assertEquals(VipsOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(API_EXCEPTION, result.getRespMsg());
+    }
+
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    public static class HealthServiceImplTest {
+
+        public static final String API_EXCEPTION = "api exception";
+        private HealthServiceImpl sut;
+
+        private static final String APP_ID = "FIGCRP";
+        private static final String METHOD = "health_check";
+        private static final String STATUS = "success";
+        private static final String HOST = "devdb";
+        private static final String INSTANCE = "deva";
+
+        @Mock
+        private HealthApi healthApiMock;
+
+        @BeforeAll
+        public void setup() throws ApiException {
+            MockitoAnnotations.initMocks(this);
+
+            sut = new HealthServiceImpl(healthApiMock);
+        }
+
+        @Test
+        public void withHealthReturnValidResponse() throws ApiException {
+
+            HealthOrdsResponse successResponse = new HealthOrdsResponse();
+            successResponse.setAppid(APP_ID);
+            successResponse.setMethod(METHOD);
+            successResponse.setStatus(STATUS);
+            successResponse.setHost(HOST);
+            successResponse.setInstance(INSTANCE);
+
+            Mockito.when(healthApiMock.health()).thenReturn(successResponse);
+
+            HealthResponse result = sut.health();
+
+            Assertions.assertEquals(APP_ID, result.getAppid());
+            Assertions.assertEquals(METHOD, result.getMethod());
+            Assertions.assertEquals(STATUS, result.getStatus());
+            Assertions.assertEquals(HOST, result.getHost());
+            Assertions.assertEquals(INSTANCE, result.getInstance());
+        }
     }
 }
