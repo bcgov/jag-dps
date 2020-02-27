@@ -49,7 +49,6 @@ public class ApplicantServiceValidateApplicantForSharingTest {
         Mockito.when(applicantApiMock.validateApplicantForSharing(Mockito.eq("3"), Mockito.anyString())).thenThrow(new ApiException(API_EXCEPTION));
 
         sut = new ApplicantServiceImpl(applicantApiMock);
-
     }
 
 
