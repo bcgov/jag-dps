@@ -11,9 +11,9 @@
         </relativePath>
     </parent>
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
-    <artifactId>dpsvalidationservice</artifactId>
+    <artifactId>dps-validation-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>dpsvalidationservice</name>
+    <name>dps-validation-service</name>
     <description>DPS Validation Service module</description>
 
 
