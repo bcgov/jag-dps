@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.document;
 
 import ca.bc.gov.open.ords.figcr.client.api.DocumentApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;

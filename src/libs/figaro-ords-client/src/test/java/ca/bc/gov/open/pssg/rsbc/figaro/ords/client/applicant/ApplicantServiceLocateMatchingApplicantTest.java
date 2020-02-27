@@ -217,8 +217,8 @@ public class ApplicantServiceLocateMatchingApplicantTest {
                         APPL_ALIAS_FIRST_NAME_3,
                         APPL_ALIAS_SECOND_INITIAL_3));
 
-        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
-        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, response.getRespMsg());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, response.getRespCode());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE, response.getRespMsg());
 
     }
 

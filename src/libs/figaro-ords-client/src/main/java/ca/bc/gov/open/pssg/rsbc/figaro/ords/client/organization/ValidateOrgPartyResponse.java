@@ -66,11 +66,11 @@ public class ValidateOrgPartyResponse {
 
     public String getRespMsg() { return respMsg; }
 
-    public static ValidateOrgPartyResponse ErrorResponse(String validationResult) {
+    public static ValidateOrgPartyResponse ErrorResponse(String errorMessage) {
         return new ValidateOrgPartyResponse(
-                validationResult,
-                FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD,
-                FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+                FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE,
+                FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
+                errorMessage);
     }
 
     public static ValidateOrgPartyResponse SuccessResponse(String validationResult, String respCodeStr, String respMsg,

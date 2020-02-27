@@ -12,12 +12,12 @@ public class FigaroOrdsClientConstants {
 	private FigaroOrdsClientConstants() {}
 
 	// Response code types; anything >= 0 is good, anything < 0 is bad. 
-	public static final int VALIDATION_SERVICE_FAILURE_CD = -1;
-	public static final int VALIDATION_SERVICE_SUCCESS_CD = 0;
+	public static final int SERVICE_FAILURE_CD = -1;
+	public static final int SERVICE_SUCCESS_CD = 0;
 
 	// boolean type constants
-	public static final String VALIDATION_SERVICE_BOOLEAN_FALSE = "F";
-	public static final String VALIDATION_SERVICE_BOOLEAN_TRUE = "T";
+	public static final String SERVICE_BOOLEAN_FALSE = "F";
+	public static final String SERVICE_BOOLEAN_TRUE = "T";
 	
 	
 	

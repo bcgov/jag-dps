@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.document;
 
 /**
  * Collection of services for documents.

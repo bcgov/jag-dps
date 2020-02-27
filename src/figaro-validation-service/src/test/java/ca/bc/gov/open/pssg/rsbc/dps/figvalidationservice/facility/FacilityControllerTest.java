@@ -60,9 +60,9 @@ public class FacilityControllerTest {
     public void withInvalidResponseShouldReturnValid() {
 
         ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_FAIL, "a", "b", "c", "d", "e");
-        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
-        Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getValidationResult());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE, result.getValidationResult());
+        Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getRespMsg());
     }
 
 }
