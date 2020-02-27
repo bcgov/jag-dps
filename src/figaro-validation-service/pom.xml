@@ -177,6 +177,12 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <!-- Access logs configuration -->
+        <dependency>
+            <groupId>net.rakugakibox.spring.boot</groupId>
+            <artifactId>logback-access-spring-boot-starter</artifactId>
+            <version>2.7.1</version>
+        </dependency>
 
     </dependencies>
 
