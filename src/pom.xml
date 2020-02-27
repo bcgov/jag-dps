@@ -85,7 +85,7 @@
                 <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>paymentservice</module>
-                <module>dpsvalidationservice</module>
+                <module>dps-validation-service</module>
                 <module>figaro-validation-service</module>
                 <module>dpsnotificationservice</module>
                 <module>spd-notification-worker</module>
@@ -99,9 +99,9 @@
             </modules>
         </profile>
         <profile>
-            <id>dpsvalidationservice</id>
+            <id>dps-validation-service</id>
             <modules>
-                <module>dpsvalidationservice</module>
+                <module>dps-validation-service</module>
             </modules>
         </profile>
         <profile>
