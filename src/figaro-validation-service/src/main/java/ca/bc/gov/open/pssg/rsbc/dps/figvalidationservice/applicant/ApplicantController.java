@@ -63,8 +63,8 @@ public class ApplicantController {
             logger.error("Exception caught as validateApplicantForSharing : " + ex.getMessage());
             ex.printStackTrace();
             return new ValidateApplicantForSharingResponse(ex.getMessage(),
-                    FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD,
-                    FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+                    FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
+                    FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE);
         }
 
     }
@@ -98,7 +98,7 @@ public class ApplicantController {
             ex.printStackTrace();
 
             return new ValidateApplicantPartyIdResponse(ex.getMessage(),
-                    FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD);
+                    FigaroOrdsClientConstants.SERVICE_FAILURE_CD);
 
         }
 
@@ -171,8 +171,8 @@ public class ApplicantController {
             logger.error("An exception occurred in ValidateApplicantServiceResponse validateApplicantService() : " + ex.getMessage());
             ex.printStackTrace();
             return new ValidateApplicantServiceResponse(ex.getMessage(),
-                    FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD,
-                    FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+                    FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
+                    FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE);
         }
 
     }
