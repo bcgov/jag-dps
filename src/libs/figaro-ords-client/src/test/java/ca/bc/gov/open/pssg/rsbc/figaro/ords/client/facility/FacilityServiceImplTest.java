@@ -83,8 +83,8 @@ public class FacilityServiceImplTest {
     public void withApiExceptionShouldReturnValid() {
 
         ValidateFacilityPartyResponse result = sut.validateFacilityParty(new ValidateFacilityPartyRequest(FACILITY_PARTY_ID_EXCEPTION, "a", "b", "c", "d", "e"));
-        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
-        Assertions.assertEquals(API_EXCEPTION, result.getValidationResult());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE, result.getValidationResult());
+        Assertions.assertEquals(API_EXCEPTION, result.getRespMsg());
     }
 }

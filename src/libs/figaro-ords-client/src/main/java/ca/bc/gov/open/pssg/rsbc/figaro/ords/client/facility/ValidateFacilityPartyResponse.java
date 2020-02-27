@@ -69,8 +69,8 @@ public class ValidateFacilityPartyResponse {
     public static ValidateFacilityPartyResponse ErrorResponse(String validationResult) {
         return new ValidateFacilityPartyResponse(
                 validationResult,
-                FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD,
-                FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+                FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
+                FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE);
     }
 
     public static ValidateFacilityPartyResponse SuccessResponse(String validationResult, String respCodeStr, String respMsg, String foundFacilityPartyId,

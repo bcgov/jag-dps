@@ -6,7 +6,7 @@ import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.spd.notification.worker.generated.models.Data;
-import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document.*;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.document.*;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

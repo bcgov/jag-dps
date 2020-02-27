@@ -46,11 +46,11 @@ public class ValidateOrgDrawDownBalanceResponse {
         return respMsg;
     }
 
-    public static ValidateOrgDrawDownBalanceResponse ErrorResponse(String validationResult) {
+    public static ValidateOrgDrawDownBalanceResponse ErrorResponse(String errorMessage) {
         return new ValidateOrgDrawDownBalanceResponse(
-                validationResult,
-                FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD,
-                FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+                FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE,
+                FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
+                errorMessage);
     }
 
     public static ValidateOrgDrawDownBalanceResponse SuccessResponse(String validationResult, String respCodeStr, String respMsg) {

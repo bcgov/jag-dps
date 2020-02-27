@@ -88,8 +88,8 @@ public class LocateMatchingApplicantsResponse {
 	public static LocateMatchingApplicantsResponse ErrorResponse() {
 
 		return new LocateMatchingApplicantsResponse(
-				FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD,
-				FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE);
+				FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
+				FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE);
 
 	}
 

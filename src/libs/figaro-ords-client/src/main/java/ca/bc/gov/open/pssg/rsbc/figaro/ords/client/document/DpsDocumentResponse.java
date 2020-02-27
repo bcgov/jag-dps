@@ -1,6 +1,6 @@
-package ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.document;
 
-import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.FigaroServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -46,8 +46,8 @@ public class DpsDocumentResponse {
 
     public static DpsDocumentResponse ErrorResponse(String validationResult) {
         return new DpsDocumentResponse(
-                FigaroServiceConstants.FIGARO_SERVICE_FAILURE_CD,
-                FigaroServiceConstants.FIGARO_SERVICE_BOOLEAN_FALSE);
+                FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
+                FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE);
     }
 
     public static DpsDocumentResponse SuccessResponse(String guid, String respCodeStr, String respMsg) {

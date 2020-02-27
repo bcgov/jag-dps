@@ -92,9 +92,9 @@ public class OrgServiceImplTest {
 
         ValidateOrgDrawDownBalanceResponse result = sut.validateOrgDrawDownBalance(new ValidateOrgDrawDownBalanceRequest(CASE_EXCEPTION, "a", "b"));
 
-        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
-        Assertions.assertEquals(API_EXCEPTION, result.getValidationResult());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE, result.getValidationResult());
+        Assertions.assertEquals(API_EXCEPTION, result.getRespMsg());
     }
 
     @Test
@@ -122,8 +122,8 @@ public class OrgServiceImplTest {
 
         ValidateOrgPartyResponse result = sut.validateOrgParty(new ValidateOrgPartyRequest(CASE_EXCEPTION, "a", "b", "c", "d", "e", "f"));
 
-        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroOrdsClientConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
-        Assertions.assertEquals(API_EXCEPTION, result.getValidationResult());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE, result.getValidationResult());
+        Assertions.assertEquals(API_EXCEPTION, result.getRespMsg());
     }
 }

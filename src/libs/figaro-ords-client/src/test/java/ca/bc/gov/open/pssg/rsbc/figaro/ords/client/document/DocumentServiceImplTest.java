@@ -1,11 +1,11 @@
-package ca.bc.gov.open.pssg.rsbc.spd.notification.worker.document;
+package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.document;
 
 import ca.bc.gov.open.ords.figcr.client.api.DocumentApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.DpsDataIntoFigaroOrdsRequestBody;
 import ca.bc.gov.open.ords.figcr.client.api.model.DpsDataIntoFigaroOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.DpsDocumentOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.spd.notification.worker.FigaroServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -109,8 +109,8 @@ public class DocumentServiceImplTest {
         DpsDataIntoFigaroRequestBody request = new DpsDataIntoFigaroRequestBody.Builder().withScheduleType(SCHEDULE_TYPE_EXCEPTION).build();
         DpsDataIntoFigaroResponse result = sut.dpsDataIntoFigaro(request);
 
-        Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(API_EXCEPTION, result.getRespMsg());
     }
 
     @Test
@@ -140,7 +140,7 @@ public class DocumentServiceImplTest {
         DpsDocumentRequestBody request = new DpsDocumentRequestBody(SERVER_NAME_EXCEPTION, "a");
         DpsDocumentResponse result = sut.dpsDocument(request);
 
-        Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroServiceConstants.FIGARO_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(API_EXCEPTION, result.getRespMsg());
     }
 }
