@@ -77,8 +77,8 @@ public class OrganizationControllerTest {
         ValidateOrgDrawDownBalanceResponse result = sut.ValidateOrgDrawDownBalance(CASE_FAIL, "b", "c");
 
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
-        Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getValidationResult());
+        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getValidationResult());
+        Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getRespMsg());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class OrganizationControllerTest {
         ValidateOrgPartyResponse result = sut.ValidateOrgParty(CASE_FAIL, "b", "c", "d", "e", "f", "g");
 
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
-        Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getValidationResult());
+        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getValidationResult());
+        Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getRespMsg());
     }
 }
