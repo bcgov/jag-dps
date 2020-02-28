@@ -5,6 +5,8 @@
     <modules>
         <module>libs/dps-notification</module>
         <module>libs/figaro-ords-client</module>
+        <module>libs/dfcms-ords-client</module>
+        <module>libs/vips-ords-client</module>
         <module>libs/dps-sftp-starter</module>
         <module>libs/dps-messaging-starter</module>
         <module>libs/dps-files</module>
@@ -74,6 +76,7 @@
             <modules>
                 <module>libs/dps-notification</module>
                 <module>libs/dps-files</module>
+                <module>libs/dfcms-ords-client</module>
                 <module>libs/figaro-ords-client</module>
                 <module>libs/vips-ords-client</module>
                 <module>libs/dps-sftp-starter</module>
@@ -85,6 +88,7 @@
             <modules>
                 <module>libs/dps-notification</module>
                 <module>libs/dps-files</module>
+                <module>libs/dfcms-ords-client</module>
                 <module>libs/figaro-ords-client</module>
                 <module>libs/vips-ords-client</module>
                 <module>libs/dps-sftp-starter</module>
@@ -106,6 +110,7 @@
         <profile>
             <id>dps-validation-service</id>
             <modules>
+                <module>libs/dfcms-ords-client</module>
                 <module>dps-validation-service</module>
             </modules>
         </profile>
