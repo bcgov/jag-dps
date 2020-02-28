@@ -88,10 +88,11 @@ public class BamboraClientImpl implements PaymentClient {
 			
 			String paramString = String.join("&", params);
 			
-			paramString += errorParam + approvedParam + declinedParam + ref1Param + ref2Param + ref3Param;
+			paramString += errorParam + approvedParam + declinedParam;
 			paramString += "&" + PaymentServiceConstants.BAMBORA_PARAM_TRANS_AMOUNT + "=";
 			paramString += String.format("%1$,.2f", spr.getTotalItemsAmount() + spr.getTotalPST() + spr.getTotalGST());
-	
+			paramString += ref1Param + ref2Param + ref3Param;
+
 			// Replace spaces with escaped equivalent
 			paramString = paramString.replace(" ", "%20");
 	
@@ -108,8 +109,7 @@ public class BamboraClientImpl implements PaymentClient {
 			String expiry = sdfDate.format(cal.getTime());
 	
 			// Add hash and expiry to the redirect
-			paramString = paramString.replace(this.hashKey, "&" + PaymentServiceConstants.BAMBORA_PARAM_HASH_VALUE + "=" + hashed
-					+ "&" + PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY + "=" + expiry);
+			paramString = paramString.replace(this.hashKey, "&" + PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY + "=" + expiry + "&" + PaymentServiceConstants.BAMBORA_PARAM_HASH_VALUE + "=" + hashed);
 	
 			redirect = this.hostedPaymentURL + "?" + paramString;
 			return new URL(redirect);
