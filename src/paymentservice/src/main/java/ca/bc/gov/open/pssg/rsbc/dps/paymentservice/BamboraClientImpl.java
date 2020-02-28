@@ -74,8 +74,8 @@ public class BamboraClientImpl implements PaymentClient {
 	
 			// Add the optional parameters if available.
 			String errorParam = StringUtils.isNotEmpty(spr.getErrorPage() ) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_ERROR_PAGE + "=" + spr.getErrorPage(): "";
-			String declinedParam = StringUtils.isNotEmpty( spr.getApprovedPage()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_APPV_PAGE + "=" + spr.getApprovedPage(): "";
-			String approvedParam = StringUtils.isNotEmpty( spr.getDeclinedPage()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_DECL_PAGE + "=" + spr.getDeclinedPage(): "";
+			String approvedParam = StringUtils.isNotEmpty( spr.getApprovedPage()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_APPV_PAGE + "=" + spr.getApprovedPage(): "";
+			String declinedParam = StringUtils.isNotEmpty( spr.getDeclinedPage()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_DECL_PAGE + "=" + spr.getDeclinedPage(): "";
 			String ref1Param = StringUtils.isNotEmpty( spr.getRef1()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF1 + "=" + spr.getRef1() : "";
 			String ref2Param = StringUtils.isNotEmpty( spr.getRef2()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF2 + "=" + spr.getRef2() : "";
 			String ref3Param = StringUtils.isNotEmpty( spr.getRef3()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF3 + "=" + spr.getRef3() : "";
