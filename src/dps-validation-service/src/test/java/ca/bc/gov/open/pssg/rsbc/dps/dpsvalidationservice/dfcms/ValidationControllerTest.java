@@ -1,11 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcms;
 
-import ca.bc.gov.open.ords.dfcms.client.api.DfcmsApi;
-import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiException;
-import ca.bc.gov.open.ords.dfcms.client.api.model.CaseSequenceNumberResponse;
+import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase.CaseSequenceNumberResponse;
+import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase.CaseService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.DpsValidationServiceConstants;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcms.GetValidOpenDFCMCase;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcms.ValidationController;
 import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,60 +17,62 @@ import org.mockito.MockitoAnnotations;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ValidationControllerTest {
 
+    private static final String CODE_SUCCESS = "1234562";
+    private static final String DESC_SUCCESS = "2";
+    private static final String CODE_FAIL = "1234561";
+    private static final String STATUS_CODE = "0";
+    private static final String STATUS_MESSAGE = "success";
+    private static final String FAIL_MESSAGE = "fail";
 
-    public static final String EXPECTED_STATUS = "2";
-    public static final String EXPECTED_DESCRIPTION = "ROUTINE - PROFESSIONAL";
+    private static final String DRIVER_LICENCE_VALID = "1234567";
+    private static final String DRIVER_LICENCE_INVALID = "INVALID";
+    private static final String SURNAME_CODE_VALID = "PEL";
+    private static final String SURNAME_CODE_INVALID = "INVALID#";
+
     @Mock
-    public DfcmsApi dfcmsApiMock;
+    private CaseService caseServiceMock;
 
     private ValidationController sut;
 
     @BeforeAll
     public void SetUp() {
 
-        CaseSequenceNumberResponse caseSequenceNumberResponse = new CaseSequenceNumberResponse();
-        caseSequenceNumberResponse.setCaseDescription(EXPECTED_DESCRIPTION);
-        caseSequenceNumberResponse.setCaseSequenceNumber(EXPECTED_STATUS);
-
         MockitoAnnotations.initMocks(this);
-        try {
-            Mockito.when(dfcmsApiMock.caseSequenceNumberGet("1234567", "PEL"))
-                    .thenReturn(caseSequenceNumberResponse);
 
-            // emulating non 200 response
-            Mockito.when(dfcmsApiMock.caseSequenceNumberGet("1234568", "EXP")).thenThrow(ApiException.class);
+        CaseSequenceNumberResponse successResponse = CaseSequenceNumberResponse.SuccessResponse(CODE_SUCCESS, DESC_SUCCESS, STATUS_CODE, STATUS_MESSAGE);
+        CaseSequenceNumberResponse errorResponse = CaseSequenceNumberResponse.ErrorResponse(FAIL_MESSAGE);
 
-        } catch (ApiException e) {
-            e.printStackTrace();
-        }
+        Mockito.when(caseServiceMock.caseSequenceNumber(Mockito.eq(DRIVER_LICENCE_VALID), Mockito.eq(SURNAME_CODE_VALID))).thenReturn(successResponse);
+        Mockito.when(caseServiceMock.caseSequenceNumber(Mockito.eq(CODE_FAIL), Mockito.eq(SURNAME_CODE_VALID))).thenReturn(errorResponse);
 
-        sut = new ValidationController(dfcmsApiMock);
-
+        sut = new ValidationController(caseServiceMock);
     }
 
     @Test
     public void withValidDriverLicenceAndSurCodeShouldReturnSuccess() {
-        GetValidOpenDFCMCase response = sut.getValidOpenDFCMCase("1234567", "PEL");
-        Assert.assertEquals(EXPECTED_STATUS, response.getResult());
-        Assert.assertEquals(EXPECTED_DESCRIPTION, response.getCaseDesc());
+        CaseSequenceNumberResponse response = sut.getValidOpenDfcmsCase(DRIVER_LICENCE_VALID, SURNAME_CODE_VALID);
+        Assert.assertEquals(Integer.parseInt(STATUS_CODE), response.getRespCode());
+        Assert.assertEquals(STATUS_MESSAGE, response.getRespMsg());
+        Assert.assertEquals(CODE_SUCCESS, response.getCaseSequenceNumber());
+        Assert.assertEquals(DESC_SUCCESS, response.getCaseDescription());
     }
 
     @Test
     public void withInvalidDriverLicenceShouldReturnErrorResponse() {
-        GetValidOpenDFCMCase response = sut.getValidOpenDFCMCase("INVALID", "PEL");
-        Assert.assertEquals(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD, response.getResult());
+        CaseSequenceNumberResponse response = sut.getValidOpenDfcmsCase(DRIVER_LICENCE_INVALID, SURNAME_CODE_VALID);
+        Assert.assertEquals(DpsValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
     }
 
     @Test
     public void withInvalidSurcodeShouldReturnErrorResponse() {
-        GetValidOpenDFCMCase response = sut.getValidOpenDFCMCase("INVALID", "PEL#");
-        Assert.assertEquals(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD, response.getResult());
+        CaseSequenceNumberResponse response = sut.getValidOpenDfcmsCase(DRIVER_LICENCE_VALID, SURNAME_CODE_INVALID);
+        Assert.assertEquals(DpsValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
     }
 
     @Test
-    public void withClientThrowingExceptionShouldReturnErrorResponse() {
-        GetValidOpenDFCMCase response = sut.getValidOpenDFCMCase("1234568", "EXP");
-        Assert.assertEquals(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD, response.getResult());
+    public void withErrorShouldReturnErrorResponse() {
+        CaseSequenceNumberResponse response = sut.getValidOpenDfcmsCase(CODE_FAIL, SURNAME_CODE_VALID);
+        Assert.assertEquals(DpsValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
     }
 
 }

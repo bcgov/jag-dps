@@ -99,10 +99,6 @@ public class ApplicantControllerValidateOrgApplicantTest {
         Mockito.when(applicantServiceMock.validateOrgApplicantService(INVALID_APPL_PARTY_ID, VALID_ORG_PARTY_ID))
                 .thenReturn(inValidApplIdOrdsServiceResp);
 
-        Mockito.when(
-                applicantServiceMock.validateOrgApplicantService(EXCEPTION_ORG_PARTY_ID, EXCEPTION_APPL_PARTY_ID))
-                .thenThrow(ApiException.class);
-
         sut = new ApplicantController(applicantServiceMock);
     }
 
@@ -143,16 +139,6 @@ public class ApplicantControllerValidateOrgApplicantTest {
         Assertions.assertEquals(INVALID_VALIDATION_RESULT, validateOrgApplicantServiceResponse.getValidationResult());
         Assertions.assertEquals(INVALID_APPL_PARTY_ID_RESPONSE_MESSAGE, validateOrgApplicantServiceResponse.getRespMsg());
         Assertions.assertEquals(-1, validateOrgApplicantServiceResponse.getRespCode());
-    }
-
-    /**
-     * exception test
-     */
-    @Test
-    public void validateOrgApplicantServiceControllerException() throws ApiException {
-
-        validateOrgApplicantServiceResponse = sut.validateOrgApplicantService(EXCEPTION_ORG_PARTY_ID, EXCEPTION_APPL_PARTY_ID);
-        Assertions.assertEquals(EXCEPTION_CONTROLLER_RESPCD, validateOrgApplicantServiceResponse.getRespCode());
     }
 
 }

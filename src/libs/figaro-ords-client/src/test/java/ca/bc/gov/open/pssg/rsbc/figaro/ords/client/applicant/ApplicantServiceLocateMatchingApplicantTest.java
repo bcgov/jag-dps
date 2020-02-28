@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ApplicantServiceLocateMatchingApplicantTest {
 
+    private static final String API_EXCEPTION = "api exception";
     private static final String FOUND_BIRTH_DATE = "birtdate";
     private static final String FOUND_BIRTH_PLACE = "birthplace";
     private static final String FOUND_DRIVERS_LICENSE = "driverlicence";
@@ -125,7 +126,7 @@ public class ApplicantServiceLocateMatchingApplicantTest {
                 Mockito.anyString(),
                 Mockito.anyString(),
                 Mockito.anyString(),
-                Mockito.anyString())).thenThrow(ApiException.class);
+                Mockito.anyString())).thenThrow(new ApiException(API_EXCEPTION));
 
         sut = new ApplicantServiceImpl(applicantApiMock);
 
@@ -214,7 +215,7 @@ public class ApplicantServiceLocateMatchingApplicantTest {
                         APPL_ALIAS_SECOND_INITIAL_3));
 
         Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, response.getRespCode());
-        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE, response.getRespMsg());
+        Assertions.assertEquals(API_EXCEPTION, response.getRespMsg());
     }
 
 }

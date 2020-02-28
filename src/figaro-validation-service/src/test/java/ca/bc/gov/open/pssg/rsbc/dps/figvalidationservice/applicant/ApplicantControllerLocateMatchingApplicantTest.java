@@ -23,6 +23,8 @@ public class ApplicantControllerLocateMatchingApplicantTest {
     private static final String FOUND_DRIVERS_LICENCE = "foundDriversLicence";
     private static final String FOUND_BIRTH_PLACE = "foundBirthPlace";
     private static final String FOUND_GENDER_TXT = "foundGenderTxt";
+    private static final String FAIL_RESP_MSG = "invalid";
+
     private ApplicantController sut;
 
     @Mock
@@ -45,13 +47,12 @@ public class ApplicantControllerLocateMatchingApplicantTest {
                 FOUND_BIRTH_PLACE,
                 FOUND_GENDER_TXT);
 
-        LocateMatchingApplicantsResponse errorResponse = LocateMatchingApplicantsResponse.ErrorResponse();
+        LocateMatchingApplicantsResponse errorResponse = LocateMatchingApplicantsResponse.ErrorResponse(FAIL_RESP_MSG);
 
         Mockito.doReturn(successResponse).when(applicantServiceMock).locateMatchingApplicants(ArgumentMatchers.argThat(x -> x.getApplAliasFirstName1().equals("1")));
         Mockito.doReturn(errorResponse).when(applicantServiceMock).locateMatchingApplicants(ArgumentMatchers.argThat(x -> x.getApplAliasFirstName1().equals("2")));
 
         sut = new ApplicantController(applicantServiceMock);
-
     }
 
     @Test
@@ -69,7 +70,6 @@ public class ApplicantControllerLocateMatchingApplicantTest {
         Assertions.assertEquals(FOUND_DRIVERS_LICENCE, response.getFoundDriversLicence());
         Assertions.assertEquals(FOUND_BIRTH_PLACE, response.getFoundBirthPlace());
         Assertions.assertEquals(FOUND_GENDER_TXT, response.getFoundGenderTxt());
-
     }
 
     @Test
@@ -78,10 +78,7 @@ public class ApplicantControllerLocateMatchingApplicantTest {
         LocateMatchingApplicantsResponse response = sut.locateMatchingApplicants("2","2","2","2","2","2","2","2","2","2","2","2","2","2","2","2");
 
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, response.getRespMsg());
-
+        Assertions.assertEquals(FAIL_RESP_MSG, response.getRespMsg());
     }
-
-
 
 }

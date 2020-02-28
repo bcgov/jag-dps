@@ -3,11 +3,13 @@ package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant;
 import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantPartyIdResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -110,10 +112,9 @@ public class ApplicantServiceValidateApplPartyIdTest {
      */
     @Test
     public void ValidateFigaroControllerException() throws ApiException {
-
-        Assertions.assertThrows(ApiException.class, () -> {
-            ValidateApplicantPartyIdResponse response = sut.validateApplicantPartyId(EXCEPTION_PARTY_ID);
-        });
+        ValidateApplicantPartyIdResponse response = sut.validateApplicantPartyId(EXCEPTION_PARTY_ID);
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, response.getRespCode());
+        Assertions.assertEquals(API_EXCEPTION, response.getRespMsg());
     }
 
 }

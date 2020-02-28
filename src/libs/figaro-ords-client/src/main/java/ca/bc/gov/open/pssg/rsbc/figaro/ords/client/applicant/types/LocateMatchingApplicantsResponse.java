@@ -85,12 +85,11 @@ public class LocateMatchingApplicantsResponse {
 		return foundGenderTxt;
 	}
 
-	public static LocateMatchingApplicantsResponse ErrorResponse() {
+	public static LocateMatchingApplicantsResponse ErrorResponse(String errorMessage) {
 
 		return new LocateMatchingApplicantsResponse(
 				FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
-				FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE);
-
+				errorMessage);
 	}
 
 	public static LocateMatchingApplicantsResponse SuccessResponse(String respCode, String respMsg, String foundPartyId, String foundSurname,
@@ -100,9 +99,7 @@ public class LocateMatchingApplicantsResponse {
 		return new LocateMatchingApplicantsResponse(Integer.parseInt(respCode), respMsg, foundPartyId, foundSurname,
 				foundFirstName, foundSecondName, foundBirthDate, foundDriversLicence,
 				foundBirthPlace, foundGenderTxt);
-
 	}
-	
 }
 
 

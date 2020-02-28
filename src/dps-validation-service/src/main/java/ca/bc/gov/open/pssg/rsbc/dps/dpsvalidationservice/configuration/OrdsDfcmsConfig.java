@@ -3,12 +3,14 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.configuration;
 import ca.bc.gov.open.ords.dfcms.client.api.DfcmsApi;
 import ca.bc.gov.open.ords.dfcms.client.api.HealthApi;
 import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiClient;
+import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase.CaseService;
+import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase.CaseServiceImpl;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.health.HealthService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.health.HealthServiceImpl;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -44,14 +46,15 @@ public class OrdsDfcmsConfig {
     }
 
     @Bean
-    public DfcmsApi dfcmsApi(ApiClient apiClient) {
-        return new DfcmsApi(apiClient);
-    }
-
-    @Bean
     public HealthApi healthApi(ApiClient apiClient) { return new HealthApi(apiClient); }
 
     @Bean
     public HealthService healthService(HealthApi healthApi) { return new HealthServiceImpl(healthApi); }
+
+    @Bean
+    public DfcmsApi dfcmsApi(ApiClient apiClient) { return new DfcmsApi(apiClient); }
+
+    @Bean
+    public CaseService caseService(DfcmsApi dfcmsApi) { return new CaseServiceImpl(dfcmsApi); }
 
 }
