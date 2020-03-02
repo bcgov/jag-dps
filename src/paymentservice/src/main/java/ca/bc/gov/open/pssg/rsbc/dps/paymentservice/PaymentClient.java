@@ -3,7 +3,6 @@ package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 
 /**

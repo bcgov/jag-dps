@@ -5,8 +5,6 @@ import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceExcep
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,8 +25,6 @@ import java.util.TimeZone;
  * @author smillar
  */
 public class BamboraClientImpl implements PaymentClient {
-
-    private static final Logger logger = LogManager.getLogger(BamboraClientImpl.class);
 
     private BamboraProperties bamboraProperties;
 
