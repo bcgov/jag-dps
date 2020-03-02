@@ -13,7 +13,7 @@ public class SinglePaymentRequest {
 
         private BamboraTransType transType;
         private String invoiceNumber;
-        private Double totalItemsAmount = new Double(0);
+        private Double totalItemsAmount;
         private String approvedPage;
         private String declinedPage;
         private String errorPage;
@@ -85,7 +85,7 @@ public class SinglePaymentRequest {
 
     private BamboraTransType transType;
     private String invoiceNumber;
-    private Double totalItemsAmount = new Double(0);
+    private Double totalItemsAmount;
     private String approvedPage;
     private String declinedPage;
     private String errorPage;

@@ -78,8 +78,6 @@ public class CalculateSinglePaymentController {
             @ApiParam(value = "minutesToExpire", required = true) @RequestParam(value = "minutesToExpire", required =
 					true) String minutesToExpire) {
 
-        PaymentClient client = null;
-
         try {
 
             URL response = paymentClient.calculateSinglePaymentURL(
