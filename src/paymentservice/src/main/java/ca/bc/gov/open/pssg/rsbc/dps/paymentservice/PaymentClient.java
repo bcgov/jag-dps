@@ -23,7 +23,7 @@ public interface PaymentClient {
 	 * @return
 	 * @throws MalformedURLException
 	 */
-	URL calculateSinglePaymentURL(SinglePaymentRequest spr) throws MalformedURLException;
+	URL calculateSinglePaymentURL(SinglePaymentRequest spr, Integer expiryTime) throws MalformedURLException;
 
 }
 

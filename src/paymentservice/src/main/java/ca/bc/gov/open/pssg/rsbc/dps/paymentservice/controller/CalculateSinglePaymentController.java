@@ -1,6 +1,5 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller;
 
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.BamboraClientImpl;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.PaymentClient;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.PaymentServiceConstants;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.PaymentServiceConstants.BamboraTransType;
@@ -11,10 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,14 +28,11 @@ public class CalculateSinglePaymentController {
 
     private static final Logger logger = LogManager.getLogger(CalculateSinglePaymentController.class);
 
-    @Value("${bambora.hostedpaymentendpoint}")
-    private String hostedPaymentEndpoint;
+    private PaymentClient paymentClient;
 
-    @Value("${bambora.merchantid}")
-    private String merchantId;
-
-    @Value("${bambora.hashkey}")
-    private String hashKey;
+    public CalculateSinglePaymentController(PaymentClient paymentClient) {
+        this.paymentClient = paymentClient;
+    }
 
     /**
      * singlepaymenturl
@@ -76,8 +70,8 @@ public class CalculateSinglePaymentController {
             @ApiParam(value = "invoiceNumber", required = true) @RequestParam(value = "invoiceNumber") String invoiceNumber,
             @ApiParam(value = "approvedPage", required = true) @RequestParam(value = "approvedPage") String approvedPage,
             @ApiParam(value = "declinedPage", required = true) @RequestParam(value = "declinedPage") String declinedPage,
-            @RequestParam(value = "errorPage", required = true) String errorPage,
-            @RequestParam(value = "totalItemsAmount", required = true) String totalItemsAmount,
+            @ApiParam(value = "errorPage", required = true) String errorPage,
+            @ApiParam(value = "totalItemsAmount", required = true) String totalItemsAmount,
             @ApiParam(value = "ref1", required = false) @RequestParam(value = "ref1", required = false) String ref1,
             @ApiParam(value = "ref2", required = false) @RequestParam(value = "ref2", required = false) String ref2,
             @ApiParam(value = "ref3", required = false) @RequestParam(value = "ref3", required = false) String ref3,
@@ -88,14 +82,7 @@ public class CalculateSinglePaymentController {
 
         try {
 
-            // Make sure autowired params are not null (May be missing from configMap)
-            if (StringUtils.isEmpty(hostedPaymentEndpoint) || StringUtils.isEmpty(merchantId) || StringUtils.isEmpty(hashKey))
-                throw new PaymentServiceException(PaymentServiceConstants.PAYMENT_SERVICE_ERR_MISSING_CONFIG_PARAMS);
-
-            client = new BamboraClientImpl(new URL(hostedPaymentEndpoint), merchantId, hashKey,
-                    Integer.parseInt(minutesToExpire));
-
-            URL response = client.calculateSinglePaymentURL(
+            URL response = paymentClient.calculateSinglePaymentURL(
                     new SinglePaymentRequest.Builder()
                             .withBamboraTransType(BamboraTransType.valueOf(transType))
                             .withInvoiceNumber(invoiceNumber)
@@ -106,12 +93,12 @@ public class CalculateSinglePaymentController {
                             .withRef1(ref1)
                             .withRef2(ref2)
                             .withRef3(ref3)
-                            .build());
+                            .build(), Integer.parseInt(minutesToExpire));
 
             return new SinglePaymentResponse(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK,
                     PaymentServiceConstants.PAYMENT_SERVICE_SUCCESS_CD, response.toExternalForm());
 
-        } catch (PaymentServiceException | NumberFormatException | MalformedURLException e) {
+        } catch (NumberFormatException | MalformedURLException e) {
 
             logger.fatal("Exception in singlepaymenturl : " + e.getMessage());
             return new SinglePaymentResponse(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_FAIL,
