@@ -17,8 +17,10 @@ import java.util.Date;
 
 /**
  * Bambora Client class Implementation
+ *
  * <p>
  * May be expanded in the future to include other types of Bambora transactions.
+ * </p>
  *
  * @author smillar
  */
