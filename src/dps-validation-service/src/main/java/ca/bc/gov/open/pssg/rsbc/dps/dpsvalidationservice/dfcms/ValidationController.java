@@ -1,8 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcms;
 
-import ca.bc.gov.open.ords.dfcms.client.api.DfcmsApi;
-import ca.bc.gov.open.ords.dfcms.client.api.handler.ApiException;
-import ca.bc.gov.open.ords.dfcms.client.api.model.CaseSequenceNumberResponse;
+import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase.CaseSequenceNumberResponse;
+import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase.CaseService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.DpsValidationServiceConstants;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -18,22 +17,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 public class ValidationController {
     private static final Logger logger = LogManager.getLogger(ValidationController.class);
     public static final String DL_REGEX = "[0-9]{7}";
     public static final String SURCODE_REGEX = "^[a-zA-Z&-.]{0,3}";
 
-    private final DfcmsApi ordsDfcmsApi;
+    private final CaseService caseService;
 
-    public ValidationController(DfcmsApi ordsDfcmsApi) {
-        this.ordsDfcmsApi = ordsDfcmsApi;
+    public ValidationController(CaseService caseService) {
+        this.caseService = caseService;
     }
 
 
     /**
-     * getValidOpenDFCMCase
+     * getValidOpenDfcmsCase
      * <p>
      * WARNING: Do not modify input parameters. This operation must replicate legacy
      * system exactly.
@@ -45,40 +43,26 @@ public class ValidationController {
      *  @param driversLicense
      * @param surcode
      */
-    @RequestMapping(value = "/getValidOpenDFCMCase",
-            produces = MediaType.APPLICATION_XML_VALUE,
-            method = RequestMethod.GET)
-    @ApiOperation(value = "Driver Fitness Case Management Validation Service", notes = "", tags = {
-            "DPSValidationService"})
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = GetValidOpenDFCMCase.class) })
-    public GetValidOpenDFCMCase getValidOpenDFCMCase(@ApiParam(value = "driversLicense", required = true) @RequestParam(value =
-            "driversLicense", required = true) String driversLicense,
-                                                          @ApiParam(value = "surcode", required = false) @RequestParam(value = "surcode",
-                                               required = false) String surcode) {
+    @RequestMapping(value = "/getValidOpenDfcmsCase", produces = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.GET)
+    @ApiOperation(value = "Driver Fitness Case Management Validation Service", notes = "", tags = {"DPSValidationService"})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = CaseSequenceNumberResponse.class) })
+    public CaseSequenceNumberResponse getValidOpenDfcmsCase(
+            @ApiParam(value = "driversLicense", required = true) @RequestParam(value = "driversLicense", required = true) String driversLicense,
+            @ApiParam(value = "surcode", required = false) @RequestParam(value = "surcode", required = false) String surcode) {
 
-        logger.debug("Attempting to get Valid Open Dfcm Case");
-
+        logger.debug("Attempting to get Valid Open Dfcms Case");
 
         if (!driversLicense.matches(DL_REGEX)) {
             logger.error("Invalid driversLicense format.");
-            return GetValidOpenDFCMCase.ErrorResponse();
+            return CaseSequenceNumberResponse.ErrorResponse("Invalid driversLicense format");
         }
 
         if(StringUtils.isNotEmpty(surcode) && !surcode.matches(SURCODE_REGEX)) {
             logger.error("Invalid surcode format.");
-            return GetValidOpenDFCMCase.ErrorResponse();
+            return CaseSequenceNumberResponse.ErrorResponse("Invalid surcode format");
         }
 
-        try {
-            CaseSequenceNumberResponse caseSequenceNumberResponse = ordsDfcmsApi.caseSequenceNumberGet(driversLicense, surcode);
-
-            return GetValidOpenDFCMCase.SuccessResponse(caseSequenceNumberResponse.getCaseSequenceNumber(), caseSequenceNumberResponse.getCaseDescription());
-
-        } catch (ApiException ex) {
-            logger.error("Error Getting Case Sequence Number: " + ex.getMessage());
-            return GetValidOpenDFCMCase.ErrorResponse();
-        }
-
+        return this.caseService.caseSequenceNumber(driversLicense, surcode);
     }
 
     /**
@@ -95,7 +79,7 @@ public class ValidationController {
      * @return a String with media type application/xml
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ResponseEntity<GetValidOpenDFCMCase> handleMissingParams(MissingServletRequestParameterException ex) {
+    public ResponseEntity<CaseSequenceNumberResponse> handleMissingParams(MissingServletRequestParameterException ex) {
 
         String paramName = ex.getParameterName();
         logger.error("Exception in  : ValidationController " + ex.getMessage());
@@ -104,8 +88,9 @@ public class ValidationController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
 
-        return new ResponseEntity(new GetValidOpenDFCMCase(DpsValidationServiceConstants.VALIDOPEN_DFCMCASE_ERR_RESPONSE_CD), headers, HttpStatus.OK);
+        return new ResponseEntity(
+                CaseSequenceNumberResponse.ErrorResponse(DpsValidationServiceConstants.VALIDATION_SERVICE_ERR_MISSING_CONFIG_PARAMS),
+                headers, HttpStatus.OK);
     }
-
 
 }

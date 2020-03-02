@@ -144,39 +144,13 @@
             <version>2.29</version>
         </dependency>
 
+        <dependency>
+            <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
+            <artifactId>dfcms-ords-client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
 
     </dependencies>
-
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>4.1.0</version>
-                <executions>
-                    <execution>
-                        <id>spring-boot-api</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/dfcmsords.yaml</inputSpec>
-                            <generatorName>java</generatorName>
-                            <configOptions>
-                                <dateLibrary>joda</dateLibrary>
-                            </configOptions>
-                            <library>jersey2</library>
-                            <apiPackage>${default-package}.api</apiPackage>
-                            <modelPackage>${default-package}.api.model</modelPackage>
-                            <invokerPackage>${default-package}.api.handler</invokerPackage>
-                            <generateApiTests>false</generateApiTests>
-                            <generateModelTests>false</generateModelTests>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

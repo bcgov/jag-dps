@@ -7,6 +7,7 @@ import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrd
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgApplicantServiceOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.*;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +38,7 @@ public class ApplicantServiceImpl implements ApplicantService {
      * @throws ApiException
      */
     @Override
-    public ValidateApplicantForSharingResponse validateApplicantForSharing(ValidateApplicantForSharingRequest request)
-            throws ApiException {
+    public ValidateApplicantForSharingResponse validateApplicantForSharing(ValidateApplicantForSharingRequest request) {
 
         try {
             ValidateApplicantForSharingOrdsResponse response = this.applicantApi.validateApplicantForSharing(
@@ -49,13 +49,13 @@ public class ApplicantServiceImpl implements ApplicantService {
         } catch (ApiException ex) {
             logger.error("Exception caught as Applicant Service, validateApplicantForSharing : " + ex.getMessage());
             ex.printStackTrace();
-            throw ex;
+
+            return ValidateApplicantForSharingResponse.ErrorResponse(ex.getMessage());
         }
     }
 
     @Override
-    public ValidateApplicantPartyIdResponse validateApplicantPartyId(String applPartyId)
-            throws ApiException {
+    public ValidateApplicantPartyIdResponse validateApplicantPartyId(String applPartyId) {
 
         try {
             ValidateApplicantPartyIdOrdsResponse response = this.applicantApi.validateApplicantPartyId(applPartyId);
@@ -66,7 +66,8 @@ public class ApplicantServiceImpl implements ApplicantService {
         } catch (ApiException ex) {
             logger.error("Exception caught as Applicant Service, validateApplicantPartyId : " + ex.getMessage());
             ex.printStackTrace();
-            throw ex;
+
+            return ValidateApplicantPartyIdResponse.ErrorResponse(ex.getMessage());
         }
     }
 
@@ -107,7 +108,8 @@ public class ApplicantServiceImpl implements ApplicantService {
         } catch (ApiException ex) {
             logger.error("Exception caught as Applicant Service, locateMatchingApplicants : " + ex.getMessage());
             ex.printStackTrace();
-            return LocateMatchingApplicantsResponse.ErrorResponse();
+
+            return LocateMatchingApplicantsResponse.ErrorResponse(ex.getMessage());
         }
     }
 
@@ -116,7 +118,7 @@ public class ApplicantServiceImpl implements ApplicantService {
      * service method to get the response for /validateApplicantService requests
      */
     public ValidateOrgApplicantServiceResponse validateOrgApplicantService(String applPartyId,
-                                                                     String orgPartyId) throws ApiException {
+                                                                     String orgPartyId) {
 
         try {
             ValidateOrgApplicantServiceOrdsResponse response = this.applicantApi.validateOrgApplicantService(applPartyId, orgPartyId);
@@ -124,7 +126,8 @@ public class ApplicantServiceImpl implements ApplicantService {
         } catch (ApiException ex) {
             logger.error("Exception caught as Applicant Service, validateOrgApplicantService : " + ex.getMessage());
             ex.printStackTrace();
-            throw ex;
+
+            return ValidateOrgApplicantServiceResponse.ErrorResponse(ex.getMessage());
         }
     }
 }

@@ -3,6 +3,8 @@ package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant;
 import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgApplicantServiceOrdsResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantPartyIdResponse;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateOrgApplicantServiceResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,16 +24,17 @@ import org.mockito.MockitoAnnotations;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ApplicantServiceValidateOrgTest {
 
+    private static final String CASE_1 = "1";
+    private static final String CASE_2 = "2";
+    private static final String CASE_3 = "3";
 
-    public static final String CASE_2 = "2";
+    private static final String API_EXCEPTION = "api exception";
     private static final String VALIDATION_RESULT = "result";
     private static final String STATUS_MESSAGE = "success";
     private static final String STATUS_CODE = "0";
     private static final String ERROR_VALIDATION_RESULT = "error_result";
     private static final String ERROR_STATUS_MESSAGE = "fail";
     private static final String ERROR_STATUS_CODE = "-2";
-    public static final String CASE_1 = "1";
-    public static final String CASE_3 = "3";
 
     @Mock
     private ApplicantApi applicantApiMock;
@@ -56,7 +59,7 @@ public class ApplicantServiceValidateOrgTest {
         Mockito.when(applicantApiMock.validateOrgApplicantService(Mockito.eq(CASE_1), Mockito.anyString())).thenReturn(successResponse);
         Mockito.when(applicantApiMock.validateOrgApplicantService(Mockito.eq(CASE_2), Mockito.anyString())).thenReturn(errorResponse);
         Mockito.when(applicantApiMock.validateOrgApplicantService(Mockito.eq(CASE_3 +
-                ""), Mockito.anyString())).thenThrow(ApiException.class);
+                ""), Mockito.anyString())).thenThrow(new ApiException(API_EXCEPTION));
 
         sut = new ApplicantServiceImpl(applicantApiMock);
     }
@@ -93,9 +96,10 @@ public class ApplicantServiceValidateOrgTest {
     @Test
     public void WithApiExceptionShouldThrowException() {
 
-        Assertions.assertThrows(ApiException.class, () -> {
-            ValidateOrgApplicantServiceResponse response = sut.validateOrgApplicantService(CASE_3, CASE_3);
-        });
+        ValidateOrgApplicantServiceResponse response = sut.validateOrgApplicantService(CASE_3, CASE_3);
+
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, response.getRespCode());
+        Assertions.assertEquals(API_EXCEPTION, response.getRespMsg());
     }
 
 }

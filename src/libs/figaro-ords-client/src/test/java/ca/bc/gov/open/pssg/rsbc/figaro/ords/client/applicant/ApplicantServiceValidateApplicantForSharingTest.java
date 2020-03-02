@@ -3,8 +3,10 @@ package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant;
 import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantForSharingRequest;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantForSharingResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantPartyIdResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -75,9 +77,10 @@ public class ApplicantServiceValidateApplicantForSharingTest {
     @Test
     public void withApiExceptionShouldThrowFigaroException() throws ApiException {
 
-        Assertions.assertThrows(ApiException.class, () -> {
-            ValidateApplicantForSharingResponse response = sut.validateApplicantForSharing(new ValidateApplicantForSharingRequest("3", "type"));
-        });
+        ValidateApplicantForSharingResponse response = sut.validateApplicantForSharing(new ValidateApplicantForSharingRequest("3", "type"));
+
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, response.getRespCode());
+        Assertions.assertEquals(API_EXCEPTION, response.getRespMsg());
     }
 
 

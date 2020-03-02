@@ -47,7 +47,7 @@ public class FacilityControllerTest {
     @Test
     public void withValidResponseShouldReturnValid() {
 
-        ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_SUCCESS, "a", "b", "c", "d", "e");
+        ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_SUCCESS, "a", "b", "c", "d", "e");
 
         Assertions.assertEquals(FACILITY_NAME, result.getFoundFacilityName());
         Assertions.assertEquals(FOUND_FACILITY_PARTY_ID, result.getFoundFacilityPartyId());
@@ -59,7 +59,7 @@ public class FacilityControllerTest {
     @Test
     public void withInvalidResponseShouldReturnValid() {
 
-        ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_FAIL, "a", "b", "c", "d", "e");
+        ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_FAIL, "a", "b", "c", "d", "e");
         Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
         Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE, result.getValidationResult());
         Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getRespMsg());
