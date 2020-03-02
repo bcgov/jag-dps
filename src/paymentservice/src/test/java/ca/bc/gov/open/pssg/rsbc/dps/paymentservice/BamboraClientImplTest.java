@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.configuration.BamboraProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 import org.apache.commons.lang3.StringUtils;
@@ -16,12 +17,13 @@ public class BamboraClientImplTest {
     @Test
     public void withValidParamShouldReturnAUrl() throws PaymentServiceException, MalformedURLException {
 
+        BamboraProperties bamboraProperties = new BamboraProperties();
+        bamboraProperties.setHashkey("12");
+        bamboraProperties.setHostedPaymentEndpoint("https://www.beanstream.com/scripts/payment/payment.asp");
+        bamboraProperties.setMerchantId("338830000");
+        bamboraProperties.setTimezone("PST");
 
-        sut = new BamboraClientImpl(
-                new URL("https://www.beanstream.com/scripts/payment/payment.asp"),
-                "338830000",
-                "12",
-                5);
+        sut = new BamboraClientImpl(bamboraProperties);
 
 
         URL result = sut.calculateSinglePaymentURL(
@@ -34,7 +36,7 @@ public class BamboraClientImplTest {
                         .withErrorPage("http://test.com/error")
                         .withRef1("ref1")
                         .withRef2("ref2")
-                        .withRef3("ref3").build());
+                        .withRef3("ref3").build(), 5);
 
         String expectedShort = "https://www.beanstream.com/scripts/payment/payment.asp?" +
                 "merchant_id=338830000" +
@@ -63,7 +65,15 @@ public class BamboraClientImplTest {
     @Test
     void calculateSinglePaymentAlgoTest() throws Exception {
 
-        PaymentClient paymentClient = new BamboraClientImpl(new URL("https://web.na.bambora.com/scripts/payment/payment.asp"), "123456", "hash", 1);
+
+        BamboraProperties bamboraProperties = new BamboraProperties();
+
+        bamboraProperties.setHashkey("hash");
+        bamboraProperties.setHostedPaymentEndpoint("https://www.beanstream.com/scripts/payment/payment.asp");
+        bamboraProperties.setMerchantId("123456");
+        bamboraProperties.setTimezone("PST");
+
+        PaymentClient paymentClient = new BamboraClientImpl(bamboraProperties);
 
         URL response = paymentClient.calculateSinglePaymentURL(
                 new SinglePaymentRequest.Builder()
@@ -74,7 +84,7 @@ public class BamboraClientImplTest {
                         .withDeclinedPage("http://somedomain/someapp/declined.do")
                         .withErrorPage("http://somedomain/someapp/error.do")
                         .withRef1("ref1")
-                        .withRef2("ref2").build());
+                        .withRef2("ref2").build(), 1);
 
         String expectedShort = "https://www.beanstream.com/scripts/payment/payment.asp?" +
                 "merchant_id=338830000" +

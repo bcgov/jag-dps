@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.configuration.BamboraProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Bambora Client class Implementation
@@ -28,17 +30,11 @@ public class BamboraClientImpl implements PaymentClient {
 
     private static final Logger logger = LogManager.getLogger(BamboraClientImpl.class);
 
-    private URL hostedPaymentURL;
-    private String merchantId;
-    private String hashKey;
-    private int minutesToExpire;
+    private BamboraProperties bamboraProperties;
 
     // constructor
-    public BamboraClientImpl(URL hostedPaymentURL, String merchantId, String hashKey, int minutesToExpire) throws PaymentServiceException {
-        this.hostedPaymentURL = hostedPaymentURL;
-        this.merchantId = merchantId;
-        this.hashKey = hashKey;
-        this.minutesToExpire = minutesToExpire;
+    public BamboraClientImpl(BamboraProperties bamboraProperties) {
+        this.bamboraProperties = bamboraProperties;
     }
 
     /**
@@ -53,14 +49,14 @@ public class BamboraClientImpl implements PaymentClient {
      * @throws PaymentServiceException
      */
     @Override
-    public URL calculateSinglePaymentURL(SinglePaymentRequest spr) throws MalformedURLException {
-        return new URL(MessageFormat.format("{0}?{1}", this.hostedPaymentURL, buildQueryString(spr)));
+    public URL calculateSinglePaymentURL(SinglePaymentRequest spr, Integer expiryTime) throws MalformedURLException {
+        return new URL(MessageFormat.format("{0}?{1}", this.bamboraProperties.getHostedPaymentEndpoint(), buildQueryString(spr, expiryTime)));
     }
 
-    private String buildQueryString(SinglePaymentRequest spr) {
+    private String buildQueryString(SinglePaymentRequest spr, Integer expiryTime) {
         ArrayList parameters = new ArrayList<String>();
 
-        parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_MERCHANT_ID, this.merchantId));
+        parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_MERCHANT_ID, this.bamboraProperties.getMerchantId()));
 
         parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_TRANS_TYPE, spr.getTransType().toString()));
 
@@ -86,7 +82,7 @@ public class BamboraClientImpl implements PaymentClient {
         if(!StringUtils.isBlank(spr.getRef3()))
             parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_REF3, spr.getRef3()));
 
-        parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY, getExpiryDate()));
+        parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY, getExpiryDate(expiryTime)));
 
         parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_HASH_VALUE, getHash(String.join("&", parameters))));
 
@@ -102,11 +98,13 @@ public class BamboraClientImpl implements PaymentClient {
         return MessageFormat.format("{0}={1}", paramName, value);
     }
 
-    private String getExpiryDate() {
+    private String getExpiryDate(Integer expiryTime) {
         SimpleDateFormat sdfDate = new SimpleDateFormat(PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY_FORMAT);
         Calendar cal = Calendar.getInstance();
+        TimeZone tz = TimeZone.getTimeZone(this.bamboraProperties.getTimezone());
+        cal.setTimeZone(tz);
         cal.setTime(new Date());
-        cal.add(Calendar.MINUTE, this.minutesToExpire);
+        cal.add(Calendar.MINUTE, expiryTime);
         return sdfDate.format(cal.getTime());
     }
 
@@ -119,7 +117,7 @@ public class BamboraClientImpl implements PaymentClient {
      * @throws PaymentServiceException
      */
     private String getHash(String message) {
-        return DigestUtils.md5Hex(message + this.hashKey).toUpperCase();
+        return DigestUtils.md5Hex(message + this.bamboraProperties.getHashkey()).toUpperCase();
     }
 
 }
