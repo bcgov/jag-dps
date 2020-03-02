@@ -96,9 +96,8 @@ public class BamboraClientImpl implements PaymentClient {
 
     private String getExpiryDate(Integer expiryTime) {
         SimpleDateFormat sdfDate = new SimpleDateFormat(PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY_FORMAT);
+        sdfDate.setTimeZone(TimeZone.getTimeZone(this.bamboraProperties.getTimezone()));
         Calendar cal = Calendar.getInstance();
-        TimeZone tz = TimeZone.getTimeZone(this.bamboraProperties.getTimezone());
-        cal.setTimeZone(tz);
         cal.setTime(new Date());
         cal.add(Calendar.MINUTE, expiryTime);
         return sdfDate.format(cal.getTime());
@@ -113,6 +112,7 @@ public class BamboraClientImpl implements PaymentClient {
      * @throws PaymentServiceException
      */
     private String getHash(String message) {
+        String result = message + this.bamboraProperties.getHashkey();
         return DigestUtils.md5Hex(message + this.bamboraProperties.getHashkey()).toUpperCase();
     }
 
