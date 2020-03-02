@@ -7,131 +7,119 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
  * Bambora Client class Implementation
- * 
- * May be expanded in the future to include other types of Bambora transactions. 
- * 
- * @author smillar
  *
+ * <p>
+ * May be expanded in the future to include other types of Bambora transactions.
+ * </p>
+ *
+ * @author smillar
  */
 public class BamboraClientImpl implements PaymentClient {
-	
-	private static final Logger logger = LogManager.getLogger(BamboraClientImpl.class);
 
-	private URL hostedPaymentURL = null;
-	private String merchantId = null;
-	private String hashKey = null;
-	private int minutesToExpire;
-	
-	public URL getHostedPaymentServiceURL() {
-		return hostedPaymentURL;
-	}
+    private static final Logger logger = LogManager.getLogger(BamboraClientImpl.class);
 
-	public String getMerchantId() {
-		return merchantId;
-	}
+    private URL hostedPaymentURL;
+    private String merchantId;
+    private String hashKey;
+    private int minutesToExpire;
 
-	public URL getHostedPaymentURL() {
-		return hostedPaymentURL;
-	}
+    // constructor
+    public BamboraClientImpl(URL hostedPaymentURL, String merchantId, String hashKey, int minutesToExpire) throws PaymentServiceException {
+        this.hostedPaymentURL = hostedPaymentURL;
+        this.merchantId = merchantId;
+        this.hashKey = hashKey;
+        this.minutesToExpire = minutesToExpire;
+    }
 
-	public int getMinutesToExpire() {
-		return minutesToExpire;
-	}
+    /**
+     * Calculate Single Payment URL
+     * <p>
+     * Note: Refer to See https://help.na.bambora.com/hc/en-us/articles/115010303987-Hash-validation-for-Checkout for
+     * a complete
+     * description on the Payment URL calculation.
+     *
+     * @param spr
+     * @return
+     * @throws PaymentServiceException
+     */
+    @Override
+    public URL calculateSinglePaymentURL(SinglePaymentRequest spr) throws MalformedURLException {
+        return new URL(MessageFormat.format("{0}?{1}", this.hostedPaymentURL, buildQueryString(spr)));
+    }
 
-	// constructor
-	public BamboraClientImpl(URL hostedPaymentURL, String merchantId, String hashKey, int minutesToExpire) throws PaymentServiceException {
-		this.hostedPaymentURL = hostedPaymentURL;
-		this.merchantId = merchantId;
-		this.hashKey = hashKey;
-		this.minutesToExpire = minutesToExpire;
-	}
+    private String buildQueryString(SinglePaymentRequest spr) {
+        ArrayList parameters = new ArrayList<String>();
 
-	/**
-	 * 
-	 * Calculate Single Payment URL 
-	 * 
-	 * Note: Refer to See https://help.na.bambora.com/hc/en-us/articles/115010303987-Hash-validation-for-Checkout for a complete 
-	 * description on the Payment URL calculation. 
-	 * 
-	 * @param spr
-	 * @return
-	 * @throws PaymentServiceException
-	 */
-	@Override
-	public URL calculateSinglePaymentURL(SinglePaymentRequest spr)
-			throws PaymentServiceException {
-		
-		String redirect = null;
-		
-		try {
-	
-			// Add the optional parameters if available.
-			String errorParam = StringUtils.isNotEmpty(spr.getErrorPage() ) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_ERROR_PAGE + "=" + spr.getErrorPage(): "";
-			String approvedParam = StringUtils.isNotEmpty( spr.getApprovedPage()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_APPV_PAGE + "=" + spr.getApprovedPage(): "";
-			String declinedParam = StringUtils.isNotEmpty( spr.getDeclinedPage()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_DECL_PAGE + "=" + spr.getDeclinedPage(): "";
-			String ref1Param = StringUtils.isNotEmpty( spr.getRef1()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF1 + "=" + spr.getRef1() : "";
-			String ref2Param = StringUtils.isNotEmpty( spr.getRef2()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF2 + "=" + spr.getRef2() : "";
-			String ref3Param = StringUtils.isNotEmpty( spr.getRef3()) ? "&" + PaymentServiceConstants.BAMBORA_PARAM_REF3 + "=" + spr.getRef3() : "";
-		
-			String[] params = new String[] { 
-					PaymentServiceConstants.BAMBORA_PARAM_MERCHANT_ID + "=" + this.merchantId,
-					PaymentServiceConstants.BAMBORA_PARAM_TRANS_TYPE + "=" + spr.getTransType().toString(),
-					PaymentServiceConstants.BAMBORA_PARAM_TRANS_ORDER_NUMBER + "=" + spr.getInvoiceNumber()
-			};
-			
-			String paramString = String.join("&", params);
-			
-			paramString += errorParam + approvedParam + declinedParam;
-			paramString += "&" + PaymentServiceConstants.BAMBORA_PARAM_TRANS_AMOUNT + "=";
-			paramString += String.format("%1$,.2f", spr.getTotalItemsAmount() + spr.getTotalPST() + spr.getTotalGST());
-			paramString += ref1Param + ref2Param + ref3Param;
+        parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_MERCHANT_ID, this.merchantId));
 
-			// Replace spaces with escaped equivalent
-			paramString = paramString.replace(" ", "%20");
-	
-			// Add hash key at end of params
-			paramString = paramString + this.hashKey;
-	
-			String hashed = getHash(paramString);
-	
-			// Calculate the expiry based on the minutesToExpire value.
-			SimpleDateFormat sdfDate = new SimpleDateFormat(PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY_FORMAT);
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date());
-			cal.add(Calendar.MINUTE, this.minutesToExpire);
-			String expiry = sdfDate.format(cal.getTime());
-	
-			// Add hash and expiry to the redirect
-			paramString = paramString.replace(this.hashKey, "&" + PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY + "=" + expiry + "&" + PaymentServiceConstants.BAMBORA_PARAM_HASH_VALUE + "=" + hashed);
-	
-			redirect = this.hostedPaymentURL + "?" + paramString;
-			return new URL(redirect);
-		
-		} catch (Exception ex) {
-			logger.fatal("Error at calculateSinglePaymentURL: " + ex.getMessage());
-			throw new PaymentServiceException(ex.getMessage(), ex);
-			
-		}
-	}
+        parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_TRANS_TYPE, spr.getTransType().toString()));
 
-	
-	/**
-	 * getHash - Calculates an MD5 hash on a message with a given key.
-	 * 
-	 * @param message
-	 * @return
-	 * @throws PaymentServiceException
-	 */
-	private String getHash(String message) throws PaymentServiceException {
-		String digest = DigestUtils.md5Hex(message);
-		return digest.toUpperCase();
-	}
-	
+        parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_TRANS_ORDER_NUMBER, spr.getInvoiceNumber()));
+
+        if(!StringUtils.isBlank(spr.getErrorPage()))
+            parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_ERROR_PAGE, spr.getErrorPage()));
+
+        if(!StringUtils.isBlank(spr.getApprovedPage()))
+            parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_APPV_PAGE, spr.getApprovedPage()));
+
+        if(!StringUtils.isBlank(spr.getDeclinedPage()))
+            parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_DECL_PAGE, spr.getDeclinedPage()));
+
+        parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_TRANS_AMOUNT, formatTotalAmount(spr.getTotalItemsAmount())));
+
+        if(!StringUtils.isBlank(spr.getRef1()))
+            parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_REF1, spr.getRef1()));
+
+        if(!StringUtils.isBlank(spr.getRef2()))
+            parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_REF2, spr.getRef2()));
+
+        if(!StringUtils.isBlank(spr.getRef3()))
+            parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_REF3, spr.getRef3()));
+
+        parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY, getExpiryDate()));
+
+        parameters.add(formatParam(PaymentServiceConstants.BAMBORA_PARAM_HASH_VALUE, getHash(String.join("&", parameters))));
+
+        return String.join("&", parameters);
+
+    }
+
+    private String formatTotalAmount(Double value) {
+        return String.format("%1$,.2f", value);
+    }
+
+    private String formatParam(String paramName, String value) {
+        return MessageFormat.format("{0}={1}", paramName, value);
+    }
+
+    private String getExpiryDate() {
+        SimpleDateFormat sdfDate = new SimpleDateFormat(PaymentServiceConstants.BAMBORA_PARAM_HASH_EXPIRY_FORMAT);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.MINUTE, this.minutesToExpire);
+        return sdfDate.format(cal.getTime());
+    }
+
+
+    /**
+     * getHash - Calculates an MD5 hash on a message with a given key.
+     *
+     * @param message
+     * @return
+     * @throws PaymentServiceException
+     */
+    private String getHash(String message) {
+        return DigestUtils.md5Hex(message + this.hashKey).toUpperCase();
+    }
+
 }
