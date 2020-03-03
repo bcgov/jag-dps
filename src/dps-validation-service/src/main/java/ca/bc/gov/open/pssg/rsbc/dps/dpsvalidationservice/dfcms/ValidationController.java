@@ -54,12 +54,12 @@ public class ValidationController {
 
         if (!driversLicense.matches(DL_REGEX)) {
             logger.error("Invalid driversLicense format.");
-            return CaseSequenceNumberResponse.ErrorResponse("Invalid driversLicense format");
+            return CaseSequenceNumberResponse.errorResponse("Invalid driversLicense format");
         }
 
         if(StringUtils.isNotEmpty(surcode) && !surcode.matches(SURCODE_REGEX)) {
             logger.error("Invalid surcode format.");
-            return CaseSequenceNumberResponse.ErrorResponse("Invalid surcode format");
+            return CaseSequenceNumberResponse.errorResponse("Invalid surcode format");
         }
 
         return this.caseService.caseSequenceNumber(driversLicense, surcode);
@@ -89,7 +89,7 @@ public class ValidationController {
         headers.setContentType(MediaType.APPLICATION_XML);
 
         return new ResponseEntity(
-                CaseSequenceNumberResponse.ErrorResponse(DpsValidationServiceConstants.VALIDATION_SERVICE_ERR_MISSING_CONFIG_PARAMS),
+                CaseSequenceNumberResponse.errorResponse(DpsValidationServiceConstants.VALIDATION_SERVICE_ERR_MISSING_CONFIG_PARAMS),
                 headers, HttpStatus.OK);
     }
 

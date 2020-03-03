@@ -43,13 +43,13 @@ public class VipsDocumentResponse {
         return respMsg;
     }
 
-    public static VipsDocumentResponse ErrorResponse(String errorMessage) {
+    public static VipsDocumentResponse errorResponse(String errorMessage) {
         return new VipsDocumentResponse(
                 VipsOrdsClientConstants.SERVICE_FAILURE_CD,
                 errorMessage);
     }
 
-    public static VipsDocumentResponse SuccessResponse(String documentIdStr, String respCodeStr, String respMsg) {
+    public static VipsDocumentResponse successResponse(String documentIdStr, String respCodeStr, String respMsg) {
 
         return new VipsDocumentResponse(documentIdStr, Integer.parseInt(respCodeStr), respMsg);
     }

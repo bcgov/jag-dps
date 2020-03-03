@@ -39,14 +39,14 @@ public class ValidateOrgApplicantServiceResponse {
 		return validationResult;
 	}
 
-	public static ValidateOrgApplicantServiceResponse ErrorResponse(String errorMessage) {
+	public static ValidateOrgApplicantServiceResponse errorResponse(String errorMessage) {
 		return new ValidateOrgApplicantServiceResponse(
 				FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE,
 				FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
 				errorMessage);
 	}
 
-	public static ValidateOrgApplicantServiceResponse SuccessResponse(String validationResult, String respCodeStr, String respMsg) {
+	public static ValidateOrgApplicantServiceResponse successResponse(String validationResult, String respCodeStr, String respMsg) {
 
 		return new ValidateOrgApplicantServiceResponse(validationResult, Integer.parseInt(respCodeStr), respMsg);
 	}

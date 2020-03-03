@@ -86,13 +86,13 @@ public class ValidateApplicantPartyIdResponse {
 		return foundGenderTxt;
 	};
 
-	public static ValidateApplicantPartyIdResponse ErrorResponse(String errorMessage) {
+	public static ValidateApplicantPartyIdResponse errorResponse(String errorMessage) {
 		return new ValidateApplicantPartyIdResponse(
 				FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
 				errorMessage);
 	}
 
-	public static ValidateApplicantPartyIdResponse SuccessResponse(String respCodeStr, String respMsg, String foundSurname, String foundFirstName,
+	public static ValidateApplicantPartyIdResponse successResponse(String respCodeStr, String respMsg, String foundSurname, String foundFirstName,
 																   String foundSecondName, String foundBirthDate, String foundDriversLicence, String foundBirthPlace,
 																   String foundGenderTxt) {
 

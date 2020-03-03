@@ -28,13 +28,13 @@ public class FacilityServiceImpl implements FacilityService {
             ValidateFacilityPartyOrdsResponse response = this.facilityApi.validateFacilityParty(
                     request.getFacilityPartyId(), request.getFacilitySubname(), request.getFacilitySubname2(),
                     request.getFacilitySubname3(),request.getFacilitySubname4(),request.getFacilitySubname5());
-            return  ValidateFacilityPartyResponse.SuccessResponse(response.getValidationResult(),
+            return  ValidateFacilityPartyResponse.successResponse(response.getValidationResult(),
                     response.getStatusCode(), response.getStatusMessage(),
                     response.getFoundFacilityPartyId(), response.getFoundFacilityName());
 
         } catch (ApiException ex) {
             logger.error("Exception caught as Facility Service, validateFacilityParty : " + ex.getMessage(), ex);
-            return ValidateFacilityPartyResponse.ErrorResponse(ex.getMessage());
+            return ValidateFacilityPartyResponse.errorResponse(ex.getMessage());
         }
     }
 

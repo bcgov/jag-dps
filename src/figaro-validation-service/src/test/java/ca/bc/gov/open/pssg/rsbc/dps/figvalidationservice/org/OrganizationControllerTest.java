@@ -43,8 +43,8 @@ public class OrganizationControllerTest {
 
         MockitoAnnotations.initMocks(this);
 
-        ValidateOrgDrawDownBalanceResponse successResponse1 = ValidateOrgDrawDownBalanceResponse.SuccessResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE);
-        ValidateOrgDrawDownBalanceResponse errorResponse1 = ValidateOrgDrawDownBalanceResponse.ErrorResponse(ERROR_VALIDATION_RESULT);
+        ValidateOrgDrawDownBalanceResponse successResponse1 = ValidateOrgDrawDownBalanceResponse.successResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE);
+        ValidateOrgDrawDownBalanceResponse errorResponse1 = ValidateOrgDrawDownBalanceResponse.errorResponse(ERROR_VALIDATION_RESULT);
 
         Mockito.doReturn(successResponse1).when(organizationServiceMock).validateOrgDrawDownBalance(ArgumentMatchers.argThat(x -> x.getJurisdictionType().equals("1")));
         Mockito.doReturn(errorResponse1).when(organizationServiceMock).validateOrgDrawDownBalance(ArgumentMatchers.argThat(x -> x.getJurisdictionType().equals("2")));
@@ -52,8 +52,8 @@ public class OrganizationControllerTest {
         List<ValidateOrgPartyContactPersonResponse> contactPersons = new ArrayList<ValidateOrgPartyContactPersonResponse>();
         contactPersons.add(ValidateOrgPartyContactPersonResponse.SuccessResponse(FOUND_ORG_CONTACT_NAME, FOUND_ORG_CONTACT_ROLE, FOUND_ORG_CONTACT_PARTY_ID));
 
-        ValidateOrgPartyResponse successResponse2 = ValidateOrgPartyResponse.SuccessResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE, FOUND_ORG_PARTY_ID, FOUND_ORG_PARTY_NAME, FOUND_ORG_PARTY_TYPE, contactPersons);
-        ValidateOrgPartyResponse errorResponse2 = ValidateOrgPartyResponse.ErrorResponse(ERROR_VALIDATION_RESULT);
+        ValidateOrgPartyResponse successResponse2 = ValidateOrgPartyResponse.successResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE, FOUND_ORG_PARTY_ID, FOUND_ORG_PARTY_NAME, FOUND_ORG_PARTY_TYPE, contactPersons);
+        ValidateOrgPartyResponse errorResponse2 = ValidateOrgPartyResponse.errorResponse(ERROR_VALIDATION_RESULT);
 
         Mockito.doReturn(successResponse2).when(organizationServiceMock).validateOrgParty(ArgumentMatchers.argThat(x -> x.getOrgCity().equals(CASE_SUCCESS)));
         Mockito.doReturn(errorResponse2).when(organizationServiceMock).validateOrgParty(ArgumentMatchers.argThat(x -> x.getOrgCity().equals(CASE_FAIL)));

@@ -72,11 +72,11 @@ public class DocumentServiceImpl implements DocumentService {
 
         try {
             DpsDataIntoFigaroOrdsResponse response = this.documentApi.dpsDataIntoFigaroPost(ordsRequestBody);
-            return DpsDataIntoFigaroResponse.SuccessResponse(response.getStatusCode(), response.getStatusMessage());
+            return DpsDataIntoFigaroResponse.successResponse(response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
             logger.error("Exception caught as Document Service, dpsDataIntoFigaro : " + ex.getMessage(), ex);
-            return DpsDataIntoFigaroResponse.ErrorResponse(ex.getMessage());
+            return DpsDataIntoFigaroResponse.errorResponse(ex.getMessage());
         }
     }
 
@@ -89,11 +89,11 @@ public class DocumentServiceImpl implements DocumentService {
 
         try {
             DpsDocumentOrdsResponse response = this.documentApi.dpsDocumentPost(ordsRequestBody);
-            return DpsDocumentResponse.SuccessResponse(response.getGuid(), response.getStatusCode(), response.getStatusMessage());
+            return DpsDocumentResponse.successResponse(response.getGuid(), response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
             logger.error("Exception caught as Document Service, dpsDocument : " + ex.getMessage(), ex);
-            return DpsDocumentResponse.ErrorResponse(ex.getMessage());
+            return DpsDocumentResponse.errorResponse(ex.getMessage());
         }
     }
 

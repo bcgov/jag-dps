@@ -85,14 +85,14 @@ public class LocateMatchingApplicantsResponse {
 		return foundGenderTxt;
 	}
 
-	public static LocateMatchingApplicantsResponse ErrorResponse(String errorMessage) {
+	public static LocateMatchingApplicantsResponse errorResponse(String errorMessage) {
 
 		return new LocateMatchingApplicantsResponse(
 				FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
 				errorMessage);
 	}
 
-	public static LocateMatchingApplicantsResponse SuccessResponse(String respCode, String respMsg, String foundPartyId, String foundSurname,
+	public static LocateMatchingApplicantsResponse successResponse(String respCode, String respMsg, String foundPartyId, String foundSurname,
 																   String foundFirstName, String foundSecondName, String foundBirthDate, String foundDriversLicence,
 																   String foundBirthPlace, String foundGenderTxt) {
 

@@ -35,9 +35,9 @@ public class ApplicantControllerValidateApplicantForSharingTest {
 
         MockitoAnnotations.initMocks(this);
 
-        ValidateApplicantForSharingResponse successResponse = ValidateApplicantForSharingResponse.SuccessResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE);
+        ValidateApplicantForSharingResponse successResponse = ValidateApplicantForSharingResponse.successResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE);
 
-        ValidateApplicantForSharingResponse errorResponse = ValidateApplicantForSharingResponse.ErrorResponse(ERROR_STATUS_MESSAGE);
+        ValidateApplicantForSharingResponse errorResponse = ValidateApplicantForSharingResponse.errorResponse(ERROR_STATUS_MESSAGE);
 
         Mockito.doReturn(successResponse).when(applicantServiceMock).validateApplicantForSharing(ArgumentMatchers.argThat(x -> x.getApplPartyId().equals("1")));
         Mockito.doReturn(errorResponse).when(applicantServiceMock).validateApplicantForSharing(ArgumentMatchers.argThat(x -> x.getApplPartyId().equals("2")));

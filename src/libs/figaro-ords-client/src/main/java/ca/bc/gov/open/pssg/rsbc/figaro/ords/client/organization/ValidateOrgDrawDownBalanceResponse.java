@@ -46,14 +46,14 @@ public class ValidateOrgDrawDownBalanceResponse {
         return respMsg;
     }
 
-    public static ValidateOrgDrawDownBalanceResponse ErrorResponse(String errorMessage) {
+    public static ValidateOrgDrawDownBalanceResponse errorResponse(String errorMessage) {
         return new ValidateOrgDrawDownBalanceResponse(
                 FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE,
                 FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
                 errorMessage);
     }
 
-    public static ValidateOrgDrawDownBalanceResponse SuccessResponse(String validationResult, String respCodeStr, String respMsg) {
+    public static ValidateOrgDrawDownBalanceResponse successResponse(String validationResult, String respCodeStr, String respMsg) {
         return new ValidateOrgDrawDownBalanceResponse(validationResult, Integer.parseInt(respCodeStr), respMsg);
     }
 }

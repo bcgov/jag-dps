@@ -42,12 +42,12 @@ public class ApplicantServiceImpl implements ApplicantService {
         try {
             ValidateApplicantForSharingOrdsResponse response = this.applicantApi.validateApplicantForSharing(
                     request.getApplPartyId(), request.getJurisdictionType());
-            return ValidateApplicantForSharingResponse.SuccessResponse(response.getValidationResult(),
+            return ValidateApplicantForSharingResponse.successResponse(response.getValidationResult(),
                     response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
             logger.error("Exception caught as Applicant Service, validateApplicantForSharing : " + ex.getMessage(), ex);
-            return ValidateApplicantForSharingResponse.ErrorResponse(ex.getMessage());
+            return ValidateApplicantForSharingResponse.errorResponse(ex.getMessage());
         }
     }
 
@@ -56,13 +56,13 @@ public class ApplicantServiceImpl implements ApplicantService {
 
         try {
             ValidateApplicantPartyIdOrdsResponse response = this.applicantApi.validateApplicantPartyId(applPartyId);
-            return ValidateApplicantPartyIdResponse.SuccessResponse(response.getStatusCode(), response.getStatusMessage(),
+            return ValidateApplicantPartyIdResponse.successResponse(response.getStatusCode(), response.getStatusMessage(),
                     response.getSurname(), response.getFirstName(), response.getSecondName(), response.getBirthDate(),
                     response.getDriversLicense(), response.getBirthPlace(), response.getGender());
 
         } catch (ApiException ex) {
             logger.error("Exception caught as Applicant Service, validateApplicantPartyId : " + ex.getMessage(), ex);
-            return ValidateApplicantPartyIdResponse.ErrorResponse(ex.getMessage());
+            return ValidateApplicantPartyIdResponse.errorResponse(ex.getMessage());
         }
     }
 
@@ -88,7 +88,7 @@ public class ApplicantServiceImpl implements ApplicantService {
                     lmr.getApplSecondInitial(),
                     lmr.getApplSurname());
 
-            return LocateMatchingApplicantsResponse.SuccessResponse(
+            return LocateMatchingApplicantsResponse.successResponse(
                     response.getStatusCode(),
                     response.getStatusMessage(),
                     response.getFoundPartyId(),
@@ -102,7 +102,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 
         } catch (ApiException ex) {
             logger.error("Exception caught as Applicant Service, locateMatchingApplicants : " + ex.getMessage(), ex);
-            return LocateMatchingApplicantsResponse.ErrorResponse(ex.getMessage());
+            return LocateMatchingApplicantsResponse.errorResponse(ex.getMessage());
         }
     }
 
@@ -115,10 +115,10 @@ public class ApplicantServiceImpl implements ApplicantService {
 
         try {
             ValidateOrgApplicantServiceOrdsResponse response = this.applicantApi.validateOrgApplicantService(applPartyId, orgPartyId);
-            return ValidateOrgApplicantServiceResponse.SuccessResponse(response.getValidationResult(), response.getStatusCode(), response.getStatusMessage());
+            return ValidateOrgApplicantServiceResponse.successResponse(response.getValidationResult(), response.getStatusCode(), response.getStatusMessage());
         } catch (ApiException ex) {
             logger.error("Exception caught as Applicant Service, validateOrgApplicantService : " + ex.getMessage(), ex);
-            return ValidateOrgApplicantServiceResponse.ErrorResponse(ex.getMessage());
+            return ValidateOrgApplicantServiceResponse.errorResponse(ex.getMessage());
         }
     }
 }

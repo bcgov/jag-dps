@@ -97,10 +97,10 @@ public class OutputNotificationConsumerTest {
         SftpProperties sftpProperties = new SftpProperties();
         sftpProperties.setRemoteLocation(REMOTE_LOCATION);
 
-        VipsDocumentResponse successResponse = VipsDocumentResponse.SuccessResponse(DOCUMENT_ID, STATUS_CODE, STATUS_MESSAGE);
+        VipsDocumentResponse successResponse = VipsDocumentResponse.successResponse(DOCUMENT_ID, STATUS_CODE, STATUS_MESSAGE);
         Mockito.when(documentServiceMock.vipsDocument(Mockito.eq(TYPE_CODE_SUCCESS), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),Mockito.any())).thenReturn(successResponse);
 
-        VipsDocumentResponse errorResponse = VipsDocumentResponse.ErrorResponse("error result");
+        VipsDocumentResponse errorResponse = VipsDocumentResponse.errorResponse("error result");
         Mockito.when(documentServiceMock.vipsDocument(Mockito.eq(TYPE_CODE_ERROR), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),Mockito.any())).thenReturn(errorResponse);
 
         sut = new OutputNotificationConsumer(fileServiceMock, sftpProperties, documentServiceMock, jaxbContextMock);
