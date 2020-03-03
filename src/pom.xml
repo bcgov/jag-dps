@@ -94,6 +94,7 @@
                 <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>paymentservice</module>
+                <module>dps-email-poller</module>
                 <module>dps-validation-service</module>
                 <module>figaro-validation-service</module>
                 <module>dpsnotificationservice</module>
@@ -148,6 +149,12 @@
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/vips-ords-client</module>
                 <module>vips-notification-worker</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>dps-email-poller</id>
+            <modules>
+                <module>dps-email-poller</module>
             </modules>
         </profile>
     </profiles>
