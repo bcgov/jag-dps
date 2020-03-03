@@ -350,9 +350,6 @@ public class DpsDataIntoFigaroRequestBody {
 
     }
 
-
-    public DpsDataIntoFigaroRequestBody() { }
-
     public String getScheduleType() {
         return scheduleType;
     }
