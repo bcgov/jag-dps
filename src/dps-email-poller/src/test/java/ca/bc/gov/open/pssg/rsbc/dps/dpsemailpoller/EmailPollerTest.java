@@ -22,7 +22,7 @@ class EmailPollerTest {
 
         MockitoAnnotations.initMocks(this);
 
-        sut = new EmailPoller();
+//        sut = new EmailPoller();
     }
 
     @Test
