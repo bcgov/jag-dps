@@ -32,7 +32,7 @@ public class SftpServiceImpl implements SftpService {
 
         int bytesRead;
 
-        try {
+        try(ByteArrayOutputStream bao = new ByteArrayOutputStream()) {
             logger.debug("Attempting to open sftp channel");
             channelSftp = (ChannelSftp) session.openChannel("sftp");
             channelSftp.connect();
@@ -42,14 +42,15 @@ public class SftpServiceImpl implements SftpService {
             InputStream inputStream = channelSftp.get(remoteFilename);
             logger.debug("Successfully get remote file [{}]", remoteFilename);
 
-            ByteArrayOutputStream bao = new ByteArrayOutputStream();
-
             while ((bytesRead = inputStream.read(buff)) != -1) {
                 bao.write(buff, 0, bytesRead);
             }
 
             byte[] data = bao.toByteArray();
-            result = new ByteArrayInputStream(data);
+
+            try(ByteArrayInputStream resultBao = new ByteArrayInputStream(data)) {
+                result = resultBao;
+            }
 
         } catch (JSchException | SftpException | IOException e) {
             logger.error("{} while trying to get file from sftp server {}", e.getClass().getSimpleName(), e.getMessage());
@@ -84,8 +85,7 @@ public class SftpServiceImpl implements SftpService {
             logger.debug("Successfully renamed files on the sftp server from {} to {}", remoteFileName, destinationFilename);
 
         } catch (JSchException | SftpException e) {
-            logger.error("{} while trying to get file from sftp server {}", e.getClass().getSimpleName(), e.getMessage());
-            e.printStackTrace();
+            logger.error("{} while trying to get file from sftp server {}", e.getClass().getSimpleName(), e.getMessage(), e);
             throw new DpsSftpException(e.getMessage(), e.getCause());
         } finally {
             if(channelSftp != null && channelSftp.isConnected())
