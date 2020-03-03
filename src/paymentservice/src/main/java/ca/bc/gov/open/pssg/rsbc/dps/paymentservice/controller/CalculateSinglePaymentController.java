@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.slf4j.MDC;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ import java.net.URL;
 public class CalculateSinglePaymentController {
 
     private static final Logger logger = LogManager.getLogger(CalculateSinglePaymentController.class);
+    private static final String DPS_INVOICE_KEY = "dps.invoice";
 
     private PaymentClient paymentClient;
 
@@ -78,9 +80,15 @@ public class CalculateSinglePaymentController {
             @ApiParam(value = "minutesToExpire", required = true) @RequestParam(value = "minutesToExpire", required =
 					true) String minutesToExpire) {
 
+
+        logger.debug("Receiving request for invoice [{}]", invoiceNumber);
+        MDC.put(DPS_INVOICE_KEY, invoiceNumber);
+
+        URL response;
+
         try {
 
-            URL response = paymentClient.calculateSinglePaymentURL(
+            response = paymentClient.calculateSinglePaymentURL(
                     new SinglePaymentRequest.Builder()
                             .withBamboraTransType(BamboraTransType.valueOf(transType))
                             .withInvoiceNumber(invoiceNumber)
@@ -93,8 +101,9 @@ public class CalculateSinglePaymentController {
                             .withRef3(ref3)
                             .build(), Integer.parseInt(minutesToExpire));
 
-            return new SinglePaymentResponse(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK,
-                    PaymentServiceConstants.PAYMENT_SERVICE_SUCCESS_CD, response.toExternalForm());
+            logger.info("Successfully generated url for invoice [{}]", invoiceNumber);
+
+
 
         } catch (NumberFormatException | MalformedURLException e) {
 
@@ -102,6 +111,12 @@ public class CalculateSinglePaymentController {
             return new SinglePaymentResponse(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_FAIL,
                     PaymentServiceConstants.PAYMENT_SERVICE_FAILURE_CD, e.getMessage());
         }
+
+
+        MDC.remove(DPS_INVOICE_KEY);
+
+        return new SinglePaymentResponse(PaymentServiceConstants.PAYMENT_SERVICE_RESP_MSG_OK,
+                PaymentServiceConstants.PAYMENT_SERVICE_SUCCESS_CD, response.toExternalForm());
 
     }
 
