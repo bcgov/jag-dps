@@ -36,9 +36,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                     response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
-            logger.error("Exception caught as Organization Service, validateOrgDrawDownBalance : " + ex.getMessage());
-            ex.printStackTrace();
-
+            logger.error("Exception caught as Organization Service, validateOrgDrawDownBalance : " + ex.getMessage(), ex);
             return ValidateOrgDrawDownBalanceResponse.ErrorResponse(ex.getMessage());
         }
     }
@@ -66,9 +64,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                     response.getFoundOrgType(), contactList);
 
         } catch (ApiException ex) {
-            logger.error("Exception caught as Organization Service, validateOrgParty : " + ex.getMessage());
-            ex.printStackTrace();
-
+            logger.error("Exception caught as Organization Service, validateOrgParty : " + ex.getMessage(), ex);
             return ValidateOrgPartyResponse.ErrorResponse(ex.getMessage());
         }
     }

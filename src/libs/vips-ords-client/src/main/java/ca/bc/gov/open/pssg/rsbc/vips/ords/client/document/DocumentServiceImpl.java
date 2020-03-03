@@ -32,9 +32,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         } catch (ApiException ex) {
 
-            logger.error("Document Service did throw exception: " + ex.getMessage());
-            ex.printStackTrace();
-
+            logger.error("Document Service did throw exception: " + ex.getMessage(), ex);
             return VipsDocumentResponse.ErrorResponse(ex.getMessage());
         }
     }
