@@ -1,6 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.facility;
 
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.FacilityService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -58,9 +60,9 @@ public class FacilityControllerTest {
     public void withInvalidResponseShouldReturnValid() {
 
         ValidateFacilityPartyResponse result = sut.ValidateFacilityParty(FACILITY_PARTY_ID_FAIL, "a", "b", "c", "d", "e");
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, result.getRespMsg());
-        Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getValidationResult());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
+        Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE, result.getValidationResult());
+        Assertions.assertEquals(ERROR_VALIDATION_RESULT, result.getRespMsg());
     }
 
 }

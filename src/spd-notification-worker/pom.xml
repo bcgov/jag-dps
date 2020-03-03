@@ -69,6 +69,12 @@
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+            <version>1.3.2</version>
+		</dependency>
+
 		<!-- HTTP client: jersey-client -->
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
@@ -165,6 +171,12 @@
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-messaging-starter</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
+			<artifactId>dps-notification</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

@@ -2,14 +2,17 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.configuration;
 
 import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.FacilityApi;
+import ca.bc.gov.open.ords.figcr.client.api.HealthApi;
 import ca.bc.gov.open.ords.figcr.client.api.OrgApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiClient;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.ApplicantService;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.ApplicantServiceImpl;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.facility.FacilityService;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.facility.FacilityServiceImpl;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.org.OrgService;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.org.OrgServiceImpl;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.ApplicantService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.ApplicantServiceImpl;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.FacilityService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.FacilityServiceImpl;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health.HealthService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health.HealthServiceImpl;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization.OrganizationService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.organization.OrganizationServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -69,7 +72,13 @@ public class OrdsFigcrConfig {
     }
 
     @Bean
-    public OrgService orgService(OrgApi orgApi) {
-        return new OrgServiceImpl(orgApi);
+    public OrganizationService orgService(OrgApi orgApi) {
+        return new OrganizationServiceImpl(orgApi);
     }
+
+    @Bean
+    public HealthApi healthApi(ApiClient apiClient) { return new HealthApi(apiClient); }
+
+    @Bean
+    public HealthService healthService(HealthApi healthApi) { return new HealthServiceImpl(healthApi); }
 }

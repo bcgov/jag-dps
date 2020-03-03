@@ -29,6 +29,7 @@ Add the following flage
 | BAMBORA_PAYMENT_ENDPOINT | Bambora Payment Endpoint |  not set by default |
 | BAMBORA_MERCHANT_ID | Bambora Merchant Endpoint |  not set by default |
 | BAMBORA_HASHKEY | Bambora Hashkey |  not set by default |
+| BAMBORA_TIME_ZONE | ID - the ID for a TimeZone, either an abbreviation such as "PST", a full name such as "America/Los_Angeles", or a custom ID such as "GMT-8:00". Note that the support of abbreviations is for JDK 1.1.x compatibility only and full names should be used. |  not set by default |
 | SWAGGER_UI_ENABLED | Enable Swagger Ui | default is false |
 
 ### Health Checks

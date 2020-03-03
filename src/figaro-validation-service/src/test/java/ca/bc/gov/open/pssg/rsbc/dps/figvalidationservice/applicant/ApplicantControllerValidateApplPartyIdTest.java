@@ -1,8 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
 
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantPartyIdOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantPartyIdResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
+import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.ApplicantService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantPartyIdResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -45,42 +45,30 @@ public class ApplicantControllerValidateApplPartyIdTest {
     private ApplicantController sut;
 
     @BeforeAll
-    public void SetUp() throws FigaroValidationServiceException {
+    public void SetUp() throws ApiException {
 
-        ValidateApplicantPartyIdOrdsResponse goodServiceResp = new ValidateApplicantPartyIdOrdsResponse();
-        goodServiceResp.setStatusCode(GOOD_SERVICE_RESPCD);
-        goodServiceResp.setStatusMessage(GOOD_SERVICE_RESPMSG);
-        goodServiceResp.setSurname(SURNAME);
-        goodServiceResp.setSecondName(SECONDNAME);
-        goodServiceResp.setGender(GENDER);
-        goodServiceResp.setFirstName(FIRSTNAME);
-        goodServiceResp.setDriversLicense(DRIVERLICENCE);
-        goodServiceResp.setBirthPlace(BIRTHPLACE);
-        goodServiceResp.setBirthDate(BIRTHDATE);
+        ValidateApplicantPartyIdResponse goodServiceResp = ValidateApplicantPartyIdResponse.SuccessResponse(
+                GOOD_SERVICE_RESPCD, GOOD_SERVICE_RESPMSG, SURNAME, FIRSTNAME,
+                SECONDNAME, BIRTHDATE, DRIVERLICENCE, BIRTHPLACE, GENDER);
 
-        ValidateApplicantPartyIdOrdsResponse badServiceResp = new ValidateApplicantPartyIdOrdsResponse();
-        badServiceResp.setStatusCode(BAD_SERVICE_RESPCD);
-        badServiceResp.setStatusMessage(BAD_SERVICE_RESPMSG);
+        ValidateApplicantPartyIdResponse badServiceResp = ValidateApplicantPartyIdResponse.ErrorResponse(BAD_SERVICE_RESPMSG);
 
         MockitoAnnotations.initMocks(this);
 
-        Mockito.when(applicantService.validateApplicantPartyId(GOOD_PARTY_ID))
-                .thenReturn(goodServiceResp);
+        Mockito.when(applicantService.validateApplicantPartyId(GOOD_PARTY_ID)).thenReturn(goodServiceResp);
 
-        Mockito.when(applicantService.validateApplicantPartyId(BAD_PARTY_ID))
-                .thenReturn(badServiceResp);
+        Mockito.when(applicantService.validateApplicantPartyId(BAD_PARTY_ID)).thenReturn(badServiceResp);
 
-        Mockito.when(applicantService.validateApplicantPartyId(EXCEPTION_PARTY_ID)).thenThrow(FigaroValidationServiceException.class);
+        Mockito.when(applicantService.validateApplicantPartyId(EXCEPTION_PARTY_ID)).thenThrow(ApiException.class);
 
         sut = new ApplicantController(applicantService);
-
     }
 
     /**
      * success
      */
     @Test
-    public void ValidateFigaroControllerSuccess() throws FigaroValidationServiceException {
+    public void ValidateFigaroControllerSuccess() throws ApiException {
 
         ValidateApplicantPartyIdResponse response = sut.validateApplicantPartyId(GOOD_PARTY_ID);
         Assertions.assertEquals(GOOD_CONTROLLER_RESPCD, response.getRespCode());
@@ -92,34 +80,28 @@ public class ApplicantControllerValidateApplPartyIdTest {
         Assertions.assertEquals(DRIVERLICENCE, response.getFoundDriversLicence());
         Assertions.assertEquals(BIRTHPLACE, response.getFoundBirthPlace());
         Assertions.assertEquals(BIRTHDATE, response.getFoundBirthDate());
-
     }
 
     /**
      * failure to find party id
      */
     @Test
-    public void ValidateFigaroControllerFail() throws FigaroValidationServiceException {
-
+    public void ValidateFigaroControllerFail() throws ApiException {
 
         ValidateApplicantPartyIdResponse response = sut.validateApplicantPartyId(BAD_PARTY_ID);
-        Assertions.assertEquals(BAD_CONTROLLER_RESPCD, response.getRespCode());
-        Assertions.assertEquals("Validation Failure: Applicant Party ID 20 is not for an Individual",
-                response.getRespMsg());
-
+        Assertions.assertEquals(FAIL_CONTROLLER_RESPCD, response.getRespCode());
+        Assertions.assertEquals(BAD_SERVICE_RESPMSG, response.getRespMsg());
     }
 
     /**
      * exception test
      */
     @Test
-    public void ValidateFigaroControllerException() throws FigaroValidationServiceException {
+    public void ValidateFigaroControllerException() throws ApiException {
 
         ValidateApplicantPartyIdResponse response = sut.validateApplicantPartyId(EXCEPTION_PARTY_ID);
         Assertions.assertEquals(FAIL_CONTROLLER_RESPCD, response.getRespCode());
         Assertions.assertEquals(null, response.getRespMsg());
-
-
     }
 
 }

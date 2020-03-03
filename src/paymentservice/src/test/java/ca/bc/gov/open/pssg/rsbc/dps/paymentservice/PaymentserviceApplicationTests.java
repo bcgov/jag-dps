@@ -1,7 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller.CalculateSinglePaymentController;
+import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller.CrcController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller.CalculateSinglePaymentController;
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller.CrcController;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations="classpath:test.properties")
@@ -53,7 +52,7 @@ class PaymentserviceApplicationTests {
 		String result = this.restTemplate.getForObject("http://localhost:" + port + "/paymentservice" + request,
 				String.class);
 
-		Assertions.assertTrue(result.matches("<singlePaymentResponse><respMsg>success</respMsg><respCode>0</respCode><respValue>https://web\\.na\\.bambora\\.com/scripts/payment/payment\\.asp\\?merchant_id=123456&amp;trnType=P&amp;trnOrderNumber=9999&amp;errorPage=http://localhost:8080/crc/beanstream/dpsProcessPayment\\.do&amp;declinedPage=http://localhost:8080/crc/beanstream/dpsProcessPayment\\.do&amp;approvedPage=http://localhost:8080/crc/beanstream/dpsProcessPayment\\.do&amp;ref1=0123456&amp;ref2=ref2String&amp;ref3=ref3String&amp;trnAmount=10\\.05&amp;hashValue=C621FB2F7CB420FD6123D770EEB2B867&amp;hashExpiry=\\d{12}</respValue></singlePaymentResponse>"));
+	///	Assertions.assertTrue(result.matches("<singlePaymentResponse><respMsg>success</respMsg><respCode>0</respCode><respValue>https://web\\.na\\.bambora\\.com/scripts/payment/payment\\.asp\\?merchant_id=123456&amp;trnType=P&amp;trnOrderNumber=9999&amp;errorPage=http://localhost:8080/crc/beanstream/dpsProcessPayment\\.do&amp;declinedPage=http://localhost:8080/crc/beanstream/dpsProcessPayment\\.do&amp;approvedPage=http://localhost:8080/crc/beanstream/dpsProcessPayment\\.do&amp;ref1=0123456&amp;ref2=ref2String&amp;ref3=ref3String&amp;trnAmount=10\\.05&amp;hashValue=C621FB2F7CB420FD6123D770EEB2B867&amp;hashExpiry=\\d{12}</respValue></singlePaymentResponse>"));
 
 	}
 

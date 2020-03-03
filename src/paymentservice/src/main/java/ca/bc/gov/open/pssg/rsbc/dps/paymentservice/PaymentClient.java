@@ -1,8 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
-import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.exception.PaymentServiceException;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.types.SinglePaymentRequest;
 
 /**
@@ -20,10 +20,9 @@ public interface PaymentClient {
 	 * 
 	 * @param SinglePaymentRequest
 	 * @return
-	 * @throws PaymentServiceException
+	 * @throws MalformedURLException
 	 */
-	public URL calculateSinglePaymentURL(SinglePaymentRequest spr)
-			throws PaymentServiceException;
+	URL calculateSinglePaymentURL(SinglePaymentRequest spr, Integer expiryTime) throws MalformedURLException;
 
 }
 

@@ -363,6 +363,7 @@
 								],
 								"type": "text/javascript"
 							}
+
 						},
 						{
 							"listen": "prerequest",
@@ -373,6 +374,7 @@
 								],
 								"type": "text/javascript"
 							}
+
 						}
 					],
 					"request": {
@@ -385,6 +387,7 @@
 							}
 						],
 						"url": {
+
 							"raw": "{{baseUrl}}/figvalidationservice/validateApplicantPartyId?applPartyId={{applPartyId}}",
 							"host": [
 								"{{baseUrl}}"
@@ -491,6 +494,7 @@
 						"header": [],
 						"url": {
 							"raw": "http://localhost:8082/figvalidationservice/validateOrgParty?orgPartyId={{orgPartyId}}",
+
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -498,12 +502,14 @@
 							"port": "8082",
 							"path": [
 								"figvalidationservice",
+
 								"validateOrgParty"
 							],
 							"query": [
 								{
 									"key": "orgPartyId",
 									"value": "{{orgPartyId}}"
+
 								}
 							]
 						}

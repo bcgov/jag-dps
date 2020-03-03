@@ -2,12 +2,12 @@ package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileInfo;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
-import ca.bc.gov.open.pssg.rsbc.dps.files.notification.OutputNotificationMessage;
+import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.DocumentService;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.VipsDocumentResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.vips.notification.worker.generated.models.Data;
-import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document.DocumentService;
-import ca.bc.gov.open.pssg.rsbc.vips.notification.worker.document.VipsDocumentResponse;
 import com.migcomponents.migbase64.Base64;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -81,11 +81,11 @@ public class OutputNotificationConsumer {
                             "",
                             getImage(fileInfo));
 
-            logger.info("successfully created new {}", vipsDocumentResponse);
-
             if (vipsDocumentResponse.getRespCode() == SUCCESS_CODE) {
+                logger.info("success: {} with {}", vipsDocumentResponse, fileInfo);
                 moveFilesToArchive(fileInfo);
             } else {
+                logger.error("error: {} with {}", vipsDocumentResponse, fileInfo);
                 moveFilesToError(fileInfo);
             }
 
@@ -100,7 +100,6 @@ public class OutputNotificationConsumer {
             MDC.remove(DPS_FILE_ID_KEY);
             MDC.remove(DPS_BUSINESS_AREA_CD_KEY);
         }
-
     }
 
     private String getMetadata(FileInfo fileInfo) throws IOException {

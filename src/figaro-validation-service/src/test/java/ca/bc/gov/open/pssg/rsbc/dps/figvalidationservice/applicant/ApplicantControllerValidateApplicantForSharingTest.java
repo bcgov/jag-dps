@@ -1,10 +1,9 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
 
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateApplicantForSharingOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.FigaroValidationServiceConstants;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.exception.FigaroValidationServiceException;
-import ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant.types.ValidateApplicantForSharingResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.ApplicantService;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantForSharingResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -32,31 +31,23 @@ public class ApplicantControllerValidateApplicantForSharingTest {
     private ApplicantService applicantServiceMock;
 
     @BeforeAll
-    public void setup() throws ApiException, FigaroValidationServiceException {
+    public void setup() throws ApiException {
 
         MockitoAnnotations.initMocks(this);
 
-        ValidateApplicantForSharingOrdsResponse successResponse = new ValidateApplicantForSharingOrdsResponse();
-        successResponse.setStatusCode(STATUS_CODE);
-        successResponse.setStatusMessage(STATUS_MESSAGE);
-        successResponse.setValidationResult(VALIDATION_RESULT);
+        ValidateApplicantForSharingResponse successResponse = ValidateApplicantForSharingResponse.SuccessResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE);
 
-        ValidateApplicantForSharingOrdsResponse errorResponse = new ValidateApplicantForSharingOrdsResponse();
-        errorResponse.setStatusCode(ERROR_STATUS_CODE);
-        errorResponse.setStatusMessage(ERROR_STATUS_MESSAGE);
-        errorResponse.setValidationResult(ERROR_VALIDATION_RESULT);
+        ValidateApplicantForSharingResponse errorResponse = ValidateApplicantForSharingResponse.ErrorResponse(ERROR_STATUS_MESSAGE);
 
         Mockito.doReturn(successResponse).when(applicantServiceMock).validateApplicantForSharing(ArgumentMatchers.argThat(x -> x.getApplPartyId().equals("1")));
         Mockito.doReturn(errorResponse).when(applicantServiceMock).validateApplicantForSharing(ArgumentMatchers.argThat(x -> x.getApplPartyId().equals("2")));
-        Mockito.doThrow(new FigaroValidationServiceException(API_EXCEPTION)).when(applicantServiceMock).validateApplicantForSharing(ArgumentMatchers.argThat(x -> x.getApplPartyId().equals("3")));
+        Mockito.doThrow(new ApiException(API_EXCEPTION)).when(applicantServiceMock).validateApplicantForSharing(ArgumentMatchers.argThat(x -> x.getApplPartyId().equals("3")));
 
         sut = new ApplicantController(applicantServiceMock);
-
     }
 
-
     @Test
-    public void withValidResponseShouldReturnValidResponse() throws FigaroValidationServiceException {
+    public void withValidResponseShouldReturnValidResponse() throws ApiException {
 
         ValidateApplicantForSharingResponse response = sut.validateApplicantForSharing("1", "type");
 
@@ -66,25 +57,22 @@ public class ApplicantControllerValidateApplicantForSharingTest {
     }
 
     @Test
-    public void withErrorResponseShouldReturnErrorResponse() throws FigaroValidationServiceException {
+    public void withErrorResponseShouldReturnErrorResponse() throws ApiException {
 
         ValidateApplicantForSharingResponse response = sut.validateApplicantForSharing("2", "type");
 
-        Assertions.assertEquals(-2, response.getRespCode());
+        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
         Assertions.assertEquals(ERROR_STATUS_MESSAGE, response.getRespMsg());
-        Assertions.assertEquals(ERROR_VALIDATION_RESULT, response.getValidationResult());
+        Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, response.getValidationResult());
     }
 
     @Test
-    public void withExceptionShouldReturnErrorResponse() throws FigaroValidationServiceException {
+    public void withExceptionShouldReturnErrorResponse() throws ApiException {
 
         ValidateApplicantForSharingResponse response = sut.validateApplicantForSharing("3", "type");
 
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
         Assertions.assertEquals(FigaroValidationServiceConstants.VALIDATION_SERVICE_BOOLEAN_FALSE, response.getRespMsg());
         Assertions.assertEquals(API_EXCEPTION, response.getValidationResult());
-
     }
-
-
 }

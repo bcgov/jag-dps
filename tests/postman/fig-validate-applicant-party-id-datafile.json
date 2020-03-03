@@ -1,0 +1,32 @@
+[
+    {
+        "/ comment": "PartyID was not found",
+        "applPartyId": "9988",
+        "isValid": "notFound"
+    },
+    {
+        "/ comment": "PartyID not proviced",
+        "applPartyId": "",
+        "isValid": "noPartyId"
+    },
+    {
+        "/ comment": "Valid input",
+        "applPartyId": "209",
+        "isValid": "true"
+    },
+    {
+        "/ comment": "Valid input - Not individual",
+        "applPartyId": "212",
+        "isValid": "notIndividual"
+    },
+    {
+        "/ comment": "Invalid data type",
+        "applPartyId": "Test",
+        "isValid": "inValidDataType"
+    },
+    {
+        "/ comment": "Invalid inputs",
+        "applPartyId": "<Script>testinput</script>",
+        "isValid": "inValidDataType"
+    }
+]

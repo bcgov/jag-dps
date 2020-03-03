@@ -14,16 +14,19 @@ securityDefinitions:
     description: HTTP Basic Authentication.
 tags:
   - name: Document
+  - name: Health
 paths:
   /health:
     get:
+      tags:
+        - Health
+      operationId: health
       description: Dummy endpoint to check that API calls are working
       responses:
         '200':
           description: output of the endpoint
           schema:
-            type: object
-            properties: {}
+            $ref: '#/definitions/healthOrdsResponse'
   /vipsDocument:
     post:
       tags:
@@ -71,6 +74,25 @@ paths:
             type: string
             format: binary
 definitions:
+  healthOrdsResponse:
+    type: object
+    required:
+      - appid
+      - method
+      - status
+      - host
+      - instance
+    properties:
+      appid:
+        type: string
+      method:
+        type: string
+      status:
+        type: string
+      host:
+        type: string
+      instance:
+        type: string
   vipsDocumentOrdsResponse:
     type: object
     required:
