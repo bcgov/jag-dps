@@ -11,7 +11,7 @@ A Document Processing System.
     ├── src/                                # application source files
     │   ├── spdnotificationworker/             # SPD Notification Worker
     │   ├── dpsnotificationservice/         # DPS Notification service  
-    │   ├── dpsvalidationservice/           # DPS DFCM service
+    │   ├── dps-validation-service/           # DPS DFCM service
     |   ├── figaro-validation-service/      # DPS Figaro Validator service
     |   ├── paymentservice/                 # DPS payment service
     │   └── service-api                     # DPS service api
@@ -50,12 +50,12 @@ docker-compose up --build -d
 
 ## Dps Service List
 
-| Name | Doc | Notes |
-| --- | --- | --- |
-| Payment Service | [Doc](src/paymentservice/README.md) | |
+| Name | Doc | Notes | Swagger |
+| --- | --- | --- | --- |
+| Payment Service | [Doc](src/paymentservice/README.md) | [payment-service.swagger.yml](docs/payment-service.swagger.yml) |
 | CRRP Notification Worker| [Doc](src/crrp-notification-worker/README.md) | |
 | DPS Notification Service| [Doc](src/dpsnotificationservice/README.md) | |
-| DPS Validation Service | [Doc](src/dpsvalidationservice/README.md) | |
+| DPS Validation Service | [Doc](src/dps-validation-service/README.md) | |
 | Figaro Validation Service | [Doc](src/figaro-validation-service/README.md) | |
 | VIPS Notification Worker| [Doc](src/vips-notification-worker/README.md) | |
 
