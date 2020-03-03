@@ -28,9 +28,7 @@ public class CaseServiceImpl implements CaseService {
             return CaseSequenceNumberResponse.SuccessResponse(response.getCaseSequenceNumber(), response.getCaseDescription(), response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
-            logger.error("Exception caught as Case Service, caseSequenceNumber : " + ex.getMessage());
-            ex.printStackTrace();
-
+            logger.error("Exception caught as Case Service, caseSequenceNumber", ex);
             return CaseSequenceNumberResponse.ErrorResponse(ex.getMessage());
         }
     }

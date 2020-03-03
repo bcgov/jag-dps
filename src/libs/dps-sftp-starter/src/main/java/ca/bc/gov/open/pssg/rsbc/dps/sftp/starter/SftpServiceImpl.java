@@ -52,8 +52,7 @@ public class SftpServiceImpl implements SftpService {
             result = new ByteArrayInputStream(data);
 
         } catch (JSchException | SftpException | IOException e) {
-            logger.error("{} while trying to get file from sftp server {}", e.getClass().getSimpleName(), e.getMessage());
-            e.printStackTrace();
+            logger.error("{} while trying to get file from sftp server {}", e.getClass().getSimpleName(), e.getMessage(), e);
             throw new DpsSftpException(e.getMessage(), e.getCause());
         } finally {
             if(channelSftp != null && channelSftp.isConnected())
@@ -84,8 +83,7 @@ public class SftpServiceImpl implements SftpService {
             logger.debug("Successfully renamed files on the sftp server from {} to {}", remoteFileName, destinationFilename);
 
         } catch (JSchException | SftpException e) {
-            logger.error("{} while trying to get file from sftp server {}", e.getClass().getSimpleName(), e.getMessage());
-            e.printStackTrace();
+            logger.error("{} while trying to get file from sftp server {}", e.getClass().getSimpleName(), e.getMessage(), e);
             throw new DpsSftpException(e.getMessage(), e.getCause());
         } finally {
             if(channelSftp != null && channelSftp.isConnected())

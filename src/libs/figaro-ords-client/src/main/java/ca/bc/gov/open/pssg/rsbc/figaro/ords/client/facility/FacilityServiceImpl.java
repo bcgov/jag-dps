@@ -33,9 +33,7 @@ public class FacilityServiceImpl implements FacilityService {
                     response.getFoundFacilityPartyId(), response.getFoundFacilityName());
 
         } catch (ApiException ex) {
-            logger.error("Exception caught as Facility Service, validateFacilityParty : " + ex.getMessage());
-            ex.printStackTrace();
-
+            logger.error("Exception caught as Facility Service, validateFacilityParty : " + ex.getMessage(), ex);
             return ValidateFacilityPartyResponse.ErrorResponse(ex.getMessage());
         }
     }
