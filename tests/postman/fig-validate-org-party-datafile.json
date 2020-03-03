@@ -1,0 +1,38 @@
+[
+    {
+        "/Comment": "Valid org party Id",
+        "orgPartyId": "48038",
+        "isValid": "validParty"
+
+    },
+    {
+        "/Comment": "Valid org party Id",
+        "orgPartyId": "1",
+        "isValid": "validParty"
+
+    },
+    {
+        "/Comment": "Valid org party Id",
+        "orgPartyId": "650",
+        "isValid": "validParty"
+
+    },
+    {
+        "/Comment": "Invalid org party Id",
+        "orgPartyId": "651",
+        "isValid": "inValidParty"
+
+    },
+    {
+        "/Comment": "Not an org",
+        "orgPartyId": "659",
+        "isValid": "noAnOrganisation"
+
+    },
+    {
+        "/Comment": "Incorrect data type",
+        "orgPartyId": "test",
+        "isValid": "string"
+
+    }
+]
