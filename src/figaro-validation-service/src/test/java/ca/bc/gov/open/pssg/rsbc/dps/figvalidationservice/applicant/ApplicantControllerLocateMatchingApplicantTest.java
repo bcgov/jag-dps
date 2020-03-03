@@ -35,7 +35,7 @@ public class ApplicantControllerLocateMatchingApplicantTest {
 
         MockitoAnnotations.initMocks(this);
 
-        LocateMatchingApplicantsResponse successResponse = LocateMatchingApplicantsResponse.SuccessResponse(
+        LocateMatchingApplicantsResponse successResponse = LocateMatchingApplicantsResponse.successResponse(
                 RESP_CODE,
                 RESP_MSG,
                 FOUND_PARTY_ID,
@@ -47,7 +47,7 @@ public class ApplicantControllerLocateMatchingApplicantTest {
                 FOUND_BIRTH_PLACE,
                 FOUND_GENDER_TXT);
 
-        LocateMatchingApplicantsResponse errorResponse = LocateMatchingApplicantsResponse.ErrorResponse(FAIL_RESP_MSG);
+        LocateMatchingApplicantsResponse errorResponse = LocateMatchingApplicantsResponse.errorResponse(FAIL_RESP_MSG);
 
         Mockito.doReturn(successResponse).when(applicantServiceMock).locateMatchingApplicants(ArgumentMatchers.argThat(x -> x.getApplAliasFirstName1().equals("1")));
         Mockito.doReturn(errorResponse).when(applicantServiceMock).locateMatchingApplicants(ArgumentMatchers.argThat(x -> x.getApplAliasFirstName1().equals("2")));

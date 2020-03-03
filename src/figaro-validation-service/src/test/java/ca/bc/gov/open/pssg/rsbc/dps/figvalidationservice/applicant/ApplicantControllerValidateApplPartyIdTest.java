@@ -47,11 +47,11 @@ public class ApplicantControllerValidateApplPartyIdTest {
     @BeforeAll
     public void SetUp() throws ApiException {
 
-        ValidateApplicantPartyIdResponse goodServiceResp = ValidateApplicantPartyIdResponse.SuccessResponse(
+        ValidateApplicantPartyIdResponse goodServiceResp = ValidateApplicantPartyIdResponse.successResponse(
                 GOOD_SERVICE_RESPCD, GOOD_SERVICE_RESPMSG, SURNAME, FIRSTNAME,
                 SECONDNAME, BIRTHDATE, DRIVERLICENCE, BIRTHPLACE, GENDER);
 
-        ValidateApplicantPartyIdResponse badServiceResp = ValidateApplicantPartyIdResponse.ErrorResponse(BAD_SERVICE_RESPMSG);
+        ValidateApplicantPartyIdResponse badServiceResp = ValidateApplicantPartyIdResponse.errorResponse(BAD_SERVICE_RESPMSG);
 
         MockitoAnnotations.initMocks(this);
 

@@ -28,12 +28,12 @@ public class DocumentServiceImpl implements DocumentService {
 
         try {
             VipsDocumentOrdsResponse response = this.documentApi.vipsDocumentPost(typeCode, SanitizeBase64(metadata), mimeType, mimeSubType, authGuid, body);
-            return  VipsDocumentResponse.SuccessResponse(response.getDocumentId(), response.getStatusCode(), response.getStatusMessage());
+            return  VipsDocumentResponse.successResponse(response.getDocumentId(), response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
 
             logger.error("Document Service did throw exception: " + ex.getMessage(), ex);
-            return VipsDocumentResponse.ErrorResponse(ex.getMessage());
+            return VipsDocumentResponse.errorResponse(ex.getMessage());
         }
     }
 

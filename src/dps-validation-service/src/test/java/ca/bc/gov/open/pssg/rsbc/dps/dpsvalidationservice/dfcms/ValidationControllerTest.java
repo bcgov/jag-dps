@@ -39,8 +39,8 @@ class ValidationControllerTest {
 
         MockitoAnnotations.initMocks(this);
 
-        CaseSequenceNumberResponse successResponse = CaseSequenceNumberResponse.SuccessResponse(CODE_SUCCESS, DESC_SUCCESS, STATUS_CODE, STATUS_MESSAGE);
-        CaseSequenceNumberResponse errorResponse = CaseSequenceNumberResponse.ErrorResponse(FAIL_MESSAGE);
+        CaseSequenceNumberResponse successResponse = CaseSequenceNumberResponse.successResponse(CODE_SUCCESS, DESC_SUCCESS, STATUS_CODE, STATUS_MESSAGE);
+        CaseSequenceNumberResponse errorResponse = CaseSequenceNumberResponse.errorResponse(FAIL_MESSAGE);
 
         Mockito.when(caseServiceMock.caseSequenceNumber(Mockito.eq(DRIVER_LICENCE_VALID), Mockito.eq(SURNAME_CODE_VALID))).thenReturn(successResponse);
         Mockito.when(caseServiceMock.caseSequenceNumber(Mockito.eq(CODE_FAIL), Mockito.eq(SURNAME_CODE_VALID))).thenReturn(errorResponse);

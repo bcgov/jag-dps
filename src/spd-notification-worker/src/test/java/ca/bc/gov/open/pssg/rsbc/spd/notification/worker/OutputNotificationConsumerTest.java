@@ -132,12 +132,12 @@ public class OutputNotificationConsumerTest {
                 .getMetadataFileContent(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_1)));
 
         Mockito
-                .doReturn(DpsDocumentResponse.SuccessResponse(DOCUMENT_GUID, STATUS_CODE, STATUS_MESSAGE))
+                .doReturn(DpsDocumentResponse.successResponse(DOCUMENT_GUID, STATUS_CODE, STATUS_MESSAGE))
                 .when(documentServiceMock)
                 .dpsDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_1).getImageReleaseFileName())));
 
         Mockito
-                .doReturn(DpsDataIntoFigaroResponse.SuccessResponse(STATUS_CODE, STATUS_MESSAGE))
+                .doReturn(DpsDataIntoFigaroResponse.successResponse(STATUS_CODE, STATUS_MESSAGE))
                 .when(documentServiceMock)
                 .dpsDataIntoFigaro(ArgumentMatchers.argThat(x -> x.getApplicationDocumentGuid().equals(DOCUMENT_GUID)));
 
@@ -149,7 +149,7 @@ public class OutputNotificationConsumerTest {
                 .getMetadataFileContent(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_1API_ERROR_CODE)));
 
         Mockito
-                .doReturn(DpsDocumentResponse.ErrorResponse(STATUS_CODE_ERROR))
+                .doReturn(DpsDocumentResponse.errorResponse(STATUS_CODE_ERROR))
                 .when(documentServiceMock)
                 .dpsDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_1API_ERROR_CODE).getImageReleaseFileName())));
 
@@ -161,12 +161,12 @@ public class OutputNotificationConsumerTest {
                 .getMetadataFileContent(ArgumentMatchers.argThat(x -> x.getFileId().equals(CASE_2API_ERROR_CODE)));
 
         Mockito
-                .doReturn(DpsDocumentResponse.SuccessResponse(CASE_2API_ERROR_CODE, STATUS_CODE, STATUS_MESSAGE))
+                .doReturn(DpsDocumentResponse.successResponse(CASE_2API_ERROR_CODE, STATUS_CODE, STATUS_MESSAGE))
                 .when(documentServiceMock)
                 .dpsDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_2API_ERROR_CODE).getImageReleaseFileName())));
 
         Mockito
-                .doReturn(DpsDataIntoFigaroResponse.ErrorResponse(STATUS_CODE_ERROR))
+                .doReturn(DpsDataIntoFigaroResponse.errorResponse(STATUS_CODE_ERROR))
                 .when(documentServiceMock)
                 .dpsDataIntoFigaro(ArgumentMatchers.argThat(x -> x.getApplicationDocumentGuid().equals(CASE_2API_ERROR_CODE)));
 

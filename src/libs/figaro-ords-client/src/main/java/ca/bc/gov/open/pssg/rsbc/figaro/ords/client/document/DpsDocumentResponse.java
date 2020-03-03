@@ -44,13 +44,13 @@ public class DpsDocumentResponse {
         return respMsg;
     }
 
-    public static DpsDocumentResponse ErrorResponse(String errorMessage) {
+    public static DpsDocumentResponse errorResponse(String errorMessage) {
         return new DpsDocumentResponse(
                 FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
                 errorMessage);
     }
 
-    public static DpsDocumentResponse SuccessResponse(String guid, String respCodeStr, String respMsg) {
+    public static DpsDocumentResponse successResponse(String guid, String respCodeStr, String respMsg) {
 
         return new DpsDocumentResponse(guid, Integer.parseInt(respCodeStr), respMsg);
     }

@@ -66,15 +66,15 @@ public class ValidateFacilityPartyResponse {
         return respMsg;
     }
 
-    public static ValidateFacilityPartyResponse ErrorResponse(String errorMessage) {
+    public static ValidateFacilityPartyResponse errorResponse(String errorMessage) {
         return new ValidateFacilityPartyResponse(
                 FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE,
                 FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
                 errorMessage);
     }
 
-    public static ValidateFacilityPartyResponse SuccessResponse(String validationResult, String respCodeStr, String respMsg, String foundFacilityPartyId,
-                                                String foundFacilityName) {
+    public static ValidateFacilityPartyResponse successResponse(String validationResult, String respCodeStr, String respMsg, String foundFacilityPartyId,
+                                                                String foundFacilityName) {
 
         return new ValidateFacilityPartyResponse(validationResult, Integer.parseInt(respCodeStr), respMsg, foundFacilityPartyId, foundFacilityName);
 

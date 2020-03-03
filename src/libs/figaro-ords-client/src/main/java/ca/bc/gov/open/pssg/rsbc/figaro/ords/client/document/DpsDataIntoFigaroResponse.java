@@ -33,13 +33,13 @@ public class DpsDataIntoFigaroResponse {
         return respMsg;
     }
 
-    public static DpsDataIntoFigaroResponse ErrorResponse(String errorMessage) {
+    public static DpsDataIntoFigaroResponse errorResponse(String errorMessage) {
         return new DpsDataIntoFigaroResponse(
                 FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
                 errorMessage);
     }
 
-    public static DpsDataIntoFigaroResponse SuccessResponse(String respCodeStr, String respMsg) {
+    public static DpsDataIntoFigaroResponse successResponse(String respCodeStr, String respMsg) {
 
         return new DpsDataIntoFigaroResponse(Integer.parseInt(respCodeStr), respMsg);
     }

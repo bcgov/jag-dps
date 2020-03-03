@@ -83,12 +83,12 @@ public class ApplicantControllerValidateOrgApplicantTest {
     public void SetUp() throws ApiException {
         MockitoAnnotations.initMocks(this);
 
-        ValidateOrgApplicantServiceResponse validServiceResp = ValidateOrgApplicantServiceResponse.SuccessResponse(
+        ValidateOrgApplicantServiceResponse validServiceResp = ValidateOrgApplicantServiceResponse.successResponse(
                 VALID_SERVICE_VALIDATION_RESULT, VALID_SERVICE_STATUS_CODE, VALID_SERVICE_STATUS_MESSAGE);
 
-        ValidateOrgApplicantServiceResponse inValidOrgIdOrdsServiceResp = ValidateOrgApplicantServiceResponse.ErrorResponse(INVALID_ORG_ID_SERVICE_STATUS_MESSAGE);
+        ValidateOrgApplicantServiceResponse inValidOrgIdOrdsServiceResp = ValidateOrgApplicantServiceResponse.errorResponse(INVALID_ORG_ID_SERVICE_STATUS_MESSAGE);
 
-        ValidateOrgApplicantServiceResponse inValidApplIdOrdsServiceResp = ValidateOrgApplicantServiceResponse.ErrorResponse(INVALID_APPL_ID_SERVICE_STATUS_MESSAGE);
+        ValidateOrgApplicantServiceResponse inValidApplIdOrdsServiceResp = ValidateOrgApplicantServiceResponse.errorResponse(INVALID_APPL_ID_SERVICE_STATUS_MESSAGE);
 
         Mockito.when(applicantServiceMock.validateOrgApplicantService(VALID_APPL_PARTY_ID, VALID_ORG_PARTY_ID))
                 .thenReturn(validServiceResp);

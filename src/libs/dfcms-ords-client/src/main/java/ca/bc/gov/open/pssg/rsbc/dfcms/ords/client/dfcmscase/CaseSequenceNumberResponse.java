@@ -49,13 +49,13 @@ public class CaseSequenceNumberResponse {
         return respMsg;
     }
 
-    public static CaseSequenceNumberResponse ErrorResponse(String errorMessage) {
+    public static CaseSequenceNumberResponse errorResponse(String errorMessage) {
         return new CaseSequenceNumberResponse(
                 DfcmsOrdsClientConstants.SERVICE_FAILURE_CD,
                 errorMessage);
     }
 
-    public static CaseSequenceNumberResponse SuccessResponse(String caseSequenceNumber, String caseDescription, String respCodeStr, String respMsg) {
+    public static CaseSequenceNumberResponse successResponse(String caseSequenceNumber, String caseDescription, String respCodeStr, String respMsg) {
 
         return new CaseSequenceNumberResponse(caseSequenceNumber, caseDescription, Integer.parseInt(respCodeStr), respMsg);
     }

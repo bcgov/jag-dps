@@ -34,9 +34,9 @@ public class FacilityControllerTest {
 
         MockitoAnnotations.initMocks(this);
 
-        ValidateFacilityPartyResponse successResponse = ValidateFacilityPartyResponse.SuccessResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE, FOUND_FACILITY_PARTY_ID, FACILITY_NAME);
+        ValidateFacilityPartyResponse successResponse = ValidateFacilityPartyResponse.successResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE, FOUND_FACILITY_PARTY_ID, FACILITY_NAME);
 
-        ValidateFacilityPartyResponse errorResponse = ValidateFacilityPartyResponse.ErrorResponse(ERROR_VALIDATION_RESULT);
+        ValidateFacilityPartyResponse errorResponse = ValidateFacilityPartyResponse.errorResponse(ERROR_VALIDATION_RESULT);
 
         Mockito.doReturn(successResponse).when(facilityServiceMock).validateFacilityParty(ArgumentMatchers.argThat(x -> x.getFacilityPartyId().equals(FACILITY_PARTY_ID_SUCCESS)));
         Mockito.doReturn(errorResponse).when(facilityServiceMock).validateFacilityParty(ArgumentMatchers.argThat(x -> x.getFacilityPartyId().equals(FACILITY_PARTY_ID_FAIL)));

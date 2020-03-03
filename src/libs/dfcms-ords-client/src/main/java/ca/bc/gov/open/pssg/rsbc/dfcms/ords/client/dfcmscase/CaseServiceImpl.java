@@ -25,11 +25,11 @@ public class CaseServiceImpl implements CaseService {
 
         try {
             CaseSequenceNumberOrdsResponse response = this.dfcmsApi.caseSequenceNumberGet(driverLicenseNo, surnameCode);
-            return CaseSequenceNumberResponse.SuccessResponse(response.getCaseSequenceNumber(), response.getCaseDescription(), response.getStatusCode(), response.getStatusMessage());
+            return CaseSequenceNumberResponse.successResponse(response.getCaseSequenceNumber(), response.getCaseDescription(), response.getStatusCode(), response.getStatusMessage());
 
         } catch (ApiException ex) {
             logger.error("Exception caught as Case Service, caseSequenceNumber", ex);
-            return CaseSequenceNumberResponse.ErrorResponse(ex.getMessage());
+            return CaseSequenceNumberResponse.errorResponse(ex.getMessage());
         }
     }
 }
