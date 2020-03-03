@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "figaro-validation-service",
+			"name": "figaro-locate-mathcing-applicants",
 			"item": [
 				{
 					"name": "figLocateMatchingApplicants",
@@ -260,7 +260,7 @@
 									"        pm.expect(respJson.ValidateApplicantForSharingResponse.respCode).to.eql(\"-1\");",
 									"        pm.expect(respJson.ValidateApplicantForSharingResponse.respMsg).to.include(\"appl_party_id must be a number\");",
 									"    }",
-									"})"
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -296,6 +296,214 @@
 								{
 									"key": "jurisdictionType",
 									"value": "{{jurisdictionType}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "fig-validate-applicant-id",
+			"item": [
+				{
+					"name": "figValidateApplicantId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5ff8098e-6668-46fa-8ac9-404fb550dc1f",
+								"exec": [
+									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"const respJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Assert the responses for a valid request\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'true') {",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.foundSurname).to.be.a('string').and.not.to.be.empty;",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.foundFirstName).to.be.a('string').and.not.to.be.empty;",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.foundBirthDate).not.to.be.empty;",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.foundDriversLicence).not.to.be.empty;",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.foundBirthPlace).to.be.a('string').and.not.to.be.empty;",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.foundGenderTxt).to.be.a('string').and.not.to.be.empty;",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.respCode).to.eql(\"0\");",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.respMsg).to.eql(\"Party ID successfully validated.\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Party id is not found\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'notFound') {",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.respCode).to.eql(\"-21\");",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.respMsg).to.include(\"Validation Failure: Applicant Party ID\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"No Applicant party Id\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'noPartyId') {",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.respCode).to.eql(\"-20\");",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.respMsg).to.eql(\"Validation Failure: No Applicant Party ID provided.\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Party ID is not for an individual\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'notIndividual') {",
+									"       pm.expect(respJson.ValidateApplicantPartyIdResponse.respCode).to.eql(\"-22\");",
+									"       pm.expect(respJson.ValidateApplicantPartyIdResponse.respMsg).to.include(\"not for an Individual.\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Invalid data Type\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'inValidDataType') {",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.respCode).to.eql(\"-1\");",
+									"        pm.expect(respJson.ValidateApplicantPartyIdResponse.respMsg).to.include(\"appl_party_id must be a number\");",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4fa11171-583e-44f8-9d81-8eaa6196b7c2",
+								"exec": [
+									"pm.environment.set(\"baseUrl\", 'http://localhost:8082');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "applPartyId",
+								"value": "{{applPartyId}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/figvalidationservice/validateApplicantPartyId?applPartyId={{applPartyId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"figvalidationservice",
+								"validateApplicantPartyId"
+							],
+							"query": [
+								{
+									"key": "applPartyId",
+									"value": "{{applPartyId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "fig-validate-orgParty",
+			"item": [
+				{
+					"name": "figValidateOrgParty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5a605816-a521-404b-a8c8-54a2ad516a28",
+								"exec": [
+									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"const respJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Assert response for a valid org party id\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'validParty') {",
+									"        pm.expect(respJson.validateOrgPartyResponse.validationResult).to.eql('P');",
+									"        pm.expect(respJson.validateOrgPartyResponse.foundOrgPartyId).to.eql(pm.iterationData.get('orgPartyId'));",
+									"        pm.expect(respJson.validateOrgPartyResponse.foundOrgName).to.be.a('string').and.not.to.be.empty;",
+									"        pm.expect(respJson.validateOrgPartyResponse.foundOrgType).to.be.a('string').and.not.to.be.empty;",
+									"        pm.expect(respJson.validateOrgPartyResponse.respCode).to.eql('0');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respMsg).to.include(\"Successfully matched Party ID \");",
+									"    ",
+									"    const contact =  respJson.validateOrgPartyResponse.contactPersons;",
+									"    ",
+									"        if(contact.length > 1) {",
+									"            for(let i =0; i < contact.length; i ++) {",
+									"                pm.expect(contact[i].contactPersonName).not.to.be.null;",
+									"                pm.expect(contact[i].contactPernRole).not.to.be.null;",
+									"                pm.expect(contact[i].contactPersonPartyId).not.to.be.null;",
+									"            }",
+									"        }",
+									"   }",
+									"});",
+									"",
+									"pm.test(\"Assert response for a invalid org party id\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'inValidParty') {",
+									"        pm.expect(respJson.validateOrgPartyResponse.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respCode).to.eql('1');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respMsg).to.include(\"was not found\");",
+									"        ",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response for a not for an Organization party id\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'noAnOrganisation') {",
+									"        pm.expect(respJson.validateOrgPartyResponse.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respCode).to.eql('-100');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respMsg).to.include(\"is not for an Organization\");",
+									"        ",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response for incorrect data type\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'string') {",
+									"        pm.expect(respJson.validateOrgPartyResponse.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respCode).to.eql('-1');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respMsg).to.eql(\"org_party_id must be a number\");",
+									"        ",
+									"    }",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ebc0b7a4-5d0c-4637-8f4d-deefb6d1bb40",
+								"exec": [
+									"pm.environment.set(\"baseUrl\", 'http://localhost:8082');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/figvalidationservice/validateOrgParty?orgPartyId={{orgPartyId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"figvalidationservice",
+								"validateOrgParty"
+							],
+							"query": [
+								{
+									"key": "orgPartyId",
+									"value": "{{orgPartyId}}"
 								}
 							]
 						}
