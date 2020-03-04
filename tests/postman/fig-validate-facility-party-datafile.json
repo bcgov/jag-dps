@@ -1,0 +1,51 @@
+[
+    {
+        "/Comment" : "Valid facility",
+
+        "facilityPartyId": "16972",
+        "facilitySubName1": "PROACTIVE SOCIETY",
+        "isValid": "true"
+    },
+    {
+        "/Comment" : "No matching facilities",
+
+        "facilityPartyId": "16807",
+        "facilitySubName1": "COLLEGE OF TEACHERS OF ONTARIO",
+        "isValid": "false"
+    },
+    {
+        "/Comment" : "Subnames not provided",
+
+        "facilityPartyId": "&^*&*&",
+        "facilitySubName1": "_@@$!@",
+        "isValid": "noSubName"
+    },
+    {
+        "/Comment" : "Incorrect data type",
+
+        "facilityPartyId": "*",
+        "facilitySubName1": "TEST",
+        "isValid": "dataType"
+    },
+    {
+        "/Comment" : "Incorrect subname",
+
+        "facilityPartyId": "3",
+        "facilitySubName1": "%#%#",
+        "isValid": "incorrectSubname"
+    },
+    {
+        "/Comment" : "Empty party id",
+
+        "facilityPartyId": "0",
+        "facilitySubName1": "BOARD OF EXAMINERS OF PODIATRY",
+        "isValid": "emptyPartyId"
+    },
+    {
+        "/Comment" : "Multiple matches",
+
+        "facilityPartyId": "0",
+        "facilitySubName1": "TEST",
+        "isValid": "multiMatch"
+    }
+]

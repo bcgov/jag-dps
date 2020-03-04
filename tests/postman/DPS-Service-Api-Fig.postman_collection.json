@@ -363,7 +363,6 @@
 								],
 								"type": "text/javascript"
 							}
-
 						},
 						{
 							"listen": "prerequest",
@@ -374,7 +373,6 @@
 								],
 								"type": "text/javascript"
 							}
-
 						}
 					],
 					"request": {
@@ -387,7 +385,6 @@
 							}
 						],
 						"url": {
-
 							"raw": "{{baseUrl}}/figvalidationservice/validateApplicantPartyId?applPartyId={{applPartyId}}",
 							"host": [
 								"{{baseUrl}}"
@@ -493,23 +490,226 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8082/figvalidationservice/validateOrgParty?orgPartyId={{orgPartyId}}",
-
-							"protocol": "http",
+							"raw": "{{baseUrl}}/figvalidationservice/validateOrgParty?orgPartyId={{orgPartyId}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "8082",
 							"path": [
 								"figvalidationservice",
-
 								"validateOrgParty"
 							],
 							"query": [
 								{
 									"key": "orgPartyId",
 									"value": "{{orgPartyId}}"
-
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "fig-validate-facility-party",
+			"item": [
+				{
+					"name": "figValidateFacilityParty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1c1b427f-84f5-4952-82ce-bd3afbc7c4ea",
+								"exec": [
+									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"const respJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Assert response for a valid facility party\", () => {",
+									"    ",
+									"    if(pm.iterationData.get(\"isValid\") === \"true\") {",
+									"        ",
+									"        pm.expect(respJson.validateFacilityPartyResponse.validationResult).to.eql('P');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.foundFacilityPartyId).to.eql(pm.iterationData.get('facilityPartyId'));",
+									"        pm.expect(respJson.validateFacilityPartyResponse.foundFacilityName).to.eql(pm.iterationData.get('facilitySubName1'));",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respCode).to.eql('0');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respMsg).to.include(\"Successfully matched to one Facility.\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response with invalid facility party\", () => {",
+									"    ",
+									"    if(pm.iterationData.get(\"isValid\") === \"false\") {",
+									"        pm.expect(respJson.validateFacilityPartyResponse.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respCode).to.eql('2');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respMsg).to.eql(\"Validation Failure: Provided criteria did not match any Facilities.\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response without subname parameter value\", () => {",
+									"    ",
+									"    if(pm.iterationData.get(\"isValid\") === \"noSubName\") {",
+									"        pm.expect(respJson.validateFacilityPartyResponse.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respCode).to.eql('-10');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respMsg).to.eql(\"Validation Failure: No Party ID or Sub-Names were provided.\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response with incorrect data for party id\", () => {",
+									"    ",
+									"    if(pm.iterationData.get(\"isValid\") === \"dataType\") {",
+									"        pm.expect(respJson.validateFacilityPartyResponse.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respCode).to.eql('-1');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respMsg).to.eql(\"facility_party_id must be a number\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response with invalid subname but valid party id\", () => {",
+									"    ",
+									"    if(pm.iterationData.get(\"isValid\") === \"dataType\") {",
+									"        pm.expect(respJson.validateFacilityPartyResponse.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respCode).to.eql('-1');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respMsg).to.eql(\"facility_party_id must be a number\");",
+									"    }",
+									"});",
+									"",
+									"// Below will be uncommented when Jira ticket 321 is fixed",
+									"",
+									"/*pm.test(\"Assert response with empty party id\", () => {",
+									"    ",
+									"    if(pm.iterationData.get(\"isValid\") === \"emptyPartyId\") {",
+									"        pm.expect(respJson.validateFacilityPartyResponse.validationResult).to.eql('P');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.foundFacilityPartyId).to.be.a(\"string\").and.not.to.be.null;",
+									"        pm.expect(respJson.validateFacilityPartyResponse.foundFacilityName).to.eql(pm.iterationData.get('facilitySubName1'));",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respCode).to.eql('0');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respMsg).to.include(\"Successfully matched to one Facility.\");",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response for multiple matches\", () => {",
+									"    ",
+									"    if(pm.iterationData.get(\"isValid\") === \"multiMatch\") {",
+									"        pm.expect(respJson.validateFacilityPartyResponse.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respCode).to.eql('3');",
+									"        pm.expect(respJson.validateFacilityPartyResponse.respMsg).to.eql(\"Validation Failure: Provided criteria matched multiple Facilities.\");",
+									"    }",
+									"});*/"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ed629609-32f0-4797-93cc-b406c7cbd0df",
+								"exec": [
+									"pm.environment.set(\"baseUrl\", 'http://localhost:8082');"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/figvalidationservice/validateFacilityParty?facilityPartyId={{facilityPartyId}}&facilitySubName1={{facilitySubName1}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"figvalidationservice",
+								"validateFacilityParty"
+							],
+							"query": [
+								{
+									"key": "facilityPartyId",
+									"value": "{{facilityPartyId}}"
+								},
+								{
+									"key": "facilitySubName1",
+									"value": "{{facilitySubName1}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "fig-validate-org-drawdown-balance",
+			"item": [
+				{
+					"name": "figValidateOrgDrawDownBalance",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "49a035f4-0424-4bc7-872c-9ceb57bb0571",
+								"exec": [
+									"pm.environment.set(\"baseUrl\", 'http://localhost:8082');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f5abf0e6-f4a7-4277-be62-e8dc54244159",
+								"exec": [
+									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"const respJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Assert response for a valid request\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'true') {",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.validationResult).to.eql('P');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respCode).to.eql('0');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respMsg).to.eql(\"Validation passed.\");",
+									"        ",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response for incorrect party id\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'incorrectPartyID') {",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respCode).to.eql('-11');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respMsg).to.include(\"was not found.\");",
+									"        ",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/figvalidationservice/validateOrgDrawDownBalance?orgPartyId={{orgPartyId}}&scheduleType={{scheduleType}}&jurisdictionType={{jurisdictionType}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"figvalidationservice",
+								"validateOrgDrawDownBalance"
+							],
+							"query": [
+								{
+									"key": "orgPartyId",
+									"value": "{{orgPartyId}}"
+								},
+								{
+									"key": "scheduleType",
+									"value": "{{scheduleType}}"
+								},
+								{
+									"key": "jurisdictionType",
+									"value": "{{jurisdictionType}}"
 								}
 							]
 						}
