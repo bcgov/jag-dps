@@ -5,9 +5,13 @@ import microsoft.exchange.webservices.data.core.PropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.property.BasePropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
 import microsoft.exchange.webservices.data.core.enumeration.search.SortDirection;
+import microsoft.exchange.webservices.data.core.service.folder.Folder;
 import microsoft.exchange.webservices.data.core.service.item.Item;
+import microsoft.exchange.webservices.data.core.service.schema.FolderSchema;
 import microsoft.exchange.webservices.data.core.service.schema.ItemSchema;
+import microsoft.exchange.webservices.data.search.FindFoldersResults;
 import microsoft.exchange.webservices.data.search.FindItemsResults;
+import microsoft.exchange.webservices.data.search.FolderView;
 import microsoft.exchange.webservices.data.search.ItemView;
 import microsoft.exchange.webservices.data.search.filter.SearchFilter;
 import org.slf4j.Logger;
@@ -19,6 +23,7 @@ import java.util.List;
 public class EmailServiceImpl implements EmailService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final String ERROR_HOLD_FOLDER = "ErrorHold";
 
     private final ExchangeService exchangeService;
     private final Integer maxMessagePerGet;
@@ -82,8 +87,28 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void moveToErrorFolder(Item item) {
-        // TODO: MOVE MESSAGES TO THE ErrorHold FOLDER
-        throw new NotImplementedException();
+
+        FolderView view = new FolderView(1);
+
+        try {
+            FindFoldersResults findFolderResults = exchangeService.findFolders(WellKnownFolderName.MsgFolderRoot,
+                    new SearchFilter.IsEqualTo(FolderSchema.DisplayName, ERROR_HOLD_FOLDER),
+                    view);
+
+            if (!findFolderResults.getFolders().isEmpty()) {
+
+                Folder folderErrorHold = findFolderResults.getFolders().get(0);
+                exchangeService.loadPropertiesForFolder(folderErrorHold, PropertySet.FirstClassProperties);
+
+                exchangeService.moveItem(item.getId(), folderErrorHold.getId());
+            } else {
+                throw new DpsEmailException("Exception - unable to find " + ERROR_HOLD_FOLDER + " email folder ");
+            }
+
+        } catch (Exception e) {
+            throw new DpsEmailException("Exception while moving email to " + ERROR_HOLD_FOLDER, e.getCause());
+        }
+
     }
 
     @Override
