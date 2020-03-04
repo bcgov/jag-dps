@@ -9,6 +9,7 @@ import microsoft.exchange.webservices.data.core.service.folder.Folder;
 import microsoft.exchange.webservices.data.core.service.item.Item;
 import microsoft.exchange.webservices.data.core.service.schema.FolderSchema;
 import microsoft.exchange.webservices.data.core.service.schema.ItemSchema;
+import microsoft.exchange.webservices.data.property.complex.FolderId;
 import microsoft.exchange.webservices.data.search.FindFoldersResults;
 import microsoft.exchange.webservices.data.search.FindItemsResults;
 import microsoft.exchange.webservices.data.search.FolderView;
@@ -16,7 +17,6 @@ import microsoft.exchange.webservices.data.search.ItemView;
 import microsoft.exchange.webservices.data.search.filter.SearchFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -24,6 +24,7 @@ public class EmailServiceImpl implements EmailService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final String ERROR_HOLD_FOLDER = "ErrorHold";
+    private final String PROCESSING_FOLDER = "Processing";
 
     private final ExchangeService exchangeService;
     private final Integer maxMessagePerGet;
@@ -85,37 +86,48 @@ public class EmailServiceImpl implements EmailService {
         return findResults.getItems();
     }
 
-    @Override
-    public void moveToErrorFolder(Item item) {
+    private FolderId getFolderIdByDisplayName(String displayName) throws Exception {
 
         FolderView view = new FolderView(1);
 
+        FindFoldersResults findFolderResults = exchangeService.findFolders(WellKnownFolderName.MsgFolderRoot,
+                new SearchFilter.IsEqualTo(FolderSchema.DisplayName, displayName),
+                view);
+
+        if (!findFolderResults.getFolders().isEmpty()) {
+            Folder folder = findFolderResults.getFolders().get(0);
+            exchangeService.loadPropertiesForFolder(folder, PropertySet.FirstClassProperties);
+
+            return folder.getId();
+        } else {
+            throw new DpsEmailException("Exception - unable to find " + displayName + " email folder ");
+        }
+    }
+
+    @Override
+    public void moveToErrorFolder(Item item) {
+
         try {
-            FindFoldersResults findFolderResults = exchangeService.findFolders(WellKnownFolderName.MsgFolderRoot,
-                    new SearchFilter.IsEqualTo(FolderSchema.DisplayName, ERROR_HOLD_FOLDER),
-                    view);
-
-            if (!findFolderResults.getFolders().isEmpty()) {
-
-                Folder folderErrorHold = findFolderResults.getFolders().get(0);
-                exchangeService.loadPropertiesForFolder(folderErrorHold, PropertySet.FirstClassProperties);
-
-                exchangeService.moveItem(item.getId(), folderErrorHold.getId());
-            } else {
-                throw new DpsEmailException("Exception - unable to find " + ERROR_HOLD_FOLDER + " email folder ");
-            }
+            FolderId errorHoldFolderId = getFolderIdByDisplayName(ERROR_HOLD_FOLDER);
+            exchangeService.moveItem(item.getId(), errorHoldFolderId);
 
         } catch (Exception e) {
+            e.printStackTrace();
             throw new DpsEmailException("Exception while moving email to " + ERROR_HOLD_FOLDER, e.getCause());
         }
-
     }
 
     @Override
     public void moveToProcessingFolder(Item item) {
-        // TODO: MOVE MESSAGES TO THE Processing FOLDER
-        throw new NotImplementedException();
-    }
 
+        try {
+            FolderId processingFolderId = getFolderIdByDisplayName(PROCESSING_FOLDER);
+            exchangeService.moveItem(item.getId(), processingFolderId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DpsEmailException("Exception while moving email to " + PROCESSING_FOLDER, e.getCause());
+        }
+    }
 
 }
