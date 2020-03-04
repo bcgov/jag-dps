@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler.EmailPoller;
 import microsoft.exchange.webservices.data.core.ExchangeService;
@@ -48,7 +49,7 @@ class EmailPollerJunkRemovalTest {
 
         result.getItems().add(item);
 
-        Mockito.when(emailServiceMock.getDpsInboxJunkEmails()).thenReturn(result);
+        Mockito.when(emailServiceMock.getDpsInboxJunkEmails()).thenReturn(result.getItems());
         Mockito.doNothing().when(emailServiceMock).moveToErrorFolder(Mockito.any(Item.class));
 
         sut.junkRemoval();
@@ -64,7 +65,7 @@ class EmailPollerJunkRemovalTest {
 
         FindItemsResults<Item> result = new FindItemsResults<Item>();
 
-        Mockito.when(emailServiceMock.getDpsInboxJunkEmails()).thenReturn(result);
+        Mockito.when(emailServiceMock.getDpsInboxJunkEmails()).thenReturn(result.getItems());
         Mockito.doNothing().when(emailServiceMock).moveToErrorFolder(Mockito.any(Item.class));
 
         sut.junkRemoval();
@@ -89,13 +90,36 @@ class EmailPollerJunkRemovalTest {
         result.getItems().add(item);
         result.getItems().add(item);
 
-        Mockito.when(emailServiceMock.getDpsInboxJunkEmails()).thenReturn(result);
+        Mockito.when(emailServiceMock.getDpsInboxJunkEmails()).thenReturn(result.getItems());
         Mockito.doNothing().when(emailServiceMock).moveToErrorFolder(Mockito.any(Item.class));
 
         sut.junkRemoval();
 
         Mockito
                 .verify(emailServiceMock, Mockito.times(5))
+                .moveToErrorFolder(Mockito.any(Item.class));
+    }
+
+    @Test
+    @DisplayName("Exception - with exception should log error")
+    public void withExceptionJunkEmailShouldLogError() throws Exception {
+
+        FindItemsResults<Item> result = new FindItemsResults<Item>();
+
+        Item item = new Item(exchangeServiceMock);
+        item.setSubject(I_M_JUNK);
+
+        result.getItems().add(item);
+        result.getItems().add(item);
+        result.getItems().add(item);
+        result.getItems().add(item);
+        result.getItems().add(item);
+
+        Mockito.when(emailServiceMock.getDpsInboxJunkEmails()).thenThrow(new DpsEmailException("error"));
+        sut.junkRemoval();
+
+        Mockito
+                .verify(emailServiceMock, Mockito.times(0))
                 .moveToErrorFolder(Mockito.any(Item.class));
     }
 

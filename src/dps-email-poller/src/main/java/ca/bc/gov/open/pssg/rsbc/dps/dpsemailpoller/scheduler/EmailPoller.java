@@ -1,11 +1,14 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
 import microsoft.exchange.webservices.data.core.service.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class EmailPoller {
@@ -35,13 +38,18 @@ public class EmailPoller {
     @Scheduled(cron = "${mailbox.interval}")
     public void junkRemoval() {
 
+
         logger.info("starting polling junk emails");
 
-        FindItemsResults<Item> findItemsResults = emailService.getDpsInboxJunkEmails();
-        logger.info("successfully retrieved {} junk emails", findItemsResults.getTotalCount());
+        try {
+            List<Item> junkEmails = emailService.getDpsInboxJunkEmails();
+            logger.info("successfully retrieved {} junk emails", junkEmails.size());
 
-        findItemsResults.getItems().forEach(item -> emailService.moveToErrorFolder(item));
-        logger.info("successfully moved {} to errorHold folder", findItemsResults.getTotalCount());
+            junkEmails.forEach(item -> emailService.moveToErrorFolder(item));
+            logger.info("successfully moved {} to errorHold folder", junkEmails.size());
+        } catch (DpsEmailException e) {
+            logger.error("exception while cleaning junk emails", e);
+        }
 
     }
 
