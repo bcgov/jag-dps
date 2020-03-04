@@ -9,9 +9,16 @@ import microsoft.exchange.webservices.data.core.service.item.Item;
 import microsoft.exchange.webservices.data.core.service.schema.ItemSchema;
 import microsoft.exchange.webservices.data.search.FindItemsResults;
 import microsoft.exchange.webservices.data.search.ItemView;
+import microsoft.exchange.webservices.data.search.filter.SearchFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.List;
+
 public class EmailServiceImpl implements EmailService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final ExchangeService exchangeService;
     private final Integer maxMessagePerGet;
@@ -22,11 +29,10 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public FindItemsResults<Item> getDpsInboxEmails() {
+    public List<Item> getDpsInboxEmails() {
 
-        ItemView view = new ItemView(10);
-        FindItemsResults<Item> findResults =
-                null;
+        ItemView view = maxMessagePerGet == 0 ? new ItemView(Integer.MAX_VALUE) : new ItemView(maxMessagePerGet);
+        FindItemsResults<Item> findResults = null;
 
         try {
             view.getOrderBy().add(ItemSchema.DateTimeReceived, SortDirection.Ascending);
@@ -34,28 +40,44 @@ public class EmailServiceImpl implements EmailService {
             view.setPropertySet(new PropertySet(BasePropertySet.IdOnly, ItemSchema.Subject,
                     ItemSchema.DateTimeReceived));
 
-            // TODO: RETURN ONLY EMAILS WITH ATTACHMENTS.
-            // TODO: LIMIT THE AMOUNT OF MESSAGES PER GET
             findResults = exchangeService.findItems(WellKnownFolderName.Inbox,
-//                        new SearchFilter.SearchFilterCollection(
-//                                LogicalOperator.Or,
-//                                new SearchFilter.ContainsSubstring(ItemSchema.Subject, "EWS"),
-//                                new SearchFilter.ContainsSubstring(ItemSchema.Subject, "API")),
+                    new SearchFilter.IsEqualTo(ItemSchema.HasAttachments, true),
                     view);
 
-            exchangeService.loadPropertiesForItems(findResults, PropertySet.FirstClassProperties);
+            if (!findResults.getItems().isEmpty()) {
+                exchangeService.loadPropertiesForItems(findResults, PropertySet.FirstClassProperties);
+            }
 
         } catch (Exception e) {
-            throw new DpsEmailException("Exception while getting emails from inbox", e.getCause());
+            throw new DpsEmailException("Exception while getting dps emails from inbox", e.getCause());
         }
 
-        return findResults;
+        return findResults.getItems();
     }
 
     @Override
-    public FindItemsResults<Item> getDpsInboxJunkEmails() {
-        // TODO: GET emails with no attachments.
-        throw new NotImplementedException();
+    public List<Item> getDpsInboxJunkEmails() {
+
+        ItemView view = new ItemView(maxMessagePerGet);
+        FindItemsResults<Item> findResults = null;
+
+        try {
+            view.setPropertySet(new PropertySet(BasePropertySet.IdOnly, ItemSchema.Subject,
+                    ItemSchema.DateTimeReceived));
+
+            findResults = exchangeService.findItems(WellKnownFolderName.Inbox,
+                    new SearchFilter.IsEqualTo(ItemSchema.HasAttachments, false),
+                    view);
+
+            if (!findResults.getItems().isEmpty()) {
+                exchangeService.loadPropertiesForItems(findResults, PropertySet.FirstClassProperties);
+            }
+
+        } catch (Exception e) {
+            throw new DpsEmailException("Exception while getting junk emails from inbox", e.getCause());
+        }
+
+        return findResults.getItems();
     }
 
     @Override
