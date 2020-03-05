@@ -2,6 +2,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
 import microsoft.exchange.webservices.data.core.service.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +16,11 @@ public class EmailPoller {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final EmailService emailService;
+    private final MessagingService messagingService;
 
-    public EmailPoller(EmailService emailService) {
+    public EmailPoller(EmailService emailService, MessagingService messagingService) {
         this.emailService = emailService;
+        this.messagingService = messagingService;
     }
 
     @Scheduled(cron = "${mailbox.interval}")
@@ -25,9 +28,24 @@ public class EmailPoller {
 
         logger.info("Poll for emails");
 
-        List<Item> findResults = emailService.getDpsInboxEmails();
+        try {
 
-        logger.info("          found - " + Integer.toString(findResults.size()) + " Messages found in your Inbox");
+            List<Item> dpsEmails = emailService.getDpsInboxEmails();
+
+            dpsEmails.forEach(item -> {
+
+                emailService.moveToProcessingFolder(item);
+                logger.info("successfully moved message to processing folder");
+
+                messagingService.sendMessage(item);
+                logger.info("successfully send message to processing queue");
+            });
+
+
+        } catch (DpsEmailException e) {
+            logger.error("exception while processing dps emails", e);
+        }
+
 
     }
 
