@@ -112,7 +112,6 @@ public class EmailServiceImpl implements EmailService {
             exchangeService.moveItem(item.getId(), errorHoldFolderId);
 
         } catch (Exception e) {
-            e.printStackTrace();
             throw new DpsEmailException("Exception while moving email to " + ERROR_HOLD_FOLDER, e.getCause());
         }
     }
@@ -125,7 +124,6 @@ public class EmailServiceImpl implements EmailService {
             exchangeService.moveItem(item.getId(), processingFolderId);
 
         } catch (Exception e) {
-            e.printStackTrace();
             throw new DpsEmailException("Exception while moving email to " + PROCESSING_FOLDER, e.getCause());
         }
     }
