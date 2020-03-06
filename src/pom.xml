@@ -2,28 +2,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <modules>
         <module>libs/dps-notification</module>
-        <module>libs/figaro-ords-client</module>
+        <module>libs/dps-files</module>
         <module>libs/dfcms-ords-client</module>
+        <module>libs/figaro-ords-client</module>
         <module>libs/vips-ords-client</module>
         <module>libs/dps-sftp-starter</module>
         <module>libs/dps-messaging-starter</module>
-        <module>libs/dps-files</module>
+        <module>paymentservice</module>
+        <module>dps-email-poller</module>
+        <module>dps-validation-service</module>
+        <module>dps-notification-service</module>
+        <module>figaro-validation-service</module>
+        <module>spd-notification-worker</module>
+        <module>vips-notification-worker</module>
     </modules>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
-        <relativePath/>
-    </parent>
 
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>dps</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>dps</name>
     <packaging>pom</packaging>
-    <url></url>
+    <url>https://github.com/bcgov/jag-dps</url>
 
 
     <properties>
@@ -33,43 +35,6 @@
     </properties>
 
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-swagger-version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox-swagger-version}</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
     <profiles>
         <profile>
             <id>libs</id>
@@ -158,40 +123,5 @@
             </modules>
         </profile>
     </profiles>
-    <build>
-
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-
-            <!--jacoco code coverage-->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <!-- attached to Maven test phase -->
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <destFile>${sonar.jacoco.reportPath}</destFile>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </build>
 
 </project>
