@@ -103,8 +103,8 @@ services:
     build:
       context: ./src
       args:
-        - MVN_PROFILES=dpsnotificationservice
-        - DPS_SERVICE_NAME=dpsnotificationservice
+        - MVN_PROFILES=dps-notification-service
+        - DPS_SERVICE_NAME=dps-notification-service
     environment: 
       - RABBITMQ_HOST=rabbitmq
     ports:

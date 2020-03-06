@@ -96,8 +96,8 @@
                 <module>paymentservice</module>
                 <module>dps-email-poller</module>
                 <module>dps-validation-service</module>
+                <module>dps-notification-service</module>
                 <module>figaro-validation-service</module>
-                <module>dpsnotificationservice</module>
                 <module>spd-notification-worker</module>
                 <module>vips-notification-worker</module>
             </modules>
@@ -126,7 +126,7 @@
             <id>dpsnotificationservice</id>
             <modules>
                 <module>libs/dps-notification</module>
-                <module>dpsnotificationservice</module>
+                <module>dps-notification-service</module>
             </modules>
         </profile>
         <profile>
