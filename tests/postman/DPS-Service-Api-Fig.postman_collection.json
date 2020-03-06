@@ -646,19 +646,9 @@
 					"name": "figValidateOrgDrawDownBalance",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"id": "49a035f4-0424-4bc7-872c-9ceb57bb0571",
-								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://localhost:8082');"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
-								"id": "f5abf0e6-f4a7-4277-be62-e8dc54244159",
+								"id": "1493ea30-f926-4c03-b909-06b4bfa6b0f9",
 								"exec": [
 									"eval(pm.globals.get(\"commonTests\"))();",
 									"",
@@ -680,13 +670,77 @@
 									"        pm.expect(respJson.validateOrgDrawDownBalance.respMsg).to.include(\"was not found.\");",
 									"        ",
 									"    }",
-									"});"
+									"});",
+									"",
+									"pm.test(\"Assert response for invalid schedule type\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'invalidSchedule') {",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respCode).to.eql('-31');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respMsg).to.include(\"Validation Failure: Invalid Schedule Type\");",
+									"        ",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response for invalid Jurisdiction type\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'invalidJurisdiction') {",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respCode).to.eql('-33');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respMsg).to.include(\"Validation Failure: Invalid Jurisdiction Code\");",
+									"        ",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response for no schedule type\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'invalidJurisdiction') {",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respCode).to.eql('-30');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respMsg).to.include(\"Validation Failure: No Schedule Type Code was submitted.\");",
+									"        ",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response for no Jurisdiction type\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'invalidJurisdiction') {",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respCode).to.eql('-32');",
+									"        pm.expect(respJson.validateOrgDrawDownBalance.respMsg).to.include(\"Validation Failure: No Jurisdiction Code was submitted.\");",
+									"        ",
+									"    }",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "d7ff7a56-a66d-4801-b025-a1c85f9fb755",
+								"exec": [
+									"pm.environment.set(\"baseUrl\", 'http://localhost:8082');"
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {

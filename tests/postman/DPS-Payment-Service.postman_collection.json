@@ -17,13 +17,12 @@
 							"script": {
 								"id": "4f11191b-793e-44da-b7d4-8c730af62bbb",
 								"exec": [
-									"pm.test(\"Status code is 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"});",
+									"// Evaluates the contents return in the string and executes again",
+									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"const responseJson = xml2Json(responseBody);",
 									"",
 									"pm.test(\"Assert Json Response\", () => {",
-									"    ",
-									"    var responseJson = xml2Json(responseBody);",
 									"    ",
 									"    pm.expect(responseJson.beanstreamEndpointResponse.approved).not.to.be.empty;",
 									"    pm.expect(responseJson.beanstreamEndpointResponse.declined).not.to.be.empty;",
@@ -37,12 +36,33 @@
 									"    pm.environment.set(\"error-url\", responseJson.beanstreamEndpointResponse.error);",
 									"});",
 									"",
-									"pm.test(\"Content-Type is present\", () => {",
-									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
-									"});",
 									"",
 									"",
 									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "fd62708d-df20-43b8-b161-79978e1dd86f",
+								"exec": [
+									"// Function with the common tests applicable for all requests\r",
+									"const commonTests = () => {\r",
+									"    \r",
+									"    pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type is present\", () => {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");\r",
+									"});\r",
+									"};\r",
+									"\r",
+									"// Set a global variable and saves local variable as a string method\r",
+									"pm.globals.set(\"commonTests\", commonTests.toString());\r",
 									""
 								],
 								"type": "text/javascript"
@@ -185,33 +205,29 @@
 							"script": {
 								"id": "143c9c18-0cb8-4781-afaa-94927fb9c855",
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
+									"// Evaluates the contents return in the string and executes again",
+									"eval(pm.globals.get(\"commonTests\"))();",
 									"",
-									"var responseJson = xml2Json(responseBody);",
+									"const responseJson = xml2Json(responseBody);",
 									"",
-									"pm.test(\"Assert Json Response\", function () {",
+									"pm.test(\"Assert Json Response\", () => {",
 									"    pm.expect(responseJson.singlePaymentResponse.respValue).not.to.be.empty;",
 									"    pm.expect(responseJson.singlePaymentResponse.respCode).to.eql(\"0\");",
 									"    pm.expect(responseJson.singlePaymentResponse.respMsg).to.eql(\"success\");",
 									"});",
 									"",
-									"pm.test(\"Should contain Merchant id\", function() {",
+									"pm.test(\"Should contain Merchant id\", () => {",
 									"    pm.expect(responseJson.singlePaymentResponse.respValue).to.include(\"merchant_id\").to.be.a('string').that.is.not.empty;",
 									"});",
 									"    ",
-									"pm.test(\"Should contain hashValue\", function() {",
+									"pm.test(\"Should contain hashValue\", () => {",
 									"    pm.expect(responseJson.singlePaymentResponse.respValue).to.include(\"hashValue\").to.be.a('string').that.is.not.empty;",
 									"});",
 									"",
-									"pm.test(\"Should contain hashExpiry\", function() {",
+									"pm.test(\"Should contain hashExpiry\", () => {",
 									"    pm.expect(responseJson.singlePaymentResponse.respValue).to.include(\"hashExpiry\").to.be.a('string').that.is.not.empty;",
 									"});",
 									"",
-									"pm.test(\"Content-Type is present\", function () {",
-									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
-									"});",
 									"",
 									""
 								],
@@ -575,11 +591,10 @@
 							"script": {
 								"id": "143c9c18-0cb8-4781-afaa-94927fb9c855",
 								"exec": [
-									"pm.test(\"Status code is 200\", () => {",
-									"    pm.response.to.have.status(200);",
-									"});",
+									"// Evaluates the contents return in the string and executes again",
+									"eval(pm.globals.get(\"commonTests\"))();",
 									"",
-									"var responseJson = xml2Json(responseBody);",
+									"const responseJson = xml2Json(responseBody);",
 									"",
 									"pm.test(\"Assert Json Response\", () => {",
 									"    pm.expect(responseJson.singlePaymentResponse.respCode).to.eql(\"-1\");",
@@ -609,7 +624,19 @@
 					],
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [
@@ -626,12 +653,11 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/paymentservice/getSinglePaymentURL?approvedPage={{approved-url}}&declinedPage={{declined-url}}&errorPage={{error-url}}&ref1=ref1&ref2=ref2&ref3=ref3",
+							"raw": "{{baseUrl}}/getSinglePaymentURL?approvedPage={{approved-url}}&declinedPage={{declined-url}}&errorPage={{error-url}}&ref1=ref1&ref2=ref2&ref3=ref3",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"paymentservice",
 								"getSinglePaymentURL"
 							],
 							"query": [
