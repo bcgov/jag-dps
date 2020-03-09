@@ -11,9 +11,9 @@
     </parent>
 
     <groupId>ca.bc.gov.open</groupId>
-    <artifactId>dpsnotificationservice</artifactId>
+    <artifactId>dps-notification-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>dpsnotificationservice</name>
+    <name>dps-notification-service</name>
     <description>DPS Notification Service dispatch messages to notification worker</description>
 
     <properties>
