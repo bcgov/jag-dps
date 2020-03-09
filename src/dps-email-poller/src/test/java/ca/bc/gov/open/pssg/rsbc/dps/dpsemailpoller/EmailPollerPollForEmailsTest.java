@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 @DisplayName("email processing test suite")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class EmailPollerPollForEmails {
+public class EmailPollerPollForEmailsTest {
 
     public static final String I_M_JUNK = "I'm junk";
     private EmailPoller sut;

@@ -19,7 +19,6 @@
     <properties>
         <java.version>1.8</java.version>
         <springfox-swagger-version>2.6.1</springfox-swagger-version>
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
 
     <dependencies>
@@ -153,9 +152,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <destFile>${sonar.jacoco.reportPath}</destFile>
-                </configuration>
             </plugin>
 
         </plugins>
