@@ -1,7 +1,9 @@
-name: Java CI
+name: Static Code Analysis
 
 on:
   push:
+    branches:
+      - master
 
 jobs:
   build:
