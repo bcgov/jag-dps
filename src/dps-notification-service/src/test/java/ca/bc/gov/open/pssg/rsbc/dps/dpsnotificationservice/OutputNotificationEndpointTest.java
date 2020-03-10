@@ -36,129 +36,129 @@ public class OutputNotificationEndpointTest {
         sut = new OutputNotificationEndpoint(rabbitTemplateMock);
     }
 
-    @Test
-    public void withNoOutputNotificationRequestShouldReturnError() {
+        @Test
+        public void withNoOutputNotificationRequestShouldReturnError() {
 
-        OutputNotificationResponse response = sut.outputNotificationNotification(new OutputNotificationRequest());
+            OutputNotificationResponse response = sut.outputNotificationNotification(new OutputNotificationRequest());
 
-        Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
-        Assertions.assertEquals("OutputNotificationRequest is required", response.getOutputNotificationResponse().getRespMsg());
+            Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
+            Assertions.assertEquals("OutputNotificationRequest is required", response.getOutputNotificationResponse().getRespMsg());
 
-    }
+        }
 
-    @Test
-    public void withNullBusinessAreaCdShouldReturnError() {
+        @Test
+        public void withNullBusinessAreaCdShouldReturnError() {
 
-        OutputNotificationRequest request = new OutputNotificationRequest();
-        OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request.setOutputNotificationRequest(request2);
+            OutputNotificationRequest request = new OutputNotificationRequest();
+            OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
+            request.setOutputNotificationRequest(request2);
 
-        OutputNotificationResponse response = sut.outputNotificationNotification(request);
+            OutputNotificationResponse response = sut.outputNotificationNotification(request);
 
-        Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
-        Assertions.assertEquals("OutputNotificationRequest.getBusinessAreaCd is required", response.getOutputNotificationResponse().getRespMsg());
+            Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
+            Assertions.assertEquals("OutputNotificationRequest.getBusinessAreaCd is required", response.getOutputNotificationResponse().getRespMsg());
 
-    }
+        }
 
-    @Test
-    public void withEmptyBusinessAreaCdShouldReturnError() {
+        @Test
+        public void withEmptyBusinessAreaCdShouldReturnError() {
 
-        OutputNotificationRequest request = new OutputNotificationRequest();
-        OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request.setOutputNotificationRequest(request2);
+            OutputNotificationRequest request = new OutputNotificationRequest();
+            OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
+            request.setOutputNotificationRequest(request2);
 
-        OutputNotificationResponse response = sut.outputNotificationNotification(request);
+            OutputNotificationResponse response = sut.outputNotificationNotification(request);
 
-        Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
-        Assertions.assertEquals("OutputNotificationRequest.getBusinessAreaCd is required", response.getOutputNotificationResponse().getRespMsg());
+            Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
+            Assertions.assertEquals("OutputNotificationRequest.getBusinessAreaCd is required", response.getOutputNotificationResponse().getRespMsg());
 
-    }
+        }
 
-    @Test
-    public void withNullFileListCdShouldReturnError() {
+        @Test
+        public void withNullFileListCdShouldReturnError() {
 
-        OutputNotificationRequest request = new OutputNotificationRequest();
-        OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
-        request.setOutputNotificationRequest(request2);
+            OutputNotificationRequest request = new OutputNotificationRequest();
+            OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
+            request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
+            request.setOutputNotificationRequest(request2);
 
-        OutputNotificationResponse response = sut.outputNotificationNotification(request);
+            OutputNotificationResponse response = sut.outputNotificationNotification(request);
 
-        Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
-        Assertions.assertEquals("OutputNotificationRequest.FileList.FileId must contains a least 1 file", response.getOutputNotificationResponse().getRespMsg());
+            Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
+            Assertions.assertEquals("OutputNotificationRequest.FileList.FileId must contains a least 1 file", response.getOutputNotificationResponse().getRespMsg());
 
-    }
+        }
 
-    @Test
-    public void withNullFileListListCdShouldReturnError() {
+        @Test
+        public void withNullFileListListCdShouldReturnError() {
 
-        OutputNotificationRequest request = new OutputNotificationRequest();
-        OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
-        FileList fileList = new FileList();
-        request2.setFileList(fileList);
-        request.setOutputNotificationRequest(request2);
+            OutputNotificationRequest request = new OutputNotificationRequest();
+            OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
+            request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
+            FileList fileList = new FileList();
+            request2.setFileList(fileList);
+            request.setOutputNotificationRequest(request2);
 
-        OutputNotificationResponse response = sut.outputNotificationNotification(request);
+            OutputNotificationResponse response = sut.outputNotificationNotification(request);
 
-        Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
-        Assertions.assertEquals("OutputNotificationRequest.FileList.FileId must contains a least 1 file", response.getOutputNotificationResponse().getRespMsg());
+            Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
+            Assertions.assertEquals("OutputNotificationRequest.FileList.FileId must contains a least 1 file", response.getOutputNotificationResponse().getRespMsg());
 
-    }
+        }
 
-    @Test
-    public void withNoFileInListCdShouldReturnError() {
+        @Test
+        public void withNoFileInListCdShouldReturnError() {
 
-        OutputNotificationRequest request = new OutputNotificationRequest();
-        OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
-        FileList fileList = new FileList();
-        request2.setFileList(fileList);
-        request.setOutputNotificationRequest(request2);
+            OutputNotificationRequest request = new OutputNotificationRequest();
+            OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
+            request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
+            FileList fileList = new FileList();
+            request2.setFileList(fileList);
+            request.setOutputNotificationRequest(request2);
 
-        OutputNotificationResponse response = sut.outputNotificationNotification(request);
+            OutputNotificationResponse response = sut.outputNotificationNotification(request);
 
-        Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
-        Assertions.assertEquals("OutputNotificationRequest.FileList.FileId must contains a least 1 file", response.getOutputNotificationResponse().getRespMsg());
+            Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
+            Assertions.assertEquals("OutputNotificationRequest.FileList.FileId must contains a least 1 file", response.getOutputNotificationResponse().getRespMsg());
 
-    }
+        }
 
-    @Test
-    public void withFileInListCdShouldReturnSuccess() {
+        @Test
+        public void withFileInListCdShouldReturnSuccess() {
 
-        OutputNotificationRequest request = new OutputNotificationRequest();
-        OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
-        FileList fileList = new FileList();
-        fileList.getFileId().add("test.file");
-        request2.setFileList(fileList);
-        request.setOutputNotificationRequest(request2);
+            OutputNotificationRequest request = new OutputNotificationRequest();
+            OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
+            request2.setBusinessAreaCd(BusinessAreaCd.CRRP);
+            FileList fileList = new FileList();
+            fileList.getFileId().add("test.file");
+            request2.setFileList(fileList);
+            request.setOutputNotificationRequest(request2);
 
-        OutputNotificationResponse response = sut.outputNotificationNotification(request);
+            OutputNotificationResponse response = sut.outputNotificationNotification(request);
 
-        Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_CODE, response.getOutputNotificationResponse().getRespCode());
-        Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_MESSAGE, response.getOutputNotificationResponse().getRespMsg());
+            Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_CODE, response.getOutputNotificationResponse().getRespCode());
+            Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_SUCCESS_MESSAGE, response.getOutputNotificationResponse().getRespMsg());
 
-    }
-
-
-    @Test
-    public void withExceptionShouldReturnError() {
-
-        OutputNotificationRequest request = new OutputNotificationRequest();
-        OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
-        request2.setBusinessAreaCd(BusinessAreaCd.VIPS);
-        FileList fileList = new FileList();
-        fileList.getFileId().add(TEST_FILE);
-        request2.setFileList(fileList);
-        request.setOutputNotificationRequest(request2);
-
-        OutputNotificationResponse response = sut.outputNotificationNotification(request);
-
-        Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
-        Assertions.assertEquals(AMQP_EXCEPTION, response.getOutputNotificationResponse().getRespMsg());
+        }
 
 
-    }
+        @Test
+        public void withExceptionShouldReturnError() {
+
+            OutputNotificationRequest request = new OutputNotificationRequest();
+            OutputNotificationRequest2 request2 = new OutputNotificationRequest2();
+            request2.setBusinessAreaCd(BusinessAreaCd.VIPS);
+            FileList fileList = new FileList();
+            fileList.getFileId().add(TEST_FILE);
+            request2.setFileList(fileList);
+            request.setOutputNotificationRequest(request2);
+
+            OutputNotificationResponse response = sut.outputNotificationNotification(request);
+
+            Assertions.assertEquals(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE, response.getOutputNotificationResponse().getRespCode());
+            Assertions.assertEquals(AMQP_EXCEPTION, response.getOutputNotificationResponse().getRespMsg());
+
+
+        }
 
 }

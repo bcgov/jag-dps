@@ -1,6 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.configuration.ExchangeProperties;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingServiceImpl;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
