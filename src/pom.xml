@@ -11,7 +11,7 @@
         <module>libs/vips-ords-client</module>
         <module>libs/dps-sftp-starter</module>
         <module>libs/dps-messaging-starter</module>
-        <module>paymentservice</module>
+        <module>dps-payment-service</module>
         <module>dps-email-poller</module>
         <module>dps-validation-service</module>
         <module>dps-notification-service</module>
@@ -58,7 +58,7 @@
                 <module>libs/vips-ords-client</module>
                 <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-messaging-starter</module>
-                <module>paymentservice</module>
+                <module>dps-payment-service</module>
                 <module>dps-email-poller</module>
                 <module>dps-validation-service</module>
                 <module>dps-notification-service</module>
@@ -68,9 +68,9 @@
             </modules>
         </profile>
         <profile>
-            <id>paymentservice</id>
+            <id>dps-payment-service</id>
             <modules>
-                <module>paymentservice</module>
+                <module>dps-payment-service</module>
             </modules>
         </profile>
         <profile>
