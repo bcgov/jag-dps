@@ -3,24 +3,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <modules>
-        <module>libs/dps-notification</module>
-        <module>libs/dps-files</module>
-        <module>libs/dfcms-ords-client</module>
-        <module>libs/figaro-ords-client</module>
-        <module>libs/vips-ords-client</module>
-        <module>libs/dps-sftp-starter</module>
-        <module>libs/dps-messaging-starter</module>
-        <module>dps-payment-service</module>
-        <module>dps-email-poller</module>
-        <module>dps-validation-service</module>
-        <module>dps-notification-service</module>
-        <module>figaro-validation-service</module>
-        <module>spd-notification-worker</module>
-        <module>vips-notification-worker</module>
-        <module>report</module>
-    </modules>
-
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>dps</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -39,25 +21,25 @@
         <profile>
             <id>libs</id>
             <modules>
-                <module>libs/dps-notification</module>
-                <module>libs/dps-files</module>
                 <module>libs/dfcms-ords-client</module>
+                <module>libs/dps-files</module>
+                <module>libs/dps-messaging-starter</module>
+                <module>libs/dps-notification</module>
                 <module>libs/figaro-ords-client</module>
                 <module>libs/vips-ords-client</module>
                 <module>libs/dps-sftp-starter</module>
-                <module>libs/dps-messaging-starter</module>
             </modules>
         </profile>
         <profile>
             <id>all</id>
             <modules>
-                <module>libs/dps-notification</module>
-                <module>libs/dps-files</module>
                 <module>libs/dfcms-ords-client</module>
+                <module>libs/dps-files</module>
+                <module>libs/dps-messaging-starter</module>
+                <module>libs/dps-notification</module>
                 <module>libs/figaro-ords-client</module>
                 <module>libs/vips-ords-client</module>
                 <module>libs/dps-sftp-starter</module>
-                <module>libs/dps-messaging-starter</module>
                 <module>dps-payment-service</module>
                 <module>dps-email-poller</module>
                 <module>dps-validation-service</module>
@@ -65,6 +47,7 @@
                 <module>figaro-validation-service</module>
                 <module>spd-notification-worker</module>
                 <module>vips-notification-worker</module>
+                <module>report</module>
             </modules>
         </profile>
         <profile>
