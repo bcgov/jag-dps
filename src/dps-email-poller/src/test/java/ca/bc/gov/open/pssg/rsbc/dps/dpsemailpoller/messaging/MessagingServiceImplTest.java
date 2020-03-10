@@ -11,17 +11,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-
-import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MessagingServiceImplTest {
@@ -29,6 +21,7 @@ public class MessagingServiceImplTest {
     public static final String AMQP_EXCEPTION = "amqp exception";
     public static final String DPS_TENANT_SUCCESS = "1";
     public static final String DPS_TENANT_EXCEPTION = "2";
+    public static final String TENANT = "Tenant";
 
     @Value("${dps.tenant}")
     private String dpsTenant;
@@ -51,7 +44,7 @@ public class MessagingServiceImplTest {
         Mockito.doThrow(new AmqpException(AMQP_EXCEPTION)).when(rabbitTemplateMock).convertAndSend(Mockito.eq(
                 DPS_TENANT_EXCEPTION), Mockito.any(Item.class));
 
-        sut = new MessagingServiceImpl(rabbitTemplateMock);
+        sut = new MessagingServiceImpl(rabbitTemplateMock, TENANT);
     }
 
     @Test

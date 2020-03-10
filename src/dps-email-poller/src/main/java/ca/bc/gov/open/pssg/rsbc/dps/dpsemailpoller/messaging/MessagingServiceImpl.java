@@ -1,24 +1,26 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
+import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 
 public class MessagingServiceImpl implements MessagingService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${dps.tenant}")
-    private String dpsTenant;
+
+    private final String dpsTenant;
 
     private final RabbitTemplate emailMessageTopicTemplate;
 
-    public MessagingServiceImpl(@Qualifier("emailMessageTopicTemplate") RabbitTemplate emailMessageTopicTemplate) {
+    public MessagingServiceImpl(
+            RabbitTemplate emailMessageTopicTemplate,
+            String dpsTenant) {
         this.emailMessageTopicTemplate = emailMessageTopicTemplate;
+        this.dpsTenant = dpsTenant;
     }
 
     @Override
@@ -36,8 +38,18 @@ public class MessagingServiceImpl implements MessagingService {
             throw new DpsEmailException("Exception while sending a message - missing item");
         }
 
-        logger.info("Attempting to publish message to emailMessage exchange with key [{}], item: [{}]", dpsTenant, item);
-        emailMessageTopicTemplate.convertAndSend(dpsTenant, item);
-        logger.info("Successfully published message to emailMessage exchange with key [{}], item: [{}]", dpsTenant, item);
+        try {
+
+            EmailInfoMessage emailInfoMessage = new EmailInfoMessage(item.getId().getUniqueId());
+
+            logger.info("Attempting to publish message to emailMessage exchange with key [{}], item: [{}]", dpsTenant,
+                    item);
+            emailMessageTopicTemplate.convertAndSend(dpsTenant, emailInfoMessage);
+            logger.info("Successfully published message to emailMessage exchange with key [{}], item: [{}]", dpsTenant,
+                    item);
+
+        } catch (ServiceLocalException e) {
+            e.printStackTrace();
+        }
     }
 }
