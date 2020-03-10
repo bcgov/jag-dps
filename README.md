@@ -13,7 +13,7 @@ A Document Processing System.
     │   ├── dps-notification-service/       # DPS Notification service  
     │   ├── dps-validation-service/         # DPS DFCM service
     |   ├── figaro-validation-service/      # DPS Figaro Validator service
-    |   ├── paymentservice/                 # DPS payment service
+    |   ├── dps-payment-service/                 # DPS payment service
     │   └── service-api                     # DPS service api
     ├── tests                               # Tests files
     ├── docker-compose.yml                  # docker compose definition
@@ -52,7 +52,7 @@ docker-compose up --build -d
 
 | Name | Doc | Notes | Swagger |
 | --- | --- | --- | --- |
-| Payment Service | [Doc](src/paymentservice/README.md) | [payment-service.swagger.yml](docs/payment-service.swagger.yml) |
+| Payment Service | [Doc](src/dps-payment-service/README.md) | [payment-service.swagger.yml](docs/payment-service.swagger.yml) |
 | CRRP Notification Worker| [Doc](src/crrp-notification-worker/README.md) | |
 | DPS Notification Service| [Doc](src/dps-notification-service/README.md) | |
 | DPS Validation Service | [Doc](src/dps-validation-service/README.md) | |

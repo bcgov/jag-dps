@@ -11,15 +11,14 @@
     </parent>
 
     <groupId>ca.bc.gov.open</groupId>
-    <artifactId>paymentservice</artifactId>
+    <artifactId>dps-payment-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>paymentservice</name>
+    <name>dps-payment-service</name>
     <description>DPS Payment Service module</description>
 
     <properties>
         <java.version>1.8</java.version>
         <springfox-swagger-version>2.6.1</springfox-swagger-version>
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
     </properties>
 
     <dependencies>
@@ -153,9 +152,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <destFile>${sonar.jacoco.reportPath}</destFile>
-                </configuration>
             </plugin>
 
         </plugins>

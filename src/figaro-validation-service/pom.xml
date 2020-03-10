@@ -17,7 +17,6 @@
     <properties>
         <java.version>1.8</java.version>
         <springfox-swagger-version>2.6.1</springfox-swagger-version>
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <default-package>ca.bc.gov.open.ords.figcr.client</default-package>
         <swagger-annotations-version>1.5.8</swagger-annotations-version>
         <jersey-version>2.27</jersey-version>
@@ -237,9 +236,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <destFile>${sonar.jacoco.reportPath}</destFile>
-                </configuration>
             </plugin>
 
         </plugins>
