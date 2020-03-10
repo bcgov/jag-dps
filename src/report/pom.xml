@@ -41,7 +41,7 @@
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open</groupId>
-            <artifactId>paymentservice</artifactId>
+            <artifactId>dps-payment-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
