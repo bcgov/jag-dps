@@ -15,7 +15,6 @@ public class ExchangeProperties {
     private String username;
     private String password;
     private String endpoint;
-    private int emailsPerBatch;
 
     public String getUsername() {
         return username;
@@ -40,8 +39,4 @@ public class ExchangeProperties {
     public void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
     }
-
-    public int getEmailsPerBatch() { return emailsPerBatch; }
-
-    public void setEmailsPerBatch(int emailsPerBatch) { this.emailsPerBatch = emailsPerBatch; }
 }

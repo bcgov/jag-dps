@@ -11,7 +11,6 @@ public class MessagingServiceImpl implements MessagingService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
     private final String dpsTenant;
 
     private final RabbitTemplate emailMessageTopicTemplate;
@@ -39,17 +38,18 @@ public class MessagingServiceImpl implements MessagingService {
         }
 
         try {
+            EmailInfoMessage emailInfoMessage = new EmailInfoMessage(item.getId().getUniqueId(), item.getSubject());
 
-            EmailInfoMessage emailInfoMessage = new EmailInfoMessage(item.getId().getUniqueId());
+            logger.debug("Attempting to publish message to emailMessage exchange with key [{}], item: [{}]",
+                    dpsTenant, emailInfoMessage);
 
-            logger.info("Attempting to publish message to emailMessage exchange with key [{}], item: [{}]", dpsTenant,
-                    item);
             emailMessageTopicTemplate.convertAndSend(dpsTenant, emailInfoMessage);
-            logger.info("Successfully published message to emailMessage exchange with key [{}], item: [{}]", dpsTenant,
-                    item);
+
+            logger.info("Successfully published message to emailMessage exchange with key [{}], item: [{}]",
+                    dpsTenant, emailInfoMessage);
 
         } catch (ServiceLocalException e) {
-            e.printStackTrace();
+            throw new DpsEmailException("Exception while sending a message", e.getCause());
         }
     }
 }

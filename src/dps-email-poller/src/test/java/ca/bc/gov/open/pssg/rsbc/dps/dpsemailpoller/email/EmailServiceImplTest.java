@@ -38,7 +38,7 @@ public class EmailServiceImplTest {
 
         Mockito.when(exchangeServiceMock.getRequestedServerVersion()).thenReturn(ExchangeVersion.Exchange2010_SP2);
 
-        sut = new EmailServiceImpl(exchangeServiceMock, 5);
+        sut = new EmailServiceImpl(exchangeServiceMock, 5, "ErrorHold", "Processing");
     }
 
     @Test
