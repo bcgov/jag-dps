@@ -39,11 +39,11 @@ public class FacilityController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateFacilityPartyResponse.class) })
     public ValidateFacilityPartyResponse ValidateFacilityParty(
             @ApiParam(value = "facilityPartyId", required = false) @RequestParam(value="facilityPartyId", defaultValue="") String facilityPartyId,
-            @ApiParam(value = "facilitySubname1", required = false) @RequestParam(value="facilitySubname1", defaultValue="")String facilitySubname1,
-            @ApiParam(value = "facilitySubname2", required = false) @RequestParam(value="facilitySubname2", defaultValue="")String facilitySubname2,
-            @ApiParam(value = "facilitySubname3", required = false) @RequestParam(value="facilitySubname3", defaultValue="")String facilitySubname3,
-            @ApiParam(value = "facilitySubname4", required = false) @RequestParam(value="facilitySubname4", defaultValue="")String facilitySubname4,
-            @ApiParam(value = "facilitySubname5", required = false) @RequestParam(value="facilitySubname5", defaultValue="")String facilitySubname5) {
+            @ApiParam(value = "facilitySubname1", required = false) @RequestParam(value="facilitySubName1", defaultValue="")String facilitySubname1,
+            @ApiParam(value = "facilitySubname2", required = false) @RequestParam(value="facilitySubName2", defaultValue="")String facilitySubname2,
+            @ApiParam(value = "facilitySubname3", required = false) @RequestParam(value="facilitySubName3", defaultValue="")String facilitySubname3,
+            @ApiParam(value = "facilitySubname4", required = false) @RequestParam(value="facilitySubName4", defaultValue="")String facilitySubname4,
+            @ApiParam(value = "facilitySubname5", required = false) @RequestParam(value="facilitySubName5", defaultValue="")String facilitySubname5) {
 
 
         return this.facilityService.validateFacilityParty(new ValidateFacilityPartyRequest(facilityPartyId, facilitySubname1, facilitySubname2, facilitySubname3, facilitySubname4, facilitySubname5));
