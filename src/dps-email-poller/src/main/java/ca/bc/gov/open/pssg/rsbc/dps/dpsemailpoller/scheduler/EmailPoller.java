@@ -15,6 +15,7 @@ import java.util.List;
 public class EmailPoller {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final EmailService emailService;
     private final MessagingService messagingService;
 
@@ -26,11 +27,12 @@ public class EmailPoller {
     @Scheduled(cron = "${mailbox.interval}")
     public void pollForEmails() throws Exception {
 
-        logger.info("Poll for emails");
+        logger.debug("perform poll for emails");
 
         try {
 
             List<Item> dpsEmails = emailService.getDpsInboxEmails();
+            logger.info("successfully retrieved {} emails", dpsEmails.size());
 
             dpsEmails.forEach(item -> {
 
@@ -41,14 +43,10 @@ public class EmailPoller {
                 logger.info("successfully send message to processing queue");
             });
 
-
         } catch (DpsEmailException e) {
             logger.error("exception while processing dps emails", e);
         }
-
-
     }
-
 
     /**
      * This Job remove junk email from the inbox and move them to the error folder.
@@ -56,19 +54,21 @@ public class EmailPoller {
     @Scheduled(cron = "${mailbox.interval}")
     public void junkRemoval() {
 
-
-        logger.info("starting polling junk emails");
+        logger.debug("perform poll for junk emails");
 
         try {
             List<Item> junkEmails = emailService.getDpsInboxJunkEmails();
             logger.info("successfully retrieved {} junk emails", junkEmails.size());
 
-            junkEmails.forEach(item -> emailService.moveToErrorFolder(item));
-            logger.info("successfully moved {} to errorHold folder", junkEmails.size());
+            junkEmails.forEach(item -> {
+
+                emailService.moveToErrorFolder(item);
+                logger.info("successfully moved message to errorHold folder");
+            });
+
         } catch (DpsEmailException e) {
             logger.error("exception while cleaning junk emails", e);
         }
-
     }
 
 }

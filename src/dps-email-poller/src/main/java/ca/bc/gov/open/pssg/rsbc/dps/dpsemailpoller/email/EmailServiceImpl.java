@@ -23,15 +23,17 @@ import java.util.List;
 public class EmailServiceImpl implements EmailService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final String ERROR_HOLD_FOLDER = "ErrorHold";
-    private final String PROCESSING_FOLDER = "Processing";
 
     private final ExchangeService exchangeService;
     private final Integer maxMessagePerGet;
+    private final String mailboxErrorFolder;
+    private final String mailboxProcessingFolder;
 
-    public EmailServiceImpl(ExchangeService exchangeService, Integer maxMessagePerGet) {
+    public EmailServiceImpl(ExchangeService exchangeService, Integer maxMessagePerGet, String mailboxErrorFolder, String mailboxProcessingFolder) {
         this.exchangeService = exchangeService;
         this.maxMessagePerGet = maxMessagePerGet;
+        this.mailboxErrorFolder = mailboxErrorFolder;
+        this.mailboxProcessingFolder = mailboxProcessingFolder;
     }
 
     @Override
@@ -108,11 +110,11 @@ public class EmailServiceImpl implements EmailService {
     public void moveToErrorFolder(Item item) {
 
         try {
-            FolderId errorHoldFolderId = getFolderIdByDisplayName(ERROR_HOLD_FOLDER);
+            FolderId errorHoldFolderId = getFolderIdByDisplayName(mailboxErrorFolder);
             exchangeService.moveItem(item.getId(), errorHoldFolderId);
 
         } catch (Exception e) {
-            throw new DpsEmailException("Exception while moving email to " + ERROR_HOLD_FOLDER, e.getCause());
+            throw new DpsEmailException("Exception while moving email to " + mailboxErrorFolder, e.getCause());
         }
     }
 
@@ -120,11 +122,11 @@ public class EmailServiceImpl implements EmailService {
     public void moveToProcessingFolder(Item item) {
 
         try {
-            FolderId processingFolderId = getFolderIdByDisplayName(PROCESSING_FOLDER);
+            FolderId processingFolderId = getFolderIdByDisplayName(mailboxProcessingFolder);
             exchangeService.moveItem(item.getId(), processingFolderId);
 
         } catch (Exception e) {
-            throw new DpsEmailException("Exception while moving email to " + PROCESSING_FOLDER, e.getCause());
+            throw new DpsEmailException("Exception while moving email to " + mailboxProcessingFolder, e.getCause());
         }
     }
 

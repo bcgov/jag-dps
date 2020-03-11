@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
