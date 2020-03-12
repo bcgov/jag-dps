@@ -3,22 +3,22 @@ kind: DeploymentConfig
 metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: >
-      {"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","metadata":{"annotations":{},"creationTimestamp":null,"labels":{"app":"dps-payment-service"},"name":"dps-payment-service","namespace":"pjztlm-dev"},"spec":{"replicas":2,"selector":{"io.kompose.service":"dps-payment-service"},"strategy":{"resources":{}},"template":{"metadata":{"creationTimestamp":null,"labels":{"io.kompose.service":"dps-payment-service"}},"spec":{"containers":[{"image":"","name":"dps-payment-service","ports":[{"containerPort":8080}],"resources":{}}],"restartPolicy":"Always"}},"test":false,"triggers":[{"type":"ConfigChange"},{"imageChangeParams":{"automatic":true,"containerNames":["dps-payment-service"],"from":{"kind":"ImageStreamTag","name":"dps-payment-service:dev","namespace":"pjztlm-tools"}},"type":"ImageChange"}]},"status":{}}
+      {"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","metadata":{"annotations":{},"creationTimestamp":null,"labels":{"app":"figaro-validation-service"},"name":"figaro-validation-service","namespace":"pjztlm-dev"},"spec":{"replicas":2,"selector":{"io.kompose.service":"figaro-validation-service"},"strategy":{"resources":{}},"template":{"metadata":{"creationTimestamp":null,"labels":{"io.kompose.service":"figaro-validation-service"}},"spec":{"containers":[{"image":"","name":"figaro-validation-service","ports":[{"containerPort":8080}],"resources":{}}],"restartPolicy":"Always"}},"test":false,"triggers":[{"type":"ConfigChange"},{"imageChangeParams":{"automatic":true,"containerNames":["figaro-validation-service"],"from":{"kind":"ImageStreamTag","name":"figaro-validation-service:dev","namespace":"pjztlm-tools"}},"type":"ImageChange"}]},"status":{}}
   creationTimestamp: 
-  generation: 139
+  generation: 28
   labels:
-    app: dps-payment-service
-  name: dps-payment-service
-  namespace: pjztlm-{DEV/TEST/PROD}
-  resourceVersion: '1652408635'
+    app: figaro-validation-service
+  name: figaro-validation-service
+  namespace: pjztlm-dev
+  resourceVersion: '1654117080'
   selfLink: >-
-    /apis/apps.openshift.io/v1/namespaces/pjztlm-{CHANGE_ME}/deploymentconfigs/dps-payment-service
-  uid: 97996e97-4ea4-11ea-afd1-005056832285
+    /apis/apps.openshift.io/v1/namespaces/pjztlm-{DEV/TEST/PROD}/deploymentconfigs/figaro-validation-service
+  uid: 53407d15-5da1-11ea-8a92-0050568379a2
 spec:
   replicas: 2
   revisionHistoryLimit: 10
   selector:
-    io.kompose.service: dps-payment-service
+    io.kompose.service: figaro-validation-service
   strategy:
     activeDeadlineSeconds: 21600
     resources: {}
@@ -33,45 +33,40 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: dps-payment-service
+        io.kompose.service: figaro-validation-service
     spec:
       containers:
-        - env:
-            - name: spring_profiles_active
-              value: 'cloud,splunk'
-            - name: BAMBORA_TIME_ZONE
-              value: PST
-          envFrom:
+        - envFrom:
             - secretRef:
-                name: bambora-settings
+                name: spring-profiles-active
             - secretRef:
-                name: crc-settings
+                name: figaro-api-secrets
             - secretRef:
                 name: splunk-config
           image: >-
-            docker-registry.default.svc:5000/pjztlm-tools/dps-payment-service@sha256:148b9eee4241aa413b9a5e3f08ff38da755ca57acc5cb78e5d5da8d13009eaba
+            docker-registry.default.svc:5000/pjztlm-tools/figaro-validation-service@sha256:00553211b887d1bdb203aa8cbb399f63b8e6c400c6470542df7c724320cecdca
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /paymentservice/actuator/health
+              path: /figvalidationservice/actuator/health
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 120
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 10
-          name: dps-payment-service
+          name: figaro-validation-service
           ports:
             - containerPort: 8080
               protocol: TCP
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /paymentservice/actuator/health
+              path: /figvalidationservice/actuator/health
               port: 8080
               scheme: HTTP
-            initialDelaySeconds: 70
+            initialDelaySeconds: 80
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 10
@@ -89,20 +84,22 @@ spec:
     - imageChangeParams:
         automatic: true
         containerNames:
-          - dps-payment-service
+          - figaro-validation-service
         from:
           kind: ImageStreamTag
-          name: 'dps-payment-service:{DEV/TEST/PROD}'
+          name: 'figaro-validation-service:{DEV/TEST/PROD}'
           namespace: pjztlm-tools
         lastTriggeredImage: >-
-          docker-registry.default.svc:5000/pjztlm-tools/dps-payment-service@sha256:148b9eee4241aa413b9a5e3f08ff38da755ca57acc5cb78e5d5da8d13009eaba
+          docker-registry.default.svc:5000/pjztlm-tools/figaro-validation-service@sha256:00553211b887d1bdb203aa8cbb399f63b8e6c400c6470542df7c724320cecdca
       type: ImageChange
 status:
   availableReplicas: 2
   conditions:
     - lastTransitionTime: 
       lastUpdateTime: 
-      message: replication controller "dps-payment-service-1" successfully rolled out
+      message: >-
+        replication controller "figaro-validation-service-1" successfully
+        rolled out
       reason: NewReplicationControllerAvailable
       status: 'True'
       type: Progressing
@@ -117,11 +114,11 @@ status:
           from:
             kind: DockerImage
             name: >-
-              docker-registry.default.svc:5000/pjztlm-tools/dps-payment-service@sha256:148b9eee4241aa413b9a5e3f08ff38da755ca57acc5cb78e5d5da8d13009eaba
+              docker-registry.default.svc:5000/pjztlm-tools/figaro-validation-service@sha256:00553211b887d1bdb203aa8cbb399f63b8e6c400c6470542df7c724320cecdca
         type: ImageChange
     message: image change
   latestVersion: 1
-  observedGeneration: 139
+  observedGeneration: 28
   readyReplicas: 2
   replicas: 2
   unavailableReplicas: 0
