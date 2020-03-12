@@ -1,102 +1,93 @@
-kind: Template
-apiVersion: v1
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
 metadata:
-  name: dps-validation-service-deployment-config
-  creationTimestamp: null
-parameters:
-  - name: NAME
-    displayName: Name
-    description: A prefix appended to all objects
-    required: true
-  - name: SOURCE_CONTEXT_DIR
-    required: true
-  - name: SOURCE_REPOSITORY_URL
-    required: true
-  - name: SOURCE_REPOSITORY_REF
-    required: true
-  - name: OC_PREFIX
-    required: true
-  - name: OC_APP
-    required: true
-  - name: VERSION
-    required: true
-  # TODO value needs to change at some point
-  - name: DFCMS_BASE_PATH
-    required: true
-    value: ""
-objects:
-  - kind: Service
-    apiVersion: v1
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","metadata":{"annotations":{},"creationTimestamp":null,"labels":{"app":"dps-validation-service"},"name":"dps-validation-service","namespace":"pjztlm-dev"},"spec":{"replicas":2,"selector":{"io.kompose.service":"dps-validation-service"},"strategy":{"resources":{}},"template":{"metadata":{"creationTimestamp":null,"labels":{"io.kompose.service":"dps-validation-service"}},"spec":{"containers":[{"image":"","name":"dps-validation-service","ports":[{"containerPort":8080}],"resources":{}}],"restartPolicy":"Always"}},"test":false,"triggers":[{"type":"ConfigChange"},{"imageChangeParams":{"automatic":true,"containerNames":["dps-validation-service"],"from":{"kind":"ImageStreamTag","name":"dps-validation-service:dev","namespace":"pjztlm-tools"}},"type":"ImageChange"}]},"status":{}}
+  creationTimestamp: '2020-03-04T20:05:26Z'
+  generation: 2
+  labels:
+    app: dps-validation-service
+  name: dps-validation-service
+  namespace: pjztlm-{DEV/TEST/PROD}
+  resourceVersion: '1635612464'
+  selfLink: >-
+    /apis/apps.openshift.io/v1/namespaces/pjztlm-{DEV/TEST/PROD}/deploymentconfigs/dps-validation-service
+  uid: 7d01910e-5e53-11ea-afd1-005056832285
+spec:
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    io.kompose.service: dps-validation-service
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
     metadata:
-      creationTimestamp:
-      labels: ${NAME}:latest
-        io.kompose.service: 
-      name: ${NAME}
-    spec:
-      ports:
-      - name: "8082"
-        port: 8082
-        targetPort: 8082
-      selector:
-        io.kompose.service: ${NAME}
-    status:
-      loadBalancer: {}
-  - kind: ImageStream
-    apiVersion: v1
-    metadata:
-      creationTimestamp:
-      labels:
-        io.kompose.service: ${NAME}
-      name: ${NAME}
-    spec:
-      tags:
-      - annotations: null
-        from:
-          kind: ImageStreamTag
-          name: ${NAME}:latest
-        generation: null
-        importPolicy: {}
-        name: latest
-    status:
-      dockerImageRepository: ""
-  - apiVersion: v1
-    kind: DeploymentConfig
-    metadata:
-      annotations:
-        kompose.cmd: kompose convert --provider=openshift --build=deploy-config --build-repo=${SOURCE_REPOSITORY_URL}
-        kompose.version: 1.18.0 (06a2e56)
       creationTimestamp: null
       labels:
-        io.kompose.service: ${NAME}
-      name: ${NAME}
+        io.kompose.service: dps-validation-service
     spec:
-      replicas: 2
-      selector:
-        io.kompose.service: ${NAME}
-      strategy:
-        resources: {}
-      template:
-        metadata:
-          creationTimestamp:
-          labels:
-            io.kompose.service: ${NAME}
-        spec:
-          containers:
-          - image: ''
-            name: ${NAME}
-            ports:
-            - containerPort: 8081
-            resources: {}
-          restartPolicy: Always
-      test: false
-      triggers:
+      containers:
+        - image: >-
+            docker-registry.default.svc:5000/pjztlm-tools/dps-validation-service@sha256:3da4c3f22c7e3e58dd8c7cfd269da38d2eaca5b8ed40ff80cf5ac854f6674ef8
+          imagePullPolicy: IfNotPresent
+          name: dps-validation-service
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /{DEV/TEST/PROD}/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - dps-validation-service
+        from:
+          kind: ImageStreamTag
+          name: 'dps-validation-service:{DEV/TEST/PROD}'
+          namespace: pjztlm-tools
+        lastTriggeredImage: >-
+          docker-registry.default.svc:5000/pjztlm-tools/dps-validation-service@sha256:3da4c3f22c7e3e58dd8c7cfd269da38d2eaca5b8ed40ff80cf5ac854f6674ef8
+      type: ImageChange
+status:
+  availableReplicas: 2
+  conditions:
+    - lastTransitionTime: 
+      lastUpdateTime: 
+      message: Deployment config has minimum availability.
+      status: 'True'
+      type: Available
+    - lastTransitionTime: 
+      lastUpdateTime: 
+      message: >-
+        replication controller "dps-validation-service-1" successfully rolled
+        out
+      reason: NewReplicationControllerAvailable
+      status: 'True'
+      type: Progressing
+  details:
+    causes:
       - type: ConfigChange
-      - imageChangeParams:
-          automatic: true
-          containerNames:
-          - ${NAME}
-          from:
-            kind: ImageStreamTag
-            name: ${NAME}:latest
-        type: ImageChange
-    status: {}
+    message: config change
+  latestVersion: 1
+  observedGeneration: 2
+  readyReplicas: 2
+  replicas: 2
+  unavailableReplicas: 0
+  updatedReplicas: 2

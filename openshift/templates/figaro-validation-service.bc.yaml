@@ -5,14 +5,14 @@ metadata:
     description: Defines how to build the application
   creationTimestamp: 
   labels:
-    app: dps-validation-service
+    app: figaro-validation-service
     template: master-build-pipeline
-  name: dps-validation-service
+  name: figaro-validation-service
   namespace: pjztlm-tools
-  resourceVersion: '1635606990'
+  resourceVersion: '1652783471'
   selfLink: >-
-    /apis/build.openshift.io/v1/namespaces/pjztlm-tools/buildconfigs/dps-validation-service
-  uid: 15ea058e-5e47-11ea-8a92-0050568379a2
+    /apis/build.openshift.io/v1/namespaces/pjztlm-tools/buildconfigs/figaro-validation-service
+  uid: 649a5249-5d75-11ea-8a92-0050568379a2
 spec:
   completionDeadlineSeconds: 1800
   failedBuildsHistoryLimit: 5
@@ -20,7 +20,7 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: 'dps-validation-service:latest'
+      name: 'figaro-validation-service:latest'
   postCommit: {}
   resources:
     limits:
@@ -31,7 +31,7 @@ spec:
       memory: 1Gi
   runPolicy: Serial
   source:
-    contextDir: src/dps-validation-service
+    contextDir: src/figaro-validation-service
     git:
       ref: master
       uri: 'https://github.com/bcgov/jag-dps'
