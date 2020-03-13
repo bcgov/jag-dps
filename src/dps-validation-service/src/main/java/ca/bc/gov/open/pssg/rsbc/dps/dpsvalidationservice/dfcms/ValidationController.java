@@ -43,7 +43,7 @@ public class ValidationController {
      *  @param driversLicense
      * @param surcode
      */
-    @RequestMapping(value = "/getValidOpenDfcmsCase", produces = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.GET)
+    @RequestMapping(value = "/getValidOpenDFCMSCase", produces = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.GET)
     @ApiOperation(value = "Driver Fitness Case Management Validation Service", notes = "", tags = {"DPSValidationService"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = CaseSequenceNumberResponse.class) })
     public CaseSequenceNumberResponse getValidOpenDfcmsCase(
