@@ -3,7 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
-import microsoft.exchange.webservices.data.core.service.item.Item;
+import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,7 +31,7 @@ public class EmailPoller {
 
         try {
 
-            List<Item> dpsEmails = emailService.getDpsInboxEmails();
+            List<EmailMessage> dpsEmails = emailService.getDpsInboxEmails();
             logger.info("successfully retrieved {} emails", dpsEmails.size());
 
             dpsEmails.forEach(item -> {
@@ -57,7 +57,7 @@ public class EmailPoller {
         logger.debug("perform poll for junk emails");
 
         try {
-            List<Item> junkEmails = emailService.getDpsInboxJunkEmails();
+            List<EmailMessage> junkEmails = emailService.getDpsInboxJunkEmails();
             logger.info("successfully retrieved {} junk emails", junkEmails.size());
 
             junkEmails.forEach(item -> {

@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email;
 
+import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.core.service.item.Item;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface EmailService {
      *
      * @return
      */
-    List<Item> getDpsInboxEmails();
+    List<EmailMessage> getDpsInboxEmails();
 
     /**
      * Returns a collection of valid dps emails in the inbox folder.
@@ -29,7 +30,7 @@ public interface EmailService {
      *
      * @return
      */
-    List<Item> getDpsInboxJunkEmails();
+    List<EmailMessage> getDpsInboxJunkEmails();
 
     /**
      * Moves a message to the ErrorHold folder on the mailbox.

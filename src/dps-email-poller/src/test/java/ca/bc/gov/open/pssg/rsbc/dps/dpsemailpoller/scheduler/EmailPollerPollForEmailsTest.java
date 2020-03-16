@@ -3,11 +3,10 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler.EmailPoller;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
+import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.core.service.item.Item;
-import microsoft.exchange.webservices.data.search.FindItemsResults;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,9 +15,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @DisplayName("email processing test suite")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class EmailPollerPollForEmails {
+public class EmailPollerPollForEmailsTest {
 
     public static final String I_M_JUNK = "I'm junk";
     private EmailPoller sut;
@@ -46,14 +48,14 @@ public class EmailPollerPollForEmails {
     @DisplayName("Success - 1 mail should be processed")
     public void with1EmailShouldBeProcessed() throws Exception {
 
-        FindItemsResults<Item> result = new FindItemsResults<Item>();
+        List<EmailMessage> result = new ArrayList<>();
 
-        Item item = new Item(exchangeServiceMock);
+        EmailMessage item = new EmailMessage(exchangeServiceMock);
         item.setSubject(I_M_JUNK);
 
-        result.getItems().add(item);
+        result.add(item);
 
-        Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result.getItems());
+        Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result);
         Mockito.doNothing().when(emailServiceMock).moveToProcessingFolder(Mockito.any(Item.class));
         Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(Item.class));
 
@@ -72,9 +74,9 @@ public class EmailPollerPollForEmails {
     @DisplayName("Success - no mail should be processed")
     public void with0EmailShouldNotBeProcessed() throws Exception {
 
-        FindItemsResults<Item> result = new FindItemsResults<Item>();
+        List<EmailMessage> result = new ArrayList<>();
 
-        Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result.getItems());
+        Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result);
         Mockito.doNothing().when(emailServiceMock).moveToProcessingFolder(Mockito.any(Item.class));
         Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(Item.class));
 
@@ -93,18 +95,18 @@ public class EmailPollerPollForEmails {
     @DisplayName("Success - 5 mail should be processed")
     public void with5EmailShouldNotBeProcessed() throws Exception {
 
-        FindItemsResults<Item> result = new FindItemsResults<Item>();
+        List<EmailMessage> result = new ArrayList<>();
 
-        Item item = new Item(exchangeServiceMock);
+        EmailMessage item = new EmailMessage(exchangeServiceMock);
         item.setSubject(I_M_JUNK);
 
-        result.getItems().add(item);
-        result.getItems().add(item);
-        result.getItems().add(item);
-        result.getItems().add(item);
-        result.getItems().add(item);
+        result.add(item);
+        result.add(item);
+        result.add(item);
+        result.add(item);
+        result.add(item);
 
-        Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result.getItems());
+        Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result);
         Mockito.doNothing().when(emailServiceMock).moveToProcessingFolder(Mockito.any(Item.class));
         Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(Item.class));
 
