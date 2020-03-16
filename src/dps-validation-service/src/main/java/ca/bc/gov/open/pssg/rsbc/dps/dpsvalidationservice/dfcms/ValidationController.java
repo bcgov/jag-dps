@@ -43,7 +43,7 @@ public class ValidationController {
      *  @param driversLicense
      * @param surcode
      */
-    @RequestMapping(value = "/GetValidOpenDFCMSCase", produces = MediaType.APPLICATION_XML_VALUE, method = RequestMethod.GET)
+    @GetMapping(value = "/GetValidOpenDFCMSCase", produces = MediaType.APPLICATION_XML_VALUE)
     @ApiOperation(value = "Driver Fitness Case Management Validation Service", notes = "", tags = {"DPSValidationService"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = CaseSequenceNumberResponse.class) })
     public CaseSequenceNumberResponse getValidOpenDfcmsCase(
@@ -80,10 +80,7 @@ public class ValidationController {
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<CaseSequenceNumberResponse> handleMissingParams(MissingServletRequestParameterException ex) {
-
-        String paramName = ex.getParameterName();
-        logger.error("Exception in  : ValidationController " + ex.getMessage());
-        ex.printStackTrace();
+        logger.error("Exception in  : ValidationController ", ex);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);

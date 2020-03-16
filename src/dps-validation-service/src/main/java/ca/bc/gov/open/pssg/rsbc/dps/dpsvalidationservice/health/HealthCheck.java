@@ -33,13 +33,11 @@ public class HealthCheck implements HealthIndicator {
     private int check() {
 
         try {
-            HealthResponse response = healthService.health();
+            healthService.health();
             return HTTP_STATUS_OK;
 
         } catch (ApiException ex) {
-            logger.error("Health Service did throw exception: " + ex.getMessage());
-            ex.printStackTrace();
-
+            logger.error("Health Service did throw exception: ", ex);
             return ex.getCode();
         }
     }
