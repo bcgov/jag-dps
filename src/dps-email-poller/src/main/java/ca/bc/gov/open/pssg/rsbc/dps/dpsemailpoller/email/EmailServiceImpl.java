@@ -6,6 +6,7 @@ import microsoft.exchange.webservices.data.core.enumeration.property.BasePropert
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
 import microsoft.exchange.webservices.data.core.enumeration.search.SortDirection;
 import microsoft.exchange.webservices.data.core.service.folder.Folder;
+import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.core.service.item.Item;
 import microsoft.exchange.webservices.data.core.service.schema.FolderSchema;
 import microsoft.exchange.webservices.data.core.service.schema.ItemSchema;
@@ -15,14 +16,11 @@ import microsoft.exchange.webservices.data.search.FindItemsResults;
 import microsoft.exchange.webservices.data.search.FolderView;
 import microsoft.exchange.webservices.data.search.ItemView;
 import microsoft.exchange.webservices.data.search.filter.SearchFilter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EmailServiceImpl implements EmailService {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final ExchangeService exchangeService;
     private final Integer maxMessagePerGet;
@@ -37,7 +35,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public List<Item> getDpsInboxEmails() {
+    public List<EmailMessage> getDpsInboxEmails() {
 
         ItemView view = maxMessagePerGet == 0 ? new ItemView(Integer.MAX_VALUE) : new ItemView(maxMessagePerGet);
         FindItemsResults<Item> findResults = null;
@@ -60,13 +58,13 @@ public class EmailServiceImpl implements EmailService {
             throw new DpsEmailException("Exception while getting dps emails from inbox", e.getCause());
         }
 
-        return findResults.getItems();
+        return findResults.getItems().stream().map(item -> (EmailMessage)item).collect(Collectors.toList());
     }
 
     @Override
-    public List<Item> getDpsInboxJunkEmails() {
+    public List<EmailMessage> getDpsInboxJunkEmails() {
 
-        ItemView view = new ItemView(maxMessagePerGet);
+        ItemView view = maxMessagePerGet == 0 ? new ItemView(Integer.MAX_VALUE) : new ItemView(maxMessagePerGet);
         FindItemsResults<Item> findResults = null;
 
         try {
@@ -85,7 +83,7 @@ public class EmailServiceImpl implements EmailService {
             throw new DpsEmailException("Exception while getting junk emails from inbox", e.getCause());
         }
 
-        return findResults.getItems();
+        return findResults.getItems().stream().map(item -> (EmailMessage)item).collect(Collectors.toList());
     }
 
     private FolderId getFolderIdByDisplayName(String displayName) throws Exception {
