@@ -25,7 +25,7 @@ public class EmailPoller {
     }
 
     @Scheduled(cron = "${mailbox.interval}")
-    public void pollForEmails() throws Exception {
+    public void pollForEmails() {
 
         logger.debug("perform poll for emails");
 
