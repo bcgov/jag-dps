@@ -6,8 +6,8 @@ import java.text.MessageFormat;
 
 public class EmailInfoMessage {
 
-    public String id;
-    public String subject;
+    private String id;
+    private String subject;
 
     @JsonCreator
     public EmailInfoMessage(String id, String subject) {
