@@ -25,6 +25,11 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
+            <artifactId>dps-commons</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>ca.bc.gov.open</groupId>
             <artifactId>dps-notification-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
