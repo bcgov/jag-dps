@@ -43,7 +43,7 @@ public class OutputNotificationEndpoint {
         OutputNotificationResponse response = new OutputNotificationResponse();
         OutputNotificationResponse2 response2 = new OutputNotificationResponse2();
 
-        if(request.getOutputNotificationRequest() == null) {
+        if (request.getOutputNotificationRequest() == null) {
             logger.error("Missing OutputNotificationRequest");
             response2.setRespCode(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE);
             response2.setRespMsg("OutputNotificationRequest is required");
@@ -51,7 +51,7 @@ public class OutputNotificationEndpoint {
             return response;
         }
 
-        if(request.getOutputNotificationRequest().getBusinessAreaCd() == null) {
+        if (request.getOutputNotificationRequest().getBusinessAreaCd() == null) {
             logger.error("Missing OutputNotificationRequest.getBusinessAreaCd");
             response2.setRespCode(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE);
             response2.setRespMsg("OutputNotificationRequest.getBusinessAreaCd is required");
@@ -59,11 +59,9 @@ public class OutputNotificationEndpoint {
             return response;
         }
 
-        if(
-                request.getOutputNotificationRequest().getFileList() == null
-                        || request.getOutputNotificationRequest().getFileList() == null
-                        || request.getOutputNotificationRequest().getFileList().getFileId() == null
-                        || request.getOutputNotificationRequest().getFileList().getFileId().isEmpty()) {
+        if (request.getOutputNotificationRequest().getFileList() == null ||
+            request.getOutputNotificationRequest().getFileList().getFileId() == null ||
+            request.getOutputNotificationRequest().getFileList().getFileId().isEmpty()) {
 
             logger.error("No File to be processed");
             response2.setRespCode(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE);
@@ -92,8 +90,7 @@ public class OutputNotificationEndpoint {
 
         } catch (AmqpException amqpException) {
 
-            logger.error("RabbitMq Exception: {}", amqpException.getMessage());
-            amqpException.printStackTrace();
+            logger.error("RabbitMq Exception: ", amqpException);
             response2.setRespCode(Keys.OUTPUT_NOTIFICATION_RESPONSE_ERROR_CODE);
             response2.setRespMsg(amqpException.getMessage());
 
