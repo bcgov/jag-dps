@@ -43,7 +43,7 @@ public class HealthResponse {
         return instance;
     }
 
-    public static HealthResponse SuccessResponse(String appid, String method, String status,
+    public static HealthResponse successResponse(String appid, String method, String status,
                                                  String host, String instance) {
 
         return new HealthResponse(appid, method, status, host, instance);
