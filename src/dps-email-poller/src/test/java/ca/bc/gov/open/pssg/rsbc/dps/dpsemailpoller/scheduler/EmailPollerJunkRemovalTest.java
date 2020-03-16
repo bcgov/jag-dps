@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsMetadataMapper;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
 import microsoft.exchange.webservices.data.core.ExchangeService;
@@ -35,6 +36,9 @@ class EmailPollerJunkRemovalTest {
     @Mock
     private MessagingService messagingServiceMock;
 
+    @Mock
+    private DpsMetadataMapper dpsMetadataMapperMock;
+
     @BeforeEach
     public void SetUp() {
 
@@ -42,7 +46,7 @@ class EmailPollerJunkRemovalTest {
 
         Mockito.when(exchangeServiceMock.getRequestedServerVersion()).thenReturn(ExchangeVersion.Exchange2010_SP2);
 
-        sut = new EmailPoller(emailServiceMock, messagingServiceMock);
+        sut = new EmailPoller(emailServiceMock, dpsMetadataMapperMock, messagingServiceMock, "tenant");
     }
 
     @Test
