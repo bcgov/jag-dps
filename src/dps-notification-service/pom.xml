@@ -12,7 +12,7 @@
 
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>dps-notification-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>dps-notification-service</name>
     <description>DPS Notification Service dispatch messages to notification worker</description>
 
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-notification</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.1.0</version>
         </dependency>
 
     </dependencies>

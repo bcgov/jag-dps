@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 	<artifactId>spd-notification-worker</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<name>spd-notification-worker</name>
 	<description>CRRP Output Notification Worker</description>
 
@@ -44,7 +44,7 @@
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-notification</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0</version>
 		</dependency>
 
 		<dependency>
@@ -159,31 +159,31 @@
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>figaro-ords-client</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-sftp-starter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-messaging-starter</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-notification</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-files</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0</version>
 		</dependency>
 
 	</dependencies>
