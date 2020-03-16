@@ -2,6 +2,13 @@
 
 A Document Processing System.
 
+
+## Contributing
+
+Before you start have a look at our [CODE OF CONDUCT](CODE_OF_CONDUCT.md), we are a friendly project, so don't hesitate to give us some feedback!
+
+If you decide to contribute, you can read our [CONTRIBUTING GUIDE](CONTRIBUTING.md).
+
 ## Project Structure
 
     .
@@ -95,9 +102,23 @@ Worker Health |
 | [RabbitMq](http://localhost:15672) | Rabbit MQ management console | --- |
 | [Splunk](http://localhost:8000) | Splunk Web | --- |
 
-# Tests
 
-## Postman
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [release on this repository](https://github.com/bcgov/bcparis-service/releases). 
+
+### Update Version
+
+Run
+
+```
+mvn versions:set -DartifactId=*  -DgroupId=*
+```
+
+
+## Tests
+
+### Postman
 
 We maintain a [postman collection](tests/postman/DPS-Service-Api.postman_collection.json) and a [postman environment](tests/postman/dps-env.postman_environment.json).
 
