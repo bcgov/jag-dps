@@ -28,6 +28,6 @@ public class HealthServiceImpl implements HealthService {
     public HealthResponse health() throws ApiException {
 
         HealthOrdsResponse response = healthApi.health();
-        return HealthResponse.SuccessResponse(response.getAppid(), response.getMethod(), response.getStatus(), response.getHost(), response.getInstance());
+        return HealthResponse.successResponse(response.getAppid(), response.getMethod(), response.getStatus(), response.getHost(), response.getInstance());
     }
 }
