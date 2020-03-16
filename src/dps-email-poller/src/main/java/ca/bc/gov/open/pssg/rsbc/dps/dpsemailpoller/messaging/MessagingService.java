@@ -1,6 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging;
 
-import microsoft.exchange.webservices.data.core.service.item.Item;
+import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 
 
 /**
@@ -16,6 +16,6 @@ public interface MessagingService {
      * Sends a message to the appropriate queue.
      * @param item
      */
-    void sendMessage(Item item);
+    void sendMessage(DpsMetadata item, String tenant);
 
 }

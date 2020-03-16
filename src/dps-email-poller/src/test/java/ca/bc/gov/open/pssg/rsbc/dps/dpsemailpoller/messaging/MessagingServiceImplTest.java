@@ -1,8 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging;
 
+import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import microsoft.exchange.webservices.data.core.service.item.Item;
-import microsoft.exchange.webservices.data.property.complex.ItemId;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,24 +17,17 @@ public class MessagingServiceImplTest {
 
     public static final String DPS_TENANT_SUCCESS = "1";
     public static final String DPS_TENANT_EXCEPTION = "2";
+    public static final String TENANT = "tenant";
 
     private MessagingServiceImpl sut;
 
     @Mock
     private RabbitTemplate rabbitTemplateMock;
 
-    @Mock
-    private Item itemMock;
-
     @BeforeAll
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
 
-        ItemId itemId = new ItemId();
-        itemId.setUniqueId("abcd");
-        Mockito.when(itemMock.getId()).thenReturn(itemId);
-
-        Mockito.when(itemMock.getSubject()).thenReturn("I'm the subject");
     }
 
     @Test
@@ -43,44 +36,35 @@ public class MessagingServiceImplTest {
         Mockito.doNothing().when(rabbitTemplateMock).
                 convertAndSend(Mockito.eq(DPS_TENANT_SUCCESS), Mockito.any(Item.class));
 
-        sut = new MessagingServiceImpl(rabbitTemplateMock, DPS_TENANT_SUCCESS);
+        sut = new MessagingServiceImpl(rabbitTemplateMock);
+
+        DpsMetadata dpsMetadata = new DpsMetadata.Builder().withApplicationID("test").build();
 
         Assertions.assertDoesNotThrow(() -> {
-            sut.sendMessage(itemMock);
+            sut.sendMessage(dpsMetadata, DPS_TENANT_SUCCESS);
         });
     }
-
-//    @Test
-//    public void withNoEmailMessageRequestShouldReturnError() {
-//
-//        Mockito.doThrow(DpsEmailException.class).when(rabbitTemplateMock).
-//                convertAndSend(Mockito.eq(DPS_TENANT_EXCEPTION), Mockito.any(Item.class));
-//
-//        sut = new MessagingServiceImpl(rabbitTemplateMock, DPS_TENANT_EXCEPTION);
-//
-//        Assertions.assertThrows(DpsEmailException.class, () -> {
-//            sut.sendMessage(itemMock);
-//        });
-//    }
 
     @Test
     public void withNullTenantShouldReturnError() {
 
         // Missing tenant
-        sut = new MessagingServiceImpl(rabbitTemplateMock, null);
+        sut = new MessagingServiceImpl(rabbitTemplateMock);
+
+        DpsMetadata dpsMetadata = new DpsMetadata.Builder().withApplicationID("test").build();
 
         Assertions.assertThrows(DpsEmailException.class, () -> {
-            sut.sendMessage(itemMock);
+            sut.sendMessage(dpsMetadata, null);
         });
     }
 
     @Test
     public void withNullItemShouldReturnError() {
 
-        sut = new MessagingServiceImpl(rabbitTemplateMock, DPS_TENANT_SUCCESS);
+        sut = new MessagingServiceImpl(rabbitTemplateMock);
 
         Assertions.assertThrows(DpsEmailException.class, () -> {
-            sut.sendMessage(null);
+            sut.sendMessage(null, DPS_TENANT_SUCCESS);
         });
     }
 }

@@ -1,11 +1,14 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
+import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsMetadataMapper;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +20,19 @@ public class EmailPoller {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final EmailService emailService;
+    private final DpsMetadataMapper dpsMetadataMapper;
     private final MessagingService messagingService;
+    private final String tenant;
 
-    public EmailPoller(EmailService emailService, MessagingService messagingService) {
+    public EmailPoller(
+            EmailService emailService,
+            DpsMetadataMapper dpsMetadataMapper,
+            MessagingService messagingService,
+            @Value("${dps.tenant}") String tenant) {
         this.emailService = emailService;
+        this.dpsMetadataMapper = dpsMetadataMapper;
         this.messagingService = messagingService;
+        this.tenant = tenant;
     }
 
     @Scheduled(cron = "${mailbox.interval}")
@@ -39,7 +50,9 @@ public class EmailPoller {
                 emailService.moveToProcessingFolder(item);
                 logger.info("successfully moved message to processing folder");
 
-                messagingService.sendMessage(item);
+                DpsMetadata metadata = dpsMetadataMapper.map(item, this.tenant);
+
+                messagingService.sendMessage(metadata, this.tenant);
                 logger.info("successfully send message to processing queue");
             });
 

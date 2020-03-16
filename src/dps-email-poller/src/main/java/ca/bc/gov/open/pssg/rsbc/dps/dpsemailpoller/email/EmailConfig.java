@@ -29,4 +29,14 @@ public class EmailConfig {
         return new EmailServiceImpl(exchangeService, emailsPerBatch, mailboxErrorFolder, mailboxProcessingFolder);
     }
 
+    @Bean
+    public DpsEmailParser dpsEmailParser() {
+        return new DpsEmailParserImpl();
+    }
+
+    @Bean
+    public DpsMetadataMapper dpsMetadataMapper(DpsEmailParser dpsEmailParser) {
+        return new DpsMetadataMapperImpl(dpsEmailParser);
+    }
+
 }

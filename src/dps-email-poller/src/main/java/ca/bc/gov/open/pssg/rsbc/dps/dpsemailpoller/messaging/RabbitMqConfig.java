@@ -98,6 +98,6 @@ public class RabbitMqConfig {
 
     @Bean
     MessagingService messagingService(RabbitTemplate emailMessageTopTemplate) {
-        return new MessagingServiceImpl(emailMessageTopTemplate, dpsTenant);
+        return new MessagingServiceImpl(emailMessageTopTemplate);
     }
 }

@@ -1,6 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
+import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsMetadataMapper;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
 import microsoft.exchange.webservices.data.core.ExchangeService;
@@ -34,6 +36,9 @@ public class EmailPollerPollForEmailsTest {
     @Mock
     private ExchangeService exchangeServiceMock;
 
+    @Mock
+    private DpsMetadataMapper dpsMetadataMapperMock;
+
     @BeforeEach
     public void SetUp() {
 
@@ -41,7 +46,10 @@ public class EmailPollerPollForEmailsTest {
 
         Mockito.when(exchangeServiceMock.getRequestedServerVersion()).thenReturn(ExchangeVersion.Exchange2010_SP2);
 
-        sut = new EmailPoller(emailServiceMock, messagingServiceMock);
+        Mockito.when(dpsMetadataMapperMock.map(Mockito.any(EmailMessage.class), Mockito.anyString())).thenReturn(new DpsMetadata.Builder().withSubject("test").build());
+
+        sut = new EmailPoller(emailServiceMock, dpsMetadataMapperMock, messagingServiceMock, "tenant");
+
     }
 
     @Test
@@ -57,7 +65,7 @@ public class EmailPollerPollForEmailsTest {
 
         Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result);
         Mockito.doNothing().when(emailServiceMock).moveToProcessingFolder(Mockito.any(Item.class));
-        Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(Item.class));
+        Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
 
         sut.pollForEmails();
 
@@ -67,7 +75,7 @@ public class EmailPollerPollForEmailsTest {
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(1))
-                .sendMessage(Mockito.any(Item.class));
+                .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
     }
 
     @Test
@@ -78,7 +86,7 @@ public class EmailPollerPollForEmailsTest {
 
         Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result);
         Mockito.doNothing().when(emailServiceMock).moveToProcessingFolder(Mockito.any(Item.class));
-        Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(Item.class));
+        Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
 
         sut.pollForEmails();
 
@@ -88,7 +96,7 @@ public class EmailPollerPollForEmailsTest {
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(0))
-                .sendMessage(Mockito.any(Item.class));
+                .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
     }
 
     @Test
@@ -108,7 +116,7 @@ public class EmailPollerPollForEmailsTest {
 
         Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result);
         Mockito.doNothing().when(emailServiceMock).moveToProcessingFolder(Mockito.any(Item.class));
-        Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(Item.class));
+        Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
 
         sut.pollForEmails();
 
@@ -118,7 +126,7 @@ public class EmailPollerPollForEmailsTest {
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(5))
-                .sendMessage(Mockito.any(Item.class));
+                .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
     }
 
     @Test
@@ -131,7 +139,7 @@ public class EmailPollerPollForEmailsTest {
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(0))
-                .sendMessage(Mockito.any(Item.class));
+                .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
     }
 
 }
