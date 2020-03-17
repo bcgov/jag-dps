@@ -17,17 +17,17 @@ public interface FileService {
      * @param fileInfo
      * @throws DpsSftpException
      */
-    void moveFilesToArchive(FileInfo fileInfo) throws DpsSftpException;
+    void moveFilesToArchive(FileInfo fileInfo);
 
     /**
      * A service that move files to error
      * @param fileInfo
      * @throws DpsSftpException
      */
-    void moveFilesToError(FileInfo fileInfo) throws DpsSftpException;
+    void moveFilesToError(FileInfo fileInfo);
 
-    InputStream getImageFileContent(FileInfo fileInfo) throws DpsSftpException;
+    InputStream getImageFileContent(FileInfo fileInfo);
 
-    InputStream getMetadataFileContent(FileInfo fileInfo) throws DpsSftpException;
+    InputStream getMetadataFileContent(FileInfo fileInfo);
 
 }
