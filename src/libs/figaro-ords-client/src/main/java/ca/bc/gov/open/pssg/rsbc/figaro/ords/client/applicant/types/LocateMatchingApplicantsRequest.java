@@ -25,7 +25,9 @@ public class LocateMatchingApplicantsRequest {
 	private String applAliasSurname3;
 	private String applAliasFirstName3;
 	private String applAliasSecondInitial3;
-	
+
+	@SuppressWarnings("java:S107")
+	//This is a legacy migration and requires this many parameters
 	public LocateMatchingApplicantsRequest(String applSurname, String applFirstName, String applSecondInitial,
 			String applBirthDate, String applDriversLicence, String applBirthPlace, String applGenderTxt,
 			String applAliasSurname1, String applAliasFirstName1, String applAliasSecondInitial1,

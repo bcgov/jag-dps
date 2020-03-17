@@ -23,7 +23,7 @@ public class SftpServiceImpl implements SftpService {
         this.session = session;
     }
 
-    public ByteArrayInputStream getContent(String remoteFilename) throws DpsSftpException {
+    public ByteArrayInputStream getContent(String remoteFilename) {
 
         ByteArrayInputStream result = null;
         ChannelSftp channelSftp = null;
@@ -53,7 +53,6 @@ public class SftpServiceImpl implements SftpService {
             }
 
         } catch (JSchException | SftpException | IOException e) {
-            logger.error("{} while trying to get file from sftp server {}", e.getClass().getSimpleName(), e.getMessage(), e);
             throw new DpsSftpException(e.getMessage(), e.getCause());
         } finally {
             if(channelSftp != null && channelSftp.isConnected())
@@ -70,7 +69,7 @@ public class SftpServiceImpl implements SftpService {
      * @param destinationFilename
      * @throws DpsSftpException
      */
-    public void moveFile(String remoteFileName, String destinationFilename) throws DpsSftpException {
+    public void moveFile(String remoteFileName, String destinationFilename) {
 
         ChannelSftp channelSftp = null;
 
@@ -84,7 +83,6 @@ public class SftpServiceImpl implements SftpService {
             logger.debug("Successfully renamed files on the sftp server from {} to {}", remoteFileName, destinationFilename);
 
         } catch (JSchException | SftpException e) {
-            logger.error("{} while trying to get file from sftp server {}", e.getClass().getSimpleName(), e.getMessage(), e);
             throw new DpsSftpException(e.getMessage(), e.getCause());
         } finally {
             if(channelSftp != null && channelSftp.isConnected())
