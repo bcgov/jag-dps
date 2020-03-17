@@ -14,6 +14,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@SuppressWarnings("java:S107")
+//This is a legacy migration and requires this many parameters
 public class ValidateApplicantPartyIdResponse {
 
 	private String respMsg;
@@ -82,9 +84,7 @@ public class ValidateApplicantPartyIdResponse {
 		return foundBirthPlace;
 	}
 
-	public String getFoundGenderTxt() {
-		return foundGenderTxt;
-	};
+	public String getFoundGenderTxt() { return foundGenderTxt; }
 
 	public static ValidateApplicantPartyIdResponse errorResponse(String errorMessage) {
 		return new ValidateApplicantPartyIdResponse(
