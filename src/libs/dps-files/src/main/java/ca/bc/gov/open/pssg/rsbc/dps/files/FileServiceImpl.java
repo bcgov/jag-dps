@@ -25,7 +25,7 @@ public class FileServiceImpl implements FileService {
      * @throws DpsSftpException
      */
     @Override
-    public void moveFilesToArchive(FileInfo fileInfo) throws DpsSftpException {
+    public void moveFilesToArchive(FileInfo fileInfo) {
         sftpService.moveFile(fileInfo.getImageReleaseFileName(), fileInfo.getImageArchiveFileName());
         sftpService.moveFile(fileInfo.getMetaDataReleaseFileName(), fileInfo.getMetaDataArchiveFileName());
     }
@@ -37,18 +37,18 @@ public class FileServiceImpl implements FileService {
      * @throws DpsSftpException
      */
     @Override
-    public void moveFilesToError(FileInfo fileInfo) throws DpsSftpException {
+    public void moveFilesToError(FileInfo fileInfo) {
         sftpService.moveFile(fileInfo.getImageReleaseFileName(), fileInfo.getImageErrorFileName());
         sftpService.moveFile(fileInfo.getMetaDataReleaseFileName(), fileInfo.getMetaDataErrorFileName());
     }
 
     @Override
-    public InputStream getImageFileContent(FileInfo fileInfo) throws DpsSftpException {
+    public InputStream getImageFileContent(FileInfo fileInfo) {
         return sftpService.getContent(fileInfo.getImageReleaseFileName());
     }
 
     @Override
-    public InputStream getMetadataFileContent(FileInfo fileInfo) throws DpsSftpException {
+    public InputStream getMetadataFileContent(FileInfo fileInfo) {
         return sftpService.getContent(fileInfo.getMetaDataReleaseFileName());
     }
 
