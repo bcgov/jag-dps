@@ -1,7 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.health;
 
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
-import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health.HealthResponse;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health.HealthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,13 +34,10 @@ public class HealthCheck implements HealthIndicator {
     private int check() {
 
         try {
-            HealthResponse response = healthService.health();
+            healthService.health();
             return HTTP_STATUS_OK;
-
         } catch (ApiException ex) {
-            logger.error("Health Service did throw exception: " + ex.getMessage());
-            ex.printStackTrace();
-
+            logger.error("Health Service did throw exception: ", ex);
             return ex.getCode();
         }
     }
