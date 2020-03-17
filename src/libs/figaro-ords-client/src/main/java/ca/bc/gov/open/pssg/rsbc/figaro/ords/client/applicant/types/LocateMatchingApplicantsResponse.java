@@ -13,6 +13,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
  */
 @JacksonXmlRootElement(localName = "locateMatchingApplicantsResponse")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@SuppressWarnings("java:S107")
+//This is a legacy migration and requires this many parameters
 public class LocateMatchingApplicantsResponse {
 
 	private String respMsg;
