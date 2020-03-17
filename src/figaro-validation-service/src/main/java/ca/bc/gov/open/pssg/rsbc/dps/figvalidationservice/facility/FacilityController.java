@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Expose endpoints for facility related validations
@@ -26,18 +23,15 @@ public class FacilityController {
 
     private final FacilityService facilityService;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     public FacilityController(FacilityService facilityService) {
         this.facilityService = facilityService;
     }
 
-    @RequestMapping(value = "/validateFacilityParty",
-            produces = { MediaType.APPLICATION_XML_VALUE },
-            method = RequestMethod.GET)
+    @GetMapping(value = "/validateFacilityParty",
+            produces = { MediaType.APPLICATION_XML_VALUE })
     @ApiOperation(value = "Validate Facility Party", response = ca.bc.gov.open.pssg.rsbc.figaro.ords.client.facility.ValidateFacilityPartyResponse.class, tags={"Figaro Validation Services"})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateFacilityPartyResponse.class) })
-    public ValidateFacilityPartyResponse ValidateFacilityParty(
+    public ValidateFacilityPartyResponse validateFacilityParty(
             @ApiParam(value = "facilityPartyId", required = false) @RequestParam(value="facilityPartyId", defaultValue="") String facilityPartyId,
             @ApiParam(value = "facilitySubname1", required = false) @RequestParam(value="facilitySubName1", defaultValue="")String facilitySubname1,
             @ApiParam(value = "facilitySubname2", required = false) @RequestParam(value="facilitySubName2", defaultValue="")String facilitySubname2,

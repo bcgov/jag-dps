@@ -16,7 +16,9 @@ public class OrdsFigcrProperties {
     private String username;
     private String password;
 
-    public OrdsFigcrProperties() { }
+    public OrdsFigcrProperties() {
+        //Does this serve any purpose?
+    }
 
     public String getBasepath() {
         return basePath;
