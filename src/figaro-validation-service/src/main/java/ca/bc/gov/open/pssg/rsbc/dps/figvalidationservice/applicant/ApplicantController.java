@@ -92,6 +92,8 @@ public class ApplicantController {
     @GetMapping(value = "/locateMatchingApplicants", produces = { MediaType.APPLICATION_XML_VALUE })
     @ApiOperation(value = "locateMatchingApplicants", response = LocateMatchingApplicantsResponse.class, tags={ APPLICANT_API })
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = LocateMatchingApplicantsResponse.class) })
+    @SuppressWarnings("java:S107")
+    //This is a legacy migration and requires this many parameters
     public LocateMatchingApplicantsResponse locateMatchingApplicants(
             @ApiParam(value = "applSurname") @RequestParam(value="applSurname", defaultValue="") String applSurname,
             @ApiParam(value = "applFirstName") @RequestParam(value="applFirstName", defaultValue="") String applFirstName,

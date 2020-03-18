@@ -15,12 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class DpsValidationserviceApplicationTests {
 
-    @LocalServerPort
-    private int port;
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
     @Autowired
     private DpsValidationserviceApplication dpsValidationserviceApplication;
 
@@ -28,12 +22,4 @@ class DpsValidationserviceApplicationTests {
     void contextLoaded() {
         assertThat(dpsValidationserviceApplication).isNotNull();
     }
-
-    @Test
-    void getValidOpenDFCMCase() throws Exception {
-        String request = "/getValidOpenDFCMCase/?driversLicense=1234567&surcode=345";
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/dpsvalidationservice" + request,
-                String.class).contains("getValidOpenDFCMCase"));
-    }
-
 }
