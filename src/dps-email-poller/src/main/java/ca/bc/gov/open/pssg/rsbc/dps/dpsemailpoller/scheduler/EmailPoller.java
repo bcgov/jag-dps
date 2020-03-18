@@ -35,7 +35,7 @@ public class EmailPoller {
         this.tenant = tenant;
     }
 
-    @Scheduled(cron = "${mailbox.interval}")
+    @Scheduled(cron = "${mailbox.poller.cron}")
     public void pollForEmails() {
 
         logger.debug("perform poll for emails");
