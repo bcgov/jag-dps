@@ -134,22 +134,22 @@ public class ApplicantController {
     }
 
     @GetMapping(value = "/validateApplicantService", produces = { MediaType.APPLICATION_XML_VALUE })
-    @ApiOperation(value = "Validate Applicant Service", response = ValidateOrgApplicantServiceResponse.class, tags={ APPLICANT_API })
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateOrgApplicantServiceResponse.class) })
-    public ValidateOrgApplicantServiceResponse validateOrgApplicantService(
+    @ApiOperation(value = "Validate Applicant Service", response = ValidateApplicantServiceResponse.class, tags={ APPLICANT_API })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = ValidateApplicantServiceResponse.class) })
+    public ValidateApplicantServiceResponse validateOrgApplicantService(
             @ApiParam(value = "orgPartyId", required = false) @RequestParam(value="orgPartyId", defaultValue="") String orgPartyId,
             @ApiParam(value = "applPartyId", required = false) @RequestParam(value="applPartyId", defaultValue="") String applPartyId) {
 
         try {
 
-            ValidateOrgApplicantServiceResponse response = applicantService
+            ValidateApplicantServiceResponse response = applicantService
                     .validateOrgApplicantService(applPartyId, orgPartyId);
 
-            return new ValidateOrgApplicantServiceResponse(response.getValidationResult(), response.getRespCode(), response.getRespMsg());
+            return new ValidateApplicantServiceResponse(response.getValidationResult(), response.getRespCode(), response.getRespMsg());
 
         } catch (ApiException ex) {
-            logger.error("An exception occurred in ValidateOrgApplicantServiceResponse validateOrgApplicantService() : ", ex);
-            return new ValidateOrgApplicantServiceResponse(ex.getMessage(),
+            logger.error("An exception occurred in ValidateApplicantServiceResponse validateOrgApplicantService() : ", ex);
+            return new ValidateApplicantServiceResponse(ex.getMessage(),
                     FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
                     FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE);
         }
