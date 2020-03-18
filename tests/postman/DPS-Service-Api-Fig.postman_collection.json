@@ -567,7 +567,7 @@
 							"script": {
 								"id": "5e837633-fb63-4af2-be34-158762a670d9",
 								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
+									""
 								],
 								"type": "text/javascript"
 							}
