@@ -38,7 +38,7 @@ public class ValidateOrgPartyContactPersonResponse {
 
     public String getContactPersonPartyId() { return contactPersonPartyId; }
 
-    public static ValidateOrgPartyContactPersonResponse SuccessResponse(String contactPersonName, String contactPersonRole, String contactPersonPartyId) {
+    public static ValidateOrgPartyContactPersonResponse successResponse(String contactPersonName, String contactPersonRole, String contactPersonPartyId) {
         return new ValidateOrgPartyContactPersonResponse(contactPersonName, contactPersonRole, contactPersonPartyId);
     }
 }

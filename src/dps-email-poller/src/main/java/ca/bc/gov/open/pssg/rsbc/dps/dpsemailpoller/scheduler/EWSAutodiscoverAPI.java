@@ -10,6 +10,11 @@ import microsoft.exchange.webservices.data.autodiscover.IAutodiscoverRedirection
  */
 public class EWSAutodiscoverAPI {
 
+    private EWSAutodiscoverAPI() {
+        //java:S1118 Considered and utility class
+        throw new IllegalStateException("Utility Class");
+    }
+
     public static class RedirectionUrlCallback implements IAutodiscoverRedirectionUrl {
         public boolean autodiscoverRedirectionUrlValidationCallback(String redirectionUrl) {
           return redirectionUrl.toLowerCase().startsWith("https://");

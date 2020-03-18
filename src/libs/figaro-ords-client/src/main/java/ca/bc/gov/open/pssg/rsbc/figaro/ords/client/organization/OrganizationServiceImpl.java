@@ -51,11 +51,11 @@ public class OrganizationServiceImpl implements OrganizationService {
             List<ValidateOrgPartyOrdsResponseContactPersons> contactOrdsList = response.getContactPersons();
 
             List<ValidateOrgPartyContactPersonResponse> contactList =
-                    new ArrayList<ValidateOrgPartyContactPersonResponse>();
+                    new ArrayList<>();
 
             if (contactOrdsList != null) {
                 for (ValidateOrgPartyOrdsResponseContactPersons contact : contactOrdsList) {
-                    contactList.add(ValidateOrgPartyContactPersonResponse.SuccessResponse(contact.getContactPersonName(), contact.getContactPersonRole(), contact.getContactPersonPartyId()));
+                    contactList.add(ValidateOrgPartyContactPersonResponse.successResponse(contact.getContactPersonName(), contact.getContactPersonRole(), contact.getContactPersonPartyId()));
                 }
             }
 
