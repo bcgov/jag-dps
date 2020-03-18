@@ -13,6 +13,6 @@ public interface ApplicantService {
 
     LocateMatchingApplicantsResponse locateMatchingApplicants(LocateMatchingApplicantsRequest lmr);
 
-    ValidateOrgApplicantServiceResponse validateOrgApplicantService(String applPartyId, String orgPartyId)
+    ValidateApplicantServiceResponse validateOrgApplicantService(String applPartyId, String orgPartyId)
             throws ApiException;
 }

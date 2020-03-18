@@ -2,25 +2,24 @@ package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types;
 
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
-
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
  * 
- * ValidateOrgApplicantServiceResponse class
+ * ValidateApplicantServiceResponse class
  * 
  * @author shaunmillargov
  *
  */
-@XmlRootElement
+@JacksonXmlRootElement(localName = "validateApplicantServiceResponse")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ValidateOrgApplicantServiceResponse {
+public class ValidateApplicantServiceResponse {
 
 	private String respMsg;
 	private int respCode;
 	private String validationResult;
 
-	public ValidateOrgApplicantServiceResponse(String validationResult, int respCode, String respMsg) {
+	public ValidateApplicantServiceResponse(String validationResult, int respCode, String respMsg) {
 		super();
 		this.respMsg = respMsg;
 		this.respCode = respCode;
@@ -39,16 +38,16 @@ public class ValidateOrgApplicantServiceResponse {
 		return validationResult;
 	}
 
-	public static ValidateOrgApplicantServiceResponse errorResponse(String errorMessage) {
-		return new ValidateOrgApplicantServiceResponse(
+	public static ValidateApplicantServiceResponse errorResponse(String errorMessage) {
+		return new ValidateApplicantServiceResponse(
 				FigaroOrdsClientConstants.SERVICE_BOOLEAN_FALSE,
 				FigaroOrdsClientConstants.SERVICE_FAILURE_CD,
 				errorMessage);
 	}
 
-	public static ValidateOrgApplicantServiceResponse successResponse(String validationResult, String respCodeStr, String respMsg) {
+	public static ValidateApplicantServiceResponse successResponse(String validationResult, String respCodeStr, String respMsg) {
 
-		return new ValidateOrgApplicantServiceResponse(validationResult, Integer.parseInt(respCodeStr), respMsg);
+		return new ValidateApplicantServiceResponse(validationResult, Integer.parseInt(respCodeStr), respMsg);
 	}
 	
 }
