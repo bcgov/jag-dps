@@ -4,8 +4,7 @@ import ca.bc.gov.open.ords.figcr.client.api.ApplicantApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgApplicantServiceOrdsResponse;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
-import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantPartyIdResponse;
-import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateOrgApplicantServiceResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantServiceResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -70,7 +69,7 @@ public class ApplicantServiceValidateOrgTest {
     @Test
     public void withValidResponseShouldReturnValidResponse() throws ApiException {
 
-        ValidateOrgApplicantServiceResponse response = sut.validateOrgApplicantService(CASE_1, CASE_1);
+        ValidateApplicantServiceResponse response = sut.validateOrgApplicantService(CASE_1, CASE_1);
 
         Assertions.assertEquals(Integer.parseInt(STATUS_CODE), response.getRespCode());
         Assertions.assertEquals(STATUS_MESSAGE, response.getRespMsg());
@@ -83,7 +82,7 @@ public class ApplicantServiceValidateOrgTest {
     @Test
     public void withInvalidResponseShouldReturnInvalidResponse() throws ApiException {
 
-        ValidateOrgApplicantServiceResponse response = sut.validateOrgApplicantService(CASE_2, CASE_2);
+        ValidateApplicantServiceResponse response = sut.validateOrgApplicantService(CASE_2, CASE_2);
 
         Assertions.assertEquals(Integer.parseInt(ERROR_STATUS_CODE), response.getRespCode());
         Assertions.assertEquals(ERROR_STATUS_MESSAGE, response.getRespMsg());
@@ -96,7 +95,7 @@ public class ApplicantServiceValidateOrgTest {
     @Test
     public void WithApiExceptionShouldThrowException() {
 
-        ValidateOrgApplicantServiceResponse response = sut.validateOrgApplicantService(CASE_3, CASE_3);
+        ValidateApplicantServiceResponse response = sut.validateOrgApplicantService(CASE_3, CASE_3);
 
         Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, response.getRespCode());
         Assertions.assertEquals(API_EXCEPTION, response.getRespMsg());

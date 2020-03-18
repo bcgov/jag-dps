@@ -110,15 +110,15 @@ public class ApplicantServiceImpl implements ApplicantService {
     /*
      * service method to get the response for /validateApplicantService requests
      */
-    public ValidateOrgApplicantServiceResponse validateOrgApplicantService(String applPartyId,
-                                                                     String orgPartyId) {
+    public ValidateApplicantServiceResponse validateOrgApplicantService(String applPartyId,
+                                                                        String orgPartyId) {
 
         try {
             ValidateOrgApplicantServiceOrdsResponse response = this.applicantApi.validateOrgApplicantService(applPartyId, orgPartyId);
-            return ValidateOrgApplicantServiceResponse.successResponse(response.getValidationResult(), response.getStatusCode(), response.getStatusMessage());
+            return ValidateApplicantServiceResponse.successResponse(response.getValidationResult(), response.getStatusCode(), response.getStatusMessage());
         } catch (ApiException ex) {
             logger.error("Exception caught as Applicant Service, validateOrgApplicantService : " + ex.getMessage(), ex);
-            return ValidateOrgApplicantServiceResponse.errorResponse(ex.getMessage());
+            return ValidateApplicantServiceResponse.errorResponse(ex.getMessage());
         }
     }
 }
