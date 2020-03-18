@@ -1,32 +1,22 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email;
 
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.configuration.ExchangeProperties;
 import microsoft.exchange.webservices.data.core.ExchangeService;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@EnableConfigurationProperties(EmailProperties.class)
 public class EmailConfig {
+    private final EmailProperties emailProperties;
 
-    @Value("${mailbox.emails.per.batch}")
-    private int emailsPerBatch;
-
-    @Value("${mailbox.error.folder}")
-    private String mailboxErrorFolder;
-
-    @Value("${mailbox.processing.folder}")
-    private String mailboxProcessingFolder;
-
-    private final ExchangeProperties exchangeProperties;
-
-    public EmailConfig(ExchangeProperties exchangeProperties) {
-        this.exchangeProperties = exchangeProperties;
+    public EmailConfig(EmailProperties emailProperties) {
+        this.emailProperties = emailProperties;
     }
 
     @Bean
     public EmailService emailService(ExchangeService exchangeService) {
-        return new EmailServiceImpl(exchangeService, emailsPerBatch, mailboxErrorFolder, mailboxProcessingFolder);
+        return new EmailServiceImpl(exchangeService, emailProperties.getEmailsPerBatch(), emailProperties.getErrorFolder(), emailProperties.getProcessingFolder());
     }
 
     @Bean
