@@ -16,10 +16,6 @@ public class OrdsVipsProperties {
     private String username;
     private String password;
 
-    public OrdsVipsProperties() {
-        //What is the purpose of this constructor
-    }
-
     public String getBasepath() {
         return basePath;
     }
