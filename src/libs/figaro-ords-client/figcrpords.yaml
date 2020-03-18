@@ -23,6 +23,8 @@ paths:
     get:
       tags:
       - Applicant
+      security:
+      - basicAuth: []
       operationId: matchingApplicants
       description: Locate the matching applicants
       responses:
@@ -143,6 +145,8 @@ paths:
     get:
       tags:
       - Facility
+      security:
+      - basicAuth: []
       operationId: validateFacilityParty
       description: Validate the facility party
       responses:
@@ -204,7 +208,9 @@ paths:
   /validateOrgDrawDownBalance:
     get:
       tags:
-        - Org
+      - Org
+      security:
+      - basicAuth: []
       operationId: validateOrgDrawDownBalance
       description: Validate the organization draw down balance
       responses:
@@ -228,7 +234,9 @@ paths:
   /validateOrgParty:
     get:
       tags:
-        - Org
+      - Org
+      security:
+      - basicAuth: []
       operationId: validateOrgParty
       description: Validate the organization party
       responses:
@@ -268,7 +276,9 @@ paths:
   /health:
     get:
       tags:
-        - Health
+      - Health
+      security:
+      - basicAuth: []
       operationId: health
       description: Dummy endpoint to check that API calls are working
       responses:
@@ -279,7 +289,9 @@ paths:
   /dpsDocument:
     post:
       tags:
-        - Document
+      - Document
+      security:
+      - basicAuth: []
       description: Store a DPS document
       responses:
         '200':
@@ -287,17 +299,19 @@ paths:
           schema:
             $ref: '#/definitions/dpsDocumentOrdsResponse'
       consumes:
-        - application/json
+      - application/json
       parameters:
-        - name: payload
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/dpsDocumentOrdsRequestBody'
+      - name: payload
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/dpsDocumentOrdsRequestBody'
   /dpsDataIntoFigaro:
     post:
       tags:
-        - Document
+      - Document
+      security:
+      - basicAuth: []
       description: Populate DPS data into figaro
       responses:
         '200':
@@ -305,22 +319,22 @@ paths:
           schema:
             $ref: '#/definitions/dpsDataIntoFigaroOrdsResponse'
       consumes:
-        - application/json
+      - application/json
       parameters:
-        - name: payload
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/dpsDataIntoFigaroOrdsRequestBody'
+      - name: payload
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/dpsDataIntoFigaroOrdsRequestBody'
 definitions:
   healthOrdsResponse:
     type: object
     required:
-      - appid
-      - method
-      - status
-      - host
-      - instance
+    - appid
+    - method
+    - status
+    - host
+    - instance
     properties:
       appid:
         type: string
