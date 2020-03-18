@@ -35,7 +35,7 @@ public class EmailPoller {
         this.tenant = tenant;
     }
 
-    @Scheduled(cron = "${mailbox.interval}")
+    @Scheduled(cron = "${mailbox.poller.cron}")
     public void pollForEmails() {
 
         logger.debug("perform poll for emails");
@@ -64,7 +64,7 @@ public class EmailPoller {
     /**
      * This Job remove junk email from the inbox and move them to the error folder.
      */
-    @Scheduled(cron = "${mailbox.interval}")
+    @Scheduled(cron = "${mailbox.poller.cron}")
     public void junkRemoval() {
 
         logger.debug("perform poll for junk emails");
