@@ -50,7 +50,7 @@ public class OrganizationControllerTest {
         Mockito.doReturn(errorResponse1).when(organizationServiceMock).validateOrgDrawDownBalance(ArgumentMatchers.argThat(x -> x.getJurisdictionType().equals("2")));
 
         List<ValidateOrgPartyContactPersonResponse> contactPersons = new ArrayList<ValidateOrgPartyContactPersonResponse>();
-        contactPersons.add(ValidateOrgPartyContactPersonResponse.SuccessResponse(FOUND_ORG_CONTACT_NAME, FOUND_ORG_CONTACT_ROLE, FOUND_ORG_CONTACT_PARTY_ID));
+        contactPersons.add(ValidateOrgPartyContactPersonResponse.successResponse(FOUND_ORG_CONTACT_NAME, FOUND_ORG_CONTACT_ROLE, FOUND_ORG_CONTACT_PARTY_ID));
 
         ValidateOrgPartyResponse successResponse2 = ValidateOrgPartyResponse.successResponse(VALIDATION_RESULT, STATUS_CODE, STATUS_MESSAGE, FOUND_ORG_PARTY_ID, FOUND_ORG_PARTY_NAME, FOUND_ORG_PARTY_TYPE, contactPersons);
         ValidateOrgPartyResponse errorResponse2 = ValidateOrgPartyResponse.errorResponse(ERROR_VALIDATION_RESULT);
