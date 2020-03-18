@@ -140,14 +140,10 @@ public class OutputNotificationConsumer {
             }
 
         } catch (IOException | JAXBException e) {
-            logger.error("{} while processing file id [{}]: {}", e.getClass().getSimpleName(), fileInfo.getFileId(),
-                    e.getMessage());
+            logger.error("{} while processing file id [{}]: ", e.getClass().getSimpleName(), fileInfo.getFileId(), e);
             fileService.moveFilesToError(fileInfo);
-            e.printStackTrace();
         } catch (DpsSftpException e) {
-            logger.error("{} while processing file id [{}]: {}", e.getClass().getSimpleName(), fileInfo.getFileId(),
-                    e.getMessage());
-            e.printStackTrace();
+            logger.error("{} while processing file id [{}]: ", e.getClass().getSimpleName(), fileInfo.getFileId(), e);
         } finally {
             MDC.remove(DPS_FILE_ID_KEY);
             MDC.remove(DPS_BUSINESS_AREA_CD_KEY);
