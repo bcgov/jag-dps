@@ -16,8 +16,6 @@ public class OrdsVipsProperties {
     private String username;
     private String password;
 
-    public OrdsVipsProperties() { }
-
     public String getBasepath() {
         return basePath;
     }
