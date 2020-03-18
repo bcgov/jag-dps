@@ -2,7 +2,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.applicant;
 
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.ApplicantServiceImpl;
-import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateOrgApplicantServiceResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types.ValidateApplicantServiceResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ public class ApplicantControllerValidateOrgApplicantTest {
     @Mock
     private ApplicantServiceImpl applicantServiceMock;
 
-    private ValidateOrgApplicantServiceResponse validateOrgApplicantServiceResponse;
+    private ValidateApplicantServiceResponse validateOrgApplicantServiceResponse;
 
     private ApplicantController sut;
 
@@ -83,12 +83,12 @@ public class ApplicantControllerValidateOrgApplicantTest {
     public void SetUp() throws ApiException {
         MockitoAnnotations.initMocks(this);
 
-        ValidateOrgApplicantServiceResponse validServiceResp = ValidateOrgApplicantServiceResponse.successResponse(
+        ValidateApplicantServiceResponse validServiceResp = ValidateApplicantServiceResponse.successResponse(
                 VALID_SERVICE_VALIDATION_RESULT, VALID_SERVICE_STATUS_CODE, VALID_SERVICE_STATUS_MESSAGE);
 
-        ValidateOrgApplicantServiceResponse inValidOrgIdOrdsServiceResp = ValidateOrgApplicantServiceResponse.errorResponse(INVALID_ORG_ID_SERVICE_STATUS_MESSAGE);
+        ValidateApplicantServiceResponse inValidOrgIdOrdsServiceResp = ValidateApplicantServiceResponse.errorResponse(INVALID_ORG_ID_SERVICE_STATUS_MESSAGE);
 
-        ValidateOrgApplicantServiceResponse inValidApplIdOrdsServiceResp = ValidateOrgApplicantServiceResponse.errorResponse(INVALID_APPL_ID_SERVICE_STATUS_MESSAGE);
+        ValidateApplicantServiceResponse inValidApplIdOrdsServiceResp = ValidateApplicantServiceResponse.errorResponse(INVALID_APPL_ID_SERVICE_STATUS_MESSAGE);
 
         Mockito.when(applicantServiceMock.validateOrgApplicantService(VALID_APPL_PARTY_ID, VALID_ORG_PARTY_ID))
                 .thenReturn(validServiceResp);
