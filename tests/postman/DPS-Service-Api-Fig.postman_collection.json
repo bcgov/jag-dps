@@ -59,7 +59,7 @@
 							"script": {
 								"id": "46f2fa17-349f-4b8e-a675-470de403812d",
 								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://localhost:5050');"
+									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');  "
 								],
 								"type": "text/javascript"
 							}
@@ -115,11 +115,11 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "683afee9-3f17-4bbe-a25e-ac2bab22ce32",
+								"id": "be274da9-3c46-4ebb-bc90-ab3aefd22e1a",
 								"exec": [
 									"eval(pm.globals.get(\"commonTests\"))();",
 									"",
-									"const jsonResponse = xml2Json(responseBody);    ",
+									"const jsonResponse = xml2Json(responseBody);",
 									"",
 									"pm.test(\"Assert the responses for a valid request\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === \"true\") {",
@@ -146,15 +146,15 @@
 									"",
 									"pm.test(\"Assert the response for Party id not for an individual\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === 'notIndividual') {",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql(\"-22\");",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql('-22');",
 									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: Applicant Party ID \");",
 									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql(\"F\");",
 									"    }",
 									"});",
 									" ",
 									"pm.test(\"Assert the response for party id not found\", () => {",
-									"    if(pm.iterationData.get(\"isValid\") === 'notFound') {",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql(\"-21\");",
+									"    if(pm.iterationData.get(\"isValid\") === 'noPartyId') {",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql('-21');",
 									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: Applicant Party ID\");",
 									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql(\"F\");",
 									"    }",
@@ -162,7 +162,7 @@
 									"    ",
 									"pm.test(\"Assert the response for org id not found\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === 'noOrgId') {",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql(\"-11\");",
+									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql('-11');",
 									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: Organization Party ID\");",
 									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql(\"F\");",
 									"    }",
@@ -369,13 +369,28 @@
 							"script": {
 								"id": "4fa11171-583e-44f8-9d81-8eaa6196b7c2",
 								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://localhost:8082');"
+									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -480,13 +495,28 @@
 							"script": {
 								"id": "ebc0b7a4-5d0c-4637-8f4d-deefb6d1bb40",
 								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://localhost:8082');"
+									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Karthik!12",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "kmurugaiyan",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -518,9 +548,19 @@
 					"name": "figValidateFacilityParty",
 					"event": [
 						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5e837633-fb63-4af2-be34-158762a670d9",
+								"exec": [
+									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
 							"listen": "test",
 							"script": {
-								"id": "1c1b427f-84f5-4952-82ce-bd3afbc7c4ea",
+								"id": "d8ecd9d2-aa4a-4711-b3af-ec195e8f3a45",
 								"exec": [
 									"eval(pm.globals.get(\"commonTests\"))();",
 									"",
@@ -574,9 +614,7 @@
 									"    }",
 									"});",
 									"",
-									"// Below will be uncommented when Jira ticket 321 is fixed",
-									"",
-									"/*pm.test(\"Assert response with empty party id\", () => {",
+									"pm.test(\"Assert response with empty party id\", () => {",
 									"    ",
 									"    if(pm.iterationData.get(\"isValid\") === \"emptyPartyId\") {",
 									"        pm.expect(respJson.validateFacilityPartyResponse.validationResult).to.eql('P');",
@@ -594,23 +632,28 @@
 									"        pm.expect(respJson.validateFacilityPartyResponse.respCode).to.eql('3');",
 									"        pm.expect(respJson.validateFacilityPartyResponse.respMsg).to.eql(\"Validation Failure: Provided criteria matched multiple Facilities.\");",
 									"    }",
-									"});*/"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "ed629609-32f0-4797-93cc-b406c7cbd0df",
-								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://localhost:8082');"
+									"});"
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Whatever1!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "dps_dev",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -691,7 +734,7 @@
 									"});",
 									"",
 									"pm.test(\"Assert response for no schedule type\", () => {",
-									"    if(pm.iterationData.get(\"isValid\") === 'invalidJurisdiction') {",
+									"    if(pm.iterationData.get(\"isValid\") === 'noSchedule') {",
 									"        pm.expect(respJson.validateOrgDrawDownBalance.validationResult).to.eql('F');",
 									"        pm.expect(respJson.validateOrgDrawDownBalance.respCode).to.eql('-30');",
 									"        pm.expect(respJson.validateOrgDrawDownBalance.respMsg).to.include(\"Validation Failure: No Schedule Type Code was submitted.\");",
@@ -700,7 +743,7 @@
 									"});",
 									"",
 									"pm.test(\"Assert response for no Jurisdiction type\", () => {",
-									"    if(pm.iterationData.get(\"isValid\") === 'invalidJurisdiction') {",
+									"    if(pm.iterationData.get(\"isValid\") === 'noJurisdiction') {",
 									"        pm.expect(respJson.validateOrgDrawDownBalance.validationResult).to.eql('F');",
 									"        pm.expect(respJson.validateOrgDrawDownBalance.respCode).to.eql('-32');",
 									"        pm.expect(respJson.validateOrgDrawDownBalance.respMsg).to.include(\"Validation Failure: No Jurisdiction Code was submitted.\");",
@@ -719,7 +762,7 @@
 							"script": {
 								"id": "d7ff7a56-a66d-4801-b025-a1c85f9fb755",
 								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://localhost:8082');"
+									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
 								],
 								"type": "text/javascript"
 							}
@@ -730,13 +773,13 @@
 							"type": "basic",
 							"basic": [
 								{
-									"key": "password",
-									"value": "",
+									"key": "username",
+									"value": "dps_dev",
 									"type": "string"
 								},
 								{
-									"key": "username",
-									"value": "",
+									"key": "password",
+									"value": "Whatever1!",
 									"type": "string"
 								}
 							]

@@ -16,8 +16,8 @@
     {
         "/Comment" : "Subnames not provided",
 
-        "facilityPartyId": "&^*&*&",
-        "facilitySubName1": "_@@$!@",
+        "facilityPartyId": "&^*&*",
+        "facilitySubName1": "",
         "isValid": "noSubName"
     },
     {
