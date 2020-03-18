@@ -5,21 +5,23 @@ info:
 host: dev.jag.gov.bc.ca
 basePath: /ords/deva/vipsords/web
 schemes:
-  - http
+- http
 produces:
-  - application/json
+- application/json
 securityDefinitions:
   basicAuth:
     type: basic
     description: HTTP Basic Authentication.
 tags:
-  - name: Document
-  - name: Health
+- name: Document
+- name: Health
 paths:
   /health:
     get:
       tags:
-        - Health
+      - Health
+      security:
+      - basicAuth: []
       operationId: health
       description: Dummy endpoint to check that API calls are working
       responses:
@@ -30,7 +32,9 @@ paths:
   /vipsDocument:
     post:
       tags:
-        - Document
+      - Document
+      security:
+      - basicAuth: []
       description: Store a VIPS document
       responses:
         '200':
@@ -42,46 +46,46 @@ paths:
           schema:
             $ref: '#/definitions/errorMessage'
       parameters:
-        - name: type_code
-          in: query
+      - name: type_code
+        in: query
+        type: string
+        required: true
+        description: Implicit parameter
+      - name: metadata
+        in: query
+        type: string
+        required: true
+        description: Implicit parameter
+      - name: mime_type
+        in: query
+        type: string
+        required: true
+        description: Implicit parameter
+      - name: mime_sub_type
+        in: query
+        type: string
+        required: true
+        description: Implicit parameter
+      - name: auth_guid
+        in: query
+        type: string
+        required: true
+        description: Implicit parameter
+      - name: file_object
+        in: body
+        required: true
+        schema:
           type: string
-          required: true
-          description: Implicit parameter
-        - name: metadata
-          in: query
-          type: string
-          required: true
-          description: Implicit parameter
-        - name: mime_type
-          in: query
-          type: string
-          required: true
-          description: Implicit parameter
-        - name: mime_sub_type
-          in: query
-          type: string
-          required: true
-          description: Implicit parameter
-        - name: auth_guid
-          in: query
-          type: string
-          required: true
-          description: Implicit parameter
-        - name: file_object
-          in: body
-          required: true
-          schema:
-            type: string
-            format: binary
+          format: binary
 definitions:
   healthOrdsResponse:
     type: object
     required:
-      - appid
-      - method
-      - status
-      - host
-      - instance
+    - appid
+    - method
+    - status
+    - host
+    - instance
     properties:
       appid:
         type: string
@@ -96,9 +100,9 @@ definitions:
   vipsDocumentOrdsResponse:
     type: object
     required:
-      - document_id
-      - status_code
-      - status_message
+    - document_id
+    - status_code
+    - status_message
     properties:
       document_id:
         type: string
@@ -109,8 +113,8 @@ definitions:
   errorMessage:
     type: object
     required:
-      - status_code
-      - status_message
+    - status_code
+    - status_message
     properties:
       status_code:
         type: string
