@@ -588,7 +588,7 @@
 									"});",
 									"",
 									"pm.test(\"Content-Type is present\", () => {",
-									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml;charset=UTF-8\");",
 									"});",
 									"",
 									"pm.test(\"Assert Json Response\", () => {",
@@ -596,9 +596,7 @@
 									"    pm.expect(responseJson.singlePaymentResponse.respMsg).to.eql(\"Missing transType parameter\");",
 									"});",
 									"",
-									"pm.test(\"Content-Type is present\", () => {",
-									"    pm.response.to.have.header(\"Content-Type\", \"application/xml;charset=UTF-8\");",
-									"});",
+									"",
 									"",
 									""
 								],
@@ -622,7 +620,8 @@
 							{
 								"key": "Accept",
 								"value": "application/xml",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "",
@@ -632,11 +631,12 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/getSinglePaymentURL?approvedPage={{approved-url}}&declinedPage={{declined-url}}&errorPage={{error-url}}&ref1=ref1&ref2=ref2&ref3=ref3",
+							"raw": "{{baseUrl}}/paymentservice/getSinglePaymentURL?approvedPage={{approved-url}}&declinedPage={{declined-url}}&errorPage={{error-url}}&ref1=ref1&ref2=ref2&ref3=ref3",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
+								"paymentservice",
 								"getSinglePaymentURL"
 							],
 							"query": [
