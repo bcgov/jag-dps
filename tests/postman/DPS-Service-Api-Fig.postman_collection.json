@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7ba03519-98f5-4114-b64d-449e6bb5074e",
+		"_postman_id": "efe099f2-72e2-412b-a6ea-8fe952dc1ce2",
 		"name": "DPS-Service-Api-Fig",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -12,21 +12,10 @@
 					"name": "figLocateMatchingApplicants",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"id": "7c84bf64-4066-42f4-89dd-9e4eb77bc47d",
-								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
 								"id": "70096e9b-c94e-4a97-beb6-c21b2275b495",
 								"exec": [
-									"eval(pm.globals.get(\"commonTests\"))();",
 									"",
 									"const jsonResponse = xml2Json(responseBody);",
 									"const respBodyObj = pm.expect(jsonResponse.locateMatchingApplicantsResponse);",
@@ -66,21 +55,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -279,16 +253,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "cf634d16-54d6-4287-bf0c-b29400c73f83",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -331,9 +295,15 @@
 							"script": {
 								"id": "5ff8098e-6668-46fa-8ac9-404fb550dc1f",
 								"exec": [
-									"eval(pm.globals.get(\"commonTests\"))();",
-									"",
 									"const respJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", () => {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"pm.test(\"Assert the responses for a valid request\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === 'true') {",
@@ -378,42 +348,11 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "4fa11171-583e-44f8-9d81-8eaa6196b7c2",
-								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
-						"header": [
-							{
-								"key": "applPartyId",
-								"value": "{{applPartyId}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{baseUrl}}/figvalidationservice/validateApplicantPartyId?applPartyId={{applPartyId}}",
 							"host": [
@@ -504,34 +443,9 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "ebc0b7a4-5d0c-4637-8f4d-deefb6d1bb40",
-								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "Karthik!12",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "kmurugaiyan",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -562,16 +476,6 @@
 				{
 					"name": "figValidateFacilityParty",
 					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "5e837633-fb63-4af2-be34-158762a670d9",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
 						{
 							"listen": "test",
 							"script": {
@@ -654,21 +558,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -708,9 +597,15 @@
 							"script": {
 								"id": "1493ea30-f926-4c03-b909-06b4bfa6b0f9",
 								"exec": [
-									"eval(pm.globals.get(\"commonTests\"))();",
-									"",
 									"const respJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", () => {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"pm.test(\"Assert response for a valid request\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === 'true') {",
@@ -771,34 +666,9 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "d7ff7a56-a66d-4801-b025-a1c85f9fb755",
-								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "username",
-									"value": "dps_dev",
-									"type": "string"
-								},
-								{
-									"key": "password",
-									"value": "Whatever1!",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -832,5 +702,20 @@
 			"protocolProfileBehavior": {}
 		}
 	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
 	"protocolProfileBehavior": {}
 }
