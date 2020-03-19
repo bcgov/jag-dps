@@ -35,7 +35,9 @@ public class HealthCheckTest {
     }
 
     @Test
-    public void withValidResponseShouldReturnValid() {
+    public void withValidResponseShouldReturnValid() throws ApiException {
+
+        Mockito.when(healthServiceMock.health()).thenReturn(new HealthResponse("","", "success", "", ""));
 
         Health health = sut.health();
 
