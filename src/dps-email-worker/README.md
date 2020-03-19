@@ -1,4 +1,4 @@
-# DPS OUTPUT NOTIFICATION SERVICE
+# DPS Email Worker
 
 DPS Email Worker subscribes to queue and gets messages. 
 
