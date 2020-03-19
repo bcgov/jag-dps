@@ -16,7 +16,7 @@
 							"script": {
 								"id": "7c84bf64-4066-42f4-89dd-9e4eb77bc47d",
 								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -189,6 +189,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -292,6 +307,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -384,7 +414,7 @@
 							"script": {
 								"id": "4fa11171-583e-44f8-9d81-8eaa6196b7c2",
 								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -510,7 +540,7 @@
 							"script": {
 								"id": "ebc0b7a4-5d0c-4637-8f4d-deefb6d1bb40",
 								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -522,12 +552,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "Karthik!12",
+									"value": "",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "kmurugaiyan",
+									"value": "",
 									"type": "string"
 								}
 							]
@@ -777,7 +807,7 @@
 							"script": {
 								"id": "d7ff7a56-a66d-4801-b025-a1c85f9fb755",
 								"exec": [
-									"pm.environment.set(\"baseUrl\", 'http://figaro-validation-service-pjztlm-dev.pathfinder.bcgov');"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -788,13 +818,13 @@
 							"type": "basic",
 							"basic": [
 								{
-									"key": "username",
-									"value": "dps_dev",
+									"key": "password",
+									"value": "",
 									"type": "string"
 								},
 								{
-									"key": "password",
-									"value": "Whatever1!",
+									"key": "username",
+									"value": "",
 									"type": "string"
 								}
 							]
