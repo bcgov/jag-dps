@@ -3,6 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice.health;
 import ca.bc.gov.open.ords.figcr.client.api.HealthApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.HealthOrdsResponse;
+import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health.HealthResponse;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.health.HealthService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -36,7 +37,9 @@ public class HealthCheckTest {
     }
 
     @Test
-    public void withValidResponseShouldReturnValid() {
+    public void withValidResponseShouldReturnValid() throws ApiException {
+
+        Mockito.when(healthServiceMock.health()).thenReturn(new HealthResponse("","", "success", "", ""));
 
         Health health = sut.health();
 
