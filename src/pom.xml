@@ -47,6 +47,7 @@
                 <module>libs/dps-commons</module>
                 <module>dps-payment-service</module>
                 <module>dps-email-poller</module>
+                <module>dps-email-worker</module>
                 <module>dps-validation-service</module>
                 <module>dps-notification-service</module>
                 <module>figaro-validation-service</module>
@@ -108,6 +109,12 @@
             <id>dps-email-poller</id>
             <modules>
                 <module>dps-email-poller</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>dps-email-worker</id>
+            <modules>
+                <module>dps-email-worker</module>
             </modules>
         </profile>
     </profiles>
