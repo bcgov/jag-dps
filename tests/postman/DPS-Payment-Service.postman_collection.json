@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0fe096ef-cd86-437d-8023-3d467b584233",
+		"_postman_id": "3c0bf8be-1be5-4ca5-9df2-5c94579427f0",
 		"name": "DPS-Payment-Service",
 		"description": "This collection validates the Beanstream endpoints request, Single payment url request and error message validation for single payment url. It can be run both locally and openshift dev environment.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -17,10 +17,15 @@
 							"script": {
 								"id": "4f11191b-793e-44da-b7d4-8c730af62bbb",
 								"exec": [
-									"// Evaluates the contents return in the string and executes again",
-									"eval(pm.globals.get(\"commonTests\"))();",
-									"",
 									"const responseJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", () => {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"pm.test(\"Assert Json Response\", () => {",
 									"    ",
@@ -49,20 +54,6 @@
 							"script": {
 								"id": "fd62708d-df20-43b8-b161-79978e1dd86f",
 								"exec": [
-									"// Function with the common tests applicable for all requests\r",
-									"const commonTests = () => {\r",
-									"    \r",
-									"    pm.test(\"Status code is 200\", () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Content-Type is present\", () => {\r",
-									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");\r",
-									"});\r",
-									"};\r",
-									"\r",
-									"// Set a global variable and saves local variable as a string method\r",
-									"pm.globals.set(\"commonTests\", commonTests.toString());\r",
 									""
 								],
 								"type": "text/javascript"
@@ -70,9 +61,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -88,7 +76,7 @@
 					},
 					"response": [
 						{
-							"name": "Not Found",
+							"name": "Successful operation",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -102,17 +90,17 @@
 									]
 								}
 							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "text",
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "xml",
 							"header": [
 								{
 									"key": "Content-Type",
-									"value": "text/plain"
+									"value": "application/xml"
 								}
 							],
 							"cookie": [],
-							"body": ""
+							"body": "<element>\n <approved>(string)</approved>\n <declined>(string)</declined>\n <error>(string)</error>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n</element>"
 						},
 						{
 							"name": "Unauthorized",
@@ -169,7 +157,7 @@
 							"body": ""
 						},
 						{
-							"name": "Successful operation",
+							"name": "Not Found",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -183,17 +171,17 @@
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "xml",
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
 							"header": [
 								{
 									"key": "Content-Type",
-									"value": "application/xml"
+									"value": "text/plain"
 								}
 							],
 							"cookie": [],
-							"body": "<element>\n <approved>(string)</approved>\n <declined>(string)</declined>\n <error>(string)</error>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n</element>"
+							"body": ""
 						}
 					]
 				},
@@ -205,10 +193,15 @@
 							"script": {
 								"id": "143c9c18-0cb8-4781-afaa-94927fb9c855",
 								"exec": [
-									"// Evaluates the contents return in the string and executes again",
-									"eval(pm.globals.get(\"commonTests\"))();",
-									"",
 									"const responseJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", () => {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"pm.test(\"Assert Json Response\", () => {",
 									"    pm.expect(responseJson.singlePaymentResponse.respValue).not.to.be.empty;",
@@ -236,9 +229,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -444,75 +434,6 @@
 							"body": ""
 						},
 						{
-							"name": "Forbidden",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"getSinglePaymentURL"
-									],
-									"query": [
-										{
-											"key": "transType",
-											"value": "<string>"
-										},
-										{
-											"key": "invoiceNumber",
-											"value": "<string>"
-										},
-										{
-											"key": "approvedPage",
-											"value": "<string>"
-										},
-										{
-											"key": "declinedPage",
-											"value": "<string>"
-										},
-										{
-											"key": "errorPage",
-											"value": "<string>"
-										},
-										{
-											"key": "totalItemsAmount",
-											"value": "<string>"
-										},
-										{
-											"key": "ref1",
-											"value": "<string>"
-										},
-										{
-											"key": "ref2",
-											"value": "<string>"
-										},
-										{
-											"key": "ref3",
-											"value": "<string>"
-										},
-										{
-											"key": "minutesToExpire",
-											"value": "<string>"
-										}
-									]
-								}
-							},
-							"status": "Forbidden",
-							"code": 403,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "text/plain"
-								}
-							],
-							"cookie": [],
-							"body": ""
-						},
-						{
 							"name": "Successful operation",
 							"originalRequest": {
 								"method": "GET",
@@ -580,6 +501,75 @@
 							],
 							"cookie": [],
 							"body": "<element>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n <respValue>(string)</respValue>\n</element>"
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
 						}
 					]
 				},
@@ -591,10 +581,15 @@
 							"script": {
 								"id": "143c9c18-0cb8-4781-afaa-94927fb9c855",
 								"exec": [
-									"// Evaluates the contents return in the string and executes again",
-									"eval(pm.globals.get(\"commonTests\"))();",
-									"",
 									"const responseJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", () => {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"pm.test(\"Assert Json Response\", () => {",
 									"    pm.expect(responseJson.singlePaymentResponse.respCode).to.eql(\"-1\");",
@@ -615,7 +610,6 @@
 							"script": {
 								"id": "1e0be1bd-0105-4bdb-9862-47550c3bcd93",
 								"exec": [
-									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -623,21 +617,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [
 							{
@@ -720,144 +699,6 @@
 					},
 					"response": [
 						{
-							"name": "Forbidden",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"getSinglePaymentURL"
-									],
-									"query": [
-										{
-											"key": "transType",
-											"value": "<string>"
-										},
-										{
-											"key": "invoiceNumber",
-											"value": "<string>"
-										},
-										{
-											"key": "approvedPage",
-											"value": "<string>"
-										},
-										{
-											"key": "declinedPage",
-											"value": "<string>"
-										},
-										{
-											"key": "errorPage",
-											"value": "<string>"
-										},
-										{
-											"key": "totalItemsAmount",
-											"value": "<string>"
-										},
-										{
-											"key": "ref1",
-											"value": "<string>"
-										},
-										{
-											"key": "ref2",
-											"value": "<string>"
-										},
-										{
-											"key": "ref3",
-											"value": "<string>"
-										},
-										{
-											"key": "minutesToExpire",
-											"value": "<string>"
-										}
-									]
-								}
-							},
-							"status": "Forbidden",
-							"code": 403,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "text/plain"
-								}
-							],
-							"cookie": [],
-							"body": ""
-						},
-						{
-							"name": "Unauthorized",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"getSinglePaymentURL"
-									],
-									"query": [
-										{
-											"key": "transType",
-											"value": "<string>"
-										},
-										{
-											"key": "invoiceNumber",
-											"value": "<string>"
-										},
-										{
-											"key": "approvedPage",
-											"value": "<string>"
-										},
-										{
-											"key": "declinedPage",
-											"value": "<string>"
-										},
-										{
-											"key": "errorPage",
-											"value": "<string>"
-										},
-										{
-											"key": "totalItemsAmount",
-											"value": "<string>"
-										},
-										{
-											"key": "ref1",
-											"value": "<string>"
-										},
-										{
-											"key": "ref2",
-											"value": "<string>"
-										},
-										{
-											"key": "ref3",
-											"value": "<string>"
-										},
-										{
-											"key": "minutesToExpire",
-											"value": "<string>"
-										}
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "text/plain"
-								}
-							],
-							"cookie": [],
-							"body": ""
-						},
-						{
 							"name": "Not Found",
 							"originalRequest": {
 								"method": "GET",
@@ -916,6 +757,75 @@
 							},
 							"status": "Not Found",
 							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Forbidden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
 							"_postman_previewlanguage": "text",
 							"header": [
 								{
@@ -994,11 +904,117 @@
 							],
 							"cookie": [],
 							"body": "<element>\n <respCode>(integer)</respCode>\n <respMsg>(string)</respMsg>\n <respValue>(string)</respValue>\n</element>"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getSinglePaymentURL?transType=<string>&invoiceNumber=<string>&approvedPage=<string>&declinedPage=<string>&errorPage=<string>&totalItemsAmount=<string>&ref1=<string>&ref2=<string>&ref3=<string>&minutesToExpire=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getSinglePaymentURL"
+									],
+									"query": [
+										{
+											"key": "transType",
+											"value": "<string>"
+										},
+										{
+											"key": "invoiceNumber",
+											"value": "<string>"
+										},
+										{
+											"key": "approvedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "declinedPage",
+											"value": "<string>"
+										},
+										{
+											"key": "errorPage",
+											"value": "<string>"
+										},
+										{
+											"key": "totalItemsAmount",
+											"value": "<string>"
+										},
+										{
+											"key": "ref1",
+											"value": "<string>"
+										},
+										{
+											"key": "ref2",
+											"value": "<string>"
+										},
+										{
+											"key": "ref3",
+											"value": "<string>"
+										},
+										{
+											"key": "minutesToExpire",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
 						}
 					]
 				}
 			],
 			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "1df0509c-18a4-4c4f-9cc8-6dd492b95430",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "cf506609-f0e3-496b-96b9-1c02fd914709",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	],
 	"protocolProfileBehavior": {}
