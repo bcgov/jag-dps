@@ -1,5 +1,8 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.TestKey;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.models.DpsEmailContent;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.DpsEmailParserImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

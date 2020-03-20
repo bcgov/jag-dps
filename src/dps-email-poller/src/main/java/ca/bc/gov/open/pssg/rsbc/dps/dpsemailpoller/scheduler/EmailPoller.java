@@ -2,9 +2,10 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsMetadataMapper;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.DpsMetadataMapper;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
+import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,16 +48,26 @@ public class EmailPoller {
 
             dpsEmails.forEach(item -> {
 
-                emailService.moveToProcessingFolder(item);
-                logger.info("successfully moved message to processing folder");
-
                 DpsMetadata metadata = dpsMetadataMapper.map(item, this.tenant);
 
-                messagingService.sendMessage(metadata, this.tenant);
-                logger.info("successfully send message to processing queue");
+                try {
+
+                    EmailMessage processedItem = emailService.moveToProcessingFolder(item.getId().getUniqueId());
+                    metadata.setEmailId(processedItem.getId().getUniqueId());
+                    logger.info("successfully moved message to processing folder");
+
+                    messagingService.sendMessage(metadata, this.tenant);
+                    logger.info("successfully send message to processing queue");
+
+                } catch (ServiceLocalException e) {
+                    logger.error("exception while processing dps emails", e);
+                    return;
+                }
+
             });
 
         } catch (DpsEmailException e) {
+
             logger.error("exception while processing dps emails", e);
         }
     }
@@ -75,7 +86,12 @@ public class EmailPoller {
 
             junkEmails.forEach(item -> {
 
-                emailService.moveToErrorFolder(item);
+                try {
+                    emailService.moveToErrorFolder(item.getId().getUniqueId());
+                } catch (ServiceLocalException e) {
+                    return;
+                }
+
                 logger.info("successfully moved message to errorHold folder");
             });
 

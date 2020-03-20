@@ -1,6 +1,8 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.models.DpsEmailContent;
 import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.property.complex.EmailAddress;
@@ -26,6 +28,7 @@ public class DpsMetadataMapperImpl implements DpsMetadataMapper {
             DpsEmailContent dpsEmailContent = dpsEmailParser.parseEmail(body);
 
             return new DpsMetadata.Builder()
+                    .withEmailId(emailMessage.getId().getUniqueId())
                     .withApplicationID(tenant)
                     .withDirection(INBOUND)
                     .withInboundChannelType(FAX)

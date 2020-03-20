@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;

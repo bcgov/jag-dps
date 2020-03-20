@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.models;
 
 import java.util.Date;
 

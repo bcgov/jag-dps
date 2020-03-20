@@ -1,6 +1,8 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.models.DpsEmailContent;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
 import microsoft.exchange.webservices.data.core.enumeration.property.BodyType;
@@ -8,6 +10,7 @@ import microsoft.exchange.webservices.data.core.exception.service.local.ServiceL
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.property.complex.EmailAddress;
 import microsoft.exchange.webservices.data.property.complex.EmailAddressCollection;
+import microsoft.exchange.webservices.data.property.complex.ItemId;
 import microsoft.exchange.webservices.data.property.complex.MessageBody;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +35,7 @@ public class DpsEmailMapperImplTest {
     public static final String FROM_EMAIL = "from@text.com";
     public static final String INBOUND = "inbound";
     public static final String SUBJECT = "subject";
+    public static final String UNIQUE_ID = "uniqueId";
     private DpsMetadataMapperImpl sut;
 
     @Mock
@@ -93,6 +97,10 @@ public class DpsEmailMapperImplTest {
         Mockito.when(messageMock.getDateTimeReceived()).thenReturn(calReceive.getTime());
         Mockito.when(messageMock.getDateTimeSent()).thenReturn(calSent.getTime());
 
+        ItemId itemId = new ItemId(UNIQUE_ID);
+
+        Mockito.when(messageMock.getId()).thenReturn(itemId);
+
         DpsMetadata result = sut.map(messageMock, TENANT);
 
         Assertions.assertEquals(TENANT, result.getApplicationID());
@@ -113,7 +121,7 @@ public class DpsEmailMapperImplTest {
     }
 
     @Test
-    public void withExceptionShouldThrowDpsException() throws ServiceLocalException {
+    public void withExceptionShouldThrowDpsException() throws Exception {
 
         Calendar calSent = Calendar.getInstance();
         calSent.set(2020,1,1);
@@ -142,6 +150,9 @@ public class DpsEmailMapperImplTest {
         Mockito.when(messageMock.getDateTimeReceived()).thenReturn(calReceive.getTime());
         Mockito.when(messageMock.getDateTimeSent()).thenReturn(calSent.getTime());
 
+        ItemId itemId = new ItemId(UNIQUE_ID);
+
+        Mockito.when(messageMock.getId()).thenReturn(itemId);
 
         Mockito.when(messageMock.getFrom()).thenThrow(ServiceLocalException.class);
 
@@ -181,6 +192,10 @@ public class DpsEmailMapperImplTest {
 
         Mockito.when(messageMock.getDateTimeReceived()).thenReturn(calReceive.getTime());
         Mockito.when(messageMock.getDateTimeSent()).thenReturn(calSent.getTime());
+
+        ItemId itemId = new ItemId(UNIQUE_ID);
+
+        Mockito.when(messageMock.getId()).thenReturn(itemId);
 
         DpsMetadata result = sut.map(messageMock, TENANT);
 
