@@ -7,38 +7,47 @@ import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 @Component
 public class HealthCheck implements HealthIndicator {
 
-    private static final int HTTP_STATUS_OK = 200;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+    private boolean isHealthy = false;
     private final HealthService healthService;
 
-    public HealthCheck(HealthService healthService) { this.healthService = healthService; }
+    public HealthCheck(HealthService healthService) {
+        this.healthService = healthService;
+        ScheduledExecutorService scheduled =
+                Executors.newSingleThreadScheduledExecutor();
+        scheduled.scheduleAtFixedRate(() -> {
+            isHealthy = check().equals("success");
+        }, 5, 10, TimeUnit.MINUTES);
+    }
 
     @Override
     public Health health() {
 
-        int httpStatusCode = check(); // perform a health check for the ORDS health endpoint
-        logger.debug("Health Check returns HTTP Status Code: {}", httpStatusCode);
-
-        if (httpStatusCode != HTTP_STATUS_OK) {
-            return Health.down().withDetail("HTTP Status Code", httpStatusCode).build();
+        if(!isHealthy) {
+            isHealthy = check().equals("success");
         }
 
-        return Health.up().build();
+        return isHealthy ? Health.up().build() : Health.down().build();
     }
 
-    private int check() {
+    private String check() {
 
         try {
-            healthService.health();
-            return HTTP_STATUS_OK;
+            HealthResponse response = healthService.health();
+            logger.info("Health Service returned {}", response.getStatus());
+            return response.getStatus();
 
         } catch (ApiException ex) {
             logger.error("Health Service did throw exception: ", ex);
-            return ex.getCode();
+            return "fail";
         }
+
     }
 }
