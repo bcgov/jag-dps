@@ -1,7 +1,21 @@
-# DPS
+![Java CI](https://github.com/bcgov/jag-dps/workflows/Java%20CI/badge.svg)
 
-A Document Processing System.
+# DPS Document Processing System
 
+DPS is used by the BC Ministry of Justice Department as an integration pipeline to process image documents.
+
+Documents that are sent to a specific email address will be processed by DPS.
+
+A typical DPS flow consists of the following:
+
+![dps flow](docs/simple-dps-flow.png)
+
+1. A formated email is sent to an exchange server with an attached image.
+1. DPS Email Poller read the email and extract the image(s) with some metadata.
+1. KOFAX uses DPS Validation Api to validate some data with the destination database server.
+1. KOFAX server uses OCR to extract data from the image documents.
+1. DPS Notification service is called on OCR completion and import the extracted data to a database server.
+1. Database server is updated.
 
 ## Contributing
 
