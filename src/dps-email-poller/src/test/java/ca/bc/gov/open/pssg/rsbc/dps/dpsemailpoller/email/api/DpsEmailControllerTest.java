@@ -42,7 +42,7 @@ public class DpsEmailControllerTest {
     @Test
     public void withEmailMovedShouldReturnSuccess() {
 
-        ResponseEntity<DpsEmailResponse> response = sut.Processed(new DpsMetadata.Builder().withEmailId(CASE_1).build());
+        ResponseEntity<DpsEmailResponse> response = sut.Processed(new DpsMetadata.Builder().withEmailId(CASE_1).build().getBase64EmailId());
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertTrue(response.getBody().isAcknowledge());
@@ -53,7 +53,7 @@ public class DpsEmailControllerTest {
     @Test
     public void withEmailNotMovedShouldReturnError() {
 
-        ResponseEntity<DpsEmailResponse> response = sut.Processed(new DpsMetadata.Builder().withEmailId(CASE_2).build());
+        ResponseEntity<DpsEmailResponse> response = sut.Processed(new DpsMetadata.Builder().withEmailId(CASE_2).build().getBase64EmailId());
 
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         Assertions.assertFalse(response.getBody().isAcknowledge());

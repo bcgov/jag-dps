@@ -115,8 +115,8 @@ public class DpsEmailMapperImplTest {
         Assertions.assertNull(result.getDestinationNumber());
         Assertions.assertEquals(SUBJECT, result.getSubject());
         Assertions.assertEquals(1, result.getNumberOfPages());
-        Assertions.assertEquals(calReceive.getTime(), result.getRecvdate());
-        Assertions.assertEquals(calSent.getTime(), result.getSentdate());
+        Assertions.assertEquals(calReceive.getTime(), result.getReceivedDate());
+        Assertions.assertEquals(calSent.getTime(), result.getSentDate());
 
     }
 
@@ -211,8 +211,8 @@ public class DpsEmailMapperImplTest {
         Assertions.assertNull(result.getDestinationNumber());
         Assertions.assertEquals(SUBJECT, result.getSubject());
         Assertions.assertEquals(1, result.getNumberOfPages());
-        Assertions.assertEquals(calReceive.getTime(), result.getRecvdate());
-        Assertions.assertEquals(calSent.getTime(), result.getSentdate());
+        Assertions.assertEquals(calReceive.getTime(), result.getReceivedDate());
+        Assertions.assertEquals(calSent.getTime(), result.getSentDate());
 
     }
 
