@@ -24,15 +24,11 @@ public class DpsEmailController {
     @PostMapping(value = "/email/processed", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Mark email as processed", tags = {"DpsEmailProcessing"})
     public ResponseEntity<DpsEmailResponse> Processed(@RequestBody DpsMetadata dpsMetadata) {
-
         try {
             emailService.moveToProcessedFolder(dpsMetadata.getEmailId());
             return new ResponseEntity<>(DpsEmailResponse.Success(), HttpStatus.OK);
         } catch (DpsEmailException ex) {
             return new ResponseEntity<>(DpsEmailResponse.Error(ex.getMessage()), HttpStatus.BAD_REQUEST);
         }
-
     }
-
-
 }
