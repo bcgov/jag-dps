@@ -6,6 +6,7 @@ public class DpsMetadata {
 
     public static class Builder {
 
+        private String emailId;
         private String applicationID;
         private String direction;
         private String inboundChannelType;
@@ -23,6 +24,7 @@ public class DpsMetadata {
         private String attachmentName;
         private String attachmentContentType;
 
+        public Builder withEmailId(String emailId) { this.emailId = emailId; return this; }
         public Builder withApplicationID(String applicationID) { this.applicationID = applicationID; return this; }
         public Builder withDirection(String direction) { this.direction = direction; return this; }
         public Builder withInboundChannelType(String inboundChannelType) { this.inboundChannelType = inboundChannelType; return this; }
@@ -42,7 +44,7 @@ public class DpsMetadata {
 
         public DpsMetadata build() {
             DpsMetadata result = new DpsMetadata();
-
+            result.emailId = emailId;
             result.applicationID = applicationID;
             result.direction = direction;
             result.inboundChannelType = inboundChannelType;
@@ -65,6 +67,7 @@ public class DpsMetadata {
         
     }
 
+    private String emailId;
     private String applicationID;
     private String direction;
     private String inboundChannelType;
@@ -83,6 +86,10 @@ public class DpsMetadata {
     private String attachmentContentType;
 
     private DpsMetadata() {
+    }
+
+    public String getEmailId() {
+        return emailId;
     }
 
     public String getApplicationID() {
@@ -149,4 +156,71 @@ public class DpsMetadata {
         return attachmentContentType;
     }
 
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public void setApplicationID(String applicationID) {
+        this.applicationID = applicationID;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public void setInboundChannelType(String inboundChannelType) {
+        this.inboundChannelType = inboundChannelType;
+    }
+
+    public void setInboundChannelID(String inboundChannelID) {
+        this.inboundChannelID = inboundChannelID;
+    }
+
+    public void setDestinationNumber(String destinationNumber) {
+        this.destinationNumber = destinationNumber;
+    }
+
+    public void setOriginatingNumber(String originatingNumber) {
+        this.originatingNumber = originatingNumber;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setRecvdate(Date recvdate) {
+        this.recvdate = recvdate;
+    }
+
+    public void setSentdate(Date sentdate) {
+        this.sentdate = sentdate;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public void setNumberOfPages(Integer numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+
+    public void setFaxJobID(String faxJobID) {
+        this.faxJobID = faxJobID;
+    }
+
+    public void setAttachmentName(String attachmentName) {
+        this.attachmentName = attachmentName;
+    }
+
+    public void setAttachmentContentType(String attachmentContentType) {
+        this.attachmentContentType = attachmentContentType;
+    }
 }

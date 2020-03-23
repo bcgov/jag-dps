@@ -2,13 +2,14 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsMetadataMapper;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.DpsMetadataMapper;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
+import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
-import microsoft.exchange.webservices.data.core.service.item.Item;
+import microsoft.exchange.webservices.data.property.complex.ItemId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,14 +40,21 @@ public class EmailPollerPollForEmailsTest {
     @Mock
     private DpsMetadataMapper dpsMetadataMapperMock;
 
+    @Mock
+    private EmailMessage itemMock;
+
     @BeforeEach
-    public void SetUp() {
+    public void SetUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
 
         Mockito.when(exchangeServiceMock.getRequestedServerVersion()).thenReturn(ExchangeVersion.Exchange2010_SP2);
 
         Mockito.when(dpsMetadataMapperMock.map(Mockito.any(EmailMessage.class), Mockito.anyString())).thenReturn(new DpsMetadata.Builder().withSubject("test").build());
+
+        ItemId itemId = new ItemId("test");
+        Mockito.when(itemMock.getId()).thenReturn(itemId);
+        Mockito.when(itemMock.getSubject()).thenReturn(I_M_JUNK);
 
         sut = new EmailPoller(emailServiceMock, dpsMetadataMapperMock, messagingServiceMock, "tenant");
 
@@ -58,20 +66,18 @@ public class EmailPollerPollForEmailsTest {
 
         List<EmailMessage> result = new ArrayList<>();
 
-        EmailMessage item = new EmailMessage(exchangeServiceMock);
-        item.setSubject(I_M_JUNK);
 
-        result.add(item);
+        result.add(itemMock);
 
         Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result);
-        Mockito.doNothing().when(emailServiceMock).moveToProcessingFolder(Mockito.any(Item.class));
+        Mockito.when(emailServiceMock.moveToProcessingFolder(Mockito.anyString())).thenReturn(itemMock);
         Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
 
         sut.pollForEmails();
 
         Mockito
                 .verify(emailServiceMock, Mockito.times(1))
-                .moveToProcessingFolder(Mockito.any(Item.class));
+                .moveToProcessingFolder(Mockito.anyString());
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(1))
@@ -85,14 +91,12 @@ public class EmailPollerPollForEmailsTest {
         List<EmailMessage> result = new ArrayList<>();
 
         Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result);
-        Mockito.doNothing().when(emailServiceMock).moveToProcessingFolder(Mockito.any(Item.class));
-        Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
 
         sut.pollForEmails();
 
         Mockito
                 .verify(emailServiceMock, Mockito.times(0))
-                .moveToProcessingFolder(Mockito.any(Item.class));
+                .moveToProcessingFolder(Mockito.anyString());
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(0))
@@ -105,24 +109,19 @@ public class EmailPollerPollForEmailsTest {
 
         List<EmailMessage> result = new ArrayList<>();
 
-        EmailMessage item = new EmailMessage(exchangeServiceMock);
-        item.setSubject(I_M_JUNK);
-
-        result.add(item);
-        result.add(item);
-        result.add(item);
-        result.add(item);
-        result.add(item);
+        for(int i = 0; i < 5; i++) {
+            result.add(itemMock);
+        }
 
         Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result);
-        Mockito.doNothing().when(emailServiceMock).moveToProcessingFolder(Mockito.any(Item.class));
+        Mockito.when(emailServiceMock.moveToProcessingFolder(Mockito.anyString())).thenReturn(itemMock);
         Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
 
         sut.pollForEmails();
 
         Mockito
                 .verify(emailServiceMock, Mockito.times(5))
-                .moveToProcessingFolder(Mockito.any(Item.class));
+                .moveToProcessingFolder(Mockito.anyString());
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(5))
@@ -133,13 +132,31 @@ public class EmailPollerPollForEmailsTest {
     @DisplayName("Exception - with DpsEmailException should log error")
     public void withExceptionEmailShouldBeRemoved() throws Exception {
 
-
         Mockito.when(emailServiceMock.getDpsInboxEmails()).thenThrow(new DpsEmailException("error"));
+        sut.pollForEmails();
+
+
+        Mockito
+                .verify(messagingServiceMock, Mockito.times(0))
+                .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
+    }
+
+    @Test
+    @DisplayName("Exception - with error should log error")
+    public void withServiceExceptionShouldMoveToError() throws ServiceLocalException {
+
+        List<EmailMessage> result = new ArrayList<>();
+        result.add(itemMock);
+
+        Mockito.when(emailServiceMock.getDpsInboxEmails()).thenReturn(result);
+        Mockito.when(itemMock.getId()).thenThrow(ServiceLocalException.class);
         sut.pollForEmails();
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(0))
                 .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
+
+
     }
 
 }

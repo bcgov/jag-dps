@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.core.service.item.Item;
@@ -34,14 +34,20 @@ public interface EmailService {
 
     /**
      * Moves a message to the ErrorHold folder on the mailbox.
-     * @param item - an email message
+     * @param String - an email message
      */
-    void moveToErrorFolder(Item item);
+    EmailMessage moveToErrorFolder(String id);
 
 
     /**
      * Moves a message to the processing folder on the mailbox.
-     * @param item - an email message
+     * @param String - an email message
      */
-    void moveToProcessingFolder(Item item);
+    EmailMessage moveToProcessingFolder(String id);
+
+    /**
+     * Moves a message to the processing folder on the mailbox.
+     * @param String - an email message
+     */
+    EmailMessage moveToProcessedFolder(String id);
 }

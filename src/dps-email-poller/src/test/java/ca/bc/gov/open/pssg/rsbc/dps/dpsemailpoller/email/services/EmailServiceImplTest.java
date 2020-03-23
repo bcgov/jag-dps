@@ -1,5 +1,6 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
@@ -33,22 +34,29 @@ public class EmailServiceImplTest {
     @Mock
     private ExchangeService exchangeServiceMock;
 
+    @Mock
+    private EmailMessage itemMock;
+
     @BeforeAll
-    public void setup() {
+    public void setup() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         Mockito.when(exchangeServiceMock.getRequestedServerVersion()).thenReturn(ExchangeVersion.Exchange2010_SP2);
 
-        sut = new EmailServiceImpl(exchangeServiceMock, 5, "ErrorHold", "Processing");
+
+        ItemId itemId = new ItemId("test");
+        Mockito.when(itemMock.getId()).thenReturn(itemId);
+        Mockito.when(itemMock.getSubject()).thenReturn("subject");
+
+
+        sut = new EmailServiceImpl(exchangeServiceMock, 5, "ErrorHold", "Processing", "processed");
     }
 
     @Test
     public void withEmailAttachmentReturnValidResponse() throws Exception {
 
         FindItemsResults<Item> items = new FindItemsResults();
-        EmailMessage item = new EmailMessage(exchangeServiceMock);
-        item.setSubject("I'm the subject");
-        items.getItems().add(item);
+        items.getItems().add(itemMock);
 
         Mockito.when(exchangeServiceMock.findItems(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class) , Mockito.any(ItemView.class))).thenReturn(items);
 
@@ -61,9 +69,7 @@ public class EmailServiceImplTest {
     public void withEmailAttachmentReturnError() throws Exception {
 
         FindItemsResults<Item> items = new FindItemsResults();
-        EmailMessage item = new EmailMessage(exchangeServiceMock);
-        item.setSubject("I'm the subject");
-        items.getItems().add(item);
+        items.getItems().add(itemMock);
 
         Mockito.when(exchangeServiceMock.findItems(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class), Mockito.any(ItemView.class))).thenThrow(DpsEmailException.class);
 
@@ -76,9 +82,7 @@ public class EmailServiceImplTest {
     public void withEmailJunkReturnValidResponse() throws Exception {
 
         FindItemsResults<Item> items = new FindItemsResults();
-        EmailMessage item = new EmailMessage(exchangeServiceMock);
-        item.setSubject("I'm the subject");
-        items.getItems().add(item);
+        items.getItems().add(itemMock);
 
         Mockito.when(exchangeServiceMock.findItems(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class), Mockito.any(ItemView.class))).thenReturn(items);
 
@@ -91,9 +95,7 @@ public class EmailServiceImplTest {
     public void withEmailJunkReturnError() throws Exception {
 
         FindItemsResults<Item> items = new FindItemsResults();
-        EmailMessage item = new EmailMessage(exchangeServiceMock);
-        item.setSubject("I'm the subject");
-        items.getItems().add(item);
+        items.getItems().add(itemMock);
 
         Mockito.when(exchangeServiceMock.findItems(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class) , Mockito.any(ItemView.class))).thenThrow(DpsEmailException.class);
 
@@ -105,8 +107,6 @@ public class EmailServiceImplTest {
     @Test
     public void withMoveEmailJunkReturnValidResponse() throws Exception {
 
-        EmailMessage item = new EmailMessage(exchangeServiceMock);
-        item.setSubject("I'm the subject");
 
         FindFoldersResults folders = new FindFoldersResults();
         Folder folder = new Folder(exchangeServiceMock);
@@ -115,50 +115,43 @@ public class EmailServiceImplTest {
 
         Mockito.when(exchangeServiceMock.findFolders(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class) , Mockito.any(FolderView.class))).thenReturn(folders);
 
-        Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenReturn(item);
+        Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenReturn(itemMock);
 
         Assertions.assertDoesNotThrow(() -> {
-            sut.moveToErrorFolder(item);
+            sut.moveToErrorFolder(itemMock.getId().getUniqueId());
         });
     }
 
     @Test
     public void withMoveEmailJunkReturnNoFolder() throws Exception {
 
-        EmailMessage item = new EmailMessage(exchangeServiceMock);
-        item.setSubject("I'm the subject");
 
         FindFoldersResults folders = new FindFoldersResults();
 
         Mockito.when(exchangeServiceMock.findFolders(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class) , Mockito.any(FolderView.class))).thenReturn(folders);
 
-        Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenReturn(item);
+        Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenReturn(itemMock);
 
         Assertions.assertThrows(DpsEmailException.class, () -> {
-            sut.moveToErrorFolder(item);
+            sut.moveToErrorFolder(itemMock.getId().getUniqueId());
         });
     }
 
     @Test
     public void withMoveEmailJunkReturnError() throws Exception {
 
-        Item item = new Item(exchangeServiceMock);
-        item.setSubject("I'm the subject");
 
         Mockito.when(exchangeServiceMock.findFolders(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class) , Mockito.any(FolderView.class))).thenThrow(DpsEmailException.class);
 
         Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenThrow(DpsEmailException.class);
 
         Assertions.assertThrows(DpsEmailException.class, () -> {
-            sut.moveToErrorFolder(item);
+            sut.moveToErrorFolder(itemMock.getId().getUniqueId());
         });
     }
 
     @Test
     public void withMoveEmailReturnValidResponse() throws Exception {
-
-        EmailMessage item = new EmailMessage(exchangeServiceMock);
-        item.setSubject("I'm the subject");
 
         FindFoldersResults folders = new FindFoldersResults();
         Folder folder = new Folder(exchangeServiceMock);
@@ -167,42 +160,64 @@ public class EmailServiceImplTest {
 
         Mockito.when(exchangeServiceMock.findFolders(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class) , Mockito.any(FolderView.class))).thenReturn(folders);
 
-        Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenReturn(item);
+        Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenReturn(itemMock);
 
         Assertions.assertDoesNotThrow(() -> {
-            sut.moveToProcessingFolder(item);
+            sut.moveToProcessingFolder(itemMock.getId().getUniqueId());
         });
     }
 
     @Test
     public void withMoveEmailReturnNoFolder() throws Exception {
 
-        EmailMessage item = new EmailMessage(exchangeServiceMock);
-        item.setSubject("I'm the subject");
-
         FindFoldersResults folders = new FindFoldersResults();
 
         Mockito.when(exchangeServiceMock.findFolders(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class) , Mockito.any(FolderView.class))).thenReturn(folders);
 
-        Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenReturn(item);
+        Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenReturn(itemMock);
 
         Assertions.assertThrows(DpsEmailException.class, () -> {
-            sut.moveToProcessingFolder(item);
+            sut.moveToProcessingFolder(itemMock.getId().getUniqueId());
         });
     }
 
     @Test
     public void withMoveEmailReturnError() throws Exception {
 
-        EmailMessage item = new EmailMessage(exchangeServiceMock);
-        item.setSubject("I'm the subject");
 
         Mockito.when(exchangeServiceMock.findFolders(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class) , Mockito.any(FolderView.class))).thenThrow(DpsEmailException.class);
 
         Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenThrow(DpsEmailException.class);
 
         Assertions.assertThrows(DpsEmailException.class, () -> {
-            sut.moveToProcessingFolder(item);
+            sut.moveToProcessingFolder(itemMock.getId().getUniqueId());
+        });
+    }
+
+    @Test
+    public void withMoveEmailToProcessedReturnNoFolder() throws Exception {
+
+        FindFoldersResults folders = new FindFoldersResults();
+
+        Mockito.when(exchangeServiceMock.findFolders(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class) , Mockito.any(FolderView.class))).thenReturn(folders);
+
+        Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenReturn(itemMock);
+
+        Assertions.assertThrows(DpsEmailException.class, () -> {
+            sut.moveToProcessedFolder(itemMock.getId().getUniqueId());
+        });
+    }
+
+    @Test
+    public void withMoveEmailToProcessedReturnError() throws Exception {
+
+
+        Mockito.when(exchangeServiceMock.findFolders(Mockito.any(WellKnownFolderName.class), Mockito.any(SearchFilter.class) , Mockito.any(FolderView.class))).thenThrow(DpsEmailException.class);
+
+        Mockito.when(exchangeServiceMock.moveItem(Mockito.any(ItemId.class), Mockito.any(FolderId.class))).thenThrow(DpsEmailException.class);
+
+        Assertions.assertThrows(DpsEmailException.class, () -> {
+            sut.moveToProcessedFolder(itemMock.getId().getUniqueId());
         });
     }
 

@@ -1,5 +1,6 @@
-package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.PropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.property.BasePropertySet;
@@ -11,6 +12,7 @@ import microsoft.exchange.webservices.data.core.service.item.Item;
 import microsoft.exchange.webservices.data.core.service.schema.FolderSchema;
 import microsoft.exchange.webservices.data.core.service.schema.ItemSchema;
 import microsoft.exchange.webservices.data.property.complex.FolderId;
+import microsoft.exchange.webservices.data.property.complex.ItemId;
 import microsoft.exchange.webservices.data.search.FindFoldersResults;
 import microsoft.exchange.webservices.data.search.FindItemsResults;
 import microsoft.exchange.webservices.data.search.FolderView;
@@ -26,12 +28,15 @@ public class EmailServiceImpl implements EmailService {
     private final Integer maxMessagePerGet;
     private final String mailboxErrorFolder;
     private final String mailboxProcessingFolder;
+    private final String mailboxProcessedFolder;
 
-    public EmailServiceImpl(ExchangeService exchangeService, Integer maxMessagePerGet, String mailboxErrorFolder, String mailboxProcessingFolder) {
+
+    public EmailServiceImpl(ExchangeService exchangeService, Integer maxMessagePerGet, String mailboxErrorFolder, String mailboxProcessingFolder, String mailboxProcessedFolder) {
         this.exchangeService = exchangeService;
         this.maxMessagePerGet = maxMessagePerGet;
         this.mailboxErrorFolder = mailboxErrorFolder;
         this.mailboxProcessingFolder = mailboxProcessingFolder;
+        this.mailboxProcessedFolder = mailboxProcessedFolder;
     }
 
     @Override
@@ -105,26 +110,28 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void moveToErrorFolder(Item item) {
-
-        try {
-            FolderId errorHoldFolderId = getFolderIdByDisplayName(mailboxErrorFolder);
-            exchangeService.moveItem(item.getId(), errorHoldFolderId);
-
-        } catch (Exception e) {
-            throw new DpsEmailException("Exception while moving email to " + mailboxErrorFolder, e.getCause());
-        }
+    public EmailMessage moveToErrorFolder(String id) {
+        return moveToFolder(id, this.mailboxErrorFolder);
     }
 
     @Override
-    public void moveToProcessingFolder(Item item) {
+    public EmailMessage moveToProcessingFolder(String id) {
+        return moveToFolder(id, this.mailboxProcessingFolder);
+    }
 
+    @Override
+    public EmailMessage moveToProcessedFolder(String id) {
+        return moveToFolder(id, this.mailboxProcessedFolder);
+    }
+
+    private EmailMessage moveToFolder(String id, String folderName) {
         try {
-            FolderId processingFolderId = getFolderIdByDisplayName(mailboxProcessingFolder);
-            exchangeService.moveItem(item.getId(), processingFolderId);
+            ItemId itemId = new ItemId(id);
+            FolderId processingFolderId = getFolderIdByDisplayName(folderName);
+            return (EmailMessage)exchangeService.moveItem(itemId, processingFolderId);
 
         } catch (Exception e) {
-            throw new DpsEmailException("Exception while moving email to " + mailboxProcessingFolder, e.getCause());
+            throw new DpsEmailException("Exception while moving email to " + folderName, e.getCause());
         }
     }
 
