@@ -10,8 +10,8 @@ A typical DPS flow consists of the following:
 
 1. A formated email is sent to an exchange server with an attached image.
 1. DPS Email Poller read the email and extract the image(s) with some metadata.
-1. KOFAX uses DPS Validation Api to validates some data with the destination database server.
-1. KOFAX server uses OCR to extract data.
+1. KOFAX uses DPS Validation Api to validate some data with the destination database server.
+1. KOFAX server uses OCR to extract data from the image documents.
 1. DPS Notification service is called on OCR completion and import the extracted data to a database server.
 1. Database server is updated.
 
