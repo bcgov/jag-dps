@@ -5,7 +5,7 @@ import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
-import ca.bc.gov.open.pssg.rsbc.dpscommons.dps.vips.notification.worker.generated.models.Data;
+import ca.bc.gov.open.pssg.rsbc.dps.vips.notification.worker.generated.models.Data;
 import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.DocumentService;
 import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.VipsDocumentResponse;
 import com.migcomponents.migbase64.Base64;
