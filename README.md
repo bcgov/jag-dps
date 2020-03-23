@@ -1,3 +1,5 @@
+![Java CI](https://github.com/bcgov/jag-dps/workflows/Java%20CI/badge.svg)
+
 # DPS Document Processing System
 
 DPS is used by the BC Ministry of Justice Department as an integration pipeline to process image documents.
