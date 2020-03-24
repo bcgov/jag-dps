@@ -7,6 +7,7 @@ import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
 import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
+import microsoft.exchange.webservices.data.property.complex.FileAttachment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,6 +48,8 @@ public class EmailPoller {
             logger.info("successfully retrieved {} emails", dpsEmails.size());
 
             dpsEmails.forEach(item -> {
+
+                List<FileAttachment> fileAttachments = emailService.getFileAttachments(item);
 
                 DpsMetadata metadata = dpsMetadataMapper.map(item, this.tenant);
 

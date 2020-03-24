@@ -6,11 +6,14 @@ import microsoft.exchange.webservices.data.core.PropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.property.BasePropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
 import microsoft.exchange.webservices.data.core.enumeration.search.SortDirection;
+import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.folder.Folder;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.core.service.item.Item;
 import microsoft.exchange.webservices.data.core.service.schema.FolderSchema;
 import microsoft.exchange.webservices.data.core.service.schema.ItemSchema;
+import microsoft.exchange.webservices.data.property.complex.AttachmentCollection;
+import microsoft.exchange.webservices.data.property.complex.FileAttachment;
 import microsoft.exchange.webservices.data.property.complex.FolderId;
 import microsoft.exchange.webservices.data.property.complex.ItemId;
 import microsoft.exchange.webservices.data.search.FindFoldersResults;
@@ -19,6 +22,7 @@ import microsoft.exchange.webservices.data.search.FolderView;
 import microsoft.exchange.webservices.data.search.ItemView;
 import microsoft.exchange.webservices.data.search.filter.SearchFilter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -124,6 +128,7 @@ public class EmailServiceImpl implements EmailService {
         return moveToFolder(id, this.mailboxProcessedFolder);
     }
 
+
     private EmailMessage moveToFolder(String id, String folderName) {
         try {
             ItemId itemId = new ItemId(id);
@@ -134,5 +139,40 @@ public class EmailServiceImpl implements EmailService {
             throw new DpsEmailException("Exception while moving email to " + folderName, e.getCause());
         }
     }
+
+    @Override
+    public List<FileAttachment> getFileAttachments(EmailMessage emailMessage) {
+
+
+        List<FileAttachment> result = new ArrayList<>();
+
+        try {
+            if(emailMessage.getHasAttachments()) {
+
+                AttachmentCollection attachmentCollection = emailMessage.getAttachments();
+
+                attachmentCollection.forEach(attachment ->  {
+
+                    if(attachment instanceof FileAttachment) {
+
+                        try {
+                            attachment.load();
+                            result.add((FileAttachment) attachment);
+                        } catch (Exception e) {
+                            // do nothing for now, if the attachment cannot be loaded, it is ignored.
+                        }
+                    }
+
+                });
+            }
+
+        } catch (ServiceLocalException e) {
+            throw new DpsEmailException("Exception while reading email attachments", e.getCause());
+        }
+
+        return result;
+    }
+
+
 
 }

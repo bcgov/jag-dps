@@ -1,9 +1,11 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
-import microsoft.exchange.webservices.data.core.service.item.Item;
+import microsoft.exchange.webservices.data.property.complex.Attachment;
+import microsoft.exchange.webservices.data.property.complex.FileAttachment;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface that defines dps email operations.
@@ -50,4 +52,13 @@ public interface EmailService {
      * @param String - an email message
      */
     EmailMessage moveToProcessedFolder(String id);
+
+
+    /**
+     * Returns all the attachemts present in email
+     * @param emailMessage
+     * @return
+     */
+    List<FileAttachment> getFileAttachments(EmailMessage emailMessage);
+
 }
