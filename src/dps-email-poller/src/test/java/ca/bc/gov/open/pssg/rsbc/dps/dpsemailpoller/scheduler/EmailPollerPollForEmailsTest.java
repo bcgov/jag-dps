@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
+import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
@@ -54,7 +55,7 @@ public class EmailPollerPollForEmailsTest {
 
         Mockito.when(exchangeServiceMock.getRequestedServerVersion()).thenReturn(ExchangeVersion.Exchange2010_SP2);
 
-        Mockito.when(dpsMetadataMapperMock.map(Mockito.any(EmailMessage.class), Mockito.anyString())).thenReturn(new DpsMetadata.Builder().withSubject("test").build());
+        Mockito.when(dpsMetadataMapperMock.map(Mockito.any(EmailMessage.class), Mockito.any(DpsFileInfo.class),  Mockito.anyString())).thenReturn(new DpsMetadata.Builder().withSubject("test").build());
 
         ItemId itemId = new ItemId("test");
         Mockito.when(itemMock.getId()).thenReturn(itemId);
