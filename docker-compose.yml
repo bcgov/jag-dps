@@ -213,6 +213,10 @@ services:
     hostname: redis-commander
     image: rediscommander/redis-commander:latest
     restart: always
+    environment: 
+      - REDIS_PORT=6379
+      - REDIS_HOST=dps-redis
+      - REDIS_PASSWORD=admin
     ports:
       - "8081:8081"
     networks:
