@@ -32,6 +32,7 @@
                 <module>libs/figaro-ords-client</module>
                 <module>libs/vips-ords-client</module>
                 <module>libs/dps-sftp-starter</module>
+                <module>libs/dps-email-client</module>
             </modules>
         </profile>
         <profile>
@@ -47,6 +48,7 @@
                 <module>libs/vips-ords-client</module>
                 <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-commons</module>
+                <module>libs/dps-email-client</module>
                 <module>dps-payment-service</module>
                 <module>dps-email-poller</module>
                 <module>dps-email-worker</module>
@@ -79,7 +81,7 @@
             </modules>
         </profile>
         <profile>
-            <id>dpsnotificationservice</id>
+            <id>dps-notification-service</id>
             <modules>
                 <module>libs/dps-notification</module>
                 <module>dps-notification-service</module>
