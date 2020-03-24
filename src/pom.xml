@@ -22,8 +22,9 @@
         <profile>
             <id>libs</id>
             <modules>
-                <module>libs/dps-bom</module>
                 <module>libs/dfcms-ords-client</module>
+                <module>libs/dps-bom</module>
+                <module>libs/dps-cache-starter</module>
                 <module>libs/dps-commons</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-messaging-starter</module>
@@ -39,6 +40,7 @@
             <modules>
                 <module>libs/dps-bom</module>
                 <module>libs/dfcms-ords-client</module>
+                <module>libs/dps-cache-starter</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/dps-notification</module>

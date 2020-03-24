@@ -190,8 +190,42 @@ services:
       - dps-net
 
 
+  #############################################################################################
+  ###                                 REDIS SERVER                                          ###
+  #############################################################################################
+  dps-redis:
+    container_name: redis
+    image: redis
+    command: redis-server --requirepass admin
+    ports:
+      - "6379:6379"
+    volumes:
+      - data-redis:/data
+    restart: always
+    networks:
+      - dps-net
+
+  #############################################################################################
+  ###                                 REDIS COMMANDER                                       ###
+  #############################################################################################
+  dps-redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment: 
+      - REDIS_PORT=6379
+      - REDIS_HOST=dps-redis
+      - REDIS_PASSWORD=admin
+    ports:
+      - "8081:8081"
+    networks:
+      - dps-net
+
+
 volumes:
   data-rabbit:
+  data-redis:
 
 networks: 
   dps-net:

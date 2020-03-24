@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
+import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.DpsMetadataMapper;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.EmailService;
@@ -25,16 +26,19 @@ public class EmailPoller {
     private final DpsMetadataMapper dpsMetadataMapper;
     private final MessagingService messagingService;
     private final String tenant;
+    private final StorageService storageService;
 
     public EmailPoller(
             EmailService emailService,
             DpsMetadataMapper dpsMetadataMapper,
             MessagingService messagingService,
+            StorageService storageService,
             @Value("${dps.tenant}") String tenant) {
         this.emailService = emailService;
         this.dpsMetadataMapper = dpsMetadataMapper;
         this.messagingService = messagingService;
         this.tenant = tenant;
+        this.storageService = storageService;
     }
 
     @Scheduled(cron = "${mailbox.poller.cron}")
@@ -50,6 +54,10 @@ public class EmailPoller {
             dpsEmails.forEach(item -> {
 
                 List<FileAttachment> fileAttachments = emailService.getFileAttachments(item);
+
+                fileAttachments.forEach(
+                        fileAttachment ->
+                                this.storageService.put(fileAttachment.getName(), fileAttachment.getContent()));
 
                 DpsMetadata metadata = dpsMetadataMapper.map(item, this.tenant);
 
