@@ -38,7 +38,9 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(DpsEmailPollerApplication.class.getPackage().getName()))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .apiInfo(apiInfo())
+                .enable(enabled);
     }
 
 }
