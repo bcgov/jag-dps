@@ -1,35 +1,36 @@
 swagger: '2.0'
 info:
-  description: Api Documentation
+  description: Email Service API
   version: '1.0'
-  title: Api Documentation
-  termsOfService: 'urn:tos'
-  contact: {}
-  license:
-    name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0'
-host: 'localhost:8080'
+  title: Email service API
+host: 'localhost:12345'
 basePath: /dpsemailpoller
 tags:
-  - name: dps-email-controller
-    description: Dps Email Controller
+- name: dps-email-controller
+  description: Dps Email Controller
 paths:
-  '/email/processed/{id}':
-    post:
+  '/email/{id}/processed':
+    put:
       tags:
-        - DpsEmailProcessing
+      - DpsEmailProcessing
       summary: Mark email as processed
-      operationId: ProcessedUsingPOST
+      operationId: ProcessedUsingPUT
       consumes:
-        - application/json
+      - application/json
       produces:
-        - application/json
+      - application/json
       parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          type: string
+      - name: id
+        in: path
+        description: id
+        required: true
+        type: string
+      - in: body
+        name: dpsEmailProcessedRequest
+        description: dpsEmailProcessedRequest
+        required: true
+        schema:
+          $ref: '#/definitions/DpsEmailProcessedRequest'
       responses:
         '200':
           description: Successful operation
@@ -48,6 +49,11 @@ paths:
         '404':
           description: Not Found
 definitions:
+  DpsEmailProcessedRequest:
+    type: object
+    properties:
+      correlationId:
+        type: string
   DpsEmailResponse:
     type: object
     properties:

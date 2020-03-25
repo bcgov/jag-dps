@@ -1,4 +1,4 @@
-package ca.bc.gov.pssg.rsbc.dps.dpsemailworker;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker;
 
 public class Keys {
     private Keys() {}

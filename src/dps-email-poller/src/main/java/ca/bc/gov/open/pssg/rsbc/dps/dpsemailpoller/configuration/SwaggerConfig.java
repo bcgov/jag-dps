@@ -25,9 +25,6 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("Email service API")
                 .description("Email Service API")
-                .license("")
-                .licenseUrl("")
-                .termsOfServiceUrl("")
                 .version(version)
                 .build();
     }

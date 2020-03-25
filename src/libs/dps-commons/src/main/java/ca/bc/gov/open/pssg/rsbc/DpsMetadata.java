@@ -1,5 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Base64;
 import java.util.Date;
 
@@ -83,6 +86,42 @@ public class DpsMetadata {
     private DpsFileInfo fileInfo;
 
     private DpsMetadata() {
+    }
+
+    @JsonCreator
+    public DpsMetadata(
+            @JsonProperty("emailId") String emailId,
+            @JsonProperty("applicationID") String applicationID,
+            @JsonProperty("direction") String direction,
+            @JsonProperty("inboundChannelType") String inboundChannelType,
+            @JsonProperty("inboundChannelID") String inboundChannelID,
+            @JsonProperty("destinationNumber") String destinationNumber,
+            @JsonProperty("originatingNumber") String originatingNumber,
+            @JsonProperty("to") String to,
+            @JsonProperty("from") String from,
+            @JsonProperty("subject") String subject,
+            @JsonProperty("receivedDate") Date receivedDate,
+            @JsonProperty("sentDate") Date sentDate,
+            @JsonProperty("body") String body,
+            @JsonProperty("numberOfPages") Integer numberOfPages,
+            @JsonProperty("faxJobID") String faxJobID,
+            @JsonProperty("fileInfo") DpsFileInfo fileInfo) {
+        this.emailId = emailId;
+        this.applicationID = applicationID;
+        this.direction = direction;
+        this.inboundChannelType = inboundChannelType;
+        this.inboundChannelID = inboundChannelID;
+        this.destinationNumber = destinationNumber;
+        this.originatingNumber = originatingNumber;
+        this.to = to;
+        this.from = from;
+        this.subject = subject;
+        this.receivedDate = receivedDate;
+        this.sentDate = sentDate;
+        this.body = body;
+        this.numberOfPages = numberOfPages;
+        this.faxJobID = faxJobID;
+        this.fileInfo = fileInfo;
     }
 
     public String getEmailId() {

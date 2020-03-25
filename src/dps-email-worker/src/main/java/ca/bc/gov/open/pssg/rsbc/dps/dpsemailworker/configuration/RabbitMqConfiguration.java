@@ -1,7 +1,7 @@
-package ca.bc.gov.pssg.rsbc.dps.dpsemailworker.configuration;
+package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.configuration;
 
 import ca.bc.gov.open.pssg.rsbc.dps.messaging.starter.DpsMessagingProperties;
-import ca.bc.gov.pssg.rsbc.dps.dpsemailworker.Keys;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.Keys;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
