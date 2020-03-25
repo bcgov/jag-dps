@@ -1,8 +1,5 @@
 package ca.bc.gov.open.pssg.rsbc.dps.email.client;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-
 import java.text.MessageFormat;
 
 /**
@@ -12,8 +9,6 @@ import java.text.MessageFormat;
  * @author carolcarpenterjustice
  *
  */
-@JacksonXmlRootElement(localName = "dpsEmailProcessedResponse")
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class DpsEmailProcessedResponse {
 
     private boolean acknowledge;
