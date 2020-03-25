@@ -22,8 +22,7 @@ public class DpsMetadata {
         private String body;
         private Integer numberOfPages;
         private String faxJobID;
-        private String attachmentName;
-        private String attachmentContentType;
+        private DpsFileInfo fileInfo;
 
         public Builder withEmailId(String emailId) { this.emailId = emailId; return this; }
         public Builder withApplicationID(String applicationID) { this.applicationID = applicationID; return this; }
@@ -40,8 +39,7 @@ public class DpsMetadata {
         public Builder withBody(String body) { this.body = body; return this; }
         public Builder withNumberOfPages(Integer numberOfPages) { this.numberOfPages = numberOfPages; return this; }
         public Builder withFaxJobID(String faxJobID) { this.faxJobID = faxJobID; return this; }
-        public Builder withAttachmentName(String attachmentName) { this.attachmentName = attachmentName; return this; }
-        public Builder withAttachmentContentType(String attachmentContentType) { this.attachmentContentType = attachmentContentType; return this; }
+        public Builder withFileInfo(DpsFileInfo fileInfo) { this.fileInfo = fileInfo; return this; }
 
         public DpsMetadata build() {
             DpsMetadata result = new DpsMetadata();
@@ -60,8 +58,7 @@ public class DpsMetadata {
             result.body = body;
             result.numberOfPages = numberOfPages;
             result.faxJobID = faxJobID;
-            result.attachmentName = attachmentName;
-            result.attachmentContentType = attachmentContentType;
+            result.fileInfo = fileInfo;
             return result;
 
         }
@@ -83,8 +80,7 @@ public class DpsMetadata {
     private String body;
     private Integer numberOfPages;
     private String faxJobID;
-    private String attachmentName;
-    private String attachmentContentType;
+    private DpsFileInfo fileInfo;
 
     private DpsMetadata() {
     }
@@ -157,12 +153,8 @@ public class DpsMetadata {
         return faxJobID;
     }
 
-    public String getAttachmentName() {
-        return attachmentName;
-    }
-
-    public String getAttachmentContentType() {
-        return attachmentContentType;
+    public DpsFileInfo getFileInfo() {
+        return fileInfo;
     }
 
 }

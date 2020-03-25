@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
+import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.models.DpsEmailContent;
@@ -19,7 +20,7 @@ public class DpsMetadataMapperImpl implements DpsMetadataMapper {
     }
 
     @Override
-    public DpsMetadata map(EmailMessage emailMessage, String tenant) {
+    public DpsMetadata map(EmailMessage emailMessage, DpsFileInfo dpsFileInfo, String tenant) {
 
         try {
 
@@ -42,6 +43,7 @@ public class DpsMetadataMapperImpl implements DpsMetadataMapper {
                     .withFaxJobID(dpsEmailContent.getJobId())
                     .withOriginatingNumber(dpsEmailContent.getPhoneNumer())
                     .withNumberOfPages(dpsEmailContent.getPageCount())
+                    .withFileInfo(dpsFileInfo)
                     .build();
 
         } catch (ServiceLocalException e) {

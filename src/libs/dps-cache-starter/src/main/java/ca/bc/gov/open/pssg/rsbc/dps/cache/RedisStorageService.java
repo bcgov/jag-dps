@@ -5,6 +5,8 @@ import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class RedisStorageService implements StorageService {
 
@@ -24,13 +26,17 @@ public class RedisStorageService implements StorageService {
      * Store the content in redis cache using a new guid as key
      */
     @Override
-    public void put(String key, byte[] content) {
+    public String put(byte[] content) {
+
+        UUID id = UUID.randomUUID();
 
         try {
-            this.cacheManager.getCache(Keys.DPS_CACHE_NAME).put(key, content);
+            this.cacheManager.getCache(Keys.DPS_CACHE_NAME).put(id.toString(), content);
         } catch (RedisConnectionFailureException e) {
             throw new DpsRedisException(serviceUnavailableMessage, e.getCause());
         }
+
+        return id.toString();
 
     }
 
