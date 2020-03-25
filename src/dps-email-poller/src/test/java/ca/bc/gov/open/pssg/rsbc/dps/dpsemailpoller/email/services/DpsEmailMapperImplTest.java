@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
+import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.models.DpsEmailContent;
@@ -26,16 +27,20 @@ import java.util.Date;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DpsEmailMapperImplTest {
 
-    public static final String VALIDHTML = "validhtml";
-    public static final String TENANT = "tenant";
-    public static final String JOB_ID = "jobId";
-    public static final String PHONE_NUMBER = "phone_number";
+    private static final String VALIDHTML = "validhtml";
+    private static final String TENANT = "tenant";
+    private static final String JOB_ID = "jobId";
+    private static final String PHONE_NUMBER = "phone_number";
     private static final String RECIPIENT = "recipient";
-    public static final String RECIPIENT_EMAIL = RECIPIENT + "@text.com";
-    public static final String FROM_EMAIL = "from@text.com";
-    public static final String INBOUND = "inbound";
-    public static final String SUBJECT = "subject";
-    public static final String UNIQUE_ID = "uniqueId";
+    private static final String RECIPIENT_EMAIL = RECIPIENT + "@text.com";
+    private static final String FROM_EMAIL = "from@text.com";
+    private static final String INBOUND = "inbound";
+    private static final String SUBJECT = "subject";
+    private static final String UNIQUE_ID = "uniqueId";
+    private static final String ID = "test";
+    private static final String NAME = "test";
+    private static final String CONTENT_TYPE = "application/xml";
+
     private DpsMetadataMapperImpl sut;
 
     @Mock
@@ -101,7 +106,7 @@ public class DpsEmailMapperImplTest {
 
         Mockito.when(messageMock.getId()).thenReturn(itemId);
 
-        DpsMetadata result = sut.map(messageMock, TENANT);
+        DpsMetadata result = sut.map(messageMock, new DpsFileInfo(ID, NAME, CONTENT_TYPE), TENANT);
 
         Assertions.assertEquals(TENANT, result.getApplicationID());
         Assertions.assertEquals(VALIDHTML, result.getBody());
@@ -117,6 +122,11 @@ public class DpsEmailMapperImplTest {
         Assertions.assertEquals(1, result.getNumberOfPages());
         Assertions.assertEquals(calReceive.getTime(), result.getReceivedDate());
         Assertions.assertEquals(calSent.getTime(), result.getSentDate());
+
+        Assertions.assertEquals(ID, result.getFileInfo().getId());
+        Assertions.assertEquals(NAME, result.getFileInfo().getName());
+        Assertions.assertEquals(CONTENT_TYPE, result.getFileInfo().getContentType());
+
 
     }
 
@@ -157,7 +167,7 @@ public class DpsEmailMapperImplTest {
         Mockito.when(messageMock.getFrom()).thenThrow(ServiceLocalException.class);
 
         Assertions.assertThrows(DpsEmailException.class, () ->{
-            DpsMetadata result = sut.map(messageMock, TENANT);
+            DpsMetadata result = sut.map(messageMock, new DpsFileInfo(ID, NAME, CONTENT_TYPE), TENANT);
         });
 
     }
@@ -197,7 +207,7 @@ public class DpsEmailMapperImplTest {
 
         Mockito.when(messageMock.getId()).thenReturn(itemId);
 
-        DpsMetadata result = sut.map(messageMock, TENANT);
+        DpsMetadata result = sut.map(messageMock, new DpsFileInfo(ID, NAME, CONTENT_TYPE) ,TENANT);
 
         Assertions.assertEquals(TENANT, result.getApplicationID());
         Assertions.assertEquals(VALIDHTML, result.getBody());

@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
+import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
@@ -16,6 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class EmailPoller {
@@ -53,13 +55,22 @@ public class EmailPoller {
 
             dpsEmails.forEach(item -> {
 
+                logger.debug("attempting to retrieve email attachments");
                 List<FileAttachment> fileAttachments = emailService.getFileAttachments(item);
+                logger.info("successfully retrieved {} attachments", fileAttachments.size());
 
-                fileAttachments.forEach(
-                        fileAttachment ->
-                                this.storageService.put(fileAttachment.getName(), fileAttachment.getContent()));
+                Optional<FileAttachment> attachment = fileAttachments.stream().findFirst();
 
-                DpsMetadata metadata = dpsMetadataMapper.map(item, this.tenant);
+                if (!attachment.isPresent()) throw new DpsEmailException("No attachment present in email.");
+
+                logger.debug("attempting to store email attachment");
+                String fileId = this.storageService.put(attachment.get().getContent());
+                logger.info("successfully stored attachments {}", attachment.get().getName());
+
+                DpsMetadata metadata = dpsMetadataMapper.map(
+                        item,
+                        new DpsFileInfo(fileId, attachment.get().getFileName(),
+                        attachment.get().getContentType()), this.tenant);
 
                 try {
 

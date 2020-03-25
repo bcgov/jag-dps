@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
+import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
@@ -10,6 +11,8 @@ import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
 import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
+import microsoft.exchange.webservices.data.property.complex.AttachmentCollection;
+import microsoft.exchange.webservices.data.property.complex.FileAttachment;
 import microsoft.exchange.webservices.data.property.complex.ItemId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,6 +24,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @DisplayName("email processing test suite")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -47,6 +51,7 @@ public class EmailPollerPollForEmailsTest {
     @Mock
     private StorageService storageServiceMock;
 
+
     @BeforeEach
     public void SetUp() throws Exception {
 
@@ -54,7 +59,24 @@ public class EmailPollerPollForEmailsTest {
 
         Mockito.when(exchangeServiceMock.getRequestedServerVersion()).thenReturn(ExchangeVersion.Exchange2010_SP2);
 
-        Mockito.when(dpsMetadataMapperMock.map(Mockito.any(EmailMessage.class), Mockito.anyString())).thenReturn(new DpsMetadata.Builder().withSubject("test").build());
+        Mockito
+                .when(dpsMetadataMapperMock
+                        .map(Mockito.any(EmailMessage.class), Mockito.any(DpsFileInfo.class),  Mockito.anyString()))
+                .thenReturn(new DpsMetadata.Builder().withSubject("test").build());
+
+        Mockito
+                .when(itemMock.getHasAttachments())
+                .thenReturn(true);
+
+
+        AttachmentCollection attachmentCollection = new AttachmentCollection();
+        attachmentCollection.addFileAttachment("test", "test".getBytes());
+
+        Mockito
+                .when(emailServiceMock.getFileAttachments(Mockito.any(EmailMessage.class)))
+                .thenReturn(attachmentCollection.getItems().stream().map(item -> (FileAttachment)item).collect(Collectors.toList()));
+
+
 
         ItemId itemId = new ItemId("test");
         Mockito.when(itemMock.getId()).thenReturn(itemId);
