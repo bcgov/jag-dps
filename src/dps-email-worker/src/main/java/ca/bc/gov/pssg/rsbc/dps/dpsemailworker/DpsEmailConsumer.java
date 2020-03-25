@@ -1,5 +1,6 @@
 package ca.bc.gov.pssg.rsbc.dps.dpsemailworker;
 
+import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 
 import ca.bc.gov.pssg.rsbc.dps.dpsemailworker.services.ProcessEmailService;
@@ -13,12 +14,10 @@ import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 public class DpsEmailConsumer {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final StorageService storageService;
-    private final ProcessEmailService processEmailService;
 
     public DpsEmailConsumer(StorageService storageService,
                             ProcessEmailService processEmailService) {
         this.storageService = storageService;
-        this.processEmailService = processEmailService;
     }
 
     @RabbitListener(queues = Keys.EMAIL_QUEUE_NAME)
@@ -28,15 +27,14 @@ public class DpsEmailConsumer {
 
         try {
             logger.debug("attempting to get message meta data [{}]", message);
-            DpsFileInfo dpsFileInfo = message.fileInfo;
-            String content = storageService.get(dpsFileInfo.fileId);
+            DpsFileInfo dpsFileInfo = message.getFileInfo();
+            //content to be used.
+            byte[] content = storageService.get(dpsFileInfo.getId());
 
-            logger.info("message attachment content retrieved [{}]", dpsFileInfo.fileId);
-            //TODO: What needs to be done here
+            logger.info("message attachment content retrieved [{}]", dpsFileInfo.getId());
+            //TODO: convert to xml and send on it way
 
 
-            //Let poller know we are good.
-            processEmailService.sendProccessedMessage(message);
         } catch (Exception e) {
             logger.error("Error in {} while processing message: ", e.getClass().getSimpleName(), e);
         }
