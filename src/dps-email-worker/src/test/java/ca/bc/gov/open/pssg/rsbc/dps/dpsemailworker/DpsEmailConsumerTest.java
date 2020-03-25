@@ -33,7 +33,7 @@ public class DpsEmailConsumerTest {
 
         MockitoAnnotations.initMocks(this);
 
-        Mockito.when(dpsEmailServiceMock.dpsEmailProcessed(Mockito.eq(CASE_1), CORRELATION)).thenReturn(dpsEmailProcessedResponseMock);
+        Mockito.when(dpsEmailServiceMock.dpsEmailProcessed(Mockito.eq(CASE_1), Mockito.anyString())).thenReturn(dpsEmailProcessedResponseMock);
 
         sut = new DpsEmailConsumer(dpsEmailServiceMock);
     }
