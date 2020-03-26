@@ -3,7 +3,6 @@ package ca.bc.gov.pssg.rsbc.dps.dpsemailworker;
 import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 
-import ca.bc.gov.pssg.rsbc.dps.dpsemailworker.services.ProcessEmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -15,8 +14,7 @@ public class DpsEmailConsumer {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final StorageService storageService;
 
-    public DpsEmailConsumer(StorageService storageService,
-                            ProcessEmailService processEmailService) {
+    public DpsEmailConsumer(StorageService storageService) {
         this.storageService = storageService;
     }
 
