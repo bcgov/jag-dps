@@ -2,6 +2,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.email.client;
 
 import ca.bc.gov.open.dps.email.client.api.DpsEmailProcessingApi;
 import ca.bc.gov.open.dps.email.client.api.handler.ApiException;
+import ca.bc.gov.open.dps.email.client.api.model.DpsEmailProcessedRequest;
 import ca.bc.gov.open.dps.email.client.api.model.DpsEmailResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,7 +15,8 @@ import org.mockito.MockitoAnnotations;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DpsEmailServiceImplTest {
 
-    public static final String API_EXCEPTION = "api exception";
+    private static final String API_EXCEPTION = "api exception";
+    private static final String CORRELATION_ID = "correlationId";
     private DpsEmailServiceImpl sut;
 
     private static final Boolean SUCCESS_EMAIL = true;
@@ -40,9 +42,9 @@ public class DpsEmailServiceImplTest {
         errorResponse.setAcknowledge(FAIL_EMAIL);
         errorResponse.setMessage(FAIL_MESSAGE);
 
-        Mockito.when(dpsEmailProcessingApiMock.processedUsingPOST(Mockito.eq(SUCCESS_ID))).thenReturn(successResponse);
-        Mockito.when(dpsEmailProcessingApiMock.processedUsingPOST(Mockito.eq(FAIL_ID))).thenReturn(errorResponse);
-        Mockito.when(dpsEmailProcessingApiMock.processedUsingPOST(Mockito.eq(ERROR_ID))).thenThrow(new ApiException(API_EXCEPTION));
+        Mockito.when(dpsEmailProcessingApiMock.processedUsingPUT(Mockito.eq(SUCCESS_ID), Mockito.any(DpsEmailProcessedRequest.class))).thenReturn(successResponse);
+        Mockito.when(dpsEmailProcessingApiMock.processedUsingPUT(Mockito.eq(FAIL_ID), Mockito.any(DpsEmailProcessedRequest.class))).thenReturn(errorResponse);
+        Mockito.when(dpsEmailProcessingApiMock.processedUsingPUT(Mockito.eq(ERROR_ID), Mockito.any(DpsEmailProcessedRequest.class))).thenThrow(new ApiException(API_EXCEPTION));
 
         sut = new DpsEmailServiceImpl(dpsEmailProcessingApiMock);
     }
@@ -50,7 +52,7 @@ public class DpsEmailServiceImplTest {
     @Test
     public void withValidResponseShouldReturnValidResponse() {
 
-        DpsEmailProcessedResponse result = sut.dpsEmailProcessed(SUCCESS_ID);
+        DpsEmailProcessedResponse result = sut.dpsEmailProcessed(SUCCESS_ID, CORRELATION_ID);
 
         Assertions.assertEquals(SUCCESS_EMAIL, result.isAcknowledge());
         Assertions.assertEquals(SUCCESS_MESSAGE, result.getMessage());
@@ -59,7 +61,7 @@ public class DpsEmailServiceImplTest {
     @Test
     public void withInvalidResponseShouldReturnValid() {
 
-        DpsEmailProcessedResponse result = sut.dpsEmailProcessed(FAIL_ID);
+        DpsEmailProcessedResponse result = sut.dpsEmailProcessed(FAIL_ID, CORRELATION_ID);
 
         Assertions.assertEquals(FAIL_EMAIL, result.isAcknowledge());
         Assertions.assertEquals(FAIL_MESSAGE, result.getMessage());
@@ -68,7 +70,7 @@ public class DpsEmailServiceImplTest {
     @Test
     public void withApiExceptionShouldReturnValid() {
 
-        DpsEmailProcessedResponse result = sut.dpsEmailProcessed(ERROR_ID);
+        DpsEmailProcessedResponse result = sut.dpsEmailProcessed(ERROR_ID, CORRELATION_ID);
 
         Assertions.assertEquals(FAIL_EMAIL, result.isAcknowledge());
         Assertions.assertEquals(API_EXCEPTION, result.getMessage());

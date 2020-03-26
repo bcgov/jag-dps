@@ -69,7 +69,7 @@ public class EmailPoller {
 
                 DpsMetadata metadata = dpsMetadataMapper.map(
                         item,
-                        new DpsFileInfo(fileId, attachment.get().getFileName(),
+                        new DpsFileInfo(fileId, attachment.get().getName(),
                         attachment.get().getContentType()), this.tenant);
 
                 try {
