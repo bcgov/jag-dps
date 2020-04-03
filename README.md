@@ -129,7 +129,6 @@ Run
 mvn versions:set -DartifactId=*  -DgroupId=*
 ```
 
-
 ## Tests
 
 ### Postman
