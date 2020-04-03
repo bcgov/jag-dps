@@ -1,7 +1,10 @@
 package ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase;
 
 import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.DfcmsOrdsClientConstants;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.text.MessageFormat;
@@ -13,13 +16,20 @@ import java.text.MessageFormat;
  * @author carolcarpenterjustice
  *
  */
-@JacksonXmlRootElement(localName = "caseSequenceNumberResponse")
+@JacksonXmlRootElement(localName = "GetValidOpenDFCMCase")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CaseSequenceNumberResponse {
 
+    @JacksonXmlProperty(localName = "caseDesc")
     private String caseDescription;
+
+    @JacksonXmlProperty(localName = "int")
     private String caseSequenceNumber;
+
+    @JsonIgnore
     private int respCode;
+
+    @JsonIgnore
     private String respMsg;
 
     private CaseSequenceNumberResponse(int respCode, String respMsg) {
