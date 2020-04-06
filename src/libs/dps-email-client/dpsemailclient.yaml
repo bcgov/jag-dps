@@ -30,18 +30,18 @@ paths:
         description: dpsEmailProcessedRequest
         required: true
         schema:
-          $ref: '#/definitions/DpsEmailProcessedRequest'
+          $ref: '#/definitions/DpsEmailProcessedOrdsRequest'
       responses:
         '200':
           description: Successful operation
           schema:
-            $ref: '#/definitions/DpsEmailResponse'
+            $ref: '#/definitions/DpsEmailProcessedOrdsResponse'
         '201':
           description: Created
         '400':
           description: Bad Request
           schema:
-            $ref: '#/definitions/DpsEmailResponse'
+            $ref: '#/definitions/DpsEmailProcessedOrdsResponse'
         '401':
           description: Unauthorized
         '403':
@@ -49,12 +49,12 @@ paths:
         '404':
           description: Not Found
 definitions:
-  DpsEmailProcessedRequest:
+  DpsEmailProcessedOrdsRequest:
     type: object
     properties:
       correlationId:
         type: string
-  DpsEmailResponse:
+  DpsEmailProcessedOrdsResponse:
     type: object
     properties:
       acknowledge:
