@@ -41,7 +41,7 @@ public class DpsEmailConsumerTest {
     public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
-
+//        DpsMetadata dpsMetadataMock = new DpsMetadata();
 //        DpsFileInfo dpsFileInfoMock = new DpsFileInfo("id", "name", "String");
 
         Mockito.when(dpsMetadataMock.getFileInfo()).thenReturn(dpsFileInfoMock);
@@ -57,7 +57,7 @@ public class DpsEmailConsumerTest {
     public void withEmailProcessedShouldReturnSuccess() {
 
         Assertions.assertDoesNotThrow(() -> {
-            sut.receiveMessage(new DpsMetadata.Builder().withApplicationID(CASE_1).build());
+            sut.receiveMessage(new DpsMetadata.Builder().withApplicationID(CASE_1).withFileInfo(new DpsFileInfo("id", "name", "String")).withEmailId("a@a.com").build());
         });
     }
 
