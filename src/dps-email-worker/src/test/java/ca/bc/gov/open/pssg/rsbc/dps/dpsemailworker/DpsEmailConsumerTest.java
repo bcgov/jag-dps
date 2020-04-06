@@ -5,7 +5,6 @@ import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailProcessedResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailService;
-import com.sun.jndi.toolkit.dir.SearchFilter;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -41,8 +40,6 @@ public class DpsEmailConsumerTest {
     public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
-//        DpsMetadata dpsMetadataMock = new DpsMetadata();
-//        DpsFileInfo dpsFileInfoMock = new DpsFileInfo("id", "name", "String");
 
         Mockito.when(dpsMetadataMock.getFileInfo()).thenReturn(dpsFileInfoMock);
         Mockito.when(dpsFileInfoMock.getId()).thenReturn("id");

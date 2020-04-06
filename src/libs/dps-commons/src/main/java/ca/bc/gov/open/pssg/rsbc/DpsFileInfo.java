@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DpsFileInfo {
 
-    private String Id;
-    private String Name;
+    private String id;
+    private String name;
     private String contentType;
 
     @JsonCreator
@@ -14,17 +14,17 @@ public class DpsFileInfo {
             @JsonProperty("id")String id,
             @JsonProperty("name")String name,
             @JsonProperty("contentType")String contentType) {
-        Id = id;
-        Name = name;
+        this.id = id;
+        this.name = name;
         this.contentType = contentType;
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getContentType() {
