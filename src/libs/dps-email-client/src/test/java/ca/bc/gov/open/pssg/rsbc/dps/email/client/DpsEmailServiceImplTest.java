@@ -2,8 +2,8 @@ package ca.bc.gov.open.pssg.rsbc.dps.email.client;
 
 import ca.bc.gov.open.dps.email.client.api.DpsEmailProcessingApi;
 import ca.bc.gov.open.dps.email.client.api.handler.ApiException;
-import ca.bc.gov.open.dps.email.client.api.model.DpsEmailProcessedRequest;
-import ca.bc.gov.open.dps.email.client.api.model.DpsEmailResponse;
+import ca.bc.gov.open.dps.email.client.api.model.DpsEmailProcessedOrdsRequest;
+import ca.bc.gov.open.dps.email.client.api.model.DpsEmailProcessedOrdsResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -34,17 +34,17 @@ public class DpsEmailServiceImplTest {
     public void setup() throws ApiException {
         MockitoAnnotations.initMocks(this);
 
-        DpsEmailResponse successResponse = new DpsEmailResponse();
+        DpsEmailProcessedOrdsResponse successResponse = new DpsEmailProcessedOrdsResponse();
         successResponse.setAcknowledge(SUCCESS_EMAIL);
         successResponse.setMessage(SUCCESS_MESSAGE);
 
-        DpsEmailResponse errorResponse = new DpsEmailResponse();
+        DpsEmailProcessedOrdsResponse errorResponse = new DpsEmailProcessedOrdsResponse();
         errorResponse.setAcknowledge(FAIL_EMAIL);
         errorResponse.setMessage(FAIL_MESSAGE);
 
-        Mockito.when(dpsEmailProcessingApiMock.processedUsingPUT(Mockito.eq(SUCCESS_ID), Mockito.any(DpsEmailProcessedRequest.class))).thenReturn(successResponse);
-        Mockito.when(dpsEmailProcessingApiMock.processedUsingPUT(Mockito.eq(FAIL_ID), Mockito.any(DpsEmailProcessedRequest.class))).thenReturn(errorResponse);
-        Mockito.when(dpsEmailProcessingApiMock.processedUsingPUT(Mockito.eq(ERROR_ID), Mockito.any(DpsEmailProcessedRequest.class))).thenThrow(new ApiException(API_EXCEPTION));
+        Mockito.when(dpsEmailProcessingApiMock.processedUsingPUT(Mockito.eq(SUCCESS_ID), Mockito.any(DpsEmailProcessedOrdsRequest.class))).thenReturn(successResponse);
+        Mockito.when(dpsEmailProcessingApiMock.processedUsingPUT(Mockito.eq(FAIL_ID), Mockito.any(DpsEmailProcessedOrdsRequest.class))).thenReturn(errorResponse);
+        Mockito.when(dpsEmailProcessingApiMock.processedUsingPUT(Mockito.eq(ERROR_ID), Mockito.any(DpsEmailProcessedOrdsRequest.class))).thenThrow(new ApiException(API_EXCEPTION));
 
         sut = new DpsEmailServiceImpl(dpsEmailProcessingApiMock);
     }

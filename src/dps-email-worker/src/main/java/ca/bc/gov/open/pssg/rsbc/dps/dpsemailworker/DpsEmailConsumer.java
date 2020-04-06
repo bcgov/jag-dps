@@ -1,6 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker;
 
+import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
+import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +15,11 @@ public class DpsEmailConsumer {
 
     private final DpsEmailService dpsEmailService;
 
-    public DpsEmailConsumer(DpsEmailService dpsEmailService) {
+    private final StorageService storageService;
+
+    public DpsEmailConsumer(DpsEmailService dpsEmailService, StorageService storageService) {
         this.dpsEmailService = dpsEmailService;
+        this.storageService = storageService;
     }
 
     @RabbitListener(queues = Keys.EMAIL_QUEUE_NAME)
@@ -24,8 +29,11 @@ public class DpsEmailConsumer {
 
         try {
             logger.debug("attempting to get message meta data [{}]", message);
+            DpsFileInfo dpsFileInfo = message.getFileInfo();
 
-            logger.info("message meta data successfully received [{}]", message);
+            // content to be used.
+            byte[] content = storageService.get(dpsFileInfo.getId());
+            logger.info("message attachment content retrieved [{}]", dpsFileInfo.getId());
 
             //TODO: when id will be generated for kofax, it will replace TBD.
             dpsEmailService.dpsEmailProcessed(message.getBase64EmailId(), "TBD");

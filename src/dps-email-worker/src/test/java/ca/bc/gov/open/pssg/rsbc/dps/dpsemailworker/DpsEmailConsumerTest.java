@@ -1,8 +1,11 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker;
 
+import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
+import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailProcessedResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailService;
+import com.sun.jndi.toolkit.dir.SearchFilter;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,7 +26,13 @@ public class DpsEmailConsumerTest {
     private DpsEmailService dpsEmailServiceMock;
 
     @Mock
+    private StorageService storageServiceMock;
+
+    @Mock
     DpsMetadata dpsMetadataMock;
+
+    @Mock
+    DpsFileInfo dpsFileInfoMock;
 
     @Mock
     private DpsEmailProcessedResponse dpsEmailProcessedResponseMock;
@@ -33,9 +42,14 @@ public class DpsEmailConsumerTest {
 
         MockitoAnnotations.initMocks(this);
 
+//        DpsFileInfo dpsFileInfoMock = new DpsFileInfo("id", "name", "String");
+
+        Mockito.when(dpsMetadataMock.getFileInfo()).thenReturn(dpsFileInfoMock);
+        Mockito.when(dpsFileInfoMock.getId()).thenReturn("id");
+
         Mockito.when(dpsEmailServiceMock.dpsEmailProcessed(Mockito.eq(CASE_1), Mockito.anyString())).thenReturn(dpsEmailProcessedResponseMock);
 
-        sut = new DpsEmailConsumer(dpsEmailServiceMock);
+        sut = new DpsEmailConsumer(dpsEmailServiceMock, storageServiceMock);
     }
 
     @DisplayName("success - with email processed should return acknowledge")
@@ -45,7 +59,6 @@ public class DpsEmailConsumerTest {
         Assertions.assertDoesNotThrow(() -> {
             sut.receiveMessage(new DpsMetadata.Builder().withApplicationID(CASE_1).build());
         });
-
     }
 
 }
