@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b83487b2-e0a7-42a2-a8a0-62f6923c831f",
+		"_postman_id": "552b5274-ef8f-4883-b6d9-0dcf431d15d7",
 		"name": "DPS-Service-Api",
 		"description": "A Collection of request to test DPS Service Api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -67,18 +67,30 @@
 					],
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/dpsvalidationservice/getValidOpenDFCMCase?driversLicense={{driversLicense}}&surcode={{surcode}}",
+							"raw": "{{baseUrl}}/dpsvalidationservice/GetValidOpenDFCMCase?driversLicense={{driversLicense}}&surcode={{surcode}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"dpsvalidationservice",
-								"getValidOpenDFCMCase"
+								"GetValidOpenDFCMCase"
 							],
 							"query": [
 								{
@@ -168,43 +180,6 @@
 							"body": "<element>\n <caseDesc>(string)</caseDesc>\n <int>(string)</int>\n</element>"
 						},
 						{
-							"name": "Not Found",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"getValidOpenDFCMCase"
-									],
-									"query": [
-										{
-											"key": "driversLicense",
-											"value": "<string>"
-										},
-										{
-											"key": "surcode",
-											"value": "<string>"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "text/plain"
-								}
-							],
-							"cookie": [],
-							"body": ""
-						},
-						{
 							"name": "Unauthorized",
 							"originalRequest": {
 								"method": "GET",
@@ -231,6 +206,43 @@
 							},
 							"status": "Unauthorized",
 							"code": 401,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/getValidOpenDFCMCase?driversLicense=<string>&surcode=<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"getValidOpenDFCMCase"
+									],
+									"query": [
+										{
+											"key": "driversLicense",
+											"value": "<string>"
+										},
+										{
+											"key": "surcode",
+											"value": "<string>"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
 							"_postman_previewlanguage": "text",
 							"header": [
 								{
