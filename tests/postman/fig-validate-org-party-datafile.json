@@ -1,38 +1,78 @@
 [
     {
-        "/Comment": "Valid org party Id",
-        "orgPartyId": "48038",
-        "isValid": "validParty"
-
-    },
-    {
-        "/Comment": "Valid org party Id",
-        "orgPartyId": "1",
-        "isValid": "validParty"
-
-    },
-    {
-        "/Comment": "Valid org party Id",
-        "orgPartyId": "650",
-        "isValid": "validParty"
-
-    },
-    {
-        "/Comment": "Invalid org party Id",
-        "orgPartyId": "651",
-        "isValid": "inValidParty"
-
-    },
-    {
-        "/Comment": "Not an org",
-        "orgPartyId": "659",
-        "isValid": "noAnOrganisation"
-
-    },
-    {
-        "/Comment": "Incorrect data type",
-        "orgPartyId": "test",
-        "isValid": "string"
-
-    }
+            "/Comment": "Valid org party Id",
+            "orgPartyId": "48912",
+            "orgSubName1": "MATTS",
+            "orgSubName2": "TEST",
+            "orgSubName3": "FOR",
+            "orgSubName4": "EMPLOYEE",
+            "orgCity": "VICTORIA",
+            "isValid": "validParty"
+        },
+        {
+            "/Comment": "Invalid org party Id",
+            "orgPartyId": "651",
+            "orgSubName1": "",
+            "orgSubName2": "",
+            "orgSubName3": "",
+            "orgSubName4": "",
+            "orgCity": " ",
+            "isValid": "inValidParty"
+    
+        },
+        {
+            "/Comment": "Not an org",
+            "orgPartyId": "659",
+            "orgSubName1": "",
+            "orgSubName2": "",
+            "orgSubName3": "",
+            "orgSubName4": "",
+            "orgCity": " ",
+            "isValid": "noAnOrganisation"
+    
+        },
+        {
+            "/Comment": "Incorrect data type",
+            "orgPartyId": "test",
+            "orgSubName1": "",
+            "orgSubName2": "",
+            "orgSubName3": "",
+            "orgSubName4": "",
+            "orgCity": " ",
+            "isValid": "string"
+    
+        },
+        {
+            "/Comment": "incorrect City name",
+            "orgPartyId": " ",
+            "orgSubName1": "",
+            "orgSubName2": "CENTRE",
+            "orgSubName3": "",
+            "orgSubName4": "",
+            "orgCity": "CITY",
+            "isValid": "incorrectCity"
+    
+        },
+        {
+            "/Comment": "Multiple match",
+            "orgPartyId": " ",
+            "orgSubName1": "",
+            "orgSubName2": "",
+            "orgSubName3": "DAYCARE",
+            "orgSubName4": "",
+            "orgCity": "VICTORIA",
+            "isValid": "multipleMatch"
+    
+        },
+        {
+            "/Comment": "Incorrect subname",
+            "orgPartyId": " ",
+            "orgSubName1": "RANDOM",
+            "orgSubName2": "TEST",
+            "orgSubName3": "FOR",
+            "orgSubName4": "EMPLOYEE",
+            "orgCity": "VICTORIA",
+            "isValid": "incorrectSubName"
+    
+        }
 ]

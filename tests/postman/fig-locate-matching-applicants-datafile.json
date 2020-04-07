@@ -9,15 +9,6 @@
         "isValid": "true"
     },
     {
-        "/ comment": "Checks response with valid inputs required params",
-        "applSurname": "MOUSE",
-        "applFirstName": "MINNIE",
-        "applBirthDate": "1950-01-10",
-        "applBirthPlace": "",
-        "applGenderTxt": "",
-        "isValid": "true"
-    },
-    {
         "/ comment": "Checks response with invalid inputs but valid format",
         "applSurname": "Tom",
         "applFirstName": "Cartoon",

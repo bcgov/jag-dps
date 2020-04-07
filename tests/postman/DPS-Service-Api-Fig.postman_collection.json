@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "7ba03519-98f5-4114-b64d-449e6bb5074e",
+		"_postman_id": "bc51c1c8-440e-4102-a33f-700b0bdf676b",
 		"name": "DPS-Service-Api-Fig",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -26,20 +26,26 @@
 							"script": {
 								"id": "70096e9b-c94e-4a97-beb6-c21b2275b495",
 								"exec": [
-									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"const jsonResponse = xml2Json(responseBody);",
-									"const respBodyObj = pm.expect(jsonResponse.locateMatchingApplicantsResponse);",
 									"",
 									"pm.test(\"Assert the responses for a valid request\", () => {",
-									"    if(pm.iterationData.get(\"isValid\" === \"true\")) {",
-									"        (respBodyObj.foundPartyId).to.be.a(int).and.not.to.be.empty;",
-									"        (respBodyObj.foundSurname).to.eql(pm.iterationData.get('applSurname'));",
-									"        (respBodyObj.firstName).to.eql(pm.iterationData.get('applFirstName'));",
-									"        (respBodyObj.foundBirthDate).to.eql(pm.iterationData.get('applBirthDate'));",
-									"        (respBodyObj.foundDriversLicence).to.be.a(int).and.not.to.be.empty;",
-									"        (respBodyObj.foundBirthPlace).to.eql(pm.iterationData.get('applBirthPlace'));",
-									"        (respBodyObj.genderfoundGenderTxt).to.eql(pm.iterationData.get('applGenderTxt'));",
+									"    if(pm.iterationData.get(\"isValid\") === \"true\") {",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.foundPartyId).to.not.be.null;",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.foundSurname).to.eql(pm.iterationData.get('applSurname'));",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.foundFirstName).to.eql(pm.iterationData.get('applFirstName'));",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.foundBirthDate).to.eql(pm.iterationData.get('applBirthDate'));",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.foundDriversLicence).to.not.be.null;",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.foundBirthPlace).to.eql(pm.iterationData.get('applBirthPlace'));",
+									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.foundGenderTxt).to.eql(pm.iterationData.get('applGenderTxt'));",
 									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respCode).to.eql(\"1\");",
 									"        pm.expect(jsonResponse.locateMatchingApplicantsResponse.respMsg).to.include(\"Success - found Party Id\");",
 									"    }",
@@ -70,12 +76,12 @@
 							"type": "basic",
 							"basic": [
 								{
-									"key": "password",
+									"key": "username",
 									"value": "",
 									"type": "string"
 								},
 								{
-									"key": "username",
+									"key": "password",
 									"value": "",
 									"type": "string"
 								}
@@ -132,54 +138,61 @@
 							"script": {
 								"id": "be274da9-3c46-4ebb-bc90-ab3aefd22e1a",
 								"exec": [
-									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"const jsonResponse = xml2Json(responseBody);",
 									"",
 									"pm.test(\"Assert the responses for a valid request\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === \"true\") {",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql('P');",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql('0');",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.eql('Validation passed.');",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.validationResult).to.eql('P');",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.respCode).to.eql('0');",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.respMsg).to.eql('Validation passed.');",
 									"    }",
 									"});",
 									"",
 									"pm.test(\"Assert the responses for a invalid request\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === \"false\") {",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql('F');",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql('-1');",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.validationResult).to.eql('F');",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.respCode).to.eql('-1');",
 									"    }",
 									"});",
 									"",
 									"pm.test(\"Assert the responses for a valid request with correct format\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === 'trueFormat') {",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql('F');",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).not.to.be.empty;",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.include('Validation Failure:');",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.validationResult).to.eql('F');",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.respCode).not.to.be.empty;",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.respMsg).to.include('Validation Failure:');",
 									"    }",
 									"});",
 									"",
 									"pm.test(\"Assert the response for Party id not for an individual\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === 'notIndividual') {",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql('-22');",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: Applicant Party ID \");",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql(\"F\");",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.respCode).to.eql('-22');",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: Applicant Party ID \");",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.validationResult).to.eql(\"F\");",
 									"    }",
 									"});",
 									" ",
 									"pm.test(\"Assert the response for party id not found\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === 'noPartyId') {",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql('-21');",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: Applicant Party ID\");",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql(\"F\");",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.respCode).to.eql('-20');",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: No Applicant Party ID provided.\");",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.validationResult).to.eql(\"F\");",
 									"    }",
 									"});",
 									"    ",
 									"pm.test(\"Assert the response for org id not found\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === 'noOrgId') {",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respCode).to.eql('-11');",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: Organization Party ID\");",
-									"        pm.expect(jsonResponse.ValidateApplicantServiceResponse.validationResult).to.eql(\"F\");",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.respCode).to.eql('-11');",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.respMsg).to.include(\"Validation Failure: Organization Party ID\");",
+									"        pm.expect(jsonResponse.validateApplicantServiceResponse.validationResult).to.eql(\"F\");",
 									"    }",
 									"});",
 									"        "
@@ -249,7 +262,14 @@
 							"script": {
 								"id": "5cfee195-55d1-40af-b13c-d8b3fe4c0e72",
 								"exec": [
-									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"const respJson = xml2Json(responseBody);",
 									"",
@@ -361,7 +381,14 @@
 							"script": {
 								"id": "5ff8098e-6668-46fa-8ac9-404fb550dc1f",
 								"exec": [
-									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"const respJson = xml2Json(responseBody);",
 									"",
@@ -475,9 +502,16 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5a605816-a521-404b-a8c8-54a2ad516a28",
+								"id": "ab3ef518-de5f-435b-bbab-691b148593a9",
 								"exec": [
-									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"const respJson = xml2Json(responseBody);",
 									"",
@@ -538,7 +572,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "ebc0b7a4-5d0c-4637-8f4d-deefb6d1bb40",
+								"id": "7f77c7ad-e00f-4a1b-b34b-01501d9ecbe6",
 								"exec": [
 									""
 								],
@@ -582,6 +616,114 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "figValidateWithoutOrgParty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a0aac342-8889-4b0d-bc7f-ca2234aa0507",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
+									"",
+									"const respJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Assert response for a valid org party id\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'validParty') {",
+									"        pm.expect(respJson.validateOrgPartyResponse.validationResult).to.eql('P');",
+									"        pm.expect(respJson.validateOrgPartyResponse.foundOrgPartyId).to.eql(pm.iterationData.get('orgPartyId'));",
+									"        pm.expect(respJson.validateOrgPartyResponse.foundOrgName).to.be.a('string').and.not.to.be.empty;",
+									"        pm.expect(respJson.validateOrgPartyResponse.foundOrgType).to.be.a('string').and.not.to.be.empty;",
+									"        pm.expect(respJson.validateOrgPartyResponse.respCode).to.eql('0');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respMsg).to.include(\"Successfully matched subnames \");",
+									"    ",
+									"    const contact =  respJson.validateOrgPartyResponse.contactPersons;",
+									"    ",
+									"        if(contact.length > 1) {",
+									"            for(let i =0; i < contact.length; i ++) {",
+									"                pm.expect(contact[i].contactPersonName).not.to.be.null;",
+									"                pm.expect(contact[i].contactPernRole).not.to.be.null;",
+									"                pm.expect(contact[i].contactPersonPartyId).not.to.be.null;",
+									"            }",
+									"        }",
+									"   }",
+									"});",
+									"",
+									"pm.test(\"Assert response for a invalid city\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'incorrectCity') {",
+									"        pm.expect(respJson.validateOrgPartyResponse.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respCode).to.eql('2');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respMsg).to.include(\"Validation Failure: Provided Sub-names and City did not match any Organizations.\");",
+									"        ",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response for a invalid subname\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'incorrectSubName') {",
+									"        pm.expect(respJson.validateOrgPartyResponse.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respCode).to.eql('2');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respMsg).to.include(\"Validation Failure: Provided Sub-names and City did not match any Organizations.\");",
+									"        ",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Assert response for a request with multiple matches\", () => {",
+									"    if(pm.iterationData.get(\"isValid\") === 'multipleMatch') {",
+									"        pm.expect(respJson.validateOrgPartyResponse.validationResult).to.eql('F');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respCode).to.eql('3');",
+									"        pm.expect(respJson.validateOrgPartyResponse.respMsg).to.include(\"Validation Failure: Provided Sub-names and City matched multiple Organizations.\");",
+									"        ",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/figvalidationservice/validateOrgParty?orgSubName1={{orgSubName1}}&orgSubName2={{orgSubName2}}&orgSubName3={{orgSubName3}}&orgSubName4={{orgSubName4}}&orgCity={{orgCity}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"figvalidationservice",
+								"validateOrgParty"
+							],
+							"query": [
+								{
+									"key": "orgSubName1",
+									"value": "{{orgSubName1}}"
+								},
+								{
+									"key": "orgSubName2",
+									"value": "{{orgSubName2}}"
+								},
+								{
+									"key": "orgSubName3",
+									"value": "{{orgSubName3}}"
+								},
+								{
+									"key": "orgSubName4",
+									"value": "{{orgSubName4}}"
+								},
+								{
+									"key": "orgCity",
+									"value": "{{orgCity}}"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -607,8 +749,13 @@
 							"script": {
 								"id": "d8ecd9d2-aa4a-4711-b3af-ec195e8f3a45",
 								"exec": [
-									"eval(pm.globals.get(\"commonTests\"))();",
 									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"const respJson = xml2Json(responseBody);",
 									"",
 									"pm.test(\"Assert response for a valid facility party\", () => {",
@@ -738,7 +885,14 @@
 							"script": {
 								"id": "1493ea30-f926-4c03-b909-06b4bfa6b0f9",
 								"exec": [
-									"eval(pm.globals.get(\"commonTests\"))();",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"const respJson = xml2Json(responseBody);",
 									"",
