@@ -9,6 +9,7 @@ import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
 import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
+import microsoft.exchange.webservices.data.core.service.item.Item;
 import microsoft.exchange.webservices.data.property.complex.FileAttachment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,12 +68,14 @@ public class EmailPoller {
                 String fileId = this.storageService.put(attachment.get().getContent());
                 logger.info("successfully stored attachments {}", attachment.get().getName());
 
-                DpsMetadata metadata = dpsMetadataMapper.map(
-                        item,
-                        new DpsFileInfo(fileId, attachment.get().getName(),
-                        attachment.get().getContentType()), this.tenant);
-
                 try {
+
+                    logger.debug("attempting to parse email content");
+                    DpsMetadata metadata = dpsMetadataMapper.map(
+                            item,
+                            new DpsFileInfo(fileId, attachment.get().getName(),
+                                    attachment.get().getContentType()), this.tenant);
+                    logger.info("successfully parsed  email content");
 
                     EmailMessage processedItem = emailService.moveToProcessingFolder(item.getId().getUniqueId());
                     metadata.setEmailId(processedItem.getId().getUniqueId());
@@ -81,7 +84,9 @@ public class EmailPoller {
                     messagingService.sendMessage(metadata, this.tenant);
                     logger.info("successfully send message to processing queue");
 
-                } catch (ServiceLocalException e) {
+                } catch (ServiceLocalException | DpsEmailException e) {
+                    // TODO: Refactor this, with proper exception handler
+                    errorHandler(item);
                     logger.error("exception while processing dps emails", e);
                     return;
                 }
@@ -119,6 +124,14 @@ public class EmailPoller {
 
         } catch (DpsEmailException e) {
             logger.error("exception while cleaning junk emails", e);
+        }
+    }
+
+    private void errorHandler(Item item) {
+        try {
+            emailService.moveToErrorFolder(item.getId().getUniqueId());
+        } catch (ServiceLocalException e) {
+            logger.error("exception while moving item to error hold", e);
         }
     }
 

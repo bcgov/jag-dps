@@ -5,6 +5,8 @@ import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailProcessedResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailService;
+import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
+import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -34,6 +36,9 @@ public class DpsEmailConsumerTest {
     DpsFileInfo dpsFileInfoMock;
 
     @Mock
+    FileService fileServiceMock;
+
+    @Mock
     private DpsEmailProcessedResponse dpsEmailProcessedResponseMock;
 
     @BeforeAll
@@ -46,7 +51,10 @@ public class DpsEmailConsumerTest {
 
         Mockito.when(dpsEmailServiceMock.dpsEmailProcessed(Mockito.eq(CASE_1), Mockito.anyString())).thenReturn(dpsEmailProcessedResponseMock);
 
-        sut = new DpsEmailConsumer(dpsEmailServiceMock, storageServiceMock);
+        SftpProperties sftpProperties = new SftpProperties();
+        sftpProperties.setRemoteLocation("test");
+
+        sut = new DpsEmailConsumer(dpsEmailServiceMock, storageServiceMock, fileServiceMock, sftpProperties);
     }
 
     @DisplayName("success - with email processed should return acknowledge")

@@ -52,4 +52,9 @@ public class FileServiceImpl implements FileService {
         return sftpService.getContent(fileInfo.getMetaDataReleaseFileName());
     }
 
+    @Override
+    public void uploadFile(InputStream inputStream, String fileName) {
+        sftpService.put(inputStream, fileName);
+    }
+
 }
