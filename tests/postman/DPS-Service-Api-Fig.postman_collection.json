@@ -1,6 +1,7 @@
 {
 	"info": {
 		"_postman_id": "bc51c1c8-440e-4102-a33f-700b0bdf676b",
+
 		"name": "DPS-Service-Api-Fig",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -22,10 +23,12 @@
 							}
 						},
 						{
+
 							"listen": "test",
 							"script": {
 								"id": "70096e9b-c94e-4a97-beb6-c21b2275b495",
 								"exec": [
+
 									"",
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -34,6 +37,7 @@
 									"pm.test(\"Content-Type is present\", function () {",
 									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
 									"});",
+
 									"",
 									"const jsonResponse = xml2Json(responseBody);",
 									"",
@@ -72,6 +76,7 @@
 						}
 					],
 					"request": {
+
 						"auth": {
 							"type": "basic",
 							"basic": [
@@ -87,6 +92,7 @@
 								}
 							]
 						},
+
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -314,16 +320,6 @@
 								],
 								"type": "text/javascript"
 							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "cf634d16-54d6-4287-bf0c-b29400c73f83",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
 						}
 					],
 					"request": {
@@ -390,7 +386,16 @@
 									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
 									"});",
 									"",
+
 									"const respJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", () => {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"pm.test(\"Assert the responses for a valid request\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === 'true') {",
@@ -445,32 +450,12 @@
 								],
 								"type": "text/javascript"
 							}
+
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
-						"header": [
-							{
-								"key": "applPartyId",
-								"value": "{{applPartyId}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{baseUrl}}/figvalidationservice/validateApplicantPartyId?applPartyId={{applPartyId}}",
 							"host": [
@@ -596,6 +581,7 @@
 								}
 							]
 						},
+
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -735,16 +721,6 @@
 					"name": "figValidateFacilityParty",
 					"event": [
 						{
-							"listen": "prerequest",
-							"script": {
-								"id": "5e837633-fb63-4af2-be34-158762a670d9",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
 							"listen": "test",
 							"script": {
 								"id": "d8ecd9d2-aa4a-4711-b3af-ec195e8f3a45",
@@ -831,21 +807,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -894,7 +855,16 @@
 									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
 									"});",
 									"",
+
 									"const respJson = xml2Json(responseBody);",
+									"",
+									"pm.test(\"Status code is 200\", () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", () => {",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");",
+									"});",
 									"",
 									"pm.test(\"Assert response for a valid request\", () => {",
 									"    if(pm.iterationData.get(\"isValid\") === 'true') {",
@@ -983,6 +953,7 @@
 								}
 							]
 						},
+
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1016,5 +987,20 @@
 			"protocolProfileBehavior": {}
 		}
 	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
 	"protocolProfileBehavior": {}
 }

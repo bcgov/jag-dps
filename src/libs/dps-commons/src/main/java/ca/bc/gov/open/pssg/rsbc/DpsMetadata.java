@@ -1,11 +1,16 @@
 package ca.bc.gov.open.pssg.rsbc;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Base64;
 import java.util.Date;
 
 public class DpsMetadata {
 
     public static class Builder {
 
+        private String emailId;
         private String applicationID;
         private String direction;
         private String inboundChannelType;
@@ -20,9 +25,9 @@ public class DpsMetadata {
         private String body;
         private Integer numberOfPages;
         private String faxJobID;
-        private String attachmentName;
-        private String attachmentContentType;
+        private DpsFileInfo fileInfo;
 
+        public Builder withEmailId(String emailId) { this.emailId = emailId; return this; }
         public Builder withApplicationID(String applicationID) { this.applicationID = applicationID; return this; }
         public Builder withDirection(String direction) { this.direction = direction; return this; }
         public Builder withInboundChannelType(String inboundChannelType) { this.inboundChannelType = inboundChannelType; return this; }
@@ -37,12 +42,11 @@ public class DpsMetadata {
         public Builder withBody(String body) { this.body = body; return this; }
         public Builder withNumberOfPages(Integer numberOfPages) { this.numberOfPages = numberOfPages; return this; }
         public Builder withFaxJobID(String faxJobID) { this.faxJobID = faxJobID; return this; }
-        public Builder withAttachmentName(String attachmentName) { this.attachmentName = attachmentName; return this; }
-        public Builder withAttachmentContentType(String attachmentContentType) { this.attachmentContentType = attachmentContentType; return this; }
+        public Builder withFileInfo(DpsFileInfo fileInfo) { this.fileInfo = fileInfo; return this; }
 
         public DpsMetadata build() {
             DpsMetadata result = new DpsMetadata();
-
+            result.emailId = emailId;
             result.applicationID = applicationID;
             result.direction = direction;
             result.inboundChannelType = inboundChannelType;
@@ -52,19 +56,19 @@ public class DpsMetadata {
             result.to = to;
             result.from = from;
             result.subject = subject;
-            result.recvdate = recvdate;
-            result.sentdate = sentdate;
+            result.receivedDate = recvdate;
+            result.sentDate = sentdate;
             result.body = body;
             result.numberOfPages = numberOfPages;
             result.faxJobID = faxJobID;
-            result.attachmentName = attachmentName;
-            result.attachmentContentType = attachmentContentType;
+            result.fileInfo = fileInfo;
             return result;
 
         }
         
     }
 
+    private String emailId;
     private String applicationID;
     private String direction;
     private String inboundChannelType;
@@ -74,15 +78,62 @@ public class DpsMetadata {
     private String to;
     private String from;
     private String subject;
-    private Date recvdate;
-    private Date sentdate;
+    private Date receivedDate;
+    private Date sentDate;
     private String body;
     private Integer numberOfPages;
     private String faxJobID;
-    private String attachmentName;
-    private String attachmentContentType;
+    private DpsFileInfo fileInfo;
 
     private DpsMetadata() {
+    }
+
+    @JsonCreator
+    public DpsMetadata(
+            @JsonProperty("emailId") String emailId,
+            @JsonProperty("applicationID") String applicationID,
+            @JsonProperty("direction") String direction,
+            @JsonProperty("inboundChannelType") String inboundChannelType,
+            @JsonProperty("inboundChannelID") String inboundChannelID,
+            @JsonProperty("destinationNumber") String destinationNumber,
+            @JsonProperty("originatingNumber") String originatingNumber,
+            @JsonProperty("to") String to,
+            @JsonProperty("from") String from,
+            @JsonProperty("subject") String subject,
+            @JsonProperty("receivedDate") Date receivedDate,
+            @JsonProperty("sentDate") Date sentDate,
+            @JsonProperty("body") String body,
+            @JsonProperty("numberOfPages") Integer numberOfPages,
+            @JsonProperty("faxJobID") String faxJobID,
+            @JsonProperty("fileInfo") DpsFileInfo fileInfo) {
+        this.emailId = emailId;
+        this.applicationID = applicationID;
+        this.direction = direction;
+        this.inboundChannelType = inboundChannelType;
+        this.inboundChannelID = inboundChannelID;
+        this.destinationNumber = destinationNumber;
+        this.originatingNumber = originatingNumber;
+        this.to = to;
+        this.from = from;
+        this.subject = subject;
+        this.receivedDate = receivedDate;
+        this.sentDate = sentDate;
+        this.body = body;
+        this.numberOfPages = numberOfPages;
+        this.faxJobID = faxJobID;
+        this.fileInfo = fileInfo;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public String getBase64EmailId() {
+        return Base64.getEncoder().encodeToString(emailId.getBytes());
     }
 
     public String getApplicationID() {
@@ -121,12 +172,12 @@ public class DpsMetadata {
         return subject;
     }
 
-    public Date getRecvdate() {
-        return recvdate;
+    public Date getReceivedDate() {
+        return receivedDate;
     }
 
-    public Date getSentdate() {
-        return sentdate;
+    public Date getSentDate() {
+        return sentDate;
     }
 
     public String getBody() {
@@ -141,12 +192,8 @@ public class DpsMetadata {
         return faxJobID;
     }
 
-    public String getAttachmentName() {
-        return attachmentName;
-    }
-
-    public String getAttachmentContentType() {
-        return attachmentContentType;
+    public DpsFileInfo getFileInfo() {
+        return fileInfo;
     }
 
 }

@@ -46,11 +46,11 @@ public class OrganizationController {
     public ValidateOrgPartyResponse ValidateOrgParty(
             @ApiParam(value = "orgCity", required = false) @RequestParam(value="orgCity", defaultValue="") String orgCity,
             @ApiParam(value = "orgPartyId", required = false) @RequestParam(value="orgPartyId", defaultValue="") String orgPartyId,
-            @ApiParam(value = "orgSubname1", required = false) @RequestParam(value="orgSubname1", defaultValue="") String orgSubname1,
-            @ApiParam(value = "orgSubname2", required = false) @RequestParam(value="orgSubname2", defaultValue="") String orgSubname2,
-            @ApiParam(value = "orgSubname3", required = false) @RequestParam(value="orgSubname3", defaultValue="") String orgSubname3,
-            @ApiParam(value = "orgSubname4", required = false) @RequestParam(value="orgSubname4", defaultValue="") String orgSubname4,
-            @ApiParam(value = "orgSubname5", required = false) @RequestParam(value="orgSubname5", defaultValue="") String orgSubname5) {
+            @ApiParam(value = "orgSubName1", required = false) @RequestParam(value="orgSubName1", defaultValue="") String orgSubname1,
+            @ApiParam(value = "orgSubName2", required = false) @RequestParam(value="orgSubName2", defaultValue="") String orgSubname2,
+            @ApiParam(value = "orgSubName3", required = false) @RequestParam(value="orgSubName3", defaultValue="") String orgSubname3,
+            @ApiParam(value = "orgSubName4", required = false) @RequestParam(value="orgSubName4", defaultValue="") String orgSubname4,
+            @ApiParam(value = "orgSubName5", required = false) @RequestParam(value="orgSubName5", defaultValue="") String orgSubname5) {
 
         return this.organizationService.validateOrgParty(new ValidateOrgPartyRequest(orgCity, orgPartyId, orgSubname1, orgSubname2, orgSubname3, orgSubname4, orgSubname5));
     }

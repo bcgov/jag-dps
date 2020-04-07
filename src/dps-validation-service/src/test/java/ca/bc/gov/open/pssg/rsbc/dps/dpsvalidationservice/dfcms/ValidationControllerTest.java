@@ -50,7 +50,7 @@ class ValidationControllerTest {
 
     @Test
     public void withValidDriverLicenceAndSurCodeShouldReturnSuccess() {
-        CaseSequenceNumberResponse response = sut.getValidOpenDfcmsCase(DRIVER_LICENCE_VALID, SURNAME_CODE_VALID);
+        CaseSequenceNumberResponse response = sut.getValidOpenDfcmCase(DRIVER_LICENCE_VALID, SURNAME_CODE_VALID);
         Assert.assertEquals(Integer.parseInt(STATUS_CODE), response.getRespCode());
         Assert.assertEquals(STATUS_MESSAGE, response.getRespMsg());
         Assert.assertEquals(CODE_SUCCESS, response.getCaseSequenceNumber());
@@ -59,19 +59,19 @@ class ValidationControllerTest {
 
     @Test
     public void withInvalidDriverLicenceShouldReturnErrorResponse() {
-        CaseSequenceNumberResponse response = sut.getValidOpenDfcmsCase(DRIVER_LICENCE_INVALID, SURNAME_CODE_VALID);
+        CaseSequenceNumberResponse response = sut.getValidOpenDfcmCase(DRIVER_LICENCE_INVALID, SURNAME_CODE_VALID);
         Assert.assertEquals(DpsValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
     }
 
     @Test
     public void withInvalidSurcodeShouldReturnErrorResponse() {
-        CaseSequenceNumberResponse response = sut.getValidOpenDfcmsCase(DRIVER_LICENCE_VALID, SURNAME_CODE_INVALID);
+        CaseSequenceNumberResponse response = sut.getValidOpenDfcmCase(DRIVER_LICENCE_VALID, SURNAME_CODE_INVALID);
         Assert.assertEquals(DpsValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
     }
 
     @Test
     public void withErrorShouldReturnErrorResponse() {
-        CaseSequenceNumberResponse response = sut.getValidOpenDfcmsCase(CODE_FAIL, SURNAME_CODE_VALID);
+        CaseSequenceNumberResponse response = sut.getValidOpenDfcmCase(CODE_FAIL, SURNAME_CODE_VALID);
         Assert.assertEquals(DpsValidationServiceConstants.VALIDATION_SERVICE_FAILURE_CD, response.getRespCode());
     }
 

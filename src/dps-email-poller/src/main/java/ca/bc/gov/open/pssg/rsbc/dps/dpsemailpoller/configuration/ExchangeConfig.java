@@ -22,7 +22,7 @@ public class ExchangeConfig {
     }
 
     @Bean
-    @Scope("singleton")
+    @Scope("prototype")
     @SuppressWarnings("squid:S2095")
     // We are suppressing the warning about Resources should be closed.
     // ExchangeService implements the Closable interface but we are not sure how this should be handled in a spring boot context.

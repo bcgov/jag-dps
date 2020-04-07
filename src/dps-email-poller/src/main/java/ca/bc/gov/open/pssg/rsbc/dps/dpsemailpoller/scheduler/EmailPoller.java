@@ -1,11 +1,15 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
+import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
+import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsMetadataMapper;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.EmailService;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.DpsMetadataMapper;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
+import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
+import microsoft.exchange.webservices.data.property.complex.FileAttachment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class EmailPoller {
@@ -23,16 +28,19 @@ public class EmailPoller {
     private final DpsMetadataMapper dpsMetadataMapper;
     private final MessagingService messagingService;
     private final String tenant;
+    private final StorageService storageService;
 
     public EmailPoller(
             EmailService emailService,
             DpsMetadataMapper dpsMetadataMapper,
             MessagingService messagingService,
+            StorageService storageService,
             @Value("${dps.tenant}") String tenant) {
         this.emailService = emailService;
         this.dpsMetadataMapper = dpsMetadataMapper;
         this.messagingService = messagingService;
         this.tenant = tenant;
+        this.storageService = storageService;
     }
 
     @Scheduled(cron = "${mailbox.poller.cron}")
@@ -47,16 +55,41 @@ public class EmailPoller {
 
             dpsEmails.forEach(item -> {
 
-                emailService.moveToProcessingFolder(item);
-                logger.info("successfully moved message to processing folder");
+                logger.debug("attempting to retrieve email attachments");
+                List<FileAttachment> fileAttachments = emailService.getFileAttachments(item);
+                logger.info("successfully retrieved {} attachments", fileAttachments.size());
 
-                DpsMetadata metadata = dpsMetadataMapper.map(item, this.tenant);
+                Optional<FileAttachment> attachment = fileAttachments.stream().findFirst();
 
-                messagingService.sendMessage(metadata, this.tenant);
-                logger.info("successfully send message to processing queue");
+                if (!attachment.isPresent()) throw new DpsEmailException("No attachment present in email.");
+
+                logger.debug("attempting to store email attachment");
+                String fileId = this.storageService.put(attachment.get().getContent());
+                logger.info("successfully stored attachments {}", attachment.get().getName());
+
+                DpsMetadata metadata = dpsMetadataMapper.map(
+                        item,
+                        new DpsFileInfo(fileId, attachment.get().getName(),
+                        attachment.get().getContentType()), this.tenant);
+
+                try {
+
+                    EmailMessage processedItem = emailService.moveToProcessingFolder(item.getId().getUniqueId());
+                    metadata.setEmailId(processedItem.getId().getUniqueId());
+                    logger.info("successfully moved message to processing folder");
+
+                    messagingService.sendMessage(metadata, this.tenant);
+                    logger.info("successfully send message to processing queue");
+
+                } catch (ServiceLocalException e) {
+                    logger.error("exception while processing dps emails", e);
+                    return;
+                }
+
             });
 
         } catch (DpsEmailException e) {
+
             logger.error("exception while processing dps emails", e);
         }
     }
@@ -75,7 +108,12 @@ public class EmailPoller {
 
             junkEmails.forEach(item -> {
 
-                emailService.moveToErrorFolder(item);
+                try {
+                    emailService.moveToErrorFolder(item.getId().getUniqueId());
+                } catch (ServiceLocalException e) {
+                    return;
+                }
+
                 logger.info("successfully moved message to errorHold folder");
             });
 
