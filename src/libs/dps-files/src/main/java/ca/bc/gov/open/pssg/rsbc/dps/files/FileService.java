@@ -30,4 +30,6 @@ public interface FileService {
 
     InputStream getMetadataFileContent(FileInfo fileInfo);
 
+    void uploadFile(InputStream inputStream, String fileName);
+
 }

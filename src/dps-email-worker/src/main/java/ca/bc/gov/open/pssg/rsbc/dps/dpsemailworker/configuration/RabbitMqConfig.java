@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties(TenantProperties.class)
-public class RabbitMqConfiguration {
+public class RabbitMqConfig {
     private final TenantProperties tenantProperties;
 
-    public RabbitMqConfiguration(TenantProperties tenantProperties) {
+    public RabbitMqConfig(TenantProperties tenantProperties) {
         this.tenantProperties = tenantProperties;
     }
 

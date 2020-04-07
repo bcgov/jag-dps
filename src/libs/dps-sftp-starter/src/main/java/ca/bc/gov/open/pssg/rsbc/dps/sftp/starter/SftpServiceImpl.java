@@ -89,4 +89,28 @@ public class SftpServiceImpl implements SftpService {
                 channelSftp.disconnect();
         }
     }
+
+    @Override
+    public void put(InputStream inputStream, String remoteFileName) {
+
+
+        ChannelSftp channelSftp = null;
+
+        try {
+            logger.debug("Attempting to open sftp channel");
+            channelSftp = (ChannelSftp) session.openChannel("sftp");
+            channelSftp.connect();
+            logger.debug("Successfully connected to sftp server");
+
+            channelSftp.put(inputStream, remoteFileName);
+            logger.debug("Successfully uploadeed file [{}]", remoteFileName );
+
+        } catch (JSchException | SftpException e) {
+            throw new DpsSftpException(e.getMessage(), e.getCause());
+        } finally {
+            if(channelSftp != null && channelSftp.isConnected())
+                channelSftp.disconnect();
+        }
+
+    }
 }

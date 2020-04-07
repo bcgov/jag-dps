@@ -4,17 +4,26 @@ import ca.bc.gov.open.dps.email.client.api.DpsEmailProcessingApi;
 import ca.bc.gov.open.dps.email.client.api.handler.ApiClient;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailServiceImpl;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DpsEmailConfiguration {
+@EnableConfigurationProperties(DpsEmailProperties.class)
+public class DpsEmailConfig {
+
+    private final DpsEmailProperties dpsEmailProperties;
+
+    public DpsEmailConfig(DpsEmailProperties dpsEmailProperties) {
+        this.dpsEmailProperties = dpsEmailProperties;
+    }
 
     @Bean
     public ApiClient apiClient() {
+
         ApiClient apiClient = new ApiClient();
 
-        apiClient.setBasePath("http://localhost:12345/dpsemailpoller");
+        apiClient.setBasePath(dpsEmailProperties.getBasePath());
 
         return apiClient;
     }
