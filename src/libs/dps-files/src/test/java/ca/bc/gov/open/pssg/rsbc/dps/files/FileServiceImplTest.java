@@ -9,10 +9,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FileServiceImplTest {
 
 
+    public static final String FILE_NAME = "test.txt";
     private FileServiceImpl sut;
 
     public static final String FILE_ID = "fileId";
@@ -26,6 +30,7 @@ public class FileServiceImplTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         Mockito.doNothing().when(sftpServiceMock).moveFile(Mockito.anyString(), Mockito.anyString());
+        Mockito.doNothing().when(sftpServiceMock).put(Mockito.any(InputStream.class), Mockito.anyString());
         sut = new FileServiceImpl(sftpServiceMock);
     }
 
@@ -60,6 +65,17 @@ public class FileServiceImplTest {
         Mockito.verify(sftpServiceMock, Mockito.times(1))
                 .moveFile(Mockito.eq("rootFolder/release/fileId.xml"),
                         Mockito.eq("rootFolder/error/fileId.xml"));
+
+    }
+
+    @Test
+    public void withFileItShouldUploadFile() {
+
+        String value = "some content";
+
+        Assertions.assertDoesNotThrow(() -> sut.uploadFile(new ByteArrayInputStream(value.getBytes()), FILE_NAME));
+
+        Mockito.verify(sftpServiceMock, Mockito.times(1)).put(Mockito.any(InputStream.class), Mockito.eq(FILE_NAME));
 
     }
 

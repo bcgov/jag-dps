@@ -12,14 +12,20 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.io.InputStream;
+import java.text.MessageFormat;
+
 @DisplayName("DpsEmailConsumer test suite")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DpsEmailConsumerTest {
 
-    public static final String CASE_1 = "case1";
-    public static final String CASE_2 = "case2";
-    public static final String EMAIL_EXCEPTION = "email exception";
-    public static final String CORRELATION = "correlation";
+    private static final String CASE_1 = "case1";
+    private static final String CASE_2 = "case2";
+    private static final String EMAIL_EXCEPTION = "email exception";
+    private static final String CORRELATION = "correlation";
+    private static final String FAKE_CONTENT = "fake content";
+    private static final String FILE_NAME = "test.txt";
+    private static final String REMOTE_LOCATION = "anyfolder";
 
     private DpsEmailConsumer sut;
 
@@ -46,13 +52,15 @@ public class DpsEmailConsumerTest {
 
         MockitoAnnotations.initMocks(this);
 
+        Mockito.when(storageServiceMock.get(CASE_1)).thenReturn(FAKE_CONTENT.getBytes());
+
         Mockito.when(dpsMetadataMock.getFileInfo()).thenReturn(dpsFileInfoMock);
         Mockito.when(dpsFileInfoMock.getId()).thenReturn("id");
 
         Mockito.when(dpsEmailServiceMock.dpsEmailProcessed(Mockito.eq(CASE_1), Mockito.anyString())).thenReturn(dpsEmailProcessedResponseMock);
 
         SftpProperties sftpProperties = new SftpProperties();
-        sftpProperties.setRemoteLocation("test");
+        sftpProperties.setRemoteLocation(REMOTE_LOCATION);
 
         sut = new DpsEmailConsumer(dpsEmailServiceMock, storageServiceMock, fileServiceMock, sftpProperties);
     }
@@ -62,8 +70,16 @@ public class DpsEmailConsumerTest {
     public void withEmailProcessedShouldReturnSuccess() {
 
         Assertions.assertDoesNotThrow(() -> {
-            sut.receiveMessage(new DpsMetadata.Builder().withApplicationID(CASE_1).withFileInfo(new DpsFileInfo("id", "name", "String")).withEmailId("a@a.com").build());
+            sut.receiveMessage(new DpsMetadata.Builder().withApplicationID(CASE_1).withFileInfo(new DpsFileInfo(CASE_1, FILE_NAME, "String")).withEmailId("a@a.com").build());
         });
+
+        String expectedRemoteFileName = MessageFormat.format("{0}/{1}", REMOTE_LOCATION, FILE_NAME);
+
+        Mockito.verify(fileServiceMock, Mockito.times(1))
+                .uploadFile(Mockito.any(InputStream.class), Mockito.eq(expectedRemoteFileName));
+
+
+
     }
 
 }

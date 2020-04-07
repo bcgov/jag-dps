@@ -55,6 +55,7 @@ public class SftpServiceImplTest {
         Mockito.when(channelSftpMock.get(CASE_1)).thenReturn(fakeInputStream());
         Mockito.when(channelSftpMock.get(CASE_3)).thenThrow(SftpException.class);
         Mockito.when(channelSftpMock.get(CASE_4)).thenReturn(null);
+        Mockito.when(channelSftpMock.isConnected()).thenReturn(true);
 
         sut = new SftpServiceImpl(sessionMock);
     }
@@ -105,6 +106,20 @@ public class SftpServiceImplTest {
         Mockito.doThrow(SftpException.class).when(channelSftpMock).rename(Mockito.anyString(), Mockito.anyString());
         Assertions.assertThrows(DpsSftpException.class, () -> {
             sut.moveFile(FILE_1, FILE_2);
+        });
+    }
+
+    @Test
+    public void forPutWithInputstreamShouldPutFile() {
+        Assertions.assertDoesNotThrow(() -> sut.put(new ByteArrayInputStream(FAKE_INPUT_STREAM.getBytes()), CASE_1));
+    }
+
+    @Test
+    public void forPutWithSftpExceptionShouldTrhowDpsSftpException() throws SftpException {
+        String value= "some text";
+        Mockito.doThrow(SftpException.class).when(channelSftpMock).put(Mockito.any(InputStream.class), Mockito.eq(CASE_2));
+        Assertions.assertThrows(DpsSftpException.class, () -> {
+            sut.put(new ByteArrayInputStream(FAKE_INPUT_STREAM.getBytes()), CASE_2);
         });
     }
 

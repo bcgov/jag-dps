@@ -49,7 +49,7 @@ public class DpsEmailConsumer {
             logger.info("message attachment content retrieved [{}]", dpsFileInfo.getId());
 
             logger.debug("Attempting to upload image file to SFTP server");
-            fileService.uploadFile(new ByteArrayInputStream(content), MessageFormat.format("upload/{0}", message.getFileInfo().getName()));
+            fileService.uploadFile(new ByteArrayInputStream(content), MessageFormat.format("{0}/{1}", sftpProperties.getRemoteLocation(), message.getFileInfo().getName()));
             logger.info("Successfully uploaded image file to remote SFTP server");
 
             //TODO: when id will be generated for kofax, it will replace TBD.
@@ -57,10 +57,8 @@ public class DpsEmailConsumer {
             DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailProcessed(message.getBase64EmailId(), "TBD");
             logger.info("Successfully moved email to processed folder");
 
-
-
-
         } catch (Exception e) {
+            // TODO: handle exception using rabbit mq
             logger.error("Error in {} while processing message: ", e.getClass().getSimpleName(), e);
         }
     }
