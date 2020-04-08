@@ -1,7 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker;
 
-import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
-import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionService;
+import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
+import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailProcessedResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailService;
@@ -45,6 +46,9 @@ public class DpsEmailConsumerTest {
     FileService fileServiceMock;
 
     @Mock
+    ImportSessionService importSessionService;
+
+    @Mock
     private DpsEmailProcessedResponse dpsEmailProcessedResponseMock;
 
     @BeforeAll
@@ -62,7 +66,8 @@ public class DpsEmailConsumerTest {
         SftpProperties sftpProperties = new SftpProperties();
         sftpProperties.setRemoteLocation(REMOTE_LOCATION);
 
-        sut = new DpsEmailConsumer(dpsEmailServiceMock, storageServiceMock, fileServiceMock, sftpProperties);
+        sut = new DpsEmailConsumer(dpsEmailServiceMock, storageServiceMock, fileServiceMock, sftpProperties,
+                importSessionService);
     }
 
     @DisplayName("success - with email processed should return acknowledge")
@@ -77,8 +82,6 @@ public class DpsEmailConsumerTest {
 
         Mockito.verify(fileServiceMock, Mockito.times(1))
                 .uploadFile(Mockito.any(InputStream.class), Mockito.eq(expectedRemoteFileName));
-
-
 
     }
 

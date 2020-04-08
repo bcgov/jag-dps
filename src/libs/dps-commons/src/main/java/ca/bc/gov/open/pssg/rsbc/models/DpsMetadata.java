@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pssg.rsbc;
+package ca.bc.gov.open.pssg.rsbc.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,8 +20,8 @@ public class DpsMetadata {
         private String to;
         private String from;
         private String subject;
-        private Date recvdate;
-        private Date sentdate;
+        private Date receivedDate;
+        private Date sentDate;
         private String body;
         private Integer numberOfPages;
         private String faxJobID;
@@ -37,8 +37,8 @@ public class DpsMetadata {
         public Builder withTo(String to) { this.to = to; return this; }
         public Builder withFrom(String from) { this.from = from; return this; }
         public Builder withSubject(String subject) { this.subject = subject; return this; }
-        public Builder withRecvdate(Date recvdate) { this.recvdate = recvdate; return this; }
-        public Builder withSentdate(Date sentdate) { this.sentdate = sentdate; return this; }
+        public Builder withRecvdate(Date receivedDate) { this.receivedDate = receivedDate; return this; }
+        public Builder withSentdate(Date sentDate) { this.sentDate = sentDate; return this; }
         public Builder withBody(String body) { this.body = body; return this; }
         public Builder withNumberOfPages(Integer numberOfPages) { this.numberOfPages = numberOfPages; return this; }
         public Builder withFaxJobID(String faxJobID) { this.faxJobID = faxJobID; return this; }
@@ -56,8 +56,8 @@ public class DpsMetadata {
             result.to = to;
             result.from = from;
             result.subject = subject;
-            result.receivedDate = recvdate;
-            result.sentDate = sentdate;
+            result.receivedDate = receivedDate;
+            result.sentDate = sentDate;
             result.body = body;
             result.numberOfPages = numberOfPages;
             result.faxJobID = faxJobID;

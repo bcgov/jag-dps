@@ -1,7 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker;
 
-import ca.bc.gov.open.pssg.rsbc.DpsFileInfo;
-import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionService;
+import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
+import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailProcessedResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailService;
@@ -27,12 +28,15 @@ public class DpsEmailConsumer {
 
     private final SftpProperties sftpProperties;
 
+    private final ImportSessionService importSessionService;
+
     public DpsEmailConsumer(DpsEmailService dpsEmailService, StorageService storageService, FileService fileService,
-                            SftpProperties sftpProperties) {
+                            SftpProperties sftpProperties, ImportSessionService importSessionService) {
         this.dpsEmailService = dpsEmailService;
         this.storageService = storageService;
         this.fileService = fileService;
         this.sftpProperties = sftpProperties;
+        this.importSessionService = importSessionService;
     }
 
     @RabbitListener(queues = Keys.EMAIL_QUEUE_NAME)
@@ -51,6 +55,8 @@ public class DpsEmailConsumer {
             logger.debug("Attempting to upload image file to SFTP server");
             fileService.uploadFile(new ByteArrayInputStream(content), MessageFormat.format("{0}/{1}", sftpProperties.getRemoteLocation(), message.getFileInfo().getName()));
             logger.info("Successfully uploaded image file to remote SFTP server");
+
+            String xml = importSessionService.generateImportSessionXml(message);
 
             //TODO: when id will be generated for kofax, it will replace TBD.
             logger.info("Attempting to move email to processed folder\"");
