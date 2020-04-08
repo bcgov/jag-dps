@@ -19,4 +19,9 @@ public class Keys {
      */
     public static final String OUTPUT_NOTIFICATION_VALUE = "emailMessage";
 
+    /**
+     * DO NOT CHANGE - The default kofax control folder
+     */
+    public static final String KOFAX_CONTROL_FOLDER = "control";
+
 }

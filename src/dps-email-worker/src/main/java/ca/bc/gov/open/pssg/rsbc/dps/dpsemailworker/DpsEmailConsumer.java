@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.ImportSession;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionService;
 import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
@@ -20,6 +21,7 @@ import java.text.MessageFormat;
 
 @Component
 public class DpsEmailConsumer {
+    public static final String XML = ".xml";
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final DpsEmailService dpsEmailService;
@@ -44,11 +46,14 @@ public class DpsEmailConsumer {
     @RabbitListener(queues = Keys.EMAIL_QUEUE_NAME)
     public void receiveMessage(DpsMetadata message) {
 
+        MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, message.getTransactionId().toString());
+
         logger.info("received new {}", message);
 
-        try {
+        ImportSession session = importSessionService.generateImportSession(message);
+        if(!session.getBatchName().isPresent()) throw new DpsEmailWorkerException("batch name is required.");
 
-            MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, message.getTransactionId().toString());
+        try {
 
             logger.debug("attempting to get message meta data [{}]", message);
             DpsFileInfo dpsFileInfo = message.getFileInfo();
@@ -61,7 +66,13 @@ public class DpsEmailConsumer {
             fileService.uploadFile(new ByteArrayInputStream(content), MessageFormat.format("{0}/{1}", sftpProperties.getRemoteLocation(), message.getFileInfo().getName()));
             logger.info("Successfully uploaded image file to remote SFTP server");
 
-            String xml = importSessionService.generateImportSessionXml(message);
+            logger.debug("Attempting to upload definition file to SFTP server");
+            fileService.uploadFile(new ByteArrayInputStream(importSessionService.convertToXmlBytes(session)), MessageFormat.format("{0}/{1}.{2}", sftpProperties.getRemoteLocation(), session.getBatchName().get(), XML));
+            logger.info("Successfully uploaded definition file to remote SFTP server");
+
+            logger.debug("Attempting to upload control file to SFTP server");
+            fileService.uploadFile(new ByteArrayInputStream("".getBytes()), MessageFormat.format("{0}/{1}/{2}.{3}", sftpProperties.getRemoteLocation(), Keys.KOFAX_CONTROL_FOLDER,  session.getBatchName().get(), XML));
+            logger.info("Successfully uploaded control file to remote SFTP server");
 
             //TODO: when id will be generated for kofax, it will replace TBD.
             logger.info("Attempting to move email to processed folder\"");

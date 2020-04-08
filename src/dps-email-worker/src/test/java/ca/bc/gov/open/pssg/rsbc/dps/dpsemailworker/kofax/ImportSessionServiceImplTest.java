@@ -88,7 +88,7 @@ public class ImportSessionServiceImplTest {
 
         Pattern pattern = Pattern.compile(patternValue);
 
-        String result = sut.generateImportSessionXml(metadata);
+        String result = new String(sut.convertToXmlBytes(sut.generateImportSession(metadata)));
 
         if (!pattern.matcher(result).matches()) {
             // this will make the test fail and show the diff with the regex and the value
