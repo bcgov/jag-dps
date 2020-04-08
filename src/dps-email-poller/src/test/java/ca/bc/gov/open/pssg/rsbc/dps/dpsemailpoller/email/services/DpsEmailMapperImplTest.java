@@ -108,7 +108,7 @@ public class DpsEmailMapperImplTest {
 
         DpsMetadata result = sut.map(messageMock, new DpsFileInfo(ID, NAME, CONTENT_TYPE), TENANT);
 
-        Assertions.assertEquals(TENANT, result.getApplicationID());
+        Assertions.assertEquals(TENANT, result.getApplicationId());
         Assertions.assertEquals(VALIDHTML, result.getBody());
         Assertions.assertEquals(PHONE_NUMBER, result.getOriginatingNumber());
         Assertions.assertEquals(INBOUND, result.getDirection());
@@ -209,7 +209,7 @@ public class DpsEmailMapperImplTest {
 
         DpsMetadata result = sut.map(messageMock, new DpsFileInfo(ID, NAME, CONTENT_TYPE) ,TENANT);
 
-        Assertions.assertEquals(TENANT, result.getApplicationID());
+        Assertions.assertEquals(TENANT, result.getApplicationId());
         Assertions.assertEquals(VALIDHTML, result.getBody());
         Assertions.assertEquals(PHONE_NUMBER, result.getOriginatingNumber());
         Assertions.assertEquals(INBOUND, result.getDirection());
