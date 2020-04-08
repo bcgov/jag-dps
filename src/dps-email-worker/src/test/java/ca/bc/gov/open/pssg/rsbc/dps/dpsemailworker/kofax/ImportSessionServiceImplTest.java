@@ -1,6 +1,5 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax;
 
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.configuration.JaxbConfig;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.configuration.TenantProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionServiceImpl;
 import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
@@ -48,7 +47,7 @@ public class ImportSessionServiceImplTest {
         TenantProperties tenantProperties = new TenantProperties();
         tenantProperties.setName(TENANT);
 
-        sut = new ImportSessionServiceImpl(kofaxProperties, tenantProperties, getImportSessionJaxbContext());
+        sut = new ImportSessionServiceImpl(kofaxProperties, tenantProperties, getImportSessionJaxbContext(kofaxProperties, tenantProperties));
 
     }
 
@@ -109,11 +108,12 @@ public class ImportSessionServiceImplTest {
 
     }
 
-    private JAXBContext getImportSessionJaxbContext() {
+    private JAXBContext getImportSessionJaxbContext(KofaxProperties kofaxProperties, TenantProperties tenantProperties) {
 
-        JaxbConfig config = new JaxbConfig();
+        KofaxConfig config = new KofaxConfig(kofaxProperties, tenantProperties);
 
         JAXBContext result = null;
+
         try {
             result = config.kofaxImportSessionJaxbContext();
         } catch (JAXBException e) {
