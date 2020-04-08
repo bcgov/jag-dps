@@ -1,6 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging;
 
-import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
+import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 
 
 /**

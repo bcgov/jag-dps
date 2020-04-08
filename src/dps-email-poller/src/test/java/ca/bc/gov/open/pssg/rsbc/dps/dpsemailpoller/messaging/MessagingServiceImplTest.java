@@ -1,6 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging;
 
-import ca.bc.gov.open.pssg.rsbc.DpsMetadata;
+import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import microsoft.exchange.webservices.data.core.service.item.Item;
 import org.junit.jupiter.api.Assertions;
