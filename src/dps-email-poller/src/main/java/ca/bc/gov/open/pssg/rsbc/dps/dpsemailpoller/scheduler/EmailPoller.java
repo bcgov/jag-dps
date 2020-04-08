@@ -7,12 +7,14 @@ import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.DpsMetadataMapper;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
+import ca.bc.gov.open.pssg.rsbc.monitoring.MdcConstants;
 import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.core.service.item.Item;
 import microsoft.exchange.webservices.data.property.complex.FileAttachment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,6 +24,7 @@ import java.util.Optional;
 
 @Component
 public class EmailPoller {
+
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -75,6 +78,8 @@ public class EmailPoller {
                             item,
                             new DpsFileInfo(fileId, attachment.get().getName(),
                                     attachment.get().getContentType()), this.tenant);
+                    MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, metadata.getTransactionId().toString());
+
                     logger.info("successfully parsed  email content");
 
                     EmailMessage processedItem = emailService.moveToProcessingFolder(item.getId().getUniqueId());
@@ -89,6 +94,8 @@ public class EmailPoller {
                     errorHandler(item);
                     logger.error("exception while processing dps emails", e);
                     return;
+                } finally {
+                    MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
                 }
 
             });

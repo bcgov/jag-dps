@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 
 public class DpsMetadata {
 
@@ -47,7 +48,7 @@ public class DpsMetadata {
         public DpsMetadata build() {
             DpsMetadata result = new DpsMetadata();
             result.emailId = emailId;
-            result.applicationID = applicationID;
+            result.applicationId = applicationID;
             result.direction = direction;
             result.inboundChannelType = inboundChannelType;
             result.inboundChannelID = inboundChannelID;
@@ -68,8 +69,9 @@ public class DpsMetadata {
         
     }
 
+    private UUID transactionId;
     private String emailId;
-    private String applicationID;
+    private String applicationId;
     private String direction;
     private String inboundChannelType;
     private String inboundChannelID;
@@ -85,7 +87,8 @@ public class DpsMetadata {
     private String faxJobID;
     private DpsFileInfo fileInfo;
 
-    private DpsMetadata() {
+    protected DpsMetadata() {
+        transactionId = UUID.randomUUID();
     }
 
     @JsonCreator
@@ -107,7 +110,7 @@ public class DpsMetadata {
             @JsonProperty("faxJobID") String faxJobID,
             @JsonProperty("fileInfo") DpsFileInfo fileInfo) {
         this.emailId = emailId;
-        this.applicationID = applicationID;
+        this.applicationId = applicationID;
         this.direction = direction;
         this.inboundChannelType = inboundChannelType;
         this.inboundChannelID = inboundChannelID;
@@ -124,6 +127,10 @@ public class DpsMetadata {
         this.fileInfo = fileInfo;
     }
 
+    public UUID getTransactionId() {
+        return transactionId;
+    }
+
     public String getEmailId() {
         return emailId;
     }
@@ -136,8 +143,8 @@ public class DpsMetadata {
         return Base64.getEncoder().encodeToString(emailId.getBytes());
     }
 
-    public String getApplicationID() {
-        return applicationID;
+    public String getApplicationId() {
+        return applicationId;
     }
 
     public String getDirection() {

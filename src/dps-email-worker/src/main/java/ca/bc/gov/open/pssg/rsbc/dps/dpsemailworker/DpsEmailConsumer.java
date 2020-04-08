@@ -8,8 +8,10 @@ import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailProcessedResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
+import ca.bc.gov.open.pssg.rsbc.monitoring.MdcConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +47,9 @@ public class DpsEmailConsumer {
         logger.info("received new {}", message);
 
         try {
+
+            MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, message.getTransactionId().toString());
+
             logger.debug("attempting to get message meta data [{}]", message);
             DpsFileInfo dpsFileInfo = message.getFileInfo();
 
@@ -66,6 +71,8 @@ public class DpsEmailConsumer {
         } catch (Exception e) {
             // TODO: handle exception using rabbit mq
             logger.error("Error in {} while processing message: ", e.getClass().getSimpleName(), e);
+        } finally {
+            MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
         }
     }
 

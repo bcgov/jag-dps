@@ -19,14 +19,14 @@ import java.util.regex.Pattern;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ImportSessionServiceImplTest {
 
-    public static final String INBOUND_CHANNEL_TYPE = "ICP";
-    public static final String CASE_1 = "case1";
-    public static final String NAME = "case1.ext";
-    public static final String CONTENT_TYPE = "application/text";
-    public static final String PASSWORD = "changemepass";
-    public static final String USER_ID = "changemeuser";
-    public static final String TENANT = "TEST";
-    public ImportSessionServiceImpl sut;
+    private static final String INBOUND_CHANNEL_TYPE = "ICP";
+    private static final String CASE_1 = "case1";
+    private static final String NAME = "case1.ext";
+    private static final String CONTENT_TYPE = "application/text";
+    private static final String PASSWORD = "changemepass";
+    private static final String USER_ID = "changemeuser";
+    private static final String TENANT = "TEST";
+    private ImportSessionServiceImpl sut;
 
     @BeforeEach
     public void setUp() {
@@ -54,6 +54,14 @@ public class ImportSessionServiceImplTest {
     @Test
     public void withValidDataShouldSendImageAndXml() {
 
+        DpsFileInfo fileInfo = new DpsFileInfo(CASE_1, NAME, CONTENT_TYPE);
+
+        DpsMetadata metadata = new DpsMetadata.Builder()
+                .withInboundChannelType(INBOUND_CHANNEL_TYPE)
+                .withFileInfo(fileInfo)
+                .withRecvdate(getDate())
+                .withOriginatingNumber("250387-481")
+                .build();
 
         String patternValue = "<\\?xml version=\"1\\.0\" encoding=\"UTF-8\" standalone=\"yes\"\\?>" +
                 "<ImportSession UserID=\"" + USER_ID + "\" Password=\"" + PASSWORD + "\">" +
@@ -70,8 +78,7 @@ public class ImportSessionServiceImplTest {
                 "<BatchField Name=\"OriginatingNumber\" Value=\"250387-481\"\\/>" +
                 "<BatchField " +
                 "Name=\"ImportID\" " +
-                "Value=\"[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12" +
-                "}\"\\/><\\/BatchFields>" +
+                "Value=\"" + metadata.getTransactionId().toString() + "\"\\/><\\/BatchFields>" +
                 "<Pages>" +
                 "<Page ImportFileName=\"" + NAME + "\" OriginalFileName=\"" + NAME + "\"\\/>" +
                 "<\\/Pages>" +
@@ -80,16 +87,6 @@ public class ImportSessionServiceImplTest {
                 "<\\/ImportSession>";
 
         Pattern pattern = Pattern.compile(patternValue);
-
-        DpsFileInfo fileInfo = new DpsFileInfo(CASE_1, NAME, CONTENT_TYPE);
-
-
-        DpsMetadata metadata = new DpsMetadata.Builder()
-                .withInboundChannelType(INBOUND_CHANNEL_TYPE)
-                .withFileInfo(fileInfo)
-                .withRecvdate(getDate())
-                .withOriginatingNumber("250387-481")
-                .build();
 
         String result = sut.generateImportSessionXml(metadata);
 
@@ -100,8 +97,6 @@ public class ImportSessionServiceImplTest {
                             .replace("\\", "")
                             .replace("d{4}-d{2}-d{2}-d{2}-d{1,2}-d{1,2}-d{3}", "yyyy-mm-DD-HH-MM-ss-SSS")
                             .replace("d{4}-d{2}-d{2}", "yyyy-mm-DD")
-                            .replace("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}",
-                                    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
                             .replace(">", ">\n"), result.replace(">", ">\n"));
 
         }

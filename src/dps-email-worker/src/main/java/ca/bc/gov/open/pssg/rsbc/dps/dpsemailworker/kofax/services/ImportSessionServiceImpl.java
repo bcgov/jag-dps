@@ -15,7 +15,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 
 public class ImportSessionServiceImpl implements ImportSessionService {
@@ -103,8 +102,7 @@ public class ImportSessionServiceImpl implements ImportSessionService {
     }
 
     private BatchField getImportIdField(DpsMetadata dpsMetadata) {
-        // TODO: GENERATE id IN THE EMAIL POLLER SERVICE
-        return new BatchField(kofaxProperties.getBatchFieldImportId(), UUID.randomUUID().toString());
+        return new BatchField(kofaxProperties.getBatchFieldImportId(), dpsMetadata.getTransactionId().toString());
     }
 
     private String getTimeStamp(String pattern) {
