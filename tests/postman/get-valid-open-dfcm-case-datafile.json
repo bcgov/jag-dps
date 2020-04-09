@@ -1,92 +1,79 @@
-[{
+[
+{
    "/ comment": "Test for valid existig record 1",
 
    "driversLicense": "1000010",
    "surcode": "PEL",
-   "expectedCase": "ROUTINE - PROFESSIONAL",
-   "expectedInt": "2",
-   "validData": "true"
+   "validData": "PROFESSIONAL"
 },
 {
    "/ comment": "Test for valid existig record 2",
 
    "driversLicense": "1000015",
    "surcode": "PEL",
-   "expectedCase": "ROUTINE - AGE",
-   "expectedInt": "2",
-   "validData": "true"
+   "validData": "AGE"
 },
 {
    "/ comment": "Test for valid existig record 3",
 
-   "driversLicense": "1000015",
+   "driversLicense": "1000025",
    "surcode": "PEL",
-   "expectedCase": "REHAB",
-   "validData": "true"
+   "validData": "REHAB"
 },
 {
    "/ comment": "Test for valid existig record 4",
 
    "driversLicense": "1000021",
    "surcode": "PEL",
-   "expectedCase": "KNOWN CONDITION",
-   "expectedInt": "5",
-   "validData": "true"
+   "validData": "CONDITION"
 },
 {
    "/ comment": "Test for non-existig record with valid input",
 
    "driversLicense": "1000023",
-   "surcode": "PEL",
-   "isValid": "true",
-   "expectedInt": "0"
+   "surcode": "LEP",
+   "isValid": "true"
 },
 {
    "/ comment": "Test for incorrect surcode",
 
-   "driversLicense": "1000023",
-   "surcode": "LEP",
-   "isValid": "false",
-   "expectedInt": "-2"
+   "driversLicense": "1000053",
+   "surcode": "PAS",
+   "isValid": "true"
 },
 {
    "/ comment": "Test for incorrect data type in DL",
 
    "driversLicense": "true",
    "surcode": "LEP",
-   "isValid": "false",
-   "expectedInt": "-2"
+   "isValid": "false"
 },
 {
    "/ comment": "Test for incorrect data type in surcode and DL",
 
    "driversLicense": "@$$@%%%",
    "surcode": 100023,
-   "isValid": "false",
-   "expectedInt": "-2"
+   "isValid": "false"
 },
 {
    "/ comment": "Test for incorrect data type in license",
 
    "driversLicense": "@$$@%%%",
    "surcode": "null",
-   "isValid": "false",
-   "expectedInt": "-2"
+   "isValid": "false"
 },
 {
    "/ comment": "Test with sql command",
 
    "driversLicense": "SELECT /*!32302 1/0, */ 1 FROM tablename",
    "surcode": "--comment",
-   "isValid": "false",
-   "expectedInt": "-2"
+   "isValid": "false" 
 },
 {
    "/ comment": "Test for sql command",
 
    "driversLicense": "--SELECT * FROM information_schema.tables",
    "surcode": "SELECT * FROM all_tables",
-   "isValid": "false",
-   "expectedInt": "-2"
+   "isValid": "false"
 }
 ]
