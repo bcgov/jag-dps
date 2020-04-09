@@ -42,8 +42,8 @@ public class AutoConfiguration {
             jsch.setKnownHosts(sftpProperties.getKnownHostsFileName());
 
         if(StringUtils.isNotBlank(sftpProperties.getSshPrivateKey())) {
-            if(StringUtils.isNotBlank(sftpProperties.getPassword())) {
-                jsch.addIdentity(sftpProperties.getSshPrivateKey(), sftpProperties.getPassword());
+            if(StringUtils.isNotBlank(sftpProperties.getSshPrivatePassphrase())) {
+                jsch.addIdentity(sftpProperties.getSshPrivateKey(), sftpProperties.getSshPrivatePassphrase());
             } else {
                 jsch.addIdentity(sftpProperties.getSshPrivateKey());
             }
