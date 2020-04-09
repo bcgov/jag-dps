@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.configuration.TenantProperties;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.ImportSession;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionServiceImpl;
 import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
@@ -88,7 +89,9 @@ public class ImportSessionServiceImplTest {
 
         Pattern pattern = Pattern.compile(patternValue);
 
-        String result = sut.generateImportSessionXml(metadata);
+        ImportSession session = sut.generateImportSession(metadata);
+
+        String result = new String(sut.convertToXmlBytes(session));
 
         if (!pattern.matcher(result).matches()) {
             // this will make the test fail and show the diff with the regex and the value

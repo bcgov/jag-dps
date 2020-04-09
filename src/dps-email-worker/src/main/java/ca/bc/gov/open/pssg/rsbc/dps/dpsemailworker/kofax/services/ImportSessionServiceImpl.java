@@ -6,11 +6,11 @@ import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.*;
 import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.xml.transform.StringResult;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,7 +34,28 @@ public class ImportSessionServiceImpl implements ImportSessionService {
         this.kofaxImportSession = kofaxImportSession;
     }
 
-    public String generateImportSessionXml(DpsMetadata dpsMetadata) {
+    @Override
+    public ImportSession generateImportSession(DpsMetadata dpsMetadata) {
+        return getImportSession(dpsMetadata);
+    }
+
+    @Override
+    public byte[] convertToXmlBytes(ImportSession importSession) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try {
+            Marshaller marshaller = kofaxImportSession.createMarshaller();
+            marshaller.marshal(importSession, baos);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+
+        return baos.toByteArray();
+
+    }
+
+    private ImportSession getImportSession(DpsMetadata dpsMetadata) {
 
         Batch batch = getBatch(dpsMetadata);
 
@@ -47,29 +68,15 @@ public class ImportSessionServiceImpl implements ImportSessionService {
         batch.getBatchFields().addBatchField(getOrininatingNumber(dpsMetadata));
         batch.getBatchFields().addBatchField(getImportIdField(dpsMetadata));
 
-        ImportSession session = getImportSession();
+        ImportSession session = new ImportSession(kofaxProperties.getUserId(), kofaxProperties.getPassword(), null, null);
 
         session.getBatches().addBatch(batch);
 
-        StringResult result = new StringResult();
-
-        try {
-            Marshaller marshaller = kofaxImportSession.createMarshaller();
-            marshaller.marshal(session, result);
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-
-        return result.toString();
-
-    }
-
-    private ImportSession getImportSession() {
-        return new ImportSession(kofaxProperties.getUserId(), kofaxProperties.getPassword(), null, null);
+        return session;
     }
 
     private Batch getBatch(DpsMetadata dpsMetadata) {
-        return new BatchBuilder()
+        return new Batch.Builder()
                 .withInputChannel(dpsMetadata.getInboundChannelType())
                 .withBatchClassName(tenantProperties.getName())
                 .withEnableAutomaticSeparationAndFormID(kofaxProperties.getEnableAutoSeparationAndFormid())
@@ -114,5 +121,6 @@ public class ImportSessionServiceImpl implements ImportSessionService {
         DateFormat df = new SimpleDateFormat(pattern);
         return df.format(date);
     }
+
 
 }

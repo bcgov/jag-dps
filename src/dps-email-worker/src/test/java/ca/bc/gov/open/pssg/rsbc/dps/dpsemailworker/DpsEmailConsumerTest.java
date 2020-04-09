@@ -1,14 +1,17 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker;
 
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionService;
-import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
-import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.Batch;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.ImportSession;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionService;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailProcessedResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
+import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
+import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import org.junit.jupiter.api.*;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -54,6 +57,17 @@ public class DpsEmailConsumerTest {
     @BeforeAll
     public void setUp() throws Exception {
 
+        ImportSession fakeSession = new ImportSession("user", "password", "", "");
+
+        Batch fakeBatch =
+                new Batch.Builder()
+                        .withBatchClassName("test")
+                        .withEnableAutomaticSeparationAndFormID("1")
+                        .withInputChannel("FAX")
+                        .withRelativeImageFilePath(".").build();
+
+        fakeSession.getBatches().addBatch(fakeBatch);
+
         MockitoAnnotations.initMocks(this);
 
         Mockito.when(storageServiceMock.get(CASE_1)).thenReturn(FAKE_CONTENT.getBytes());
@@ -62,6 +76,10 @@ public class DpsEmailConsumerTest {
         Mockito.when(dpsFileInfoMock.getId()).thenReturn("id");
 
         Mockito.when(dpsEmailServiceMock.dpsEmailProcessed(Mockito.eq(CASE_1), Mockito.anyString())).thenReturn(dpsEmailProcessedResponseMock);
+
+        Mockito.when(importSessionService.generateImportSession(Mockito.any(DpsMetadata.class))).thenReturn(fakeSession);
+        Mockito.when(importSessionService.convertToXmlBytes(Mockito.any(ImportSession.class))).thenReturn(("<test" +
+                "></test>").getBytes());
 
         SftpProperties sftpProperties = new SftpProperties();
         sftpProperties.setRemoteLocation(REMOTE_LOCATION);
@@ -82,6 +100,23 @@ public class DpsEmailConsumerTest {
 
         Mockito.verify(fileServiceMock, Mockito.times(1))
                 .uploadFile(Mockito.any(InputStream.class), Mockito.eq(expectedRemoteFileName));
+
+        Mockito.verify(fileServiceMock, Mockito.times(2))
+                .uploadFile(Mockito.any(InputStream.class), ArgumentMatchers.endsWith(".xml"));
+
+    }
+
+    @DisplayName("error - with missing batch nbame should return error")
+    @Test
+    public void withMissingBatchNameShouldThrowError() {
+
+        ImportSession fakeSession = new ImportSession("fake", "session", "", "");
+
+        Mockito.when(importSessionService.generateImportSession(Mockito.any(DpsMetadata.class))).thenReturn(fakeSession);
+
+        Assertions.assertThrows(DpsEmailWorkerException.class, () -> {
+            sut.receiveMessage(new DpsMetadata.Builder().withApplicationID(CASE_1).withFileInfo(new DpsFileInfo(CASE_1, FILE_NAME, "String")).withEmailId("a@a.com").build());
+        });
 
     }
 

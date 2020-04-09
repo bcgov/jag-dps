@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models;
 
 import javax.xml.bind.annotation.*;
+import java.util.Optional;
 
 @XmlRootElement(name="ImportSession")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -48,6 +49,16 @@ public class ImportSession {
 
     public Batches getBatches() {
         return batches;
+    }
+
+    public Optional<String> getBatchName() {
+
+        Optional<Batch> fistBatch = this.batches.getBatches().stream().findFirst();
+
+        if(!fistBatch.isPresent()) return Optional.empty();
+
+        return Optional.of(fistBatch.get().getName());
+
     }
 
 }
