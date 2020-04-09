@@ -42,7 +42,7 @@ public class ImportSessionServiceImpl implements ImportSessionService {
     @Override
     public byte[] convertToXmlBytes(ImportSession importSession) {
 
-        ByteArrayOutputStream baos = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try {
             Marshaller marshaller = kofaxImportSession.createMarshaller();
