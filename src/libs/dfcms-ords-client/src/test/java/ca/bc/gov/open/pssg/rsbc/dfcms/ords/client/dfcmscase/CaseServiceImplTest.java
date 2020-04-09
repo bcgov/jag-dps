@@ -59,8 +59,6 @@ public class CaseServiceImplTest {
 
         Assertions.assertEquals(SUCCESS_CASE_SEQ_NO, result.getCaseSequenceNumber());
         Assertions.assertEquals(CASE_DESC, result.getCaseDescription());
-        Assertions.assertEquals(0, result.getRespCode());
-        Assertions.assertEquals(STATUS_MESSAGE, result.getRespMsg());
     }
 
     @Test
@@ -68,8 +66,8 @@ public class CaseServiceImplTest {
 
         CaseSequenceNumberResponse result = sut.caseSequenceNumber(TYPE_CODE_FAIL, "a");
 
-        Assertions.assertEquals(-2, result.getRespCode());
-        Assertions.assertEquals(ERROR_MESSAGE, result.getRespMsg());
+        Assertions.assertEquals(DfcmsOrdsClientConstants.SERVICE_FAILURE_CD, result.getCaseSequenceNumber());
+
     }
 
     @Test
@@ -77,7 +75,6 @@ public class CaseServiceImplTest {
 
         CaseSequenceNumberResponse result = sut.caseSequenceNumber(TYPE_CODE_EXCEPTION, "a");
 
-        Assertions.assertEquals(DfcmsOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
-        Assertions.assertEquals(API_EXCEPTION, result.getRespMsg());
+        Assertions.assertEquals(DfcmsOrdsClientConstants.SERVICE_FAILURE_CD, result.getCaseSequenceNumber());
     }
 }

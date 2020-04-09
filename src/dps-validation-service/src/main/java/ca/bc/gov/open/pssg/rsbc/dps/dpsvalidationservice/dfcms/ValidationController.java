@@ -2,7 +2,6 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcms;
 
 import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase.CaseSequenceNumberResponse;
 import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase.CaseService;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.DpsValidationServiceConstants;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -15,7 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ValidationController {
@@ -54,12 +56,12 @@ public class ValidationController {
 
         if (!driversLicense.matches(DL_REGEX)) {
             logger.error("Invalid driversLicense format.");
-            return CaseSequenceNumberResponse.errorResponse("Invalid driversLicense format");
+            return CaseSequenceNumberResponse.errorResponse();
         }
 
         if(StringUtils.isNotEmpty(surcode) && !surcode.matches(SURCODE_REGEX)) {
             logger.error("Invalid surcode format.");
-            return CaseSequenceNumberResponse.errorResponse("Invalid surcode format");
+            return CaseSequenceNumberResponse.errorResponse();
         }
 
         return this.caseService.caseSequenceNumber(driversLicense, surcode);
@@ -86,7 +88,7 @@ public class ValidationController {
         headers.setContentType(MediaType.APPLICATION_XML);
 
         return new ResponseEntity(
-                CaseSequenceNumberResponse.errorResponse(DpsValidationServiceConstants.VALIDATION_SERVICE_ERR_MISSING_CONFIG_PARAMS),
+                CaseSequenceNumberResponse.errorResponse(),
                 headers, HttpStatus.OK);
     }
 

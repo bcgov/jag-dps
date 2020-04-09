@@ -1,13 +1,9 @@
 package ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase;
 
 import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.DfcmsOrdsClientConstants;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-
-import java.text.MessageFormat;
 
 /**
  *
@@ -26,19 +22,9 @@ public class CaseSequenceNumberResponse {
     @JacksonXmlProperty(localName = "int")
     private String caseSequenceNumber;
 
-    @JsonIgnore
-    private int respCode;
 
-    @JsonIgnore
-    private String respMsg;
 
-    private CaseSequenceNumberResponse(int respCode, String respMsg) {
-        this.respCode = respCode;
-        this.respMsg = respMsg;
-    }
-
-    private CaseSequenceNumberResponse(String caseSequenceNumber, String caseDescription, int respCode, String respMsg) {
-        this(respCode, respMsg);
+    private CaseSequenceNumberResponse(String caseSequenceNumber, String caseDescription) {
         this.caseSequenceNumber = caseSequenceNumber;
         this.caseDescription = caseDescription;
     }
@@ -51,29 +37,14 @@ public class CaseSequenceNumberResponse {
         return caseSequenceNumber;
     }
 
-    public int getRespCode() {
-        return respCode;
-    }
-
-    public String getRespMsg() {
-        return respMsg;
-    }
-
-    public static CaseSequenceNumberResponse errorResponse(String errorMessage) {
+    public static CaseSequenceNumberResponse errorResponse() {
         return new CaseSequenceNumberResponse(
                 DfcmsOrdsClientConstants.SERVICE_FAILURE_CD,
-                errorMessage);
+                null);
     }
 
-    public static CaseSequenceNumberResponse successResponse(String caseSequenceNumber, String caseDescription, String respCodeStr, String respMsg) {
-
-        return new CaseSequenceNumberResponse(caseSequenceNumber, caseDescription, Integer.parseInt(respCodeStr), respMsg);
-    }
-
-    @Override
-    public String toString() {
-        return MessageFormat.format("CaseSequenceNumberResponse: caseSequenceNumber [{0}], caseSequenceNumber [{1}], respCode [{2}], respMsg [{3}]",
-                this.caseSequenceNumber, this.caseDescription, this.respCode, this.respMsg);
+    public static CaseSequenceNumberResponse successResponse(String caseSequenceNumber, String caseDescription) {
+        return new CaseSequenceNumberResponse(caseSequenceNumber, caseDescription);
     }
 
 }
