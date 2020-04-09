@@ -42,6 +42,8 @@ public class CaseServiceImplTest {
         successResponse.setStatusCode(STATUS_CODE);
 
         CaseSequenceNumberOrdsResponse errorResponse = new CaseSequenceNumberOrdsResponse();
+        errorResponse.setCaseSequenceNumber("0");
+        errorResponse.setCaseDescription("0");
         errorResponse.setStatusMessage(ERROR_MESSAGE);
         errorResponse.setStatusCode(ERROR_CODE);
 
@@ -66,7 +68,7 @@ public class CaseServiceImplTest {
 
         CaseSequenceNumberResponse result = sut.caseSequenceNumber(TYPE_CODE_FAIL, "a");
 
-        Assertions.assertEquals(DfcmsOrdsClientConstants.SERVICE_FAILURE_CD, result.getCaseSequenceNumber());
+        Assertions.assertEquals("0", result.getCaseSequenceNumber());
 
     }
 
