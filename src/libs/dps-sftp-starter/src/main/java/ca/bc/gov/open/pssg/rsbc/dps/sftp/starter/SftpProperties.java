@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Properties for sftp configuration
  *
  * @author alexjoybc@github
- *
  */
 @ConfigurationProperties(prefix = "dps.sftp")
 public class SftpProperties {
@@ -15,16 +14,11 @@ public class SftpProperties {
     private String port;
     private String username;
     private String password;
-    private String knownHosts;
     private String remoteLocation;
-
-    public String getKnownHosts() {
-        return knownHosts;
-    }
-
-    public void setKnownHosts(String knownHosts) {
-        this.knownHosts = knownHosts;
-    }
+    private String knownHostsFileName;
+    private String sshPrivateKey;
+    private String sshPrivatePassphrase;
+    private boolean allowUnknownKeys;
 
     public String getHost() {
         return host;
@@ -58,8 +52,43 @@ public class SftpProperties {
         this.password = password;
     }
 
-    public String getRemoteLocation() { return remoteLocation; }
+    public String getRemoteLocation() {
+        return remoteLocation;
+    }
 
-    public void setRemoteLocation(String remoteLocation) { this.remoteLocation = remoteLocation; }
+    public void setRemoteLocation(String remoteLocation) {
+        this.remoteLocation = remoteLocation;
+    }
 
+    public String getKnownHostsFileName() {
+        return knownHostsFileName;
+    }
+
+    public void setKnownHostsFileName(String knownHostsFileName) {
+        this.knownHostsFileName = knownHostsFileName;
+    }
+
+    public String getSshPrivateKey() {
+        return sshPrivateKey;
+    }
+
+    public void setSshPrivateKey(String sshPrivateKey) {
+        this.sshPrivateKey = sshPrivateKey;
+    }
+
+    public String getSshPrivatePassphrase() {
+        return sshPrivatePassphrase;
+    }
+
+    public void setSshPrivatePassphrase(String sshPrivatePassphrase) {
+        this.sshPrivatePassphrase = sshPrivatePassphrase;
+    }
+
+    public boolean isAllowUnknownKeys() {
+        return allowUnknownKeys;
+    }
+
+    public void setAllowUnknownKeys(boolean allowUnknownKeys) {
+        this.allowUnknownKeys = allowUnknownKeys;
+    }
 }
