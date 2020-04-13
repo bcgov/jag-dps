@@ -29,13 +29,13 @@ You should use environment variables to configure payment service app
 | RABBITMQ_USERNAME | RabbitMq Username | optional | `guest` |
 | RABBITMQ_PASSWORD | RabbitMq Password | optional | `guest` |
 
-### ORDS
+### ORDS FIGCR
 
 | Environment Variable  | Description | required | Default value |
 | --- | --- | --- | --- |
-| ORDS_BASE_PATH | ORDS base path | **required** | - |
-| ORDS_USERNAME | ORDS username | **required** | - |
-| ORDS_PASSWORD | ORDS password | **required** | - |
+| FIGCR_BASE_PATH | ORDS FIGCR base path | **required** | - |
+| FIGCR_USERNAME | ORDS FIGCR username | **required** | - |
+| FIGCR_PASSWORD | ORDS FIGCR password | **required** | - |
 
 ### SFTP
 
