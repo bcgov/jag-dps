@@ -22,32 +22,40 @@ You should use environment variables to configure payment service app
 
 ### rabbitmq
 
-| Environment Variable  | Description   | Default value |
-|---|---|---|
-| RABBITMQ_HOST | RabbitMq Host |  `localhost` |
-| RABBITMQ_PORT | RabbitMq Port |  `5672` |
-| RABBITMQ_USERNAME | RabbitMq Username | `guest` |
-| RABBITMQ_PASSWORD | RabbitMq Password | `guest` |
+| Environment Variable  | Description | required | Default value |
+| --- | --- | --- | --- |
+| RABBITMQ_HOST | RabbitMq Host | optional | `localhost` |
+| RABBITMQ_PORT | RabbitMq Port | optional | `5672` |
+| RABBITMQ_USERNAME | RabbitMq Username | optional | `guest` |
+| RABBITMQ_PASSWORD | RabbitMq Password | optional | `guest` |
 
 ### ORDS
 
-| Environment Variable  | Description   | Notes   |
-|---|---|---|
-| ORDS_BASE_PATH | ORDS base path | - |
-| ORDS_USERNAME | ORDS username | - |
-| ORDS_PASSWORD | ORDS password | - |
+| Environment Variable  | Description | required | Default value |
+| --- | --- | --- | --- |
+| ORDS_BASE_PATH | ORDS base path | **required** | - |
+| ORDS_USERNAME | ORDS username | **required** | - |
+| ORDS_PASSWORD | ORDS password | **required** | - |
 
 ### SFTP
 
-| Environment Variable  | Description  | Notes  |
-|---|---|---|
-| DPS_SFTP_HOST:localhost} | sftp host | `localhost` |
-| DPS_SFTP_PORT:22 | sftp port | `22` |
-| DPS_SFTP_USERNAME | sftp username | - |
-| DPS_SFTP_PASSWORD | sftp password | - |
-| DPS_SFTP_KNOWNHOSTS | know hosts file path | - |
-| DPS_SFTP_REMOTE_LOCATION | sftp remote location base directory | `upload` |
-| DPS_SFTP_PRIVATE_KEY | sftp private key value | |
-| DPS_SFTP_PRIVATE_PASSPHRASE | sftp passphrase | |
-| DPS_SFTP_ALLOW_UNKNOWN_KEYS | sftp allow unknowns keys | `false` |
+| Environment Variable  | Description | required | Default value |
+| --- | --- | --- | --- |
+| DPS_SFTP_HOST | sftp host | optional | `localhost` |
+| DPS_SFTP_PORT | sftp port | optional | `22` |
+| DPS_SFTP_USERNAME | sftp username | optional | - |
+| DPS_SFTP_PASSWORD | sftp password | optional | - |
+| DPS_SFTP_KNOWNHOSTS | know hosts file path | optional | - |
+| DPS_SFTP_REMOTE_LOCATION | sftp remote location base directory | optional | `upload` |
+| DPS_SFTP_PRIVATE_KEY | sftp private key value | optional | - |
+| DPS_SFTP_PRIVATE_PASSPHRASE | sftp passphrase | optional | - |
+| DPS_SFTP_ALLOW_UNKNOWN_KEYS | sftp allow unknowns keys | optional | `false` |
 
+### Splunk
+
+> set the `splunk` active profile in order to ship logs to splunk
+
+| Environment Variable  | Description | required | Default value |
+| --- | --- | --- | --- |
+| SPLUNK_URL | splunk url | **required** | - |
+| SPLUNK_TOKEN | splunk token | **required** | - |
