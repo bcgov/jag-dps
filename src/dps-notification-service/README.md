@@ -21,8 +21,8 @@ You should use environment variables to configure payment service app
 
 | Environment Variable  | Description   | Notes   |
 |---|---|---|
-| RABBITMQ_HOST | RabbitMq Host |  set to `localhost` |
-| RABBITMQ_PORT | RabbitMq Port |  set to `5672` |
+| RABBITMQ_HOST | RabbitMq Host |  set to `localhost` by default |
+| RABBITMQ_PORT | RabbitMq Port |  set to `5672` by default |
 | RABBITMQ_USERNAME | RabbitMq Username |  set to `guest` by default |
 | RABBITMQ_PASSWORD | RabbitMq Password |  set to `guest` by default |
 
