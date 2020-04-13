@@ -19,7 +19,7 @@ You should use environment variables to configure payment service app
 
 > set the `cloud` active profile in order to activate enviroment variables overwriting: `spring_profiles_active=cloud`
 
-Add the following flage
+Add the following flag
 
 | Environment Variable  | Description   | Notes   |
 |---|---|---|
