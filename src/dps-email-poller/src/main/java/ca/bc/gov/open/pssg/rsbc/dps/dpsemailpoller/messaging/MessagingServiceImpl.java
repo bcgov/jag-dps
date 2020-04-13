@@ -1,7 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging;
 
-import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
+import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -32,13 +32,16 @@ public class MessagingServiceImpl implements MessagingService {
             throw new DpsEmailException("Exception while sending a message - missing dpsMetadata");
         }
 
-            logger.debug("Attempting to publish message to emailMessage exchange with key [{}], item: [{}]",
-                    tenant, dpsMetadata);
+        logger.debug("Attempting to publish message to emailMessage exchange with key [{}], item: [{}]",
+                tenant, dpsMetadata);
 
-            emailMessageTopicTemplate.convertAndSend(tenant, dpsMetadata);
+        emailMessageTopicTemplate.convertAndSend(tenant, dpsMetadata, m -> {
+            m.getMessageProperties().getHeaders().put(Keys.X_DEAD_LETTER_ROUTING_KEY, tenant);
+            return m;
+        });
 
-            logger.info("Successfully published message to emailMessage exchange with key [{}], item: [{}]",
-                    tenant, dpsMetadata);
+        logger.info("Successfully published message to emailMessage exchange with key [{}], item: [{}]",
+                tenant, dpsMetadata);
 
     }
 }

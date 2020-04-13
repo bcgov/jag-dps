@@ -55,6 +55,8 @@ public class DpsEmailConsumer {
         ImportSession session = importSessionService.generateImportSession(message);
         if(!session.getBatchName().isPresent()) throw new DpsEmailWorkerException("batch name is required.");
 
+
+
         try {
 
             logger.debug("attempting to get message meta data [{}]", message);
@@ -84,6 +86,7 @@ public class DpsEmailConsumer {
         } catch (Exception e) {
             // TODO: handle exception using rabbit mq
             logger.error("Error in {} while processing message: ", e.getClass().getSimpleName(), e);
+            throw new DpsEmailWorkerException("Exception while processing message.", e.getCause());
         } finally {
             MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
         }
