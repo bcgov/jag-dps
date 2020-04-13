@@ -12,7 +12,7 @@ mvn spring-boot:run
 
 | endpoint | Verb | Description |
 | --- | --- | --- |
-| [http://localhost:8080/spdnotificationworker/actuator/health](http://localhost:8080/dpsnotificationservice/actuator/health) | GET | DPS Notification Service Health |
+| [http://localhost:8080/spdnotificationworker/actuator/health](http://localhost:8080/spdnotificationworker/actuator/health) | GET | DPS Notification Service Health |
 
 ## Configuration
 

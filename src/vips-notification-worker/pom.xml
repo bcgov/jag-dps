@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.4.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
+		<!-- lookup parent from repository -->
 	</parent>
 	<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 	<artifactId>vips-notification-worker</artifactId>
@@ -35,11 +36,11 @@
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 
-        <dependency>
-            <groupId>com.jcraft</groupId>
-            <artifactId>jsch</artifactId>
-            <version>0.1.55</version>
-        </dependency>
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.55</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -101,31 +102,55 @@
 
 	</dependencies>
 
+	<profiles>
+		<profile>
+
+			<id>openshift</id>
+
+			<repositories>
+				<repository>
+					<id>splunk-artifactory</id>
+					<name>Splunk Releases</name>
+					<url>http://splunk.jfrog.io/splunk/ext-releases-local</url>
+				</repository>
+			</repositories>
+
+			<dependencies>
+				<dependency>
+					<groupId>com.splunk.logging</groupId>
+					<artifactId>splunk-library-javalogging</artifactId>
+					<version>1.7.1</version>
+				</dependency>
+			</dependencies>
+
+		</profile>
+	</profiles>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>2.5.0</version>
-                <executions>
-                    <execution>
-                        <id>xjc</id>
-                        <goals>
-                            <goal>xjc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <packageName>ca.bc.gov.open.pssg.rsbc.dps.vips.notification.worker.generated.models</packageName>
-                    <sources>
-                        <source>${project.basedir}/src/main/resources/kofax.vips.metadata.xsd</source>
-                    </sources>
-                </configuration>
-            </plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>2.5.0</version>
+				<executions>
+					<execution>
+						<id>xjc</id>
+						<goals>
+							<goal>xjc</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<packageName>ca.bc.gov.open.pssg.rsbc.dps.vips.notification.worker.generated.models</packageName>
+					<sources>
+						<source>${project.basedir}/src/main/resources/kofax.vips.metadata.xsd</source>
+					</sources>
+				</configuration>
+			</plugin>
 
 			<!--jacoco code coverage-->
 			<plugin>
