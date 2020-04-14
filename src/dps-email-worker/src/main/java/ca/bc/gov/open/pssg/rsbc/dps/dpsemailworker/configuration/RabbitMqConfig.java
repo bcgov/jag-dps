@@ -17,6 +17,6 @@ public class RabbitMqConfig {
 
     @Bean
     public DpsMessagingProperties dpsMessagingProperties() {
-        return new DpsMessagingProperties(Keys.OUTPUT_NOTIFICATION_VALUE, tenantProperties.getName());
+        return new DpsMessagingProperties(Keys.OUTPUT_NOTIFICATION_VALUE, tenantProperties.getName(), 3, 10);
     }
 }

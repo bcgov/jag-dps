@@ -18,6 +18,6 @@ public class RabbitMqConfiguration {
 
     @Bean
     public DpsMessagingProperties dpsMessagingProperties() {
-        return new DpsMessagingProperties(Keys.OUTPUT_NOTIFICATION_VALUE, Keys.CRRP_VALUE);
+        return new DpsMessagingProperties(Keys.OUTPUT_NOTIFICATION_VALUE, Keys.CRRP_VALUE, 3, 10);
     }
 }

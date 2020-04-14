@@ -17,4 +17,6 @@ public class Keys {
      */
     public static final String EMAIL_MESSAGE_VALUE = "emailMessage";
 
+    public static final String X_DEAD_LETTER_ROUTING_KEY = "message-ready-dead";
+
 }
