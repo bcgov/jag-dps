@@ -6,10 +6,12 @@ import org.slf4j.MDC;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.ImmediateAcknowledgeAmqpException;
 import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ErrorHandler;
 
 @Component
+@ConditionalOnProperty(value = "dps.messaging.type", havingValue = "consumer")
 public class DpsMessageErrorHandler implements ErrorHandler  {
 
         private Logger logger = LoggerFactory.getLogger(DpsMessageErrorHandler.class);
@@ -24,7 +26,6 @@ public class DpsMessageErrorHandler implements ErrorHandler  {
                 MDC.clear();
                 throw new ImmediateAcknowledgeAmqpException(t);
             }
-
 
             logger.error("error while processing message.", t.getMessage());
             MDC.clear();
