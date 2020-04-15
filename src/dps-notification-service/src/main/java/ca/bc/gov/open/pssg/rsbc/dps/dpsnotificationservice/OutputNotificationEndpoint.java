@@ -29,10 +29,10 @@ public class OutputNotificationEndpoint {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final RabbitTemplate outputNotificationTopicTemplate;
+    private final RabbitTemplate mainExchangeRabbitTemplate;
 
-    public OutputNotificationEndpoint(@Qualifier("outputNotificationTopicTemplate")RabbitTemplate outputNotificationTopicTemplate) {
-        this.outputNotificationTopicTemplate = outputNotificationTopicTemplate;
+    public OutputNotificationEndpoint(@Qualifier("mainExchangeRabbitTemplate")RabbitTemplate mainExchangeRabbitTemplate) {
+        this.mainExchangeRabbitTemplate = mainExchangeRabbitTemplate;
     }
 
     @PayloadRoot(namespace = Keys.NAMESPACE_URI, localPart = Keys.OUTPUT_NOTIFICATION_REQUEST)
@@ -80,7 +80,7 @@ public class OutputNotificationEndpoint {
                 OutputNotificationMessage message = new OutputNotificationMessage(request.getOutputNotificationRequest().getBusinessAreaCd().value(), file);
 
                 logger.debug("Attempting to publish message to outputNotification exchange with key [{}], fileId: [{}]", message.getBusinessAreaCd(), message.getFileId());
-                outputNotificationTopicTemplate.convertAndSend(message.getBusinessAreaCd(), message);
+                mainExchangeRabbitTemplate.convertAndSend(message.getBusinessAreaCd(), message);
                 logger.info("Successfully published message to outputNotification exchange with key [{}], fileId: [{}]", message.getBusinessAreaCd(), message.getFileId());
 
             });

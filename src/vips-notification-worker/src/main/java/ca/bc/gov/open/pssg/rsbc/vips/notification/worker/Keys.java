@@ -13,7 +13,7 @@ public class Keys {
     /**
      * DO NOT CHANGE - The name of the CRRP queue
      */
-    public static final String VIPS_QUEUE_NAME = VIPS_VALUE + "_q";
+    public static final String VIPS_QUEUE_NAME = VIPS_VALUE + ".notification.Q";
 
     /**
      * DO NOT CHANGE - The default output notification value.

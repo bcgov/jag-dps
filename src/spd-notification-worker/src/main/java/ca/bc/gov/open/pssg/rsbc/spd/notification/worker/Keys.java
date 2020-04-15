@@ -13,12 +13,7 @@ public class Keys {
     /**
      * DO NOT CHANGE - The name of the CRRP queue
      */
-    public static final String CRRP_QUEUE_NAME = CRRP_VALUE + "_q";
-
-    /**
-     * DO NOT CHANGE - The default output notification value.
-     */
-    public static final String OUTPUT_NOTIFICATION_VALUE = "outputNotification";
+    public static final String CRRP_QUEUE_NAME = CRRP_VALUE + ".notification.Q";
 
 
 }

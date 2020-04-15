@@ -6,20 +6,28 @@ import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.ImmediateAcknowledgeAmqpException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessagePostProcessor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
 @Component
+@ConditionalOnProperty(value = "dps.messaging.type", havingValue = "consumer")
 public class DpsMessagePostProcessor implements MessagePostProcessor {
 
     private Logger logger = LoggerFactory.getLogger(DpsMessagePostProcessor.class);
 
     private final DpsMessagingProperties dpsMessagingProperties;
 
-    public DpsMessagePostProcessor(DpsMessagingProperties dpsMessagingProperties) {
+    private final RabbitTemplate parkingLotExchangeRabbitTemplate;
+
+    public DpsMessagePostProcessor(DpsMessagingProperties dpsMessagingProperties,
+                                  @Qualifier("parkingLotExchangeRabbitTemplate")RabbitTemplate parkingLotExchangeRabbitTemplate) {
         this.dpsMessagingProperties = dpsMessagingProperties;
+        this.parkingLotExchangeRabbitTemplate = parkingLotExchangeRabbitTemplate;
     }
 
     @Override
@@ -37,8 +45,11 @@ public class DpsMessagePostProcessor implements MessagePostProcessor {
         if(xDeath != null &&
                 (Long)xDeath.get("count") > dpsMessagingProperties.getRetryCount()) {
 
-            logger.error("Message has reach retry limit of {} retries", dpsMessagingProperties.getRetryCount());
-            throw new ImmediateAcknowledgeAmqpException("Message has reach retry limit.");
+            logger.error("Message has reach retry limit of {} retries and will be moved to parking lot", dpsMessagingProperties.getRetryCount());
+
+            parkingLotExchangeRabbitTemplate.convertAndSend(dpsMessagingProperties.getRoutingKey(), message);
+
+            throw new ImmediateAcknowledgeAmqpException("message has been put in parking lot");
         }
 
         return message;

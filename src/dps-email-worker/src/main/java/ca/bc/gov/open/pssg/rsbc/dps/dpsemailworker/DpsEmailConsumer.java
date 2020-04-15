@@ -59,6 +59,8 @@ public class DpsEmailConsumer {
 
         try {
 
+
+
             logger.debug("attempting to get message meta data [{}]", message);
             DpsFileInfo dpsFileInfo = message.getFileInfo();
 
