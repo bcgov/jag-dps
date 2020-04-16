@@ -69,6 +69,7 @@ public class RedisStorageService implements StorageService {
     @Override
     public void delete(String key) {
 
+        if (key == null || key.isEmpty()) return;
         try {
             this.cacheManager.getCache(Keys.DPS_CACHE_NAME).evict(key);
         } catch (RedisConnectionFailureException e) {

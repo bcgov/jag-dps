@@ -17,6 +17,8 @@ public class RedisStorageServiceTest {
     private static final byte[] VALID = "valid".getBytes();
     private static final byte[] EXCEPTION_INPUT = "exception".getBytes();
     private static final String KEY = "key";
+    private static final String EMPTY_KEY = "";
+    private static final String NULL_KEY = null;
     private static final String MISSING_DOCUMENT = "MISSING_DOCUMENT";
     private static final String REDIS_CONNECTION_FAILURE_EXCEPTION = "RedisConnectionFailureException";
 
@@ -43,6 +45,7 @@ public class RedisStorageServiceTest {
         Mockito.doThrow(RedisConnectionFailureException.class).when(this.cache).put(Mockito.anyString(), Mockito.eq(EXCEPTION_INPUT));
         Mockito.doThrow(RedisConnectionFailureException.class).when(this.cache).get(Mockito.eq(REDIS_CONNECTION_FAILURE_EXCEPTION));
         Mockito.doThrow(RedisConnectionFailureException.class).when(this.cache).evict(Mockito.eq(REDIS_CONNECTION_FAILURE_EXCEPTION));
+        Mockito.doNothing().when(this.cache).evict(KEY);
         this.sut = new RedisStorageService(cacheManager);
 
     }
@@ -73,6 +76,35 @@ public class RedisStorageServiceTest {
     @Test
     public void getWithRedisConnectionFailureExceptionShouldThrowDpsRedisException() throws Exception {
         Assertions.assertThrows(DpsRedisException.class, () -> sut.get(REDIS_CONNECTION_FAILURE_EXCEPTION));
+    }
+
+    @Test
+    public void deleteWithRedisConnectionFailureExceptionShouldThrowDpsRedisException() throws Exception {
+        Assertions.assertThrows(DpsRedisException.class, () -> sut.delete(REDIS_CONNECTION_FAILURE_EXCEPTION));
+    }
+
+    @Test
+    public void deleteWithAnyKeyShouldNotThrow() throws Exception {
+        Assertions.assertDoesNotThrow(() -> sut.delete(KEY));
+        Assertions.assertDoesNotThrow(() -> sut.delete(EMPTY_KEY));
+        Assertions.assertDoesNotThrow(() -> sut.delete(NULL_KEY));
+    }
+
+    @Test
+    public void deleteWithEmptyOrNullShouldNotCallCache() throws Exception {
+        sut.delete(EMPTY_KEY);
+        sut.delete(NULL_KEY);
+        Mockito.verify(cache, Mockito.times(0))
+                .evict(Mockito.eq(EMPTY_KEY));
+        Mockito.verify(cache, Mockito.times(0))
+                .evict(Mockito.eq(NULL_KEY));
+    }
+
+    @Test
+    public void deleteWithValidStringShouldCallCache() throws Exception {
+        sut.delete(KEY);
+        Mockito.verify(cache, Mockito.times(1))
+                .evict(Mockito.eq(KEY));
     }
 
 }
