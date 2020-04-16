@@ -80,6 +80,10 @@ public class DpsEmailConsumer {
             fileService.uploadFile(new ByteArrayInputStream("".getBytes()), MessageFormat.format("{0}/{1}/{2}.{3}", sftpProperties.getRemoteLocation(), Keys.KOFAX_CONTROL_FOLDER,  session.getBatchName().get(), XML));
             logger.info("Successfully uploaded control file to remote SFTP server");
 
+            logger.debug("Attempting to remove document from redis cache");
+            storageService.delete(dpsFileInfo.getId());
+            logger.info("Successfully removed document from redis cache");
+
             //TODO: when id will be generated for kofax, it will replace TBD.
             logger.info("Attempting to move email to processed folder\"");
             DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailProcessed(message.getBase64EmailId(), "TBD");

@@ -6,4 +6,5 @@ public interface StorageService {
 
     byte[] get(String key);
 
+    void delete(String key);
 }
