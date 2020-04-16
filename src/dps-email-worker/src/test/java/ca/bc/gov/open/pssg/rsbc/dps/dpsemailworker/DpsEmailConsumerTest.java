@@ -70,7 +70,8 @@ public class DpsEmailConsumerTest {
 
         MockitoAnnotations.initMocks(this);
 
-        Mockito.when(storageServiceMock.get(CASE_1)).thenReturn(FAKE_CONTENT.getBytes());
+        Mockito.when(storageServiceMock.get(Mockito.eq(CASE_1))).thenReturn(FAKE_CONTENT.getBytes());
+        Mockito.doNothing().when(storageServiceMock).delete(Mockito.eq(CASE_1));
 
         Mockito.when(dpsMetadataMock.getFileInfo()).thenReturn(dpsFileInfoMock);
         Mockito.when(dpsFileInfoMock.getId()).thenReturn("id");
@@ -104,6 +105,8 @@ public class DpsEmailConsumerTest {
         Mockito.verify(fileServiceMock, Mockito.times(2))
                 .uploadFile(Mockito.any(InputStream.class), ArgumentMatchers.endsWith(".xml"));
 
+        Mockito.verify(storageServiceMock, Mockito.times(1))
+                .delete(Mockito.eq(CASE_1));
     }
 
     @DisplayName("error - with missing batch nbame should return error")

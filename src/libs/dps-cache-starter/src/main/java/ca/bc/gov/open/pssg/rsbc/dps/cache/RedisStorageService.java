@@ -62,5 +62,20 @@ public class RedisStorageService implements StorageService {
 
     }
 
+    /**
+     * Removes a document from redis key value store.
+     * @param key    object key to evict from storage
+     */
+    @Override
+    public void delete(String key) {
+
+        if (key == null || key.isEmpty()) return;
+        try {
+            this.cacheManager.getCache(Keys.DPS_CACHE_NAME).evict(key);
+        } catch (RedisConnectionFailureException e) {
+            throw new DpsRedisException(serviceUnavailableMessage, e.getCause());
+        }
+
+    }
 
 }
