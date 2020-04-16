@@ -1,5 +1,5 @@
-import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
-import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpServiceImpl;
+package ca.bc.gov.open.pssg.rsbc.dps.sftp.starter;
+
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -31,6 +31,9 @@ public class SftpServiceImplTest {
     public static final String FILE_2 = "file2";
 
     @Mock
+    private JschSessionProvider jschSessionProviderMock;
+
+    @Mock
     private Session sessionMock;
 
     @Mock
@@ -51,13 +54,14 @@ public class SftpServiceImplTest {
         MockitoAnnotations.initMocks(this);
 
         Mockito.when(sessionMock.openChannel(Mockito.eq("sftp"))).thenReturn(channelSftpMock);
+        Mockito.when(jschSessionProviderMock.getSession()).thenReturn(sessionMock);
 
         Mockito.when(channelSftpMock.get(CASE_1)).thenReturn(fakeInputStream());
         Mockito.when(channelSftpMock.get(CASE_3)).thenThrow(SftpException.class);
         Mockito.when(channelSftpMock.get(CASE_4)).thenReturn(null);
         Mockito.when(channelSftpMock.isConnected()).thenReturn(true);
 
-        sut = new SftpServiceImpl(sessionMock);
+        sut = new SftpServiceImpl(jschSessionProviderMock);
     }
 
     @Test
