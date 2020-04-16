@@ -17,10 +17,10 @@ public class SftpServiceImpl implements SftpService {
     public static final int BUFFER_SIZE = 8000;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final Session session;
+    private final JschSessionProvider jschSessionProvider;
 
-    public SftpServiceImpl(Session session) {
-        this.session = session;
+    public SftpServiceImpl(JschSessionProvider jschSessionProvider) {
+        this.jschSessionProvider = jschSessionProvider;
     }
 
     public ByteArrayInputStream getContent(String remoteFilename) {
@@ -32,7 +32,13 @@ public class SftpServiceImpl implements SftpService {
 
         int bytesRead;
 
+        Session session = null;
+
         try(ByteArrayOutputStream bao = new ByteArrayOutputStream()) {
+
+
+            session = jschSessionProvider.getSession();
+
             logger.debug("Attempting to open sftp channel");
             channelSftp = (ChannelSftp) session.openChannel("sftp");
             channelSftp.connect();
@@ -57,6 +63,7 @@ public class SftpServiceImpl implements SftpService {
         } finally {
             if(channelSftp != null && channelSftp.isConnected())
                 channelSftp.disconnect();
+            jschSessionProvider.closeSession(session);
         }
 
         return result;
@@ -72,8 +79,12 @@ public class SftpServiceImpl implements SftpService {
     public void moveFile(String remoteFileName, String destinationFilename) {
 
         ChannelSftp channelSftp = null;
+        Session session = null;
 
         try {
+
+            session = jschSessionProvider.getSession();
+
             logger.debug("Attempting to open sftp channel");
             channelSftp = (ChannelSftp) session.openChannel("sftp");
             channelSftp.connect();
@@ -87,6 +98,8 @@ public class SftpServiceImpl implements SftpService {
         } finally {
             if(channelSftp != null && channelSftp.isConnected())
                 channelSftp.disconnect();
+
+            jschSessionProvider.closeSession(session);
         }
     }
 
@@ -95,8 +108,12 @@ public class SftpServiceImpl implements SftpService {
 
 
         ChannelSftp channelSftp = null;
+        Session session = null;
 
         try {
+
+            session = jschSessionProvider.getSession();
+
             logger.debug("Attempting to open sftp channel");
             channelSftp = (ChannelSftp) session.openChannel("sftp");
             channelSftp.connect();
@@ -110,6 +127,8 @@ public class SftpServiceImpl implements SftpService {
         } finally {
             if(channelSftp != null && channelSftp.isConnected())
                 channelSftp.disconnect();
+
+            jschSessionProvider.closeSession(session);
         }
 
     }

@@ -2,15 +2,16 @@ package ca.bc.gov.open.pssg.rsbc.dps.sftp.starter;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ComponentScan
 @EnableConfigurationProperties(SftpProperties.class)
 public class AutoConfiguration {
 
@@ -34,7 +35,7 @@ public class AutoConfiguration {
      * @throws JSchException
      */
     @Bean
-    public Session sftpSession(SftpProperties sftpProperties) throws JSchException {
+    public JSch sftpSession(SftpProperties sftpProperties) throws JSchException {
 
         JSch jsch = new JSch();
 
@@ -49,25 +50,17 @@ public class AutoConfiguration {
             }
         }
 
-        Session jschSession = jsch.getSession(sftpProperties.getUsername(), sftpProperties.getHost());
-
-        if(StringUtils.isBlank(sftpProperties.getSshPrivateKey()) && StringUtils.isNotBlank(sftpProperties.getPassword())) {
-            jschSession.setPassword(sftpProperties.getPassword());
-        }
-
-        jschSession.connect();
-        return jschSession;
-
+        return jsch;
     }
 
     /**
      * Returns the sftp service implementation
-     * @param sftpSession
+     * @param jschSessionProvider
      * @return
      */
     @Bean
-    public SftpService sftpService(Session sftpSession) {
-        return new SftpServiceImpl(sftpSession);
+    public SftpService sftpService(JschSessionProvider jschSessionProvider) {
+        return new SftpServiceImpl(jschSessionProvider);
     }
 
 
