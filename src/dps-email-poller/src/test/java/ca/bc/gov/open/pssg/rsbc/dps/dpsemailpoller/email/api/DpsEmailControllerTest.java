@@ -35,12 +35,46 @@ public class DpsEmailControllerTest {
         Mockito.when(emailServiceMock.moveToProcessedFolder(Mockito.eq(CASE_2))).thenThrow(new DpsEmailException(
                 EMAIL_EXCEPTION));
 
+        Mockito.when(emailServiceMock.moveToErrorFolder(Mockito.eq(CASE_1))).thenReturn(emailMessageMock);
+        Mockito.when(emailServiceMock.moveToErrorFolder(Mockito.eq(CASE_2))).thenThrow(new DpsEmailException(
+                EMAIL_EXCEPTION));
+
         sut = new DpsEmailController(emailServiceMock);
     }
 
-    @DisplayName("success - with email moved should return acknowledge")
+    @DisplayName("success - with processed email moved should return acknowledge")
     @Test
-    public void withEmailMovedShouldReturnSuccess() {
+    public void withProcessedEmailMovedShouldReturnSuccess() {
+
+        DpsEmailProcessedRequest dpsEmailProcessedRequest = new DpsEmailProcessedRequest();
+        dpsEmailProcessedRequest.setCorrelationId("test");
+
+        ResponseEntity<DpsEmailResponse> response = sut.ProcessFailed(new DpsMetadata.Builder().withEmailId(CASE_1).build().getBase64EmailId(),
+                dpsEmailProcessedRequest);
+
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertTrue(response.getBody().isAcknowledge());
+
+    }
+
+    @DisplayName("success - with processed email not moved should return error message")
+    @Test
+    public void withProcessedEmailNotMovedShouldReturnError() {
+
+        DpsEmailProcessedRequest dpsEmailProcessedRequest = new DpsEmailProcessedRequest();
+        dpsEmailProcessedRequest.setCorrelationId("test");
+
+        ResponseEntity<DpsEmailResponse> response = sut.ProcessFailed(new DpsMetadata.Builder().withEmailId(CASE_2).build().getBase64EmailId(), dpsEmailProcessedRequest);
+
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        Assertions.assertFalse(response.getBody().isAcknowledge());
+        Assertions.assertEquals(EMAIL_EXCEPTION, response.getBody().getMessage());
+
+    }
+
+    @DisplayName("success - with failed email moved should return acknowledge")
+    @Test
+    public void withFailedEmailMovedShouldReturnSuccess() {
 
         DpsEmailProcessedRequest dpsEmailProcessedRequest = new DpsEmailProcessedRequest();
         dpsEmailProcessedRequest.setCorrelationId("test");
@@ -53,9 +87,9 @@ public class DpsEmailControllerTest {
 
     }
 
-    @DisplayName("success - with error should return error message")
+    @DisplayName("success - with failed email not moved should return error message")
     @Test
-    public void withEmailNotMovedShouldReturnError() {
+    public void withFailedEmailNotMovedShouldReturnError() {
 
         DpsEmailProcessedRequest dpsEmailProcessedRequest = new DpsEmailProcessedRequest();
         dpsEmailProcessedRequest.setCorrelationId("test");

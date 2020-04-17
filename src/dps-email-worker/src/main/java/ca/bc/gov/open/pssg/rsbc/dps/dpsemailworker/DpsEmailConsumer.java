@@ -55,11 +55,7 @@ public class DpsEmailConsumer {
         ImportSession session = importSessionService.generateImportSession(message);
         if(!session.getBatchName().isPresent()) throw new DpsEmailWorkerException("batch name is required.");
 
-
-
         try {
-
-
 
             logger.debug("attempting to get message meta data [{}]", message);
             DpsFileInfo dpsFileInfo = message.getFileInfo();
