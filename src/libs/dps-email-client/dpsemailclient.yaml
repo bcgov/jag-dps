@@ -3,7 +3,7 @@ info:
   description: Email Service API
   version: '1.0'
   title: Email service API
-host: 'localhost:12345'
+host: 'localhost:8082'
 basePath: /dpsemailpoller
 tags:
 - name: dps-email-controller
@@ -30,18 +30,18 @@ paths:
         description: dpsEmailProcessedRequest
         required: true
         schema:
-          $ref: '#/definitions/DpsEmailProcessedOrdsRequest'
+          $ref: '#/definitions/DpsEmailProcessedRequest'
       responses:
         '200':
           description: Successful operation
           schema:
-            $ref: '#/definitions/DpsEmailProcessedOrdsResponse'
+            $ref: '#/definitions/DpsEmailResponse'
         '201':
           description: Created
         '400':
           description: Bad Request
           schema:
-            $ref: '#/definitions/DpsEmailProcessedOrdsResponse'
+            $ref: '#/definitions/DpsEmailResponse'
         '401':
           description: Unauthorized
         '403':
@@ -49,12 +49,12 @@ paths:
         '404':
           description: Not Found
 definitions:
-  DpsEmailProcessedOrdsRequest:
+  DpsEmailProcessedRequest:
     type: object
     properties:
       correlationId:
         type: string
-  DpsEmailProcessedOrdsResponse:
+  DpsEmailResponse:
     type: object
     properties:
       acknowledge:
