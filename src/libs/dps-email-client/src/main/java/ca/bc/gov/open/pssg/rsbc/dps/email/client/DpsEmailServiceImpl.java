@@ -2,8 +2,8 @@ package ca.bc.gov.open.pssg.rsbc.dps.email.client;
 
 import ca.bc.gov.open.dps.email.client.api.DpsEmailProcessingApi;
 import ca.bc.gov.open.dps.email.client.api.handler.ApiException;
-import ca.bc.gov.open.dps.email.client.api.model.DpsEmailProcessedOrdsRequest;
-import ca.bc.gov.open.dps.email.client.api.model.DpsEmailProcessedOrdsResponse;
+import ca.bc.gov.open.dps.email.client.api.model.DpsEmailProcessedRequest;
+import ca.bc.gov.open.dps.email.client.api.model.DpsEmailResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,10 +26,10 @@ public class DpsEmailServiceImpl implements DpsEmailService {
 
         try {
 
-            DpsEmailProcessedOrdsRequest request = new DpsEmailProcessedOrdsRequest();
+            DpsEmailProcessedRequest request = new DpsEmailProcessedRequest();
             request.setCorrelationId(correlationId);
 
-            DpsEmailProcessedOrdsResponse response = this.dpsEmailProcessingApi.processedUsingPUT(id, request);
+            DpsEmailResponse response = this.dpsEmailProcessingApi.processedUsingPUT(id, request);
             return DpsEmailProcessedResponse.successResponse(response.getAcknowledge(), response.getMessage());
 
         } catch (ApiException ex) {
