@@ -52,6 +52,7 @@
                 <module>dps-payment-service</module>
                 <module>dps-email-poller</module>
                 <module>dps-email-worker</module>
+                <module>dps-registration-api</module>
                 <module>dps-validation-service</module>
                 <module>dps-notification-service</module>
                 <module>figaro-validation-service</module>
@@ -119,6 +120,12 @@
             <id>dps-email-worker</id>
             <modules>
                 <module>dps-email-worker</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>dps-registration-api</id>
+            <modules>
+                <module>dps-registration-api</module>
             </modules>
         </profile>
     </profiles>
