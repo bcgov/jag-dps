@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: ORDS generated API for web
   version: 1.0.0
-host: dev.jag.gov.bc.ca
+host: localhost
 basePath: /ords/deva/otsords/web
 schemes:
 - http
