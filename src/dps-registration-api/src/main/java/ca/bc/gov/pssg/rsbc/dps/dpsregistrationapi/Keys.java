@@ -35,4 +35,6 @@ public class Keys {
 
     public static final String REGISTRATION_SERVICE_PACKAGE_REQUEST = "setRegisterPackageRequest" ;
 
+    public static final int ERROR_STATUS_CODE = -1;
+
 }

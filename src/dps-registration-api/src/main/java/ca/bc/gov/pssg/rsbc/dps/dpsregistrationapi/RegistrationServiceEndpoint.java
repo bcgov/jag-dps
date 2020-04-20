@@ -1,5 +1,9 @@
 package ca.bc.gov.pssg.rsbc.dps.dpsregistrationapi;
 
+import ca.bc.gov.open.ottsoa.ords.client.CreatePackageRequest;
+import ca.bc.gov.open.ottsoa.ords.client.OtssoaService;
+import ca.bc.gov.open.ottsoa.ords.client.api.handler.ApiException;
+import ca.bc.gov.open.ottsoa.ords.client.api.model.DefaultResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsregistrationapi.generated.models.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,11 +12,19 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import java.text.MessageFormat;
+import java.util.UUID;
+
 @Endpoint
 public class RegistrationServiceEndpoint {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private final OtssoaService otssoaService;
+
+    public RegistrationServiceEndpoint(OtssoaService otssoaService) {
+        this.otssoaService = otssoaService;
+    }
 
     @PayloadRoot(namespace = Keys.NAMESPACE_URI, localPart = Keys.REGISTRATION_SERVICE_OBJECT_REQUEST)
     @ResponsePayload
@@ -33,15 +45,37 @@ public class RegistrationServiceEndpoint {
     @ResponsePayload
     public SetRegisterPackageResponse registerPackage(@RequestPayload SetRegisterPackageRequest request) {
 
-
         SetRegisterPackageResponse response= new SetRegisterPackageResponse();
-
         SetRegisterPackageResponse2 fakeResponse = new SetRegisterPackageResponse2();
-        fakeResponse.setResponseCd("2020");
-        fakeResponse.setResponseMsg("Yo we are in 2020 and I'm still coding soap services!");
-        response.setSetRegisterPackageResponse(fakeResponse);
+
+        CreatePackageRequest createPackageRequest = new CreatePackageRequest
+                .Builder()
+                .withSource(request.getSource().getValue())
+                .withBusinessArea(request.getBusinessAreaCD())
+                .withFilename(request.getFilename())
+                .withImportGuid(UUID.fromString(request.getImportGUID()))
+                .withFormatType(request.getPackageFormatType())
+                .withPageCount(Integer.valueOf(request.getPageCount().getValue()))
+                .withProgramType(request.getProgramType().getValue())
+                .withReceivedDate(DateUtils.toDate(request.getReceivedDTM()))
+                .withRecordCount(Integer.parseInt(request.getRecordCount().getValue()))
+                .build();
+
+        try {
+
+            DefaultResponse apiResponse = otssoaService.CreatePackage(createPackageRequest);
+
+            fakeResponse.setResponseCd(apiResponse.getRegState());
+            fakeResponse.setResponseMsg(apiResponse.getErrorMessage());
+            response.setSetRegisterPackageResponse(fakeResponse);
+
+        } catch (ApiException e) {
+            fakeResponse.setResponseCd(Integer.toString(Keys.ERROR_STATUS_CODE));
+            fakeResponse.setResponseMsg(MessageFormat.format("Status code: {0}, error {1}", e.getCode(), e.getResponseBody()));
+        }
 
         return response;
+
     }
 
 }

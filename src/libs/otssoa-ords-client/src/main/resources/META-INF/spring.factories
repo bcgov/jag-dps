@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  ca.bc.gov.open.ottsoa.ords.client.AutoConfiguration
+  
