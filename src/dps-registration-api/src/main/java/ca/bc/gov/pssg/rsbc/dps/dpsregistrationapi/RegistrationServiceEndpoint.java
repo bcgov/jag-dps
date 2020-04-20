@@ -46,7 +46,7 @@ public class RegistrationServiceEndpoint {
     public SetRegisterPackageResponse registerPackage(@RequestPayload SetRegisterPackageRequest request) {
 
         SetRegisterPackageResponse response= new SetRegisterPackageResponse();
-        SetRegisterPackageResponse2 fakeResponse = new SetRegisterPackageResponse2();
+        SetRegisterPackageResponse2 registerPackageResponse = new SetRegisterPackageResponse2();
 
         CreatePackageRequest createPackageRequest = new CreatePackageRequest
                 .Builder()
@@ -63,16 +63,20 @@ public class RegistrationServiceEndpoint {
 
         try {
 
+            logger.debug("Attempting to create package using ords api.");
             DefaultResponse apiResponse = otssoaService.CreatePackage(createPackageRequest);
+            registerPackageResponse.setResponseCd(apiResponse.getRegState());
+            registerPackageResponse.setResponseMsg(apiResponse.getErrorMessage());
+            logger.info("Successfully created package in otssoa database.");
 
-            fakeResponse.setResponseCd(apiResponse.getRegState());
-            fakeResponse.setResponseMsg(apiResponse.getErrorMessage());
-            response.setSetRegisterPackageResponse(fakeResponse);
+        } catch (ApiException ex) {
+            logger.error("exception while trying to created package in otssoa database.", ex);
+            registerPackageResponse.setResponseCd(Integer.toString(Keys.ERROR_STATUS_CODE));
+            registerPackageResponse.setResponseMsg(MessageFormat.format("Status code: {0}, error {1}", ex.getCode(), ex.getMessage()));
 
-        } catch (ApiException e) {
-            fakeResponse.setResponseCd(Integer.toString(Keys.ERROR_STATUS_CODE));
-            fakeResponse.setResponseMsg(MessageFormat.format("Status code: {0}, error {1}", e.getCode(), e.getResponseBody()));
         }
+
+        response.setSetRegisterPackageResponse(registerPackageResponse);
 
         return response;
 
