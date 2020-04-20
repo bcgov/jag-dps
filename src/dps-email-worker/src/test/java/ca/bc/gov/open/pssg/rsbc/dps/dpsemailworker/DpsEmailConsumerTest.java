@@ -85,7 +85,7 @@ public class DpsEmailConsumerTest {
 
         Mockito.when(dpsEmailServiceMock.dpsEmailProcessed(Mockito.eq(CASE_1), Mockito.anyString())).thenReturn(dpsEmailProcessedResponseMock);
         Mockito.when(dpsEmailServiceMock.dpsEmailFailed(Mockito.anyString(), Mockito.anyString())).thenReturn(dpsEmailFailedResponseMock);
-        Mockito.when(dpsEmailFailedResponseMock.isAcknowledge()).thenReturn(true).thenReturn(true).thenReturn(false).thenReturn(false);
+        Mockito.when(dpsEmailFailedResponseMock.isAcknowledge()).thenReturn(true).thenReturn(false);
 
         Mockito.when(importSessionService.generateImportSession(Mockito.any(DpsMetadata.class))).thenReturn(fakeSession);
         Mockito.when(importSessionService.convertToXmlBytes(Mockito.any(ImportSession.class))).thenReturn(("<test" +

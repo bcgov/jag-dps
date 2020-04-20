@@ -101,25 +101,26 @@ public class DpsEmailConsumer {
     @RabbitListener(queues = Keys.PARKING_QUEUE_NAME)
     public void receiveParkedMessage(DpsMetadata message) {
 
+        logger.error("Error: email {} - landed in parking lot", message.toString());
         MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, message.getTransactionId().toString());
-        logger.info("received parked {}", message);
 
         try {
 
             // Move the email to the error folder in exchange
-            logger.info("Attempting to move email to error folder");
+            logger.error("Attempting to move email {} to ErrHold folder", message.toString());
             DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailFailed(message.getBase64EmailId(), "TBD");
-            logger.info(dpsEmailProcessedResponse.isAcknowledge() ?
-                    "Successfully moved email to error folder" :
-                    "Failed to move email to error folder");
 
             // If the email was moved, clear it from the cache too
             if (dpsEmailProcessedResponse.isAcknowledge()) {
-
+                logger.error("Error: email {} moved to ErrHold folder in exchange", message.toString());
                 logger.debug("Attempting to remove document from redis cache");
                 DpsFileInfo dpsFileInfo = message.getFileInfo();
                 storageService.delete(dpsFileInfo.getId());
-                logger.info("Successfully removed document from redis cache");
+                logger.debug("Successfully removed document from redis cache");
+            }
+            else
+            {
+                logger.error("Error: {} failed to move to ErrHold folder in exchange", message.toString());
             }
 
         } catch (Exception e) {

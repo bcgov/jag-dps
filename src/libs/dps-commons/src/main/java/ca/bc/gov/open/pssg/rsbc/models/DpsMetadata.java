@@ -203,4 +203,12 @@ public class DpsMetadata {
         return fileInfo;
     }
 
+    @Override
+    public String toString() {
+        return " [" +
+                "transactionId=" + transactionId +
+                ", emailId='" + emailId + '\'' +
+                ", from='" + from + '\'' +
+                "] ";
+    }
 }
