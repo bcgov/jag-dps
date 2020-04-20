@@ -102,7 +102,7 @@ definitions:
         type: string
       imageUpload:
         type: string
-      caseUpload:
+      caseUpdate:
         type: string
       caseResults:
         type: string

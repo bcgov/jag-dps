@@ -1,6 +1,7 @@
 package ca.bc.gov.pssg.rsbc.dps.dpsregistrationapi;
 
-import ca.bc.gov.open.ottsoa.ords.client.CreatePackageRequest;
+import ca.bc.gov.open.ottsoa.ords.client.models.CreateObjectRequest;
+import ca.bc.gov.open.ottsoa.ords.client.models.CreatePackageRequest;
 import ca.bc.gov.open.ottsoa.ords.client.OtssoaService;
 import ca.bc.gov.open.ottsoa.ords.client.api.handler.ApiException;
 import ca.bc.gov.open.ottsoa.ords.client.api.model.DefaultResponse;
@@ -33,12 +34,50 @@ public class RegistrationServiceEndpoint {
 
         SetRegisterObjectResponse response= new SetRegisterObjectResponse();
 
-        SetRegisterObjectResponse2 fakeResponse = new SetRegisterObjectResponse2();
-        fakeResponse.setResponseCd("2020");
-        fakeResponse.setResponseMsg("Yo we are in 2020 and I'm still coding soap services!");
-        response.setSetRegisterObjectResponse(fakeResponse);
+        SetRegisterObjectResponse2 registerObjectResponse = new SetRegisterObjectResponse2();
+
+        CreateObjectRequest createObjectRequest = new CreateObjectRequest
+                .Builder()
+                .withImportGuid(UUID.fromString(request.getPackage().getValue()))
+                .withActionMethod(request.getActionMethod().getValue())
+                .withActionSystem(request.getActionSystem().getValue())
+                .withActionUser(request.getActionUser().getValue())
+                .withCaseResults(request.getCaseResult().getValue())
+                .withCaseUpdate(request.getCaseUpdate().getValue())
+                .withClientName(request.getClientName().getValue())
+                .withClientNumber(request.getClientNum().getValue())
+                .withCompletionDate(DateUtils.toDate(request.getCompletionDTM().getValue()))
+                .withContentId(request.getContentID().getValue())
+                .withImageUpload(request.getImageUpload().getValue())
+                .withPackageFormatType(request.getPackageFormatType())
+                .build();
+
+        try {
+
+            logger.debug("Attempting to create package using ords api.");
+            DefaultResponse apiResponse = otssoaService.CreateObject(createObjectRequest);
+
+            if(apiResponse.getRegState() == "0") {
+                logger.info("Successfully created package in otssoa database.");
+            } else {
+                logger.error("Error while creating package in otssoa database.");
+            }
+
+            registerObjectResponse.setResponseCd(apiResponse.getRegState());
+            registerObjectResponse.setResponseMsg(apiResponse.getErrorMessage());
+
+        } catch (ApiException ex) {
+
+            logger.error("exception while trying to created package in otssoa database.", ex);
+            registerObjectResponse.setResponseCd(Integer.toString(Keys.ERROR_STATUS_CODE));
+            registerObjectResponse.setResponseMsg(MessageFormat.format("Status code: {0}, error {1}", ex.getCode(), ex.getMessage()));
+
+        }
+
+        response.setSetRegisterObjectResponse(registerObjectResponse);
 
         return response;
+
     }
 
     @PayloadRoot(namespace = Keys.NAMESPACE_URI, localPart = Keys.REGISTRATION_SERVICE_PACKAGE_REQUEST)
@@ -55,19 +94,26 @@ public class RegistrationServiceEndpoint {
                 .withFilename(request.getFilename())
                 .withImportGuid(UUID.fromString(request.getImportGUID()))
                 .withFormatType(request.getPackageFormatType())
-                .withPageCount(Integer.valueOf(request.getPageCount().getValue()))
+                .withPageCount(tryParseInt(request.getPageCount().getValue()))
                 .withProgramType(request.getProgramType().getValue())
                 .withReceivedDate(DateUtils.toDate(request.getReceivedDTM()))
-                .withRecordCount(Integer.parseInt(request.getRecordCount().getValue()))
+                .withRecordCount(tryParseInt(request.getRecordCount().getValue()))
                 .build();
 
         try {
 
             logger.debug("Attempting to create package using ords api.");
             DefaultResponse apiResponse = otssoaService.CreatePackage(createPackageRequest);
+
+            if(apiResponse.getRegState() == "0") {
+                logger.info("Successfully created package in otssoa database.");
+            } else {
+                logger.error("Error while creating package in otssoa database.");
+            }
+
             registerPackageResponse.setResponseCd(apiResponse.getRegState());
             registerPackageResponse.setResponseMsg(apiResponse.getErrorMessage());
-            logger.info("Successfully created package in otssoa database.");
+
 
         } catch (ApiException ex) {
             logger.error("exception while trying to created package in otssoa database.", ex);
@@ -80,6 +126,19 @@ public class RegistrationServiceEndpoint {
 
         return response;
 
+    }
+
+    /**
+     * Default to -1 if value is not an integer
+     * @param value
+     * @return
+     */
+    private int tryParseInt(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch(NumberFormatException nfe) {
+            return -1;
+        }
     }
 
 }

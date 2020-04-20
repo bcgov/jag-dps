@@ -1,4 +1,4 @@
-package ca.bc.gov.open.ottsoa.ords.client;
+package ca.bc.gov.open.ottsoa.ords.client.models;
 
 import java.util.Date;
 import java.util.UUID;

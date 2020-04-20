@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class registrationServiceEndpointRegisterPackageTest {
+public class RegistrationServiceEndpointRegisterPackageTest {
 
     private static final String CASE_1 = "case1";
     private static final String CASE_2 = "case2";

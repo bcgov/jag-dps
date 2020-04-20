@@ -4,6 +4,7 @@ import ca.bc.gov.open.ottsoa.ords.client.api.OtssoaApi;
 import ca.bc.gov.open.ottsoa.ords.client.api.handler.ApiException;
 import ca.bc.gov.open.ottsoa.ords.client.api.model.CreatePackagePayload;
 import ca.bc.gov.open.ottsoa.ords.client.api.model.DefaultResponse;
+import ca.bc.gov.open.ottsoa.ords.client.models.CreatePackageRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class OtssoaServiceTest {
+public class OtssoaServiceCreatePackageTest {
 
     private static final String BUSINESS_AREA = "BusinessArea";
     private static final String FILENAME = "test.xml";
@@ -70,9 +71,9 @@ public class OtssoaServiceTest {
                 .withSource(SOURCE)
                 .build();
 
-        DefaultResponse expected = sut.CreatePackage(request);
+        DefaultResponse actual = sut.CreatePackage(request);
 
-        Assertions.assertEquals("0", expected.getRegState());
+        Assertions.assertEquals("0", actual.getRegState());
 
     }
 
