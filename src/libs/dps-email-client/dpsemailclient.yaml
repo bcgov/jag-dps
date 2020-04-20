@@ -6,31 +6,70 @@ info:
 host: 'localhost:8082'
 basePath: /dpsemailpoller
 tags:
-- name: dps-email-controller
-  description: Dps Email Controller
+  - name: dps-email-controller
+    description: Dps Email Controller
 paths:
+  '/email/{id}/error':
+    put:
+      tags:
+        - DpsEmailProcessing
+      summary: Mark email as having an error in processing
+      operationId: ProcessFailedUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: dpsEmailProcessedRequest
+          description: dpsEmailProcessedRequest
+          required: true
+          schema:
+            $ref: '#/definitions/DpsEmailProcessedRequest'
+      responses:
+        '200':
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/DpsEmailResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/DpsEmailResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
   '/email/{id}/processed':
     put:
       tags:
-      - DpsEmailProcessing
+        - DpsEmailProcessing
       summary: Mark email as processed
       operationId: ProcessedUsingPUT
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: id
-        in: path
-        description: id
-        required: true
-        type: string
-      - in: body
-        name: dpsEmailProcessedRequest
-        description: dpsEmailProcessedRequest
-        required: true
-        schema:
-          $ref: '#/definitions/DpsEmailProcessedRequest'
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - in: body
+          name: dpsEmailProcessedRequest
+          description: dpsEmailProcessedRequest
+          required: true
+          schema:
+            $ref: '#/definitions/DpsEmailProcessedRequest'
       responses:
         '200':
           description: Successful operation

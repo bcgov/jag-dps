@@ -42,9 +42,9 @@ public class DpsEmailControllerTest {
         sut = new DpsEmailController(emailServiceMock);
     }
 
-    @DisplayName("success - with processed email moved should return acknowledge")
+    @DisplayName("success - with failed email moved should return acknowledge")
     @Test
-    public void withProcessedEmailMovedShouldReturnSuccess() {
+    public void withFailedEmailMovedShouldReturnSuccess() {
 
         DpsEmailProcessedRequest dpsEmailProcessedRequest = new DpsEmailProcessedRequest();
         dpsEmailProcessedRequest.setCorrelationId("test");
@@ -57,9 +57,9 @@ public class DpsEmailControllerTest {
 
     }
 
-    @DisplayName("success - with processed email not moved should return error message")
+    @DisplayName("success - with failed email not moved should return error message")
     @Test
-    public void withProcessedEmailNotMovedShouldReturnError() {
+    public void withFailedEmailNotMovedShouldReturnError() {
 
         DpsEmailProcessedRequest dpsEmailProcessedRequest = new DpsEmailProcessedRequest();
         dpsEmailProcessedRequest.setCorrelationId("test");
@@ -72,9 +72,9 @@ public class DpsEmailControllerTest {
 
     }
 
-    @DisplayName("success - with failed email moved should return acknowledge")
+    @DisplayName("success - with processed email moved should return acknowledge")
     @Test
-    public void withFailedEmailMovedShouldReturnSuccess() {
+    public void withProcessedEmailMovedShouldReturnSuccess() {
 
         DpsEmailProcessedRequest dpsEmailProcessedRequest = new DpsEmailProcessedRequest();
         dpsEmailProcessedRequest.setCorrelationId("test");
@@ -87,9 +87,9 @@ public class DpsEmailControllerTest {
 
     }
 
-    @DisplayName("success - with failed email not moved should return error message")
+    @DisplayName("success - with processed email not moved should return error message")
     @Test
-    public void withFailedEmailNotMovedShouldReturnError() {
+    public void withProcessedEmailNotMovedShouldReturnError() {
 
         DpsEmailProcessedRequest dpsEmailProcessedRequest = new DpsEmailProcessedRequest();
         dpsEmailProcessedRequest.setCorrelationId("test");

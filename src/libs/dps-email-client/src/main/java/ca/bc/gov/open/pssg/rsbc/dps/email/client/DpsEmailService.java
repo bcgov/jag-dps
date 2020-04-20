@@ -8,5 +8,5 @@ package ca.bc.gov.open.pssg.rsbc.dps.email.client;
 public interface DpsEmailService {
 
      DpsEmailProcessedResponse dpsEmailProcessed(String id, String correlationId);
-
+     DpsEmailProcessedResponse dpsEmailFailed(String id, String correlationId);
 }

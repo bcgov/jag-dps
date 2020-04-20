@@ -81,7 +81,7 @@ public class DpsEmailConsumer {
             logger.info("Successfully removed document from redis cache");
 
             //TODO: when id will be generated for kofax, it will replace TBD.
-            logger.info("Attempting to move email to processed folder\"");
+            logger.info("Attempting to move email to processed folder");
             DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailProcessed(message.getBase64EmailId(), "TBD");
             logger.info("Successfully moved email to processed folder");
 
@@ -92,6 +92,43 @@ public class DpsEmailConsumer {
         } finally {
             MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
         }
+
     }
+
+    // Anything that hits the parking queue we can assume we can't process, so...
+    // 1. Move the email to the error folder in exchange
+    // 2. Delete the attached doc from the cache
+    @RabbitListener(queues = Keys.PARKING_QUEUE_NAME)
+    public void receiveParkedMessage(DpsMetadata message) {
+
+        MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, message.getTransactionId().toString());
+        logger.info("received parked {}", message);
+
+        try {
+
+            // Move the email to the error folder in exchange
+            logger.info("Attempting to move email to error folder");
+            DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailFailed(message.getBase64EmailId(), "TBD");
+            logger.info(dpsEmailProcessedResponse.isAcknowledge() ?
+                    "Successfully moved email to error folder" :
+                    "Failed to move email to error folder");
+
+            // If the email was moved, clear it from the cache too
+            if (dpsEmailProcessedResponse.isAcknowledge()) {
+
+                logger.debug("Attempting to remove document from redis cache");
+                DpsFileInfo dpsFileInfo = message.getFileInfo();
+                storageService.delete(dpsFileInfo.getId());
+                logger.info("Successfully removed document from redis cache");
+            }
+
+        } catch (Exception e) {
+            logger.error("Error in {} while processing parked message: ", e.getClass().getSimpleName(), e);
+            throw new DpsEmailWorkerException("Exception while processing parked message.", e.getCause());
+        } finally {
+            MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
+        }
+    }
+
 
 }
