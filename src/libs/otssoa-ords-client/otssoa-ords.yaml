@@ -1,0 +1,136 @@
+swagger: '2.0'
+info:
+  title: ORDS generated API for web
+  version: 1.0.0
+host: localhost
+basePath: /ords/deva/otsords/web
+schemes:
+- http
+produces:
+- application/json
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: HTTP Basic Authentication.
+tags:
+- name: OTSSOA
+paths:
+  /createObject:
+    post:
+      tags:
+      - OTSSOA
+      security:
+      - basicAuth: []
+      description: Create an object
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/defaultResponse'
+      consumes:
+      - application/json
+      parameters:
+      - name: payload
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/createObjectPayload'
+  /createPackage:
+    post:
+      tags:
+      - OTSSOA
+      security:
+      - basicAuth: []
+      description: Create an package
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            $ref: '#/definitions/defaultResponse'
+      consumes:
+      - application/json
+      parameters:
+      - name: payload
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/createPackagePayload'
+  /getDbName:
+    get:
+      description: Get the DB name
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            type: object
+            properties: {}
+  /health:
+    get:
+      description: Dummy endpoint to check that API calls are working
+      responses:
+        '200':
+          description: output of the endpoint
+          schema:
+            type: object
+            properties: {}
+definitions:
+  defaultResponse:
+    properties:
+      reg_state:
+        type: string
+      error_message:
+        type: string
+  createObjectPayload:
+    properties:
+      clientNumber:
+        type: string
+      contentId:
+        type: string
+      contentType:
+        type: string
+      completionDate:
+        type: string
+      importGuid:
+        type: string
+      clientName:
+        type: string
+      actionSystem:
+        type: string
+      actionUser:
+        type: string
+      actionMethod:
+        type: string
+      imageUpload:
+        type: string
+      caseUpload:
+        type: string
+      caseResults:
+        type: string
+      packageFormatType:
+        type: string
+      status_code:
+        type: string
+  createPackagePayload:
+    properties:
+      pageCount:
+        type: string
+      recordCount:
+        type: string
+      programType:
+        type: string
+      formatType:
+        type: string
+      filename:
+        type: string
+      source:
+        type: string
+      recipient:
+        type: string
+      receivedDate:
+        type: string
+      importGuid:
+        type: string
+      businessArea:
+        type: string
+      status_code:
+        type: string
