@@ -1,6 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker;
 
 public class Keys {
+
+
     private Keys() {}
 
     /**
@@ -28,4 +30,23 @@ public class Keys {
      */
     public static final String KOFAX_CONTROL_FOLDER = "control";
 
+    /**
+     * DO NOT CHANGE - The default registration business area
+     */
+    public static final String REGISTRATION_BUSINESS_AREA = "RDS";
+
+    /**
+     * DO NOT CHANGE - The default registration format
+     */
+    public static final String REGISTRATION_DEFAULT_FORMAT= "1";
+
+    /**
+     * DO NOT CHANGE - The default registration record count
+     */
+    public static final int REGISTRATION_DEFAULT_RECORD_COUNT = 1;
+
+    /**
+     * DO NOT CHANGE - The default registration success status
+     */
+    public static final String REGISTRATION_OPERATION_SUCCESS_STATUS = "0";
 }

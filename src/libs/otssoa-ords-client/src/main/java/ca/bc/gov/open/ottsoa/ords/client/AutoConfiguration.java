@@ -3,6 +3,7 @@ package ca.bc.gov.open.ottsoa.ords.client;
 import ca.bc.gov.open.ottsoa.ords.client.api.OtssoaApi;
 import ca.bc.gov.open.ottsoa.ords.client.api.handler.ApiClient;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,7 @@ public class AutoConfiguration {
         this.ottsoaProperties = ottsoaProperties;
     }
 
-    @Bean
+    @Bean(name = "otssoaApiClient")
     public ApiClient apiClient() {
         ApiClient apiClient = new ApiClient();
 
@@ -33,7 +34,7 @@ public class AutoConfiguration {
     }
 
     @Bean
-    public OtssoaApi otssoaApi(ApiClient apiClient) {
+    public OtssoaApi otssoaApi(@Qualifier("otssoaApiClient") ApiClient apiClient) {
         return new OtssoaApi(apiClient);
     }
 

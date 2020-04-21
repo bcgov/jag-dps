@@ -49,8 +49,8 @@ public class RegistrationServiceEndpointRegisterObjectTest {
         success.setRegState(REG_STATE);
         success.setErrorMessage(ERROR_MESSAGE);
 
-        Mockito.doReturn(success).when(otssoaServiceMock).CreateObject(ArgumentMatchers.argThat(x -> x.getClientName().equals(CASE_1)));
-        Mockito.doThrow(new ApiException(500, "internal server error")).when(otssoaServiceMock).CreateObject(ArgumentMatchers.argThat(x -> x.getClientName().equals(CASE_2)));
+        Mockito.doReturn(success).when(otssoaServiceMock).createObject(ArgumentMatchers.argThat(x -> x.getClientName().equals(CASE_1)));
+        Mockito.doThrow(new ApiException(500, "internal server error")).when(otssoaServiceMock).createObject(ArgumentMatchers.argThat(x -> x.getClientName().equals(CASE_2)));
 
         sut = new RegistrationServiceEndpoint(otssoaServiceMock);
 

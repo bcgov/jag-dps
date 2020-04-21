@@ -71,7 +71,7 @@ public class OtssoaServiceCreatePackageTest {
                 .withSource(SOURCE)
                 .build();
 
-        DefaultResponse actual = sut.CreatePackage(request);
+        DefaultResponse actual = sut.createPackage(request);
 
         Assertions.assertEquals("0", actual.getRegState());
 

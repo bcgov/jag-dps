@@ -55,7 +55,7 @@ public class RegistrationServiceEndpoint {
         try {
 
             logger.debug("Attempting to create package using ords api.");
-            DefaultResponse apiResponse = otssoaService.CreateObject(createObjectRequest);
+            DefaultResponse apiResponse = otssoaService.createObject(createObjectRequest);
 
             if(apiResponse.getRegState() == "0") {
                 logger.info("Successfully created package in otssoa database.");
@@ -103,7 +103,7 @@ public class RegistrationServiceEndpoint {
         try {
 
             logger.debug("Attempting to create package using ords api.");
-            DefaultResponse apiResponse = otssoaService.CreatePackage(createPackageRequest);
+            DefaultResponse apiResponse = otssoaService.createPackage(createPackageRequest);
 
             if(apiResponse.getRegState() == "0") {
                 logger.info("Successfully created package in otssoa database.");

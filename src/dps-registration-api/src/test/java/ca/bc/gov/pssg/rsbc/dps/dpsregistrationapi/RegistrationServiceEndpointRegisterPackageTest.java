@@ -51,8 +51,8 @@ public class RegistrationServiceEndpointRegisterPackageTest {
         success.setRegState(REG_STATE);
         success.setErrorMessage(EMPTY_STRING);
 
-        Mockito.doReturn(success).when(otssoaServiceMock).CreatePackage(ArgumentMatchers.argThat(x -> x.getBusinessArea().equals(CASE_1)));
-        Mockito.doThrow(new ApiException(404, EXCEPTION_MESSAGE)).when(otssoaServiceMock).CreatePackage(ArgumentMatchers.argThat(x -> x.getBusinessArea().equals(CASE_2)));
+        Mockito.doReturn(success).when(otssoaServiceMock).createPackage(ArgumentMatchers.argThat(x -> x.getBusinessArea().equals(CASE_1)));
+        Mockito.doThrow(new ApiException(404, EXCEPTION_MESSAGE)).when(otssoaServiceMock).createPackage(ArgumentMatchers.argThat(x -> x.getBusinessArea().equals(CASE_2)));
 
 
 

@@ -82,7 +82,7 @@ public class OtssoaServiceCreateObjectTest {
                 .withPackageFormatType(PACKAGE_FORMAT_TYPE)
                 .build();
 
-        DefaultResponse actual = sut.CreateObject(request);
+        DefaultResponse actual = sut.createObject(request);
 
         Assertions.assertEquals("0", actual.getRegState());
 
