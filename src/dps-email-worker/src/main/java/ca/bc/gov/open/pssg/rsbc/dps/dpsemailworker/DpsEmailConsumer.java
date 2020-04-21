@@ -55,11 +55,7 @@ public class DpsEmailConsumer {
         ImportSession session = importSessionService.generateImportSession(message);
         if(!session.getBatchName().isPresent()) throw new DpsEmailWorkerException("batch name is required.");
 
-
-
         try {
-
-
 
             logger.debug("attempting to get message meta data [{}]", message);
             DpsFileInfo dpsFileInfo = message.getFileInfo();
@@ -85,7 +81,7 @@ public class DpsEmailConsumer {
             logger.info("Successfully removed document from redis cache");
 
             //TODO: when id will be generated for kofax, it will replace TBD.
-            logger.info("Attempting to move email to processed folder\"");
+            logger.info("Attempting to move email to processed folder");
             DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailProcessed(message.getBase64EmailId(), "TBD");
             logger.info("Successfully moved email to processed folder");
 
@@ -96,6 +92,44 @@ public class DpsEmailConsumer {
         } finally {
             MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
         }
+
     }
+
+    // Anything that hits the parking queue we can assume we can't process, so...
+    // 1. Move the email to the error folder in exchange
+    // 2. Delete the attached doc from the cache
+    @RabbitListener(queues = Keys.PARKING_QUEUE_NAME)
+    public void receiveParkedMessage(DpsMetadata message) {
+
+        logger.error("Error: email {} - landed in parking lot", message.toString());
+        MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, message.getTransactionId().toString());
+
+        try {
+
+            // Move the email to the error folder in exchange
+            logger.error("Attempting to move email {} to ErrHold folder", message.toString());
+            DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailFailed(message.getBase64EmailId(), "TBD");
+
+            // If the email was moved, clear it from the cache too
+            if (dpsEmailProcessedResponse.isAcknowledge()) {
+                logger.error("Error: email {} moved to ErrHold folder in exchange", message.toString());
+                logger.debug("Attempting to remove document from redis cache");
+                DpsFileInfo dpsFileInfo = message.getFileInfo();
+                storageService.delete(dpsFileInfo.getId());
+                logger.debug("Successfully removed document from redis cache");
+            }
+            else
+            {
+                logger.error("Error: {} failed to move to ErrHold folder in exchange", message.toString());
+            }
+
+        } catch (Exception e) {
+            logger.error("Error in {} while processing parked message: ", e.getClass().getSimpleName(), e);
+            throw new DpsEmailWorkerException("Exception while processing parked message.", e.getCause());
+        } finally {
+            MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
+        }
+    }
+
 
 }

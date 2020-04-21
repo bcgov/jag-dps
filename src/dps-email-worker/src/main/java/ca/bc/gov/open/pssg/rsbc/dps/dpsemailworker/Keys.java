@@ -14,6 +14,11 @@ public class Keys {
     public static final String EMAIL_QUEUE_NAME = EMAIL_VALUE + ".emailmessage.Q";
 
     /**
+     * DO NOT CHANGE - The name of the DPS email queue
+     */
+    public static final String PARKING_QUEUE_NAME = EMAIL_VALUE + ".emailmessage.PL";
+
+    /**
      * DO NOT CHANGE - The default output notification value.
      */
     public static final String OUTPUT_NOTIFICATION_VALUE = "emailMessage";

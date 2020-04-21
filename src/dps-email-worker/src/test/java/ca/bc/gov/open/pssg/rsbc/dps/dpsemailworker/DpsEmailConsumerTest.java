@@ -25,6 +25,7 @@ public class DpsEmailConsumerTest {
 
     private static final String CASE_1 = "case1";
     private static final String CASE_2 = "case2";
+    private static final String CASE_3 = "case3";
     private static final String EMAIL_EXCEPTION = "email exception";
     private static final String CORRELATION = "correlation";
     private static final String FAKE_CONTENT = "fake content";
@@ -54,6 +55,9 @@ public class DpsEmailConsumerTest {
     @Mock
     private DpsEmailProcessedResponse dpsEmailProcessedResponseMock;
 
+    @Mock
+    private DpsEmailProcessedResponse dpsEmailFailedResponseMock;
+
     @BeforeAll
     public void setUp() throws Exception {
 
@@ -73,10 +77,15 @@ public class DpsEmailConsumerTest {
         Mockito.when(storageServiceMock.get(Mockito.eq(CASE_1))).thenReturn(FAKE_CONTENT.getBytes());
         Mockito.doNothing().when(storageServiceMock).delete(Mockito.eq(CASE_1));
 
+        Mockito.when(storageServiceMock.get(Mockito.eq(CASE_3))).thenReturn(FAKE_CONTENT.getBytes());
+        Mockito.doNothing().when(storageServiceMock).delete(Mockito.eq(CASE_3));
+
         Mockito.when(dpsMetadataMock.getFileInfo()).thenReturn(dpsFileInfoMock);
         Mockito.when(dpsFileInfoMock.getId()).thenReturn("id");
 
         Mockito.when(dpsEmailServiceMock.dpsEmailProcessed(Mockito.eq(CASE_1), Mockito.anyString())).thenReturn(dpsEmailProcessedResponseMock);
+        Mockito.when(dpsEmailServiceMock.dpsEmailFailed(Mockito.anyString(), Mockito.anyString())).thenReturn(dpsEmailFailedResponseMock);
+        Mockito.when(dpsEmailFailedResponseMock.isAcknowledge()).thenReturn(true).thenReturn(false);
 
         Mockito.when(importSessionService.generateImportSession(Mockito.any(DpsMetadata.class))).thenReturn(fakeSession);
         Mockito.when(importSessionService.convertToXmlBytes(Mockito.any(ImportSession.class))).thenReturn(("<test" +
@@ -123,5 +132,24 @@ public class DpsEmailConsumerTest {
 
     }
 
+    @DisplayName("success - receiveParkedMessage should not throw")
+    @Test
+    public void withEmailFailedShouldReturnSuccess() {
+
+        Assertions.assertDoesNotThrow(() -> {
+            sut.receiveParkedMessage(new DpsMetadata.Builder().withApplicationID(CASE_3).withFileInfo(new DpsFileInfo(CASE_3, FILE_NAME, "String")).withEmailId("a@a.com").build());
+        });
+
+        Mockito.verify(storageServiceMock, Mockito.times(1))
+                .delete(Mockito.eq(CASE_3));
+
+        // Second call to receiveParkedMessage should not have the isAcknowledge() == true, so should not delete
+        Assertions.assertDoesNotThrow(() -> {
+            sut.receiveParkedMessage(new DpsMetadata.Builder().withApplicationID(CASE_3).withFileInfo(new DpsFileInfo(CASE_3, FILE_NAME, "String")).withEmailId("a@a.com").build());
+        });
+
+        Mockito.verify(storageServiceMock, Mockito.times(1))
+                .delete(Mockito.eq(CASE_3));
+    }
 }
 

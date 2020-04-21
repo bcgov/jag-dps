@@ -36,6 +36,11 @@ public class DpsMessagePostProcessor implements MessagePostProcessor {
 
         if(message.getMessageProperties() == null) return message;
 
+        // We do not want to run this postProcess on message coming from the ".PL" queue
+        // as the purpose of this postProcess is to move them there when we've failed to
+        // process them too many times.
+        if(message.getMessageProperties().getConsumerQueue().endsWith(".PL")) return message;
+
         List<Map<String, ?>> xDeathCollection = message.getMessageProperties().getXDeathHeader();
 
         if(xDeathCollection == null || xDeathCollection.isEmpty()) return message;

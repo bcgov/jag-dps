@@ -44,4 +44,20 @@ public class DpsEmailController {
             return new ResponseEntity<>(DpsEmailResponse.Error(ex.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping(value = "/email/{id}/error", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful operation", response = DpsEmailResponse.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = DpsEmailResponse.class)
+    })
+    @ApiOperation(value = "Mark email as having an error in processing", tags = {"DpsEmailProcessing"})
+    public ResponseEntity<DpsEmailResponse> ProcessFailed(@PathVariable String id, @RequestBody DpsEmailProcessedRequest dpsEmailProcessedRequest) {
+        try {
+            emailService.moveToErrorFolder(new String(Base64.getDecoder().decode(id)));
+            logger.info("message successfully moved to error folder, id: [{}]", dpsEmailProcessedRequest.getCorrelationId());
+            return new ResponseEntity<>(DpsEmailResponse.Success(), HttpStatus.OK);
+        } catch (DpsEmailException ex) {
+            return new ResponseEntity<>(DpsEmailResponse.Error(ex.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

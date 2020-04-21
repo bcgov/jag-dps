@@ -37,4 +37,21 @@ public class DpsEmailServiceImpl implements DpsEmailService {
             return DpsEmailProcessedResponse.errorResponse(ex.getMessage());
         }
     }
+
+    @Override
+    public DpsEmailProcessedResponse dpsEmailFailed(String id, String correlationId) {
+
+        try {
+
+            DpsEmailProcessedRequest request = new DpsEmailProcessedRequest();
+            request.setCorrelationId("");
+
+            DpsEmailResponse response = this.dpsEmailProcessingApi.processFailedUsingPUT(id, request);
+            return DpsEmailProcessedResponse.successResponse(response.getAcknowledge(), response.getMessage());
+
+        } catch (ApiException ex) {
+            logger.error("Exception caught in dpsEmailProcessed", ex);
+            return DpsEmailProcessedResponse.errorResponse(ex.getMessage());
+        }
+    }
 }
