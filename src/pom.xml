@@ -6,17 +6,18 @@
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>dps</artifactId>
     <version>0.2.0-SNAPSHOT</version>
+    <modules>
+        <module>libs/otssoa-ords-client</module>
+    </modules>
 
     <name>dps</name>
     <packaging>pom</packaging>
     <url>https://github.com/bcgov/jag-dps</url>
 
-
     <properties>
         <java.version>1.8</java.version>
         <springfox-swagger-version>2.6.1</springfox-swagger-version>
     </properties>
-
 
     <profiles>
         <profile>
@@ -30,6 +31,7 @@
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/dps-notification</module>
                 <module>libs/figaro-ords-client</module>
+                <module>libs/otssoa-ords-client</module>
                 <module>libs/vips-ords-client</module>
                 <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-email-client</module>
@@ -49,6 +51,7 @@
                 <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-commons</module>
                 <module>libs/dps-email-client</module>
+                <module>libs/otssoa-ords-client</module>
                 <module>dps-payment-service</module>
                 <module>dps-email-poller</module>
                 <module>dps-email-worker</module>
