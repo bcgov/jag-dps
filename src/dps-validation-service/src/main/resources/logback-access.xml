@@ -18,6 +18,7 @@
             <sourcetype>dps-access-logs</sourcetype>
             <middleware>HttpEventCollectorUnitTestMiddleware</middleware>
             <disableCertificateValidation>true</disableCertificateValidation>
+            <batch_size_count>1</batch_size_count>
             <layout class="ch.qos.logback.access.PatternLayout">
                 <pattern>combined</pattern>
             </layout>
