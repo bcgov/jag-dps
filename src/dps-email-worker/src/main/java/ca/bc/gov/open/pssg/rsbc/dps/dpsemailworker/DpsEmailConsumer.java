@@ -2,6 +2,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.ImportSession;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionService;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.registration.RegistrationService;
 import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
 import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
@@ -36,13 +37,17 @@ public class DpsEmailConsumer {
 
     private final ImportSessionService importSessionService;
 
+    private final RegistrationService registrationService;
+
     public DpsEmailConsumer(DpsEmailService dpsEmailService, StorageService storageService, FileService fileService,
-                            SftpProperties sftpProperties, ImportSessionService importSessionService) {
+                            SftpProperties sftpProperties, ImportSessionService importSessionService,
+                            RegistrationService registrationService) {
         this.dpsEmailService = dpsEmailService;
         this.storageService = storageService;
         this.fileService = fileService;
         this.sftpProperties = sftpProperties;
         this.importSessionService = importSessionService;
+        this.registrationService = registrationService;
     }
 
     @RabbitListener(queues = Keys.EMAIL_QUEUE_NAME)
@@ -79,6 +84,13 @@ public class DpsEmailConsumer {
             logger.debug("Attempting to remove document from redis cache");
             storageService.delete(dpsFileInfo.getId());
             logger.info("Successfully removed document from redis cache");
+
+
+            if(registrationService != null) {
+                logger.debug("Attempting to register package");
+                registrationService.registerPackage(message);
+                logger.info("Successfully registered package to OTS database.");
+            }
 
             //TODO: when id will be generated for kofax, it will replace TBD.
             logger.info("Attempting to move email to processed folder");

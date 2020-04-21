@@ -20,7 +20,7 @@ public class OtssoaServiceImpl implements OtssoaService {
         this.otssoaApi = otssoaApi;
     }
 
-    public DefaultResponse CreatePackage(CreatePackageRequest createPackageRequest) throws ApiException {
+    public DefaultResponse createPackage(CreatePackageRequest createPackageRequest) throws ApiException {
 
         CreatePackagePayload payload = new CreatePackagePayload();
         payload.setPageCount(Integer.toString(createPackageRequest.getPageCount()));
@@ -38,7 +38,7 @@ public class OtssoaServiceImpl implements OtssoaService {
     }
 
     @Override
-    public DefaultResponse CreateObject(CreateObjectRequest createObjectRequest) throws ApiException {
+    public DefaultResponse createObject(CreateObjectRequest createObjectRequest) throws ApiException {
 
         CreateObjectPayload payload = new CreateObjectPayload();
         payload.setCompletionDate(formatDate(createObjectRequest.getCompletionDate()));
