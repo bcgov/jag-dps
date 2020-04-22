@@ -23,7 +23,7 @@ public class RegistrationConfig {
         if(registrationProperties.isEnabled())
             return new RegistrationServiceImpl(otssoaService);
         else
-            return null;
+            return new NoActionRegistrationService();
     }
 
 }
