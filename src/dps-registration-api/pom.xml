@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
 	<artifactId>dps-registration-api</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.3.0</version>
 	<name>dps-registration-api</name>
 	<description>DPS Package Registration Api</description>
 
@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>otssoa-ords-client</artifactId>
-			<version>0.2.0-SNAPSHOT</version>
+			<version>0.3.0</version>
 		</dependency>
 
 		<dependency>
