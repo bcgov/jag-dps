@@ -12,7 +12,7 @@
 
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
     <artifactId>dps-email-worker</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0-SNAPSHOT</version>
     <name>dps-email-worker</name>
     <description>DPS Email Worker subscribes to queue and gets messages.</description>
 
@@ -152,50 +152,50 @@
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-messaging-starter</artifactId>
-            <version>0.3.0</version>
+            <version>0.4.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-commons</artifactId>
-            <version>0.3.0</version>
+            <version>0.4.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-notification</artifactId>
-            <version>0.3.0</version>
+            <version>0.4.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-email-client</artifactId>
-            <version>0.3.0</version>
+            <version>0.4.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-cache-starter</artifactId>
-            <version>0.3.0</version>
+            <version>0.4.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-sftp-starter</artifactId>
-            <version>0.3.0</version>
+            <version>0.4.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-files</artifactId>
-            <version>0.3.0</version>
+            <version>0.4.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>otssoa-ords-client</artifactId>
-            <version>0.3.0</version>
+            <version>0.4.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
