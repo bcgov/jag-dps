@@ -11,12 +11,17 @@ import org.mockito.MockitoAnnotations;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FileServiceImplTest {
 
 
     public static final String FILE_NAME = "test.txt";
+    public static final String REMOTE_DIRECTORY = "remoteDirectory";
+    public static final String FILE_1 = "file1";
+    public static final String FILE_2 = "file2";
     private FileServiceImpl sut;
 
     public static final String FILE_ID = "fileId";
@@ -31,6 +36,12 @@ public class FileServiceImplTest {
         MockitoAnnotations.initMocks(this);
         Mockito.doNothing().when(sftpServiceMock).moveFile(Mockito.anyString(), Mockito.anyString());
         Mockito.doNothing().when(sftpServiceMock).put(Mockito.any(InputStream.class), Mockito.anyString());
+
+        List<String> fakeFileList = new ArrayList<>();
+        fakeFileList.add(FILE_1);
+        fakeFileList.add(FILE_2);
+        Mockito.when(sftpServiceMock.listFiles(REMOTE_DIRECTORY)).thenReturn(fakeFileList);
+
         sut = new FileServiceImpl(sftpServiceMock);
     }
 
@@ -76,6 +87,17 @@ public class FileServiceImplTest {
         Assertions.assertDoesNotThrow(() -> sut.uploadFile(new ByteArrayInputStream(value.getBytes()), FILE_NAME));
 
         Mockito.verify(sftpServiceMock, Mockito.times(1)).put(Mockito.any(InputStream.class), Mockito.eq(FILE_NAME));
+
+    }
+
+    @Test
+    public void shouldListFiles() {
+
+        List<String> actual = sut.listFiles(REMOTE_DIRECTORY);
+
+        Assertions.assertEquals(2, actual.size());
+        Assertions.assertTrue(actual.contains(FILE_1));
+        Assertions.assertTrue(actual.contains(FILE_2));
 
     }
 

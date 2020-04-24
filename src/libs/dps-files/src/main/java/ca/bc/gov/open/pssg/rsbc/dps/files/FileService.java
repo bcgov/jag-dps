@@ -3,6 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.files;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * An interface that expose functionality to manipulate files.
@@ -31,5 +32,7 @@ public interface FileService {
     InputStream getMetadataFileContent(FileInfo fileInfo);
 
     void uploadFile(InputStream inputStream, String fileName);
+
+    List<String> listFiles(String remoteDirectory);
 
 }

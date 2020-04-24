@@ -23,7 +23,7 @@ import java.text.MessageFormat;
 @Component
 public class DpsEmailConsumer {
 
-    public static final String XML = ".xml";
+    private static final String XML = ".xml";
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

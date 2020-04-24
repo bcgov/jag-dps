@@ -4,6 +4,7 @@ import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Implementation of the FileService using sftp server.
@@ -55,6 +56,11 @@ public class FileServiceImpl implements FileService {
     @Override
     public void uploadFile(InputStream inputStream, String fileName) {
         sftpService.put(inputStream, fileName);
+    }
+
+    @Override
+    public List<String> listFiles(String remoteDirectory) {
+        return sftpService.listFiles(remoteDirectory);
     }
 
 }
