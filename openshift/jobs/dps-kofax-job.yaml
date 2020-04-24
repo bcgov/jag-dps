@@ -1,0 +1,25 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: kofax-error-job
+parameters:
+- description: the tenant name
+  displayName: TenantName
+  name: tenantName
+  required: true
+spec:
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 3 
+  failedJobsHistoryLimit: 1
+  jobTemplate:             
+    spec:
+      template:
+        metadata:
+          labels:          
+            parent: "cronjobpi"
+        spec:
+          containers:
+          - name: ${tenantName}-kofax-error-job
+            image: rhel7
+            command: ["curl", "--location", "--request", "POST", "http://${tenantName}-email-worker/dpsemailworker/job/error", "--header", "Content-Type: application/json"]
+          restartPolicy: OnFailure
