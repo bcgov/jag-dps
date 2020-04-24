@@ -2,6 +2,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.sftp.starter;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.List;
 
 public interface SftpService {
 
@@ -14,5 +15,7 @@ public interface SftpService {
      * @param remoteFileName the remote filename
      */
     void put(InputStream inputStream, String remoteFileName);
+
+    List<String> listFiles(String remoteDirectory);
 
 }

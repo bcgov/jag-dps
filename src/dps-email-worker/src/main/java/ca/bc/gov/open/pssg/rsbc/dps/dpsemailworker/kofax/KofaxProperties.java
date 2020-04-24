@@ -27,6 +27,10 @@ public class KofaxProperties {
 
     private String xmlDatePattern;
 
+    private String errorLocation;
+
+    private String errorHoldLocation;
+
     public String getUserId() {
         return userId;
     }
@@ -113,5 +117,21 @@ public class KofaxProperties {
 
     public void setXmlDatePattern(String xmlDatePattern) {
         this.xmlDatePattern = xmlDatePattern;
+    }
+
+    public String getErrorLocation() {
+        return errorLocation;
+    }
+
+    public void setErrorLocation(String errorLocation) {
+        this.errorLocation = errorLocation;
+    }
+
+    public String getErrorHoldLocation() {
+        return errorHoldLocation;
+    }
+
+    public void setErrorHoldLocation(String errorHoldLocation) {
+        this.errorHoldLocation = errorHoldLocation;
     }
 }
