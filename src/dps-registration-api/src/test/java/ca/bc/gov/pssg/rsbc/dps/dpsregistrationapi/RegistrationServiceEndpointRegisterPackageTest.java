@@ -3,9 +3,9 @@ package ca.bc.gov.pssg.rsbc.dps.dpsregistrationapi;
 import ca.bc.gov.open.ottsoa.ords.client.OtssoaService;
 import ca.bc.gov.open.ottsoa.ords.client.api.handler.ApiException;
 import ca.bc.gov.open.ottsoa.ords.client.api.model.DefaultResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsregistrationapi.generated.models.ObjectFactory;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsregistrationapi.generated.models.SetRegisterPackageRequest;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsregistrationapi.generated.models.SetRegisterPackageResponse;
+import ca.bc.gov.pssg.rsbc.dps.dps_registrationservices_wsprovider.dpsdocumentstatusregws.ObjectFactory;
+import ca.bc.gov.pssg.rsbc.dps.dps_registrationservices_wsprovider.dpsdocumentstatusregws.SetRegisterPackageRequest;
+import ca.bc.gov.pssg.rsbc.dps.dps_registrationservices_wsprovider.dpsdocumentstatusregws.SetRegisterPackageResponse2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -82,10 +82,10 @@ public class RegistrationServiceEndpointRegisterPackageTest {
         request.setRecordCount(factory.createSetRegisterPackageRequestRecordCount(RECORD_COUNT));
         request.setSource(factory.createSetRegisterPackageRequestSource(SOURCE));
 
-        SetRegisterPackageResponse actual = sut.registerPackage(request);
+        SetRegisterPackageResponse2 actual = sut.setRegisterPackage(request);
 
-        Assertions.assertEquals(REG_STATE, actual.getSetRegisterPackageResponse().getResponseCd());
-        Assertions.assertEquals(EMPTY_STRING, actual.getSetRegisterPackageResponse().getResponseMsg());
+        Assertions.assertEquals(REG_STATE, actual.getResponseCd());
+        Assertions.assertEquals(EMPTY_STRING, actual.getResponseMsg());
 
     }
 
@@ -108,11 +108,11 @@ public class RegistrationServiceEndpointRegisterPackageTest {
         request.setRecordCount(factory.createSetRegisterPackageRequestRecordCount(RECORD_COUNT));
         request.setSource(factory.createSetRegisterPackageRequestSource(SOURCE));
 
-        SetRegisterPackageResponse actual = sut.registerPackage(request);
+        SetRegisterPackageResponse2 actual = sut.setRegisterPackage(request);
 
-        Assertions.assertEquals(Integer.toString(Keys.ERROR_STATUS_CODE), actual.getSetRegisterPackageResponse().getResponseCd());
+        Assertions.assertEquals(Integer.toString(Keys.ERROR_STATUS_CODE), actual.getResponseCd());
 
-        Assertions.assertEquals("Status code: 404, error exception message", actual.getSetRegisterPackageResponse().getResponseMsg());
+        Assertions.assertEquals("Status code: 404, error exception message", actual.getResponseMsg());
 
     }
 

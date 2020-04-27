@@ -1,42 +1,47 @@
 package ca.bc.gov.pssg.rsbc.dps.dpsregistrationapi;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.bus.spring.SpringBus;
+import org.apache.cxf.ext.logging.LoggingFeature;
+import org.apache.cxf.jaxws.EndpointImpl;
+import org.apache.cxf.transport.servlet.CXFServlet;
+import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletPath;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.ws.config.annotation.EnableWs;
-import org.springframework.ws.transport.http.MessageDispatcherServlet;
-import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
-import org.springframework.xml.xsd.SimpleXsdSchema;
-import org.springframework.xml.xsd.XsdSchema;
+import org.springframework.context.annotation.Primary;
 
-@EnableWs
+import javax.xml.ws.Endpoint;
+
 @Configuration
 public class WebServiceConfig {
 
-
     @Bean
-    public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
-        MessageDispatcherServlet servlet = new MessageDispatcherServlet();
-        servlet.setApplicationContext(applicationContext);
-        servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean(servlet, "/ws/*");
+    public ServletRegistrationBean<CXFServlet> dispatcherServlet() {
+        return new ServletRegistrationBean<CXFServlet>(new CXFServlet(), "/ws/DPS_RegistrationServices.wsProvider.dpsDocumentStatusRegWS/*");
     }
-
-    @Bean(name = "dpsRegistrationService")
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema outputNotificationSchema) {
-        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-        wsdl11Definition.setPortTypeName(Keys.REGISTRATION_SERVICE_PORT);
-        wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace(Keys.NAMESPACE_URI);
-        wsdl11Definition.setSchema(outputNotificationSchema);
-        return wsdl11Definition;
-    }
-
     @Bean
-    public XsdSchema outputNotificationSchema() {
-        return new SimpleXsdSchema(new ClassPathResource(Keys.REGISTRATION_SERVICE_XSD));
+    @Primary
+    public DispatcherServletPath dispatcherServletPathProvider() {
+        return () -> "";
+    }
+    @Bean(name= Bus.DEFAULT_BUS_ID)
+    public SpringBus springBus(LoggingFeature loggingFeature) {
+        SpringBus cxfBus = new  SpringBus();
+        cxfBus.getFeatures().add(loggingFeature);
+        return cxfBus;
+    }
+    @Bean
+    public LoggingFeature loggingFeature() {
+        LoggingFeature loggingFeature = new LoggingFeature();
+        return loggingFeature;
+    }
+    
+    @Bean
+    public Endpoint endpoint(Bus bus, RegistrationServiceEndpoint registrationServiceEndpoint) {
+        EndpointImpl endpoint = new EndpointImpl(bus, registrationServiceEndpoint);
+        endpoint.publish("/DPS_RegistrationServices_wsProvider_dpsDocumentStatusRegWS_Port");
+        return endpoint;
     }
 
 
