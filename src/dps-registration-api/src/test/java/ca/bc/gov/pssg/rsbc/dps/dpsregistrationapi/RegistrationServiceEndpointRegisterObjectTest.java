@@ -3,9 +3,9 @@ package ca.bc.gov.pssg.rsbc.dps.dpsregistrationapi;
 import ca.bc.gov.open.ottsoa.ords.client.OtssoaService;
 import ca.bc.gov.open.ottsoa.ords.client.api.handler.ApiException;
 import ca.bc.gov.open.ottsoa.ords.client.api.model.DefaultResponse;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsregistrationapi.generated.models.ObjectFactory;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsregistrationapi.generated.models.SetRegisterObjectRequest;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsregistrationapi.generated.models.SetRegisterObjectResponse;
+import ca.bc.gov.pssg.rsbc.dps.dps_registrationservices_wsprovider.dpsdocumentstatusregws.ObjectFactory;
+import ca.bc.gov.pssg.rsbc.dps.dps_registrationservices_wsprovider.dpsdocumentstatusregws.SetRegisterObjectRequest;
+import ca.bc.gov.pssg.rsbc.dps.dps_registrationservices_wsprovider.dpsdocumentstatusregws.SetRegisterObjectResponse2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -63,7 +63,7 @@ public class RegistrationServiceEndpointRegisterObjectTest {
         UUID expectedId = UUID.randomUUID();
         ObjectFactory factory = new ObjectFactory();
 
-        SetRegisterObjectRequest request = new SetRegisterObjectRequest();
+        SetRegisterObjectRequest request = factory.createSetRegisterObjectRequest();
         request.setActionMethod(factory.createSetRegisterObjectRequestActionMethod(ACTION_METHOD));
         request.setActionSystem(factory.createSetRegisterObjectRequestActionSystem(ACTION_SYSTEM));
         request.setActionUser(factory.createSetRegisterObjectRequestActionUser(USER));
@@ -78,10 +78,10 @@ public class RegistrationServiceEndpointRegisterObjectTest {
         request.setPackageFormatType(PACKAGE_FORMAT_TYPE);
         request.setType(TYPE);
 
-        SetRegisterObjectResponse actual = sut.registerObject(request);
+        SetRegisterObjectResponse2 actual = sut.setRegisterObject(request);
 
-        Assertions.assertEquals(REG_STATE, actual.getSetRegisterObjectResponse().getResponseCd());
-        Assertions.assertEquals(ERROR_MESSAGE, actual.getSetRegisterObjectResponse().getResponseMsg());
+        Assertions.assertEquals(REG_STATE, actual.getResponseCd());
+        Assertions.assertEquals(ERROR_MESSAGE, actual.getResponseMsg());
 
     }
 
@@ -106,10 +106,10 @@ public class RegistrationServiceEndpointRegisterObjectTest {
         request.setPackageFormatType(PACKAGE_FORMAT_TYPE);
         request.setType(TYPE);
 
-        SetRegisterObjectResponse actual = sut.registerObject(request);
+        SetRegisterObjectResponse2 actual = sut.setRegisterObject(request);
 
-        Assertions.assertEquals(Integer.toString(Keys.ERROR_STATUS_CODE), actual.getSetRegisterObjectResponse().getResponseCd());
-        Assertions.assertEquals("Status code: 500, error internal server error", actual.getSetRegisterObjectResponse().getResponseMsg());
+        Assertions.assertEquals(Integer.toString(Keys.ERROR_STATUS_CODE), actual.getResponseCd());
+        Assertions.assertEquals("Status code: 500, error internal server error", actual.getResponseMsg());
 
 
     }
