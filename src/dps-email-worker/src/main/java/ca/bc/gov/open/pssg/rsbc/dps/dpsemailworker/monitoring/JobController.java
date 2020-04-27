@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.monitoring;
 
+import ca.bc.gov.dps.monitoring.NotificationService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.KofaxProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
@@ -40,12 +41,29 @@ public class JobController {
     @PostMapping(path = "/job/error", consumes = "application/json", produces = "application/json")
     public ResponseEntity<JobResponse> createErrorJob() {
 
-        executorService.execute(() -> {
-            fileService.listFiles(MessageFormat.format("{0}/{1}", sftpProperties.getRemoteLocation(), kofaxProperties.getErrorLocation())).forEach(file -> logger.info(file));
+        //TODO: remove once tested
+        NotificationService.notify("test@gov.bc.ca", logger -> {
+            logger.warn("this is a test email");
         });
+
+        executorService.execute(() -> {
+            fileService
+                    .listFiles(MessageFormat.format("{0}/{1}", sftpProperties.getRemoteLocation(), kofaxProperties.getErrorLocation()))
+                    .forEach(file -> {
+
+                        NotificationService.notify("test@gov.bc.ca", logger -> {
+                            logger.warn("error in file {}", file);
+                        });
+
+                    });
+        });
+
+
 
         JobResponse response = new JobResponse();
         response.setScheduled(true);
+
+        logger.info("Error job has been scheduled to run in the background.");
 
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 
