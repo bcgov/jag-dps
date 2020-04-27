@@ -55,7 +55,6 @@ public class RegistrationServiceEndpointRegisterPackageTest {
         Mockito.doThrow(new ApiException(404, EXCEPTION_MESSAGE)).when(otssoaServiceMock).createPackage(ArgumentMatchers.argThat(x -> x.getBusinessArea().equals(CASE_2)));
 
 
-
         sut = new RegistrationServiceEndpoint(otssoaServiceMock);
     }
 

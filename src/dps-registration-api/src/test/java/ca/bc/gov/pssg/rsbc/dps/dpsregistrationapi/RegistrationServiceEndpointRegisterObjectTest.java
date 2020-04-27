@@ -52,7 +52,7 @@ public class RegistrationServiceEndpointRegisterObjectTest {
         Mockito.doReturn(success).when(otssoaServiceMock).createObject(ArgumentMatchers.argThat(x -> x.getClientName().equals(CASE_1)));
         Mockito.doThrow(new ApiException(500, "internal server error")).when(otssoaServiceMock).createObject(ArgumentMatchers.argThat(x -> x.getClientName().equals(CASE_2)));
 
-      //  sut = new RegistrationServiceEndpoint(otssoaServiceMock);
+        sut = new RegistrationServiceEndpoint(otssoaServiceMock);
 
     }
 
