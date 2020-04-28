@@ -31,6 +31,8 @@ public interface FileService {
 
     InputStream getMetadataFileContent(FileInfo fileInfo);
 
+    InputStream getFileContent(String fileName);
+
     void uploadFile(InputStream inputStream, String fileName);
 
     List<String> listFiles(String remoteDirectory);
