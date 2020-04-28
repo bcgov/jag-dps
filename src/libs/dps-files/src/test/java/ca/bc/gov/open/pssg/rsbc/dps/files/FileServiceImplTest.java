@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.files;
 
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpService;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,8 @@ public class FileServiceImplTest {
     public static final String REMOTE_DIRECTORY = "remoteDirectory";
     public static final String FILE_1 = "file1";
     public static final String FILE_2 = "file2";
+    public static final String FAKECONTENT = "fakecontent";
+    public static final String FILENAME_1_TXT = "filename_1.txt";
     private FileServiceImpl sut;
 
     public static final String FILE_ID = "fileId";
@@ -36,6 +41,7 @@ public class FileServiceImplTest {
         MockitoAnnotations.initMocks(this);
         Mockito.doNothing().when(sftpServiceMock).moveFile(Mockito.anyString(), Mockito.anyString());
         Mockito.doNothing().when(sftpServiceMock).put(Mockito.any(InputStream.class), Mockito.anyString());
+        Mockito.when(sftpServiceMock.getContent(FILENAME_1_TXT)).thenReturn(getFakeInputString());
 
         List<String> fakeFileList = new ArrayList<>();
         fakeFileList.add(FILE_1);
@@ -98,6 +104,25 @@ public class FileServiceImplTest {
         Assertions.assertEquals(2, actual.size());
         Assertions.assertTrue(actual.contains(FILE_1));
         Assertions.assertTrue(actual.contains(FILE_2));
+
+    }
+
+    @Test
+    public void shouldGetContentOfFile() throws IOException {
+
+
+        InputStream content = sut.getFileContent(FILENAME_1_TXT);
+
+        Assertions.assertEquals(FAKECONTENT, IOUtils.toString(content, StandardCharsets.UTF_8));
+
+    }
+
+
+    private ByteArrayInputStream getFakeInputString() {
+
+        String fake = FAKECONTENT;
+
+        return new ByteArrayInputStream(fake.getBytes());
 
     }
 

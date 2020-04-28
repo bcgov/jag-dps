@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.Fakes;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.configuration.TenantProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.ImportSession;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionServiceImpl;
@@ -103,6 +104,17 @@ public class ImportSessionServiceImplTest {
                             .replace(">", ">\n"), result.replace(">", ">\n"));
 
         }
+
+    }
+
+    @Test
+    public void withValidInputStreamShouldConvertToImportSession() {
+
+
+        ImportSession actual = sut.convertToImportSession(Fakes.getImportSessionInputStream());
+
+        Assertions.assertEquals("test", actual.getUserID());
+        Assertions.assertEquals("test", actual.getPassword());
 
     }
 
