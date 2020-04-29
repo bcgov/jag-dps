@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 public class BatchField {
 
+    protected BatchField() {}
+
     @XmlAttribute(name = "Name")
     public String name;
 
