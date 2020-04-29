@@ -101,7 +101,7 @@ public class SystemNotification {
 
         Map<String, String> result = new HashMap<>();
         result.put("correlationId", correlationId);
-        result.put("transactionId", correlationId);
+        result.put("transactionId", transactionId);
         result.put("applicationName", applicationName);
         result.put("component", component);
         result.put("errorType", errorType);
