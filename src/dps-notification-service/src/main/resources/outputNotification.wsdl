@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="outputNotificationWS" targetNamespace="http://dps.rsbc.pssg.gov.bc.ca/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapjms="http://www.w3.org/2010/soapjms/" xmlns:tns="http://dps.rsbc.pssg.gov.bc.ca/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://dps.rsbc.pssg.gov.bc.ca/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:tns="http://dps.rsbc.pssg.gov.bc.ca/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+          <xsd:element name="outputNotification" type="tns:outputNotification"/>
+          <xsd:element name="outputNotificationResponse" type="tns:outputNotificationResponse"/>
+          <xsd:complexType name="outputNotification">
+            <xsd:sequence>
+              <xsd:element name="outputNotificationRequest" nillable="true" type="tns:outputNotificationRequest"/>
+            </xsd:sequence>
+          </xsd:complexType>
+          <xsd:complexType name="outputNotificationRequest">
+            <xsd:sequence>
+              <xsd:element name="outputNotificationRequest" nillable="true" type="tns:outputNotificationRequest2"/>
+            </xsd:sequence>
+          </xsd:complexType>
+          <xsd:complexType name="outputNotificationRequest2">
+            <xsd:sequence>
+              <xsd:element name="businessAreaCd" type="tns:businessAreaCd"/>
+              <xsd:element name="fileList" type="tns:fileList"/>
+            </xsd:sequence>
+          </xsd:complexType>
+          <xsd:simpleType name="businessAreaCd">
+            <xsd:restriction base="xsd:string">
+              <xsd:minLength value="1"/>
+              <xsd:maxLength value="50"/>
+              <xsd:whiteSpace value="preserve"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+          <xsd:complexType name="fileList">
+            <xsd:sequence>
+              <xsd:element maxOccurs="unbounded" name="fileId" nillable="true" type="tns:fileId"/>
+            </xsd:sequence>
+          </xsd:complexType>
+          <xsd:simpleType name="fileId">
+            <xsd:restriction base="xsd:string">
+              <xsd:minLength value="1"/>
+              <xsd:maxLength value="100"/>
+              <xsd:whiteSpace value="preserve"/>
+            </xsd:restriction>
+          </xsd:simpleType>
+          <xsd:complexType name="outputNotificationResponse">
+            <xsd:sequence>
+              <xsd:element name="outputNotificationResponse" nillable="true" type="tns:outputNotificationResponse2"/>
+            </xsd:sequence>
+          </xsd:complexType>
+          <xsd:complexType name="outputNotificationResponse2">
+            <xsd:sequence>
+              <xsd:element name="respCode" nillable="true" type="xsd:string"/>
+              <xsd:element name="respMsg" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        	</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="outputNotificationWS_PortType_outputNotificationResponse">
+    <wsdl:part name="parameters" element="tns:outputNotificationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="outputNotificationWS_PortType_outputNotification">
+    <wsdl:part name="parameters" element="tns:outputNotification">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="outputNotificationWS_PortType">
+    <wsdl:operation name="outputNotification">
+      <wsdl:input message="tns:outputNotificationWS_PortType_outputNotification">
+    </wsdl:input>
+      <wsdl:output message="tns:outputNotificationWS_PortType_outputNotificationResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DPS_Extensions_common_wsProvider_outputNotificationWS_Binder" type="tns:outputNotificationWS_PortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="outputNotification">
+      <soap:operation soapAction="DPS_Extensions_common_wsProvider_outputNotificationWS_Binder_outputNotification" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DPS_Extensions.common.wsProvider.outputNotificationWS">
+    <wsdl:port name="DPS_Extensions_common_wsProvider_outputNotificationWS_Port" binding="tns:DPS_Extensions_common_wsProvider_outputNotificationWS_Binder">
+      <soap:address location="http://dps.rsbc.pssg.gov.bc.ca:5555/ws/DPS_Extensions.common.wsProvider.outputNotificationWS/DPS_Extensions_common_wsProvider_outputNotificationWS_Port"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
