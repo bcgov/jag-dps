@@ -10,6 +10,7 @@ public class SystemNotification {
     public static class Builder {
 
         private String correlationId;
+        private String transactionId;
         private String applicationName;
         private String component;
         private String errorType;
@@ -18,8 +19,8 @@ public class SystemNotification {
         private String details;
         private String action;
 
-
         public Builder withCorrelationId(String correlationId) { this.correlationId = correlationId; return this; }
+        public Builder withTransactionId(String transactionId) {this.transactionId = transactionId; return this; }
         public Builder withapplicationName(String applicationName) { this.applicationName = applicationName; return this; }
         public Builder withcomponent(String component) { this.component = component; return this; }
         public Builder witherrorType(String errorType) { this.errorType = errorType; return this; }
@@ -33,6 +34,7 @@ public class SystemNotification {
             SystemNotification systemNotification = new SystemNotification();
 
             systemNotification.correlationId = correlationId;
+            systemNotification.transactionId = transactionId;
             systemNotification.applicationName = applicationName;
             systemNotification.component = component;
             systemNotification.errorType = errorType;
@@ -48,6 +50,7 @@ public class SystemNotification {
     }
 
     private String correlationId;
+    private String transactionId;
     private String applicationName;
     private String component;
     private String errorType;
@@ -60,6 +63,10 @@ public class SystemNotification {
 
     public String getCorrelationId() {
         return correlationId;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
     }
 
     public String getAction() {
@@ -94,10 +101,10 @@ public class SystemNotification {
 
         Map<String, String> result = new HashMap<>();
         result.put("correlationId", correlationId);
+        result.put("transactionId", correlationId);
         result.put("applicationName", applicationName);
         result.put("component", component);
         result.put("errorType", errorType);
-        result.put("message", message);
         result.put("details", details);
         result.put("action", action);
 

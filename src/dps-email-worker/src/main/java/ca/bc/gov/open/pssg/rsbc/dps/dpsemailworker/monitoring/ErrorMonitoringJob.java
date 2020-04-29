@@ -5,6 +5,7 @@ import ca.bc.gov.dps.monitoring.SystemNotification;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.DpsEmailWorkerException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.configuration.TenantProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.KofaxProperties;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.Batch;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.ImportSession;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionService;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
@@ -16,6 +17,7 @@ import org.slf4j.event.Level;
 
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.Optional;
 
 public class ErrorMonitoringJob implements MonitoringJob {
 
@@ -67,7 +69,8 @@ public class ErrorMonitoringJob implements MonitoringJob {
             SystemNotification systemNotification = new SystemNotification
                     .Builder()
                     .withLevel(Level.INFO)
-                    .withCorrelationId(filename)
+                    .withCorrelationId(getFirstBatchId(importSession).isPresent() ? getFirstBatchId(importSession).get() : null)
+                    .withTransactionId(filename)
                     .withAction(MessageFormat.format("Manual Intervention (File can be found in Kofax {0} Error Hold " +
                             "Directory)", tenantProperties.getName()))
                     .withapplicationName(MessageFormat.format("ODPS({0})", tenantProperties.getName()))
@@ -86,6 +89,20 @@ public class ErrorMonitoringJob implements MonitoringJob {
 
         }
 
+    }
+
+    private Optional<String> getFirstBatchId(ImportSession importSession) {
+
+        Optional<Batch> batch = importSession.getBatches().getBatches().stream().findFirst();
+
+        if(batch.isPresent())
+            return batch
+                    .get()
+                    .getBatchFields().getBatchFields()
+                    .stream().filter(x -> x.name == kofaxProperties.getBatchFieldImportId()).map(x -> x.name)
+                    .findFirst();
+
+        return Optional.empty();
     }
 
     private String getErrorFileName(String filename) {
