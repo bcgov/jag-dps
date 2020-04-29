@@ -1,7 +1,11 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice;
 
-import bcgov.reeks.dps_extensions_common_wsprovider.outputnotificationws.*;
+
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
+import ca.bc.gov.pssg.rsbc.dps.dps_extensions_common_wsprovider.outputnotificationws.ObjectFactory;
+import ca.bc.gov.pssg.rsbc.dps.dps_extensions_common_wsprovider.outputnotificationws.OutputNotificationRequest;
+import ca.bc.gov.pssg.rsbc.dps.dps_extensions_common_wsprovider.outputnotificationws.OutputNotificationResponse2;
+import ca.bc.gov.pssg.rsbc.dps.dps_extensions_common_wsprovider.outputnotificationws.OutputNotificationWSPortType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
