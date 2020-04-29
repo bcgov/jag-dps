@@ -11,6 +11,7 @@ import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionS
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
+import ca.bc.gov.open.pssg.rsbc.error.DpsError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
@@ -76,7 +77,7 @@ public class ErrorMonitoringJob implements MonitoringJob {
                     .withapplicationName(MessageFormat.format("ODPS({0})", tenantProperties.getName()))
                     .withcomponent(MessageFormat.format("KOFAX {0} Import", tenantProperties.getName()))
                     .withdetails(MessageFormat.format("Kofax {0} Import failed", tenantProperties.getName()))
-                    .witherrorType("KFERR")
+                    .witherrorType(DpsError.KOFAX_ERROR.getCode())
                     .withmessage(importSession.getErrorMessage())
                     .build();
 

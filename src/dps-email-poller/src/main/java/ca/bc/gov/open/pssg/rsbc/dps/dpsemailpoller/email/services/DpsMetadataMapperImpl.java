@@ -1,9 +1,9 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
-import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
-import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.models.DpsEmailContent;
+import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
+import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.property.complex.EmailAddress;
@@ -49,7 +49,6 @@ public class DpsMetadataMapperImpl implements DpsMetadataMapper {
         } catch (ServiceLocalException e) {
             throw new DpsEmailException("exception");
         }
-
 
     }
 
