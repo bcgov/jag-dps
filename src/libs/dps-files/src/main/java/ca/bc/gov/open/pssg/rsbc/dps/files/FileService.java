@@ -37,4 +37,6 @@ public interface FileService {
 
     List<String> listFiles(String remoteDirectory);
 
+    void moveFile(String sourceFileName, String destinationFileName);
+
 }

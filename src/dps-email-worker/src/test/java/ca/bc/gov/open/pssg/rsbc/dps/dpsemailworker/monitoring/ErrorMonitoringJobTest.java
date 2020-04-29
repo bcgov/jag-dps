@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.monitoring;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.Fakes;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.configuration.TenantProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.KofaxProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.ImportSession;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionService;
@@ -43,6 +44,9 @@ public class ErrorMonitoringJobTest {
         SftpProperties sftpProperties = new SftpProperties();
         sftpProperties.setRemoteLocation(REMOTE_LOCATION);
 
+        TenantProperties tenantProperties = new TenantProperties();
+        tenantProperties.setName("tenant");
+
         MockitoAnnotations.initMocks(this);
 
         List<String> fileList1 = new ArrayList<>();
@@ -78,7 +82,8 @@ public class ErrorMonitoringJobTest {
         Mockito.when(importSessionServiceMock.convertToImportSession(Mockito.any(InputStream.class))).thenReturn(importSessionCase1);
 
 
-        sut = new ErrorMonitoringJob(fileServiceMock, importSessionServiceMock, kofaxPropertiesMock, sftpProperties);
+        sut = new ErrorMonitoringJob(fileServiceMock, importSessionServiceMock, kofaxPropertiesMock, sftpProperties,
+                tenantProperties);
 
     }
 
