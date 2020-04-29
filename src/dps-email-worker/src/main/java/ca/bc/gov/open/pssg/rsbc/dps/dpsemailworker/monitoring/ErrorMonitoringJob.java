@@ -99,7 +99,7 @@ public class ErrorMonitoringJob implements MonitoringJob {
             return batch
                     .get()
                     .getBatchFields().getBatchFields()
-                    .stream().filter(x -> x.name == kofaxProperties.getBatchFieldImportId()).map(x -> x.name)
+                    .stream().filter(x -> x.name.equals(kofaxProperties.getBatchFieldImportId())).map(x -> x.getValue())
                     .findFirst();
 
         return Optional.empty();
