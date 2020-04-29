@@ -1,16 +1,16 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice;
 
+import org.apache.cxf.Bus;
+import org.apache.cxf.bus.spring.SpringBus;
+import org.apache.cxf.jaxws.EndpointImpl;
+import org.apache.cxf.transport.servlet.CXFServlet;
+import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletPath;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.ws.config.annotation.EnableWs;
-import org.springframework.ws.config.annotation.WsConfigurerAdapter;
-import org.springframework.ws.transport.http.MessageDispatcherServlet;
-import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
-import org.springframework.xml.xsd.SimpleXsdSchema;
-import org.springframework.xml.xsd.XsdSchema;
+import org.springframework.context.annotation.Primary;
+
+import javax.xml.ws.Endpoint;
 
 /**
  *
@@ -20,31 +20,33 @@ import org.springframework.xml.xsd.XsdSchema;
  *
  * @author alexjobc@github
  */
-@EnableWs
+
 @Configuration
-public class WebServiceConfig extends WsConfigurerAdapter {
+public class WebServiceConfig {
 
     @Bean
-    public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
-        MessageDispatcherServlet servlet = new MessageDispatcherServlet();
-        servlet.setApplicationContext(applicationContext);
-        servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean(servlet, "/ws/*");
-    }
-
-    @Bean(name = "dpsOutputNotification")
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema outputNotificationSchema) {
-        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-        wsdl11Definition.setPortTypeName(Keys.OUTPUT_NOTIFICATION_PORT);
-        wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace(Keys.NAMESPACE_URI);
-        wsdl11Definition.setSchema(outputNotificationSchema);
-        return wsdl11Definition;
+    public ServletRegistrationBean<CXFServlet> dispatcherServlet() {
+        return new ServletRegistrationBean<CXFServlet>(new CXFServlet(), "/ws/DPS_Extensions.common.wsProvider.outputNotificationWS/*");
     }
 
     @Bean
-    public XsdSchema outputNotificationSchema() {
-        return new SimpleXsdSchema(new ClassPathResource(Keys.OUTPUT_NOTIFICATION_XSD));
+    @Primary
+    public DispatcherServletPath dispatcherServletPathProvider() {
+        return () -> "";
+    }
+
+    @Bean(name= Bus.DEFAULT_BUS_ID)
+    public SpringBus springBus() {
+        SpringBus cxfBus = new  SpringBus();
+        return cxfBus;
+    }
+
+
+    @Bean
+    public Endpoint endpoint(Bus bus, OutputNotificationEndpoint outputNotificationEndpoint) {
+        EndpointImpl endpoint = new EndpointImpl(bus, outputNotificationEndpoint);
+        endpoint.publish("/DPS_Extensions_common_wsProvider_outputNotificationWS_Port");
+        return endpoint;
     }
 
 }
