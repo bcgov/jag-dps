@@ -13,9 +13,11 @@ import java.util.Map;
  */
 public class NotificationService {
 
+
     private static final String DEFAULT_TYPE = "UNKNOWN";
     private static final String PREFIX_PATTERN = "notification.{0}";
-    private static final String NOTIFICATION_MESSAGE = "message";
+    private static final String IS_NOTIFICATION_KEY = "display";
+    public static final String IS_NOTIFICATION_VALUE = "true";
     private static final String NOTIFICATION_TYPE = "type";
 
     protected NotificationService(){}
@@ -28,7 +30,7 @@ public class NotificationService {
 
         Logger logger =  LoggerFactory.getLogger(NotificationService.class);
 
-        MDC.put(buildKey(NOTIFICATION_MESSAGE), "true");
+        MDC.put(buildKey(IS_NOTIFICATION_KEY), IS_NOTIFICATION_VALUE);
 
         systemNotification.toMap().forEach((key, value) -> MDC.put(buildKey(key), value));
 
@@ -51,7 +53,7 @@ public class NotificationService {
         }
 
         systemNotification.toMap().forEach((key, value) -> MDC.remove(buildKey(key)));
-        MDC.remove(buildKey(NOTIFICATION_MESSAGE));
+        MDC.remove(buildKey(IS_NOTIFICATION_KEY));
 
     }
 
