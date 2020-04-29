@@ -1,12 +1,12 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
-import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
-import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.DpsMetadataMapper;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.EmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
+import ca.bc.gov.open.pssg.rsbc.models.DpsFileInfo;
+import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
 import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
@@ -59,18 +59,24 @@ public class EmailPollerPollForEmailsTest {
 
         Mockito.when(exchangeServiceMock.getRequestedServerVersion()).thenReturn(ExchangeVersion.Exchange2010_SP2);
 
+        DpsFileInfo fakeFileInfo = new DpsFileInfo("id", "name", "contentType");
+
         Mockito
                 .when(dpsMetadataMapperMock
                         .map(Mockito.any(EmailMessage.class), Mockito.any(DpsFileInfo.class),  Mockito.anyString()))
-                .thenReturn(new DpsMetadata.Builder().withSubject("test").build());
+                .thenReturn(new DpsMetadata.Builder().withFileInfo(fakeFileInfo).withSubject("test").build());
 
         Mockito
                 .when(itemMock.getHasAttachments())
                 .thenReturn(true);
 
+        Mockito
+                .when(storageServiceMock.put(Mockito.any())).thenReturn("fileid");
+
 
         AttachmentCollection attachmentCollection = new AttachmentCollection();
         attachmentCollection.addFileAttachment("test", "test".getBytes());
+        attachmentCollection.setOwner(itemMock);
 
         Mockito
                 .when(emailServiceMock.getFileAttachments(Mockito.any(EmailMessage.class)))

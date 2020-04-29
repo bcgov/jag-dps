@@ -1,7 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.models.DpsEmailContent;
+import ca.bc.gov.open.pssg.rsbc.error.DpsEmailParsingException;
 import io.krakens.grok.api.Grok;
 import io.krakens.grok.api.GrokCompiler;
 import io.krakens.grok.api.Match;
@@ -94,7 +94,7 @@ public class DpsEmailParserImpl implements DpsEmailParser {
 
     private void checkKeyExists(Map<String, Object> emailMap, String key) {
         if (!emailMap.containsKey(key))
-            throw new DpsEmailException(MessageFormat.format("Parsing email body result in missing key value pair: [" +
+            throw new DpsEmailParsingException(MessageFormat.format("Parsing email body result in missing key value pair: [" +
                     "()]", key));
     }
 
