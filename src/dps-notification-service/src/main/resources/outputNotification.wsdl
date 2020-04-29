@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="outputNotificationWS" targetNamespace="http://reeks.bcgov/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapjms="http://www.w3.org/2010/soapjms/" xmlns:tns="http://reeks.bcgov/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+<wsdl:definitions name="outputNotificationWS" targetNamespace="http://dps.rsbc.pssg.gov.bc.ca/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapjms="http://www.w3.org/2010/soapjms/" xmlns:tns="http://dps.rsbc.pssg.gov.bc.ca/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
   <wsdl:types>
-    <xsd:schema targetNamespace="http://reeks.bcgov/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:tns="http://reeks.bcgov/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:schema targetNamespace="http://dps.rsbc.pssg.gov.bc.ca/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:tns="http://dps.rsbc.pssg.gov.bc.ca/DPS_Extensions.common.wsProvider:outputNotificationWS" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
           <xsd:element name="outputNotification" type="tns:outputNotification"/>
           <xsd:element name="outputNotificationResponse" type="tns:outputNotificationResponse"/>
           <xsd:complexType name="outputNotification">
@@ -82,7 +82,7 @@
   </wsdl:binding>
   <wsdl:service name="DPS_Extensions.common.wsProvider.outputNotificationWS">
     <wsdl:port name="DPS_Extensions_common_wsProvider_outputNotificationWS_Port" binding="tns:DPS_Extensions_common_wsProvider_outputNotificationWS_Binder">
-      <soap:address location="http://reeks.bcgov:5555/ws/DPS_Extensions.common.wsProvider.outputNotificationWS/DPS_Extensions_common_wsProvider_outputNotificationWS_Port"/>
+      <soap:address location="http://dps.rsbc.pssg.gov.bc.ca:5555/ws/DPS_Extensions.common.wsProvider.outputNotificationWS/DPS_Extensions_common_wsProvider_outputNotificationWS_Port"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
