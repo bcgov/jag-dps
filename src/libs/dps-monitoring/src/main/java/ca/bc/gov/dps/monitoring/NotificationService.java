@@ -2,6 +2,9 @@ package ca.bc.gov.dps.monitoring;
 
 import org.slf4j.*;
 
+import java.text.MessageFormat;
+import java.util.Map;
+
 /***
  * A service to help capturing notification messages for system errors.
  * Do not put any confidential information when you log system errors.
@@ -10,29 +13,51 @@ import org.slf4j.*;
  */
 public class NotificationService {
 
-    protected NotificationService(){}
+    private static final String DEFAULT_TYPE = "UNKNOWN";
+    private static final String PREFIX_PATTERN = "notification.{0}";
+    private static final String NOTIFICATION_MESSAGE = "message";
+    private static final String NOTIFICATION_TYPE = "type";
 
-    private static final String TYPE_KEY = "type";
-    private static final String TO_KEY = "to";
-    private static final String NOTIFICATION = "notification";
+    protected NotificationService(){}
 
     /**
      * Wraps a log message with Mapped Diagnostic Context
-     * @param to
-     * @param loggerAction
+     * @param SystemNotification
      */
-    public static void notify(String to, LoggerAction loggerAction) {
+    public static void notify(SystemNotification systemNotification) {
 
         Logger logger =  LoggerFactory.getLogger(NotificationService.class);
 
-        MDC.put(TYPE_KEY, NOTIFICATION);
-        MDC.put(TO_KEY, to);
+        MDC.put(buildKey(NOTIFICATION_MESSAGE), "true");
 
-        loggerAction.Log(logger);
+        systemNotification.toMap().forEach((key, value) -> MDC.put(buildKey(key), value));
 
-        MDC.remove(TYPE_KEY);
-        MDC.remove(TO_KEY);
+        switch (systemNotification.getLevel()) {
+            case INFO:
+                logger.info(systemNotification.getMessage());
+                break;
+            case WARN:
+                logger.warn(systemNotification.getMessage());
+                break;
+            case DEBUG:
+                logger.debug(systemNotification.getMessage());
+                break;
+            case ERROR:
+                logger.error(systemNotification.getMessage());
+                break;
+            case TRACE:
+                logger.info(systemNotification.getMessage());
+                break;
+        }
+
+        systemNotification.toMap().forEach((key, value) -> MDC.remove(buildKey(key)));
+        MDC.remove(buildKey(NOTIFICATION_MESSAGE));
 
     }
+
+    private static String buildKey(String key) {
+        return MessageFormat.format(PREFIX_PATTERN, key);
+    }
+
 
 }

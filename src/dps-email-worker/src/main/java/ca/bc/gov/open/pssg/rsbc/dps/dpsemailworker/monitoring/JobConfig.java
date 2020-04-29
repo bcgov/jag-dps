@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.monitoring;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.configuration.TenantProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.KofaxProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionService;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
@@ -19,8 +20,9 @@ public class JobConfig {
     }
 
     @Bean
-    public MonitoringJob errorMonitoringJob(FileService fileService, ImportSessionService importSessionService, SftpProperties sftpProperties, KofaxProperties kofaxProperties) {
-        return new ErrorMonitoringJob(fileService, importSessionService, kofaxProperties, sftpProperties);
+    public MonitoringJob errorMonitoringJob(FileService fileService, ImportSessionService importSessionService, SftpProperties sftpProperties, KofaxProperties kofaxProperties, TenantProperties tenantProperties) {
+        return new ErrorMonitoringJob(fileService, importSessionService, kofaxProperties, sftpProperties,
+                tenantProperties);
     }
 
 }

@@ -1,6 +1,5 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.monitoring;
 
-import ca.bc.gov.dps.monitoring.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,11 +31,6 @@ public class JobController {
 
     @PostMapping(path = "/job/error", consumes = "application/json", produces = "application/json")
     public ResponseEntity<JobResponse> createErrorJob() {
-
-        //TODO: remove once tested
-        NotificationService.notify("test@gov.bc.ca", logger -> {
-            logger.warn("this is a test email");
-        });
 
         executorService.execute(() -> errorMonitoringJob.execute());
 

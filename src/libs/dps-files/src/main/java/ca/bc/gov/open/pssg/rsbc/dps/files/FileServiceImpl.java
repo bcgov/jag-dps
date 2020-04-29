@@ -68,4 +68,9 @@ public class FileServiceImpl implements FileService {
         return sftpService.listFiles(remoteDirectory);
     }
 
+    @Override
+    public void moveFile(String sourceFileName, String destinationFileName) {
+        sftpService.moveFile(sourceFileName, destinationFileName);
+    }
+
 }
