@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.DpsEmailWorkerException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.configuration.TenantProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.KofaxProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.*;
@@ -10,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -53,6 +56,18 @@ public class ImportSessionServiceImpl implements ImportSessionService {
 
         return baos.toByteArray();
 
+    }
+
+    @Override
+    public ImportSession convertToImportSession(InputStream inputStream) {
+
+        try {
+            Unmarshaller unmarshaller = kofaxImportSession.createUnmarshaller();
+            ImportSession session = (ImportSession) unmarshaller.unmarshal(inputStream);
+            return session;
+        } catch (JAXBException e) {
+            throw new DpsEmailWorkerException("could not unmarshall xml document");
+        }
     }
 
     private ImportSession getImportSession(DpsMetadata dpsMetadata) {

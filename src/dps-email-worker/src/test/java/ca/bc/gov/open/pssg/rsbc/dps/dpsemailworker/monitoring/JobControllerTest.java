@@ -1,7 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.monitoring;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.KofaxProperties;
-import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
@@ -18,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 public class JobControllerTest {
 
     @Mock
-    private FileService fileServiceMock;
+    private MonitoringJob monitoringJobMock;
 
     @Mock
     private ExecutorService executorServiceMock;
@@ -32,7 +31,7 @@ public class JobControllerTest {
         fakeFileList.add("file.xml");
 
         MockitoAnnotations.initMocks(this);
-        Mockito.when(fileServiceMock.listFiles(Mockito.anyString())).thenReturn(fakeFileList);
+        Mockito.doNothing().when(monitoringJobMock).execute();
 
         KofaxProperties kofaxProperties = new KofaxProperties();
         kofaxProperties.setErrorLocation("error");
@@ -40,7 +39,7 @@ public class JobControllerTest {
         SftpProperties sftpProperties = new SftpProperties();
         sftpProperties.setRemoteLocation("upload");
 
-        sut = new JobController(fileServiceMock, executorServiceMock, kofaxProperties, sftpProperties);
+        sut = new JobController(executorServiceMock, monitoringJobMock);
 
     }
 

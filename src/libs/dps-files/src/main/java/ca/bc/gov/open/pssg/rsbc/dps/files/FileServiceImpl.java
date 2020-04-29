@@ -54,6 +54,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public InputStream getFileContent(String fileName) {
+        return sftpService.getContent(fileName);
+    }
+
+    @Override
     public void uploadFile(InputStream inputStream, String fileName) {
         sftpService.put(inputStream, fileName);
     }
@@ -61,6 +66,11 @@ public class FileServiceImpl implements FileService {
     @Override
     public List<String> listFiles(String remoteDirectory) {
         return sftpService.listFiles(remoteDirectory);
+    }
+
+    @Override
+    public void moveFile(String sourceFileName, String destinationFileName) {
+        sftpService.moveFile(sourceFileName, destinationFileName);
     }
 
 }
