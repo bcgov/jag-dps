@@ -1,9 +1,5 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice;
 
-<<<<<<< HEAD
-=======
-import bcgov.reeks.dps_extensions_common_wsprovider.outputnotificationws.*;
->>>>>>> dps-notificationservice-refactor
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.pssg.rsbc.dps.dps_extensions_common_wsprovider.outputnotificationws.*;
 import org.junit.jupiter.api.Assertions;
