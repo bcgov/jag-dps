@@ -92,9 +92,8 @@ public class DpsEmailConsumer {
                 logger.info("Successfully registered package to OTS database.");
             }
 
-            //TODO: when id will be generated for kofax, it will replace TBD.
             logger.info("Attempting to move email to processed folder");
-            DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailProcessed(message.getBase64EmailId(), "TBD");
+            DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailProcessed(message.getBase64EmailId(), message.getTransactionId().toString());
             logger.info("Successfully moved email to processed folder");
 
         } catch (Exception e) {

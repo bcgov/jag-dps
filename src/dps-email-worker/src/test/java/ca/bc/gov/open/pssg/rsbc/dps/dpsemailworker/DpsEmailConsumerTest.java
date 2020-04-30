@@ -32,6 +32,7 @@ public class DpsEmailConsumerTest {
     private static final String FAKE_CONTENT = "fake content";
     private static final String FILE_NAME = "test.txt";
     private static final String REMOTE_LOCATION = "anyfolder";
+    public static final String EMAIL_ID = "123456";
 
     private DpsEmailConsumer sut;
 
@@ -106,9 +107,14 @@ public class DpsEmailConsumerTest {
     @Test
     public void withEmailProcessedShouldReturnSuccess() {
 
-        Assertions.assertDoesNotThrow(() -> {
-            sut.receiveMessage(new DpsMetadata.Builder().withApplicationID(CASE_1).withFileInfo(new DpsFileInfo(CASE_1, FILE_NAME, "String")).withEmailId("a@a.com").build());
-        });
+        DpsMetadata input = new DpsMetadata
+                .Builder()
+                .withApplicationID(CASE_1)
+                .withFileInfo(new DpsFileInfo(CASE_1, FILE_NAME, "String"))
+                .withEmailId(EMAIL_ID).build();
+
+
+        Assertions.assertDoesNotThrow(() -> sut.receiveMessage(input));
 
         String expectedRemoteFileName = MessageFormat.format("{0}/{1}", REMOTE_LOCATION, FILE_NAME);
 
@@ -120,9 +126,13 @@ public class DpsEmailConsumerTest {
 
         Mockito.verify(storageServiceMock, Mockito.times(1))
                 .delete(Mockito.eq(CASE_1));
+
+
+        Mockito.verify(dpsEmailServiceMock, Mockito.times(1))
+                .dpsEmailProcessed(Mockito.eq(input.getBase64EmailId()), Mockito.eq(input.getTransactionId().toString()));
     }
 
-    @DisplayName("error - with missing batch nbame should return error")
+    @DisplayName("error - with missing batch name should return error")
     @Test
     public void withMissingBatchNameShouldThrowError() {
 
