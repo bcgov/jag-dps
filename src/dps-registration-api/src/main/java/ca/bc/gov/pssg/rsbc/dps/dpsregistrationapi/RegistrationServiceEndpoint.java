@@ -1,11 +1,11 @@
 package ca.bc.gov.pssg.rsbc.dps.dpsregistrationapi;
 
+import bcgov.reeks.dps_registrationservices_wsprovider.dpsdocumentstatusregws.*;
 import ca.bc.gov.open.ottsoa.ords.client.OtssoaService;
 import ca.bc.gov.open.ottsoa.ords.client.api.handler.ApiException;
 import ca.bc.gov.open.ottsoa.ords.client.api.model.DefaultResponse;
 import ca.bc.gov.open.ottsoa.ords.client.models.CreateObjectRequest;
 import ca.bc.gov.open.ottsoa.ords.client.models.CreatePackageRequest;
-import ca.bc.gov.pssg.rsbc.dps.dps_registrationservices_wsprovider.dpsdocumentstatusregws.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
