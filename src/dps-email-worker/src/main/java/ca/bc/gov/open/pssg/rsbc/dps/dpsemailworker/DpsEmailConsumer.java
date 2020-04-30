@@ -1,5 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker;
 
+import ca.bc.gov.dps.monitoring.NotificationService;
+import ca.bc.gov.dps.monitoring.SystemNotification;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.ImportSession;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.registration.RegistrationService;
@@ -97,12 +99,31 @@ public class DpsEmailConsumer {
             logger.info("Successfully moved email to processed folder");
 
         } catch (Exception e) {
-            // TODO: handle exception using rabbit mq
+
             logger.error("Error in {} while processing message: ", e.getClass().getSimpleName(), e);
             throw new DpsEmailWorkerException("Exception while processing message.", e.getCause());
+
         } finally {
             MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
         }
+
+        notifySuccess(message);
+
+    }
+
+    private void notifySuccess(DpsMetadata message) {
+
+        SystemNotification success = new SystemNotification
+                .Builder()
+                .withCorrelationId(message.getTransactionId().toString())
+                .withCorrelationId(message.getFileInfo().getName())
+                .withApplicationName(Keys.APPLICATION_NAME)
+                .withComponent("Image import")
+                .withMessage("All files were successfully uploaded to KOFAX sftp server.")
+                .withType("DPS UPLOAD SUCCESS")
+                .buildSuccess();
+
+        NotificationService.notify(success);
 
     }
 
