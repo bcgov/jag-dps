@@ -96,6 +96,13 @@ public class DpsEmailConsumer {
 
             logger.info("Attempting to move email to processed folder");
             DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailProcessed(message.getBase64EmailId(), message.getTransactionId().toString());
+
+            if(!dpsEmailProcessedResponse.isAcknowledge()) {
+                notifyMoveEmailToError(message, dpsEmailProcessedResponse);
+                MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
+                return;
+            }
+
             logger.info("Successfully moved email to processed folder");
 
         } catch (Exception e) {
@@ -127,11 +134,27 @@ public class DpsEmailConsumer {
 
     }
 
+    private void notifyMoveEmailToError(DpsMetadata message, DpsEmailProcessedResponse response) {
+        SystemNotification success = new SystemNotification
+                .Builder()
+                .withCorrelationId(message.getTransactionId().toString())
+                .withCorrelationId(message.getFileInfo().getName())
+                .withApplicationName(Keys.APPLICATION_NAME)
+                .withComponent("Image import")
+                .withAction(MessageFormat.format("Manual Intervention: email with subject {0} in {1} error hold folder can be moved to Processed folder, " +
+                        "it was successfully processed by the system", message.getSubject(), message.getTo()))
+                .withMessage(response.getMessage())
+                .withType("MAILBOX ERROR")
+                .buildError();
+
+        NotificationService.notify(success);
+    }
+
     // Anything that hits the parking queue we can assume we can't process, so...
     // 1. Move the email to the error folder in exchange
     // 2. Delete the attached doc from the cache
     @RabbitListener(queues = Keys.PARKING_QUEUE_NAME)
-    public void receiveParkedMessage(DpsMetadata message) {
+    public void receiveParkedMessage(DpsMetadata message, DpsEmailProcessedResponse response) {
 
         logger.error("Error: email {} - landed in parking lot", message.toString());
         MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, message.getTransactionId().toString());
