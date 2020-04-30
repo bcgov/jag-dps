@@ -17,7 +17,7 @@ public class WebServiceConfig {
 
     @Bean
     public ServletRegistrationBean<CXFServlet> dispatcherServlet() {
-        return new ServletRegistrationBean<CXFServlet>(new CXFServlet(), "/ws/DPS_RegistrationServices.wsProvider.dpsDocumentStatusRegWS/*");
+        return new ServletRegistrationBean<CXFServlet>(new CXFServlet(), "/ws/*");
     }
     @Bean
     @Primary
@@ -34,7 +34,7 @@ public class WebServiceConfig {
     @Bean
     public Endpoint endpoint(Bus bus, RegistrationServiceEndpoint registrationServiceEndpoint) {
         EndpointImpl endpoint = new EndpointImpl(bus, registrationServiceEndpoint);
-        endpoint.publish("/DPS_RegistrationServices_wsProvider_dpsDocumentStatusRegWS_Port");
+        endpoint.publish("/DPS_RegistrationServices.wsProvider:dpsDocumentStatusRegWS");
         return endpoint;
     }
 
