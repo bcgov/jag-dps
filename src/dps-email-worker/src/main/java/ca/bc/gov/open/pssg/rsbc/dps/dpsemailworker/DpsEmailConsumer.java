@@ -154,7 +154,7 @@ public class DpsEmailConsumer {
     // 1. Move the email to the error folder in exchange
     // 2. Delete the attached doc from the cache
     @RabbitListener(queues = Keys.PARKING_QUEUE_NAME)
-    public void receiveParkedMessage(DpsMetadata message, DpsEmailProcessedResponse response) {
+    public void receiveParkedMessage(DpsMetadata message) {
 
         logger.error("Error: email {} - landed in parking lot", message.toString());
         MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, message.getTransactionId().toString());
