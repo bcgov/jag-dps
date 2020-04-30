@@ -12,7 +12,7 @@
         xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
         xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
     <wsdl:types>
-        <xsd:schema targetNamespace="http://dps.rsbc.pssg.gov.bc.ca/DPS_RegistrationServices.wsProvider:dpsDocumentStatusRegWS" xmlns:tns="http://dps.rsbc.pssg.gov.bc.ca/DPS_RegistrationServices.wsProvider:dpsDocumentStatusRegWS" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <xsd:schema targetNamespace="http://reeks.bcgov/DPS_RegistrationServices.wsProvider:dpsDocumentStatusRegWS" xmlns:tns="http://reeks.bcgov/DPS_RegistrationServices.wsProvider:dpsDocumentStatusRegWS" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <xsd:element name="setRegisterPackage" type="tns:setRegisterPackage"/>
             <xsd:element name="setRegisterPackageResponse" type="tns:setRegisterPackageResponse"/>
             <xsd:element name="setRegisterObject" type="tns:setRegisterObject"/>

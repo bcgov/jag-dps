@@ -1,11 +1,11 @@
 package ca.bc.gov.pssg.rsbc.dps.dpsregistrationapi;
 
+import bcgov.reeks.dps_registrationservices_wsprovider.dpsdocumentstatusregws.ObjectFactory;
+import bcgov.reeks.dps_registrationservices_wsprovider.dpsdocumentstatusregws.SetRegisterObjectRequest;
+import bcgov.reeks.dps_registrationservices_wsprovider.dpsdocumentstatusregws.SetRegisterObjectResponse2;
 import ca.bc.gov.open.ottsoa.ords.client.OtssoaService;
 import ca.bc.gov.open.ottsoa.ords.client.api.handler.ApiException;
 import ca.bc.gov.open.ottsoa.ords.client.api.model.DefaultResponse;
-import ca.bc.gov.pssg.rsbc.dps.dps_registrationservices_wsprovider.dpsdocumentstatusregws.ObjectFactory;
-import ca.bc.gov.pssg.rsbc.dps.dps_registrationservices_wsprovider.dpsdocumentstatusregws.SetRegisterObjectRequest;
-import ca.bc.gov.pssg.rsbc.dps.dps_registrationservices_wsprovider.dpsdocumentstatusregws.SetRegisterObjectResponse2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
