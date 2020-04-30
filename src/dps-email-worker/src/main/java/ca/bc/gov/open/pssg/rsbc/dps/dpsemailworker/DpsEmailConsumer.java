@@ -96,6 +96,13 @@ public class DpsEmailConsumer {
 
             logger.info("Attempting to move email to processed folder");
             DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailProcessed(message.getBase64EmailId(), message.getTransactionId().toString());
+
+            if(!dpsEmailProcessedResponse.isAcknowledge()) {
+                notifyMoveEmailToError(message, dpsEmailProcessedResponse);
+                MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
+                return;
+            }
+
             logger.info("Successfully moved email to processed folder");
 
         } catch (Exception e) {
@@ -125,6 +132,22 @@ public class DpsEmailConsumer {
 
         NotificationService.notify(success);
 
+    }
+
+    private void notifyMoveEmailToError(DpsMetadata message, DpsEmailProcessedResponse response) {
+        SystemNotification success = new SystemNotification
+                .Builder()
+                .withCorrelationId(message.getTransactionId().toString())
+                .withCorrelationId(message.getFileInfo().getName())
+                .withApplicationName(Keys.APPLICATION_NAME)
+                .withComponent("Image import")
+                .withAction(MessageFormat.format("Manual Intervention: email with subject {0} in {1} error hold folder can be moved to Processed folder, " +
+                        "it was successfully processed by the system", message.getSubject(), message.getTo()))
+                .withMessage(response.getMessage())
+                .withType("MAILBOX ERROR")
+                .buildError();
+
+        NotificationService.notify(success);
     }
 
     // Anything that hits the parking queue we can assume we can't process, so...

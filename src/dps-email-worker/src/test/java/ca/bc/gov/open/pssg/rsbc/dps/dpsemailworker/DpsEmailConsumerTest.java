@@ -96,6 +96,9 @@ public class DpsEmailConsumerTest {
         Mockito.when(importSessionService.convertToXmlBytes(Mockito.any(ImportSession.class))).thenReturn(("<test" +
                 "></test>").getBytes());
 
+        DpsEmailProcessedResponse response = DpsEmailProcessedResponse.successResponse(true, "test");
+        Mockito.when(dpsEmailServiceMock.dpsEmailProcessed(Mockito.anyString(), Mockito.anyString())).thenReturn(response);
+
         SftpProperties sftpProperties = new SftpProperties();
         sftpProperties.setRemoteLocation(REMOTE_LOCATION);
 
