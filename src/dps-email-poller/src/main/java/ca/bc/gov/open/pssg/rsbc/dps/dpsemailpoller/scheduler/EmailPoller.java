@@ -107,6 +107,9 @@ public class EmailPoller {
                     messagingService.sendMessage(metadata, this.tenant);
                     logger.info("successfully send message to processing queue");
 
+                    notifySuccess(metadata);
+
+
                 } catch (ServiceLocalException | DpsEmailException | DpsException e ) {
 
                     logger.error("exception while processing dps emails", e);
@@ -144,6 +147,22 @@ public class EmailPoller {
             MDC.remove(DPS_BATCH_ID);
         }
 
+
+    }
+
+    private void notifySuccess(DpsMetadata message) {
+
+        SystemNotification success = new SystemNotification
+                .Builder()
+                .withCorrelationId(message.getTransactionId().toString())
+                .withCorrelationId(message.getFileInfo().getName())
+                .withApplicationName(Keys.APP_NAME)
+                .withComponent("Email Polling")
+                .withMessage("Image and metadata successfully extracted from email")
+                .withType("DPS EMAIL POLLING SUCCESS")
+                .buildSuccess();
+
+        NotificationService.notify(success);
 
     }
 
