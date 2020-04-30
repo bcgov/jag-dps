@@ -121,12 +121,12 @@ public class EmailPoller {
                                 .withCorrelationId(correlationId)
                                 .withTransactionId(filename)
                                 .withAction(buildActionText(errorHoldEmail))
-                                .withapplicationName(Keys.APP_NAME)
-                                .withcomponent(Keys.APP_NAME)
-                                .withdetails("test")
-                                .witherrorType(((DpsException)e).getDpsError().getCode())
-                                .withmessage(e.getMessage())
-                                .build();
+                                .withApplicationName(Keys.APP_NAME)
+                                .withComponent(Keys.APP_NAME)
+                                .withDetails("test")
+                                .withType(((DpsException)e).getDpsError().getCode())
+                                .withMessage(e.getMessage())
+                                .buildError();
 
                         NotificationService.notify(systemNotification);
 

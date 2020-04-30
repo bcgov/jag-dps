@@ -8,17 +8,22 @@ public class Keys {
     /**
      * The DPS Email value for usage across the app
      */
-    public static final String EMAIL_VALUE = "${DPS_TENANT}";
+    public static final String TENANT = "${DPS_TENANT}";
+
+    /**
+     * Application Name
+     */
+    public static final String APPLICATION_NAME = TENANT + "-email-worker";
 
     /**
      * DO NOT CHANGE - The name of the DPS email queue
      */
-    public static final String EMAIL_QUEUE_NAME = EMAIL_VALUE + ".emailmessage.Q";
+    public static final String EMAIL_QUEUE_NAME = TENANT + ".emailmessage.Q";
 
     /**
      * DO NOT CHANGE - The name of the DPS email queue
      */
-    public static final String PARKING_QUEUE_NAME = EMAIL_VALUE + ".emailmessage.PL";
+    public static final String PARKING_QUEUE_NAME = TENANT + ".emailmessage.PL";
 
     /**
      * DO NOT CHANGE - The default output notification value.
@@ -49,4 +54,7 @@ public class Keys {
      * DO NOT CHANGE - The default registration success status
      */
     public static final String REGISTRATION_OPERATION_SUCCESS_STATUS = "0";
+
+
+
 }

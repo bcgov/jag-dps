@@ -127,7 +127,6 @@ public class DpsEmailConsumerTest {
         Mockito.verify(storageServiceMock, Mockito.times(1))
                 .delete(Mockito.eq(CASE_1));
 
-
         Mockito.verify(dpsEmailServiceMock, Mockito.times(1))
                 .dpsEmailProcessed(Mockito.eq(input.getBase64EmailId()), Mockito.eq(input.getTransactionId().toString()));
     }

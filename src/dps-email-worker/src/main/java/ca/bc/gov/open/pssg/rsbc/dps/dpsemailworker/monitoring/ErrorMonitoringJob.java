@@ -74,12 +74,12 @@ public class ErrorMonitoringJob implements MonitoringJob {
                     .withTransactionId(filename)
                     .withAction(MessageFormat.format("Manual Intervention (File can be found in Kofax {0} Error Hold " +
                             "Directory)", tenantProperties.getName()))
-                    .withapplicationName(MessageFormat.format("ODPS({0})", tenantProperties.getName()))
-                    .withcomponent(MessageFormat.format("KOFAX {0} Import", tenantProperties.getName()))
-                    .withdetails(MessageFormat.format("Kofax {0} Import failed", tenantProperties.getName()))
-                    .witherrorType(DpsError.KOFAX_ERROR.getCode())
-                    .withmessage(importSession.getErrorMessage())
-                    .build();
+                    .withApplicationName(MessageFormat.format("ODPS({0})", tenantProperties.getName()))
+                    .withComponent(MessageFormat.format("KOFAX {0} Import", tenantProperties.getName()))
+                    .withDetails(MessageFormat.format("Kofax {0} Import failed", tenantProperties.getName()))
+                    .withType(DpsError.KOFAX_ERROR.getCode())
+                    .withMessage(importSession.getErrorMessage())
+                    .buildError();
 
             NotificationService.notify(systemNotification);
 
