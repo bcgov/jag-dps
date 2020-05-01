@@ -62,7 +62,7 @@ public class OtssoaServiceCreatePackageTest {
                 .withBusinessArea(BUSINESS_AREA)
                 .withFilename(FILENAME)
                 .withFormatType(FORMAT_TYPE)
-                .withImportGuid(expectedImportGuid)
+                .withImportGuid(expectedImportGuid.toString())
                 .withPageCount(PAGE_COUNT)
                 .withProgramType(PROGRAM_TYPE)
                 .withReceivedDate(expectedReceivedDate)

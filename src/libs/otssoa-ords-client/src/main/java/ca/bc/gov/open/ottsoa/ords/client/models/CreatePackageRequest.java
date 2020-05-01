@@ -1,7 +1,6 @@
 package ca.bc.gov.open.ottsoa.ords.client.models;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class CreatePackageRequest {
 
@@ -15,7 +14,7 @@ public class CreatePackageRequest {
         private String source;
         private String recipient;
         private Date receivedDate;
-        private UUID importGuid;
+        private String importGuid;
         private String businessArea;
 
 
@@ -59,7 +58,7 @@ public class CreatePackageRequest {
             return this;
         }
 
-        public Builder withImportGuid(UUID importGuid) {
+        public Builder withImportGuid(String importGuid) {
             this.importGuid = importGuid;
             return this;
         }
@@ -95,7 +94,7 @@ public class CreatePackageRequest {
     private String source;
     private String recipient;
     private Date receivedDate;
-    private UUID importGuid;
+    private String importGuid;
     private String businessArea;
 
     protected CreatePackageRequest() {
@@ -133,7 +132,7 @@ public class CreatePackageRequest {
         return receivedDate;
     }
 
-    public UUID getImportGuid() {
+    public String getImportGuid() {
         return importGuid;
     }
 

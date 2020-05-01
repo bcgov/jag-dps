@@ -30,7 +30,7 @@ public class OtssoaServiceImpl implements OtssoaService {
         payload.setSource(createPackageRequest.getSource());
         payload.setRecipient(createPackageRequest.getRecipient());
         payload.setReceivedDate(formatDate(createPackageRequest.getReceivedDate()));
-        payload.setImportGuid(createPackageRequest.getImportGuid().toString());
+        payload.setImportGuid(createPackageRequest.getImportGuid());
         payload.setBusinessArea(createPackageRequest.getBusinessArea());
         payload.setFormatType(createPackageRequest.getFormatType());
         return otssoaApi.createPackagePost(payload);
@@ -52,7 +52,7 @@ public class OtssoaServiceImpl implements OtssoaService {
         payload.setContentId(createObjectRequest.getContentId());
         payload.setContentType(createObjectRequest.getContentType());
         payload.setImageUpload(createObjectRequest.getImageUpload());
-        payload.setImportGuid(createObjectRequest.getImportGuid().toString());
+        payload.setImportGuid(createObjectRequest.getImportGuid());
         payload.setPackageFormatType(createObjectRequest.getPackageFormatType());
 
         return otssoaApi.createObjectPost(payload);
