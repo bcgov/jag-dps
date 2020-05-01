@@ -123,7 +123,7 @@ public class RegistrationServiceImplTest {
                                         x.getBusinessArea().equals(Keys.REGISTRATION_BUSINESS_AREA) &&
                                         x.getFilename().equals(FILE_NAME) &&
                                         x.getFormatType().equals(Keys.REGISTRATION_DEFAULT_FORMAT) &&
-                                        x.getImportGuid().equals(dpsMetadata.getTransactionId()) &&
+                                        x.getImportGuid().equals(dpsMetadata.getTransactionId().toString()) &&
                                         x.getPageCount() == NUMBER_OF_PAGES &&
                                         StringUtils.isBlank(x.getProgramType()) &&
                                         x.getReceivedDate().equals(dpsMetadata.getReceivedDate()) &&

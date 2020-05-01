@@ -34,7 +34,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 .withSource(dpsMetadata.getOriginatingNumber())
                 .withRecipient(dpsMetadata.getTo())
                 .withReceivedDate(dpsMetadata.getReceivedDate())
-                .withImportGuid(dpsMetadata.getTransactionId())
+                .withImportGuid(dpsMetadata.getTransactionId().toString())
                 .withFilename(dpsMetadata.getFileInfo().getName())
                 .withPageCount(dpsMetadata.getNumberOfPages())
                 .build();
