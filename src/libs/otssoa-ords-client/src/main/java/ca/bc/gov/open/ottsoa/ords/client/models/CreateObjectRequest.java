@@ -1,7 +1,6 @@
 package ca.bc.gov.open.ottsoa.ords.client.models;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class CreateObjectRequest {
     
@@ -11,7 +10,7 @@ public class CreateObjectRequest {
         private String contentId;
         private String contentType;
         private Date completionDate;
-        private UUID importGuid;
+        private String importGuid;
         private String clientName;
         private String actionSystem;
         private String actionUser;
@@ -25,7 +24,7 @@ public class CreateObjectRequest {
         public Builder withContentId(String contentId) { this.contentId = contentId; return this; }
         public Builder withContentType(String contentType) { this.contentType = contentType; return this; }
         public Builder withCompletionDate(Date completionDate) { this.completionDate = completionDate; return this; }
-        public Builder withImportGuid(UUID importGuid) { this.importGuid = importGuid; return this; }
+        public Builder withImportGuid(String importGuid) { this.importGuid = importGuid; return this; }
         public Builder withClientName(String clientName) { this.clientName = clientName; return this; }
         public Builder withActionSystem(String actionSystem) { this.actionSystem = actionSystem; return this; }
         public Builder withActionUser(String actionUser) { this.actionUser = actionUser; return this; }
@@ -61,7 +60,7 @@ public class CreateObjectRequest {
     private String contentId;
     private String contentType;
     private Date completionDate;
-    private UUID importGuid;
+    private String importGuid;
     private String clientName;
     private String actionSystem;
     private String actionUser;
@@ -90,7 +89,7 @@ public class CreateObjectRequest {
         return completionDate;
     }
 
-    public UUID getImportGuid() {
+    public String getImportGuid() {
         return importGuid;
     }
 
@@ -125,4 +124,5 @@ public class CreateObjectRequest {
     public String getPackageFormatType() {
         return packageFormatType;
     }
+
 }

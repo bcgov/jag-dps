@@ -1,6 +1,8 @@
 package ca.bc.gov.pssg.rsbc.dps.dpsregistrationapi;
 
 import bcgov.reeks.dps_registrationservices_wsprovider.dpsdocumentstatusregws.*;
+import ca.bc.gov.dps.monitoring.NotificationService;
+import ca.bc.gov.dps.monitoring.SystemNotification;
 import ca.bc.gov.open.ottsoa.ords.client.OtssoaService;
 import ca.bc.gov.open.ottsoa.ords.client.api.handler.ApiException;
 import ca.bc.gov.open.ottsoa.ords.client.api.model.DefaultResponse;
@@ -11,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.UUID;
 
 @Service
 public class RegistrationServiceEndpoint implements DpsDocumentStatusRegWSPortType {
@@ -36,7 +37,7 @@ public class RegistrationServiceEndpoint implements DpsDocumentStatusRegWSPortTy
 
         CreateObjectRequest createObjectRequest = new CreateObjectRequest
                 .Builder()
-                .withImportGuid(UUID.fromString(setRegisterObjectRequest.getPackage().getValue()))
+                .withImportGuid(setRegisterObjectRequest.getPackage().getValue())
                 .withActionMethod(setRegisterObjectRequest.getActionMethod().getValue())
                 .withActionSystem(setRegisterObjectRequest.getActionSystem().getValue())
                 .withActionUser(setRegisterObjectRequest.getActionUser().getValue())
@@ -59,6 +60,12 @@ public class RegistrationServiceEndpoint implements DpsDocumentStatusRegWSPortTy
                 logger.info("Successfully created package in otssoa database.");
             } else {
                 logger.error("Error while creating package in otssoa database.");
+                notifyError(
+                        apiResponse.getErrorMessage(),
+                        "REGISTER OBJECT ERROR",
+                        setRegisterObjectRequest.getPackage() != null ? setRegisterObjectRequest.getPackage().getValue(): "",
+                        setRegisterObjectRequest.getImageUpload() != null ? setRegisterObjectRequest.getImageUpload().getValue():"",
+                        "Registration Api - Object");
             }
 
             registerObjectResponse.setResponseCd(apiResponse.getRegState());
@@ -92,7 +99,7 @@ public class RegistrationServiceEndpoint implements DpsDocumentStatusRegWSPortTy
                 .withSource(setRegisterPackageRequest.getSource().getValue())
                 .withBusinessArea(setRegisterPackageRequest.getBusinessAreaCD())
                 .withFilename(setRegisterPackageRequest.getFilename())
-                .withImportGuid(UUID.fromString(setRegisterPackageRequest.getImportGUID()))
+                .withImportGuid(setRegisterPackageRequest.getImportGUID())
                 .withFormatType(setRegisterPackageRequest.getPackageFormatType())
                 .withPageCount(tryParseInt(setRegisterPackageRequest.getPageCount().getValue()))
                 .withProgramType(setRegisterPackageRequest.getProgramType().getValue())
@@ -109,6 +116,12 @@ public class RegistrationServiceEndpoint implements DpsDocumentStatusRegWSPortTy
                 logger.info("Successfully created package in otssoa database.");
             } else {
                 logger.error("Error while creating package in otssoa database.");
+                notifyError(
+                        apiResponse.getErrorMessage(),
+                        "REGISTER OBJECT ERROR",
+                        setRegisterPackageRequest.getImportGUID() != null ? setRegisterPackageRequest.getImportGUID() : "",
+                        setRegisterPackageRequest.getFilename() != null ? setRegisterPackageRequest.getFilename() : "",
+                        "Registration Api - Object");
             }
 
             registerPackageResponse.setResponseCd(apiResponse.getRegState());
@@ -140,6 +153,25 @@ public class RegistrationServiceEndpoint implements DpsDocumentStatusRegWSPortTy
         } catch (NumberFormatException nfe) {
             return -1;
         }
+    }
+
+
+    private void notifyError(String errorMessage, String type, String id, String fileName, String component) {
+
+
+        SystemNotification systemNotification = new SystemNotification
+                .Builder()
+                .withCorrelationId(id)
+                .withTransactionId(fileName)
+                .withAction("Action to be determined")
+                .withApplicationName(Keys.APP_NAME)
+                .withComponent(component)
+                .withMessage(errorMessage)
+                .withType(type)
+                .buildError();
+
+        NotificationService.notify(systemNotification);
+
     }
 
 }
