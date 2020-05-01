@@ -78,7 +78,7 @@ public class OtssoaServiceCreateObjectTest {
                 .withContentId(CONTENT_ID)
                 .withContentType(CONTENT_TYPE)
                 .withImageUpload(IMAGE_UPLOAD)
-                .withImportGuid(expectedImportGuid)
+                .withImportGuid(expectedImportGuid.toString())
                 .withPackageFormatType(PACKAGE_FORMAT_TYPE)
                 .build();
 
