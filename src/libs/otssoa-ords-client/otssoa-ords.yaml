@@ -66,6 +66,8 @@ paths:
             properties: {}
   /health:
     get:
+      tags:
+      - OTSSOA
       description: Dummy endpoint to check that API calls are working
       responses:
         '200':
