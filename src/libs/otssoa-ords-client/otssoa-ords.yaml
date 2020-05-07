@@ -57,6 +57,10 @@ paths:
           $ref: '#/definitions/createPackagePayload'
   /getDbName:
     get:
+      tags:
+      - OTSSOA
+      security:
+      - basicAuth: []
       description: Get the DB name
       responses:
         '200':
@@ -68,6 +72,8 @@ paths:
     get:
       tags:
       - OTSSOA
+      security:
+      - basicAuth: []
       description: Dummy endpoint to check that API calls are working
       responses:
         '200':
