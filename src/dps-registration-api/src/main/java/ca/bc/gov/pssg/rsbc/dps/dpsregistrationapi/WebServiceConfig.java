@@ -2,11 +2,8 @@ package ca.bc.gov.pssg.rsbc.dps.dpsregistrationapi;
 
 import ca.bc.gov.pssg.rsbc.dps.dpsregistrationapi.health.MetricsService;
 import ca.bc.gov.pssg.rsbc.dps.dpsregistrationapi.health.MetricsServiceImpl;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.spring.SpringBus;
-import org.apache.cxf.endpoint.Server;
-import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.springframework.boot.actuate.health.HealthEndpoint;
@@ -17,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import javax.xml.ws.Endpoint;
-import java.util.Arrays;
 
 @Configuration
 public class WebServiceConfig {
@@ -55,14 +51,14 @@ public class WebServiceConfig {
         return new MetricsServiceImpl(healthEndpoint);
     }
 
-    @Bean
-    public Server rsServer(Bus bus, MetricsService metricsService) {
-        JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
-        endpoint.setBus(bus);
-        endpoint.setAddress("/api");
-        endpoint.setProvider(new JacksonJsonProvider());
-        endpoint.setServiceBeans(Arrays.<Object>asList(metricsService));
-        return endpoint.create();
-    }
+//    @Bean
+//    public Server rsServer(Bus bus, MetricsService metricsService) {
+//        JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
+//        endpoint.setBus(bus);
+//        endpoint.setAddress("/api");
+//        endpoint.setProvider(new JacksonJsonProvider());
+//        endpoint.setServiceBeans(Arrays.<Object>asList(metricsService));
+//        return endpoint.create();
+//    }
 
 }
