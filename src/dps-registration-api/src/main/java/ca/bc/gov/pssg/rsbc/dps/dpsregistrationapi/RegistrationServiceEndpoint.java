@@ -47,6 +47,7 @@ public class RegistrationServiceEndpoint implements DpsDocumentStatusRegWSPortTy
                 .withClientNumber(setRegisterObjectRequest.getClientNum().getValue())
                 .withCompletionDate(DateUtils.toDate(setRegisterObjectRequest.getCompletionDTM().getValue()))
                 .withContentId(setRegisterObjectRequest.getContentID().getValue())
+                .withContentType(setRegisterObjectRequest.getType())
                 .withImageUpload(setRegisterObjectRequest.getImageUpload().getValue())
                 .withPackageFormatType(setRegisterObjectRequest.getPackageFormatType())
                 .build();
