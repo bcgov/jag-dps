@@ -22,6 +22,7 @@ You should use environment variables to configure payment service app
 | Environment Variable  | Description   | Notes   |
 |---|---|---|
 | PORT | Web Server application PORT |  set to `8080` by default |
+| WS_LOGGING_ENABLED | Enables SOAP Service logging | set to `false` by default |
 
 ## TEST
 
