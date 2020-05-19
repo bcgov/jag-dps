@@ -43,8 +43,7 @@ public class WebServiceConfig {
     public SpringBus springBus(LoggingFeature loggingFeature) {
         SpringBus cxfBus = new  SpringBus();
 
-        if(webServiceProperties.isLoggingEnabled())
-            cxfBus.getFeatures().add(loggingFeature);
+        cxfBus.getFeatures().add(loggingFeature);
 
         return cxfBus;
     }
@@ -71,18 +70,12 @@ public class WebServiceConfig {
     @Bean
     public LoggingFeature loggingFeature() {
         LoggingFeature loggingFeature = new LoggingFeature();
-        loggingFeature.setPrettyLogging(true);
+        if(webServiceProperties.isLoggingEnabled()) {
+            loggingFeature.setPrettyLogging(true);
+        } else {
+            loggingFeature.setLimit(0);
+        }
         return loggingFeature;
     }
-
-//    @Bean
-//    public Server rsServer(Bus bus, MetricsService metricsService) {
-//        JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
-//        endpoint.setBus(bus);
-//        endpoint.setAddress("/api");
-//        endpoint.setProvider(new JacksonJsonProvider());
-//        endpoint.setServiceBeans(Arrays.<Object>asList(metricsService));
-//        return endpoint.create();
-//    }
 
 }
