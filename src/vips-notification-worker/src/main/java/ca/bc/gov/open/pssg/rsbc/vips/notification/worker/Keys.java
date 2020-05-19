@@ -2,6 +2,8 @@ package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 
 public class Keys {
 
+
+
     private Keys() {}
 
 
@@ -19,6 +21,9 @@ public class Keys {
      * DO NOT CHANGE - The default output notification value.
      */
     public static final String OUTPUT_NOTIFICATION_VALUE = "outputNotification";
+
+
+    public static final String APP_NAME = "vips-notification-worker";
 
 
 }

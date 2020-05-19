@@ -9,6 +9,6 @@ public interface DocumentService {
 
     DpsDataIntoFigaroResponse dpsDataIntoFigaro(DpsDataIntoFigaroRequestBody request);
 
-    DpsDocumentResponse dpsDocument(DpsDocumentRequestBody request);
+    DpsDocumentResponse storeDocument(DpsDocumentRequestBody request);
 
 }
