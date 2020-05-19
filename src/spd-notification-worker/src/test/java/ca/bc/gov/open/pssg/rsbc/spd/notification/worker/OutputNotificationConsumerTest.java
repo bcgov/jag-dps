@@ -134,7 +134,7 @@ public class OutputNotificationConsumerTest {
         Mockito
                 .doReturn(DpsDocumentResponse.successResponse(DOCUMENT_GUID, STATUS_CODE, STATUS_MESSAGE))
                 .when(documentServiceMock)
-                .dpsDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_1).getImageReleaseFileName())));
+                .storeDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_1).getImageReleaseFileName())));
 
         Mockito
                 .doReturn(DpsDataIntoFigaroResponse.successResponse(STATUS_CODE, STATUS_MESSAGE))
@@ -151,7 +151,7 @@ public class OutputNotificationConsumerTest {
         Mockito
                 .doReturn(DpsDocumentResponse.errorResponse(STATUS_CODE_ERROR))
                 .when(documentServiceMock)
-                .dpsDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_1API_ERROR_CODE).getImageReleaseFileName())));
+                .storeDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_1API_ERROR_CODE).getImageReleaseFileName())));
 
         // dpsDataIntoFigaro api ERROR
 
@@ -163,7 +163,7 @@ public class OutputNotificationConsumerTest {
         Mockito
                 .doReturn(DpsDocumentResponse.successResponse(CASE_2API_ERROR_CODE, STATUS_CODE, STATUS_MESSAGE))
                 .when(documentServiceMock)
-                .dpsDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_2API_ERROR_CODE).getImageReleaseFileName())));
+                .storeDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_2API_ERROR_CODE).getImageReleaseFileName())));
 
         Mockito
                 .doReturn(DpsDataIntoFigaroResponse.errorResponse(STATUS_CODE_ERROR))
@@ -204,7 +204,7 @@ public class OutputNotificationConsumerTest {
 
         Mockito
                 .verify(documentServiceMock, Mockito.times(1))
-                .dpsDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_1).getImageReleaseFileName())));
+                .storeDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_1).getImageReleaseFileName())));
 
         Mockito
                 .verify(documentServiceMock, Mockito.times(1))
@@ -226,7 +226,7 @@ public class OutputNotificationConsumerTest {
 
         Mockito
                 .verify(documentServiceMock, Mockito.never())
-                .dpsDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_SFTP_EXCEPTION).getImageReleaseFileName())));
+                .storeDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_SFTP_EXCEPTION).getImageReleaseFileName())));
 
         Mockito
                 .verify(documentServiceMock, Mockito.never())
@@ -250,7 +250,7 @@ public class OutputNotificationConsumerTest {
 
         Mockito
                 .verify(documentServiceMock, Mockito.never())
-                .dpsDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_JAXB_EXCEPTION).getImageReleaseFileName())));
+                .storeDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_JAXB_EXCEPTION).getImageReleaseFileName())));
 
         Mockito
                 .verify(documentServiceMock, Mockito.never())
@@ -279,7 +279,7 @@ public class OutputNotificationConsumerTest {
 
         Mockito
                 .verify(documentServiceMock, Mockito.times(1))
-                .dpsDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_1API_ERROR_CODE).getImageReleaseFileName())));
+                .storeDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_1API_ERROR_CODE).getImageReleaseFileName())));
 
         Mockito
                 .verify(documentServiceMock, Mockito.never())
@@ -302,7 +302,7 @@ public class OutputNotificationConsumerTest {
 
         Mockito
                 .verify(documentServiceMock, Mockito.times(1))
-                .dpsDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_2API_ERROR_CODE).getImageReleaseFileName())));
+                .storeDocument(ArgumentMatchers.argThat(x -> x.getFileName().equals(getFileInfo(CASE_2API_ERROR_CODE).getImageReleaseFileName())));
 
         Mockito
                 .verify(documentServiceMock, Mockito.times(1))
