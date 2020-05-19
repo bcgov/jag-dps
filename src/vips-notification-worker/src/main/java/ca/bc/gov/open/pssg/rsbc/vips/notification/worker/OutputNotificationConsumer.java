@@ -86,6 +86,9 @@ public class OutputNotificationConsumer {
             if (vipsDocumentResponse.getRespCode() == SUCCESS_CODE) {
                 logger.info("success: {} with {}", vipsDocumentResponse, fileInfo);
                 moveFilesToArchive(fileInfo);
+
+                signalSuccess(message);
+
             } else {
                 logger.error("error: {} with {}", vipsDocumentResponse, fileInfo);
                 moveFilesToError(fileInfo);

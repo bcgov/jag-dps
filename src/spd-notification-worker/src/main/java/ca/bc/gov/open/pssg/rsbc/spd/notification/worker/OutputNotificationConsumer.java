@@ -135,6 +135,9 @@ public class OutputNotificationConsumer {
                 if (figaroResponse.getRespCode() == SUCCESS_CODE) {
                     logger.info("success: {} with {}", figaroResponse, fileInfo);
                     fileService.moveFilesToArchive(fileInfo);
+
+                    signalSuccess(message);
+
                 } else {
                     logger.error("error: {} with {}", figaroResponse, fileInfo);
                     fileService.moveFilesToError(fileInfo);
@@ -144,7 +147,7 @@ public class OutputNotificationConsumer {
                 fileService.moveFilesToError(fileInfo);
             }
 
-            signalSuccess(message);
+
 
         } catch (IOException | JAXBException e) {
             logger.error("{} while processing file id [{}]: ", e.getClass().getSimpleName(), fileInfo.getFileId(), e);
