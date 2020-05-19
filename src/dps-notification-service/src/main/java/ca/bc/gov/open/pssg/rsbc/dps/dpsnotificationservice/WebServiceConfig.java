@@ -26,7 +26,7 @@ public class WebServiceConfig {
 
     @Bean
     public ServletRegistrationBean<CXFServlet> dispatcherServlet() {
-        return new ServletRegistrationBean<CXFServlet>(new CXFServlet(), "/ws/DPS_Extensions.common.wsProvider.outputNotificationWS/*");
+        return new ServletRegistrationBean<CXFServlet>(new CXFServlet(), "/ws/*");
     }
 
     @Bean
@@ -45,7 +45,7 @@ public class WebServiceConfig {
     @Bean
     public Endpoint endpoint(Bus bus, OutputNotificationEndpoint outputNotificationEndpoint) {
         EndpointImpl endpoint = new EndpointImpl(bus, outputNotificationEndpoint);
-        endpoint.publish("/DPS_Extensions_common_wsProvider_outputNotificationWS_Port");
+        endpoint.publish("/DPS_Extensions.common.wsProvider.outputNotificationWS/DPS_Extensions_common_wsProvider_outputNotificationWS_Port");
         return endpoint;
     }
 
