@@ -1,7 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice;
 
+import bcgov.reeks.dps_extensions_common_wsprovider.outputnotificationws.*;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
-import ca.bc.gov.pssg.rsbc.dps.dps_extensions_common_wsprovider.outputnotificationws.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
