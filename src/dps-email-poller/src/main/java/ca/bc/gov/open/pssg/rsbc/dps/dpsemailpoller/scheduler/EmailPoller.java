@@ -154,7 +154,7 @@ public class EmailPoller {
 
         SystemNotification success = new SystemNotification
                 .Builder()
-                .withCorrelationId(message.getTransactionId().toString())
+                .withTransactionId(message.getTransactionId().toString())
                 .withCorrelationId(message.getFileInfo().getName())
                 .withApplicationName(Keys.APP_NAME)
                 .withComponent("Email Polling")

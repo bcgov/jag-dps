@@ -1,5 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 
+import ca.bc.gov.dps.monitoring.NotificationService;
+import ca.bc.gov.dps.monitoring.SystemNotification;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileInfo;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
@@ -84,6 +86,9 @@ public class OutputNotificationConsumer {
             if (vipsDocumentResponse.getRespCode() == SUCCESS_CODE) {
                 logger.info("success: {} with {}", vipsDocumentResponse, fileInfo);
                 moveFilesToArchive(fileInfo);
+
+                signalSuccess(message);
+
             } else {
                 logger.error("error: {} with {}", vipsDocumentResponse, fileInfo);
                 moveFilesToError(fileInfo);
@@ -136,6 +141,21 @@ public class OutputNotificationConsumer {
     private void moveFilesToError(FileInfo fileInfo) {
         fileService.moveFilesToError(fileInfo);
         logger.warn("files have been moved to error location, {}", fileInfo);
+    }
+
+    private void signalSuccess(OutputNotificationMessage message) {
+
+        SystemNotification success = new SystemNotification
+                .Builder()
+                .withTransactionId(message.getBusinessAreaCd())
+                .withCorrelationId(message.getFileId())
+                .withApplicationName(Keys.APP_NAME)
+                .withComponent("Notification Worker")
+                .withMessage("Data successfully transfered to FIGARO")
+                .withType("VIPS NOTIFICATION WORKER SUCCESS")
+                .buildSuccess();
+
+        NotificationService.notify(success);
     }
 
 }

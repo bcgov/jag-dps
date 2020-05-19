@@ -81,7 +81,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public DpsDocumentResponse dpsDocument(DpsDocumentRequestBody request) {
+    public DpsDocumentResponse storeDocument(DpsDocumentRequestBody request) {
 
         DpsDocumentOrdsRequestBody ordsRequestBody = new DpsDocumentOrdsRequestBody();
         ordsRequestBody.setServerName(request.getServerName());

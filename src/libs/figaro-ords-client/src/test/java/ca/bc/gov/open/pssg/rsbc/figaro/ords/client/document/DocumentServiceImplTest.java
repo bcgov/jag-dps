@@ -117,7 +117,7 @@ public class DocumentServiceImplTest {
     public void withValid2ResponseShouldReturnValidResponse() {
 
         DpsDocumentRequestBody request = new DpsDocumentRequestBody(SERVER_NAME_SUCCESS, "a");
-        DpsDocumentResponse result = sut.dpsDocument(request);
+        DpsDocumentResponse result = sut.storeDocument(request);
 
         Assertions.assertEquals(GUID, result.getGuid());
         Assertions.assertEquals(Integer.parseInt(STATUS_CODE), result.getRespCode());
@@ -128,7 +128,7 @@ public class DocumentServiceImplTest {
     public void withInvalid2ResponseShouldReturnValid() {
 
         DpsDocumentRequestBody request = new DpsDocumentRequestBody(SERVER_NAME_FAIL, "a");
-        DpsDocumentResponse result = sut.dpsDocument(request);
+        DpsDocumentResponse result = sut.storeDocument(request);
 
         Assertions.assertEquals(Integer.parseInt(ERROR_CODE), result.getRespCode());
         Assertions.assertEquals(ERROR_MESSAGE, result.getRespMsg());
@@ -138,7 +138,7 @@ public class DocumentServiceImplTest {
     public void withApi2ExceptionShouldReturnValid() {
 
         DpsDocumentRequestBody request = new DpsDocumentRequestBody(SERVER_NAME_EXCEPTION, "a");
-        DpsDocumentResponse result = sut.dpsDocument(request);
+        DpsDocumentResponse result = sut.storeDocument(request);
 
         Assertions.assertEquals(FigaroOrdsClientConstants.SERVICE_FAILURE_CD, result.getRespCode());
         Assertions.assertEquals(API_EXCEPTION, result.getRespMsg());

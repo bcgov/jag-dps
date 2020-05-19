@@ -2,6 +2,8 @@ package ca.bc.gov.open.pssg.rsbc.spd.notification.worker;
 
 public class Keys {
 
+
+
     private Keys() {}
 
 
@@ -14,6 +16,8 @@ public class Keys {
      * DO NOT CHANGE - The name of the CRRP queue
      */
     public static final String CRRP_QUEUE_NAME = CRRP_VALUE + ".notification.Q";
+
+    public static final String APP_NAME = "spd-notification-worker";
 
 
 }

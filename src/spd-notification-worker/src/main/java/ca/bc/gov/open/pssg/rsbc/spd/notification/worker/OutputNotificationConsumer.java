@@ -1,5 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.spd.notification.worker;
 
+import ca.bc.gov.dps.monitoring.NotificationService;
+import ca.bc.gov.dps.monitoring.SystemNotification;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileInfo;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
@@ -35,6 +37,7 @@ public class OutputNotificationConsumer {
     private static final int SUCCESS_CODE = 0;
     private static final String DPS_FILE_ID_KEY = "dps.fileId";
     private static final String DPS_BUSINESS_AREA_CD_KEY = "dps.businessAreaCd";
+;
 
     private final FileService fileService;
     private final SftpProperties sftpProperties;
@@ -72,10 +75,12 @@ public class OutputNotificationConsumer {
             Data parsedData = unmarshallMetadataXml(metadata);
             Data.DocumentData documentData = parsedData.getDocumentData();
 
+            logger.debug("attempting to store spd document [{}]", fileInfo.getMetaDataReleaseFileName());
             DpsDocumentRequestBody documentRequestBody = new DpsDocumentRequestBody(sftpProperties.getHost(),
                     fileInfo.getImageReleaseFileName());
+            DpsDocumentResponse documentResponse = documentService.storeDocument(documentRequestBody);
+            logger.info("successfully stored file [{}], id [()]", fileInfo.getMetaDataReleaseFileName());
 
-            DpsDocumentResponse documentResponse = documentService.dpsDocument(documentRequestBody);
 
             if (documentResponse.getRespCode() == SUCCESS_CODE) {
                 logger.info("success: {} with {}", documentResponse, fileInfo);
@@ -130,6 +135,9 @@ public class OutputNotificationConsumer {
                 if (figaroResponse.getRespCode() == SUCCESS_CODE) {
                     logger.info("success: {} with {}", figaroResponse, fileInfo);
                     fileService.moveFilesToArchive(fileInfo);
+
+                    signalSuccess(message);
+
                 } else {
                     logger.error("error: {} with {}", figaroResponse, fileInfo);
                     fileService.moveFilesToError(fileInfo);
@@ -138,6 +146,8 @@ public class OutputNotificationConsumer {
                 logger.error("error: {} with {}", documentResponse, fileInfo);
                 fileService.moveFilesToError(fileInfo);
             }
+
+
 
         } catch (IOException | JAXBException e) {
             logger.error("{} while processing file id [{}]: ", e.getClass().getSimpleName(), fileInfo.getFileId(), e);
@@ -160,5 +170,20 @@ public class OutputNotificationConsumer {
         logger.debug("attempting to serialize file");
         Unmarshaller unmarshaller = this.kofaxOutputMetadataContext.createUnmarshaller();
         return (Data) unmarshaller.unmarshal(new StringReader(content));
+    }
+
+    private void signalSuccess(OutputNotificationMessage message) {
+
+        SystemNotification success = new SystemNotification
+                .Builder()
+                .withTransactionId(message.getBusinessAreaCd())
+                .withCorrelationId(message.getFileId())
+                .withApplicationName(Keys.APP_NAME)
+                .withComponent("Notification Worker")
+                .withMessage("Data successfully transfered to FIGARO")
+                .withType("SPD NOTIFICATION WORKER SUCCESS")
+                .buildSuccess();
+
+        NotificationService.notify(success);
     }
 }
