@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(SftpProperties.class)
 public class AutoConfiguration {
 
+    public static final String STRICT_HOST_KEY_CHECKING = "StrictHostKeyChecking";
+    public static final String NO = "no";
     private Logger logger = LoggerFactory.getLogger(AutoConfiguration.class);
 
     private final SftpProperties sftpProperties;
@@ -39,13 +41,17 @@ public class AutoConfiguration {
 
         JSch jsch = new JSch();
 
-        if(StringUtils.isNotBlank(sftpProperties.getKnownHostsFileName()))
+        if(StringUtils.isNotBlank(sftpProperties.getKnownHostsFileName())) {
             jsch.setKnownHosts(sftpProperties.getKnownHostsFileName());
+        } else {
+            jsch.setConfig(STRICT_HOST_KEY_CHECKING, NO);
+        }
 
         if(StringUtils.isNotBlank(sftpProperties.getSshPrivateKey())) {
             if(StringUtils.isNotBlank(sftpProperties.getSshPrivatePassphrase())) {
                 jsch.addIdentity(sftpProperties.getSshPrivateKey(), sftpProperties.getSshPrivatePassphrase());
             } else {
+                logger.warn("YOU SHOULD SET THE KNOWN HOSTS VALUE IN PRODUCTION");
                 jsch.addIdentity(sftpProperties.getSshPrivateKey());
             }
         }
