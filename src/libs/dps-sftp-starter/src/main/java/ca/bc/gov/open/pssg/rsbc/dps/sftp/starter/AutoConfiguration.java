@@ -44,14 +44,16 @@ public class AutoConfiguration {
         if(StringUtils.isNotBlank(sftpProperties.getKnownHostsFileName())) {
             jsch.setKnownHosts(sftpProperties.getKnownHostsFileName());
         } else {
+            logger.warn("YOU SHOULD SET THE KNOWN HOSTS VALUE IN PRODUCTION");
             jsch.setConfig(STRICT_HOST_KEY_CHECKING, NO);
         }
 
         if(StringUtils.isNotBlank(sftpProperties.getSshPrivateKey())) {
             if(StringUtils.isNotBlank(sftpProperties.getSshPrivatePassphrase())) {
+                logger.debug("Adding private key and passphrase identity");
                 jsch.addIdentity(sftpProperties.getSshPrivateKey(), sftpProperties.getSshPrivatePassphrase());
             } else {
-                logger.warn("YOU SHOULD SET THE KNOWN HOSTS VALUE IN PRODUCTION");
+                logger.debug("Adding private key identity");
                 jsch.addIdentity(sftpProperties.getSshPrivateKey());
             }
         }
