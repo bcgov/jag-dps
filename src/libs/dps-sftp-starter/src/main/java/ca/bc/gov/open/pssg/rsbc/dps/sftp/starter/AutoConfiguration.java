@@ -50,8 +50,10 @@ public class AutoConfiguration {
 
         if(StringUtils.isNotBlank(sftpProperties.getSshPrivateKey())) {
             if(StringUtils.isNotBlank(sftpProperties.getSshPrivatePassphrase())) {
+                logger.debug("Adding private key and passphrase identity");
                 jsch.addIdentity(sftpProperties.getSshPrivateKey(), sftpProperties.getSshPrivatePassphrase());
             } else {
+                logger.debug("Adding private key identity");
                 jsch.addIdentity(sftpProperties.getSshPrivateKey());
             }
         }
