@@ -44,6 +44,7 @@ public class AutoConfiguration {
         if(StringUtils.isNotBlank(sftpProperties.getKnownHostsFileName())) {
             jsch.setKnownHosts(sftpProperties.getKnownHostsFileName());
         } else {
+            logger.warn("YOU SHOULD SET THE KNOWN HOSTS VALUE IN PRODUCTION");
             jsch.setConfig(STRICT_HOST_KEY_CHECKING, NO);
         }
 
@@ -51,7 +52,6 @@ public class AutoConfiguration {
             if(StringUtils.isNotBlank(sftpProperties.getSshPrivatePassphrase())) {
                 jsch.addIdentity(sftpProperties.getSshPrivateKey(), sftpProperties.getSshPrivatePassphrase());
             } else {
-                logger.warn("YOU SHOULD SET THE KNOWN HOSTS VALUE IN PRODUCTION");
                 jsch.addIdentity(sftpProperties.getSshPrivateKey());
             }
         }
