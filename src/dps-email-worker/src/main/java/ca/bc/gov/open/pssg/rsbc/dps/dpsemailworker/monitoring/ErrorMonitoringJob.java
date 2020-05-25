@@ -25,15 +25,10 @@ public class ErrorMonitoringJob implements MonitoringJob {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final FileService fileService;
-
     private final KofaxProperties kofaxProperties;
-
     private final SftpProperties sftpProperties;
-
     private final TenantProperties tenantProperties;
-
     private final ImportSessionService importSessionService;
-
 
     public ErrorMonitoringJob(
             FileService fileService,
@@ -74,7 +69,8 @@ public class ErrorMonitoringJob implements MonitoringJob {
             SystemNotification systemNotification = new SystemNotification
                     .Builder()
                     .withLevel(Level.INFO)
-                    .withCorrelationId(getFirstBatchId(importSession).isPresent() ? getFirstBatchId(importSession).get() : null)
+                    .withCorrelationId(getFirstBatchId(importSession).isPresent() ?
+                            getFirstBatchId(importSession).get() : null)
                     .withTransactionId(filename)
                     .withAction(MessageFormat.format("Manual Intervention (File can be found in Kofax {0} Error Hold " +
                             "Directory)", tenantProperties.getName()))
@@ -100,7 +96,7 @@ public class ErrorMonitoringJob implements MonitoringJob {
 
         Optional<Batch> batch = importSession.getBatches().getBatches().stream().findFirst();
 
-        if(batch.isPresent())
+        if (batch.isPresent())
             return batch
                     .get()
                     .getBatchFields().getBatchFields()
@@ -126,6 +122,5 @@ public class ErrorMonitoringJob implements MonitoringJob {
         return MessageFormat.format("{0}/{1}", sftpProperties.getRemoteLocation(),
                 kofaxProperties.getErrorHoldLocation());
     }
-
 
 }
