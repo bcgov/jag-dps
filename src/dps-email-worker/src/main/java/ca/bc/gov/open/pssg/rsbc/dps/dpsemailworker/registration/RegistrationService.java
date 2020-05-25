@@ -4,6 +4,8 @@ import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 
 public interface RegistrationService {
 
+    boolean isActive();
+
     void registerPackage(DpsMetadata dpsMetadata);
 
 }

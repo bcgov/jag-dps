@@ -217,4 +217,10 @@ public class RegistrationServiceImplTest {
 
     }
 
+
+    @Test
+    public void serviceShouldBeActive() {
+        Assertions.assertTrue(sut.isActive());
+    }
+
 }
