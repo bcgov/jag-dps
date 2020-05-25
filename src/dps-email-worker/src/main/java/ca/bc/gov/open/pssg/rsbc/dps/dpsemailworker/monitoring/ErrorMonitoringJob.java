@@ -49,6 +49,9 @@ public class ErrorMonitoringJob implements MonitoringJob {
 
     @Override
     public void execute() {
+
+        logger.info("starting error job");
+
         fileService.listFiles(getErrorFolderPath())
                 .forEach(filename -> handleKofaxError(filename));
     }
@@ -59,11 +62,12 @@ public class ErrorMonitoringJob implements MonitoringJob {
 
         try {
 
+            logger.info("find error, file name is {}", getErrorFileName(filename));
             InputStream fileContent = fileService.getFileContent(getErrorFileName(filename));
             ImportSession importSession = importSessionService.convertToImportSession(fileContent);
             logger.info(importSession.getErrorCode());
 
-            logger.debug("Attempting to move file to error hold");
+            logger.debug("Attempting to move file to {}", getErrorHoldFileName(filename));
             fileService.moveFile(getErrorFileName(filename), getErrorHoldFileName(filename));
             logger.info("Successfully moved file to {}", getErrorHoldFileName(filename));
 

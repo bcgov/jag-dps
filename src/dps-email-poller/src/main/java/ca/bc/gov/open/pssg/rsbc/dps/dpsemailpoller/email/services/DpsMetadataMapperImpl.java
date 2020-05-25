@@ -79,7 +79,4 @@ public class DpsMetadataMapperImpl implements DpsMetadataMapper {
         return emailMessage.getBody().toString();
     }
 
-
-
-
 }
