@@ -22,6 +22,11 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
+    public boolean isActive() {
+        return true;
+    }
+
+    @Override
     public void registerPackage(DpsMetadata dpsMetadata) {
 
         //TODO: Investigate, the tenant is not passed as a parameter where there is a placeholder for it.

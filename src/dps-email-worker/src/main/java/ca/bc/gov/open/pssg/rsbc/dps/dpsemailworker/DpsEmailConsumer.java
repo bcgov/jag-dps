@@ -88,10 +88,12 @@ public class DpsEmailConsumer {
             logger.info("Successfully removed document from redis cache");
 
 
-            if(registrationService != null) {
+            if(registrationService.isActive()) {
                 logger.debug("Attempting to register package");
                 registrationService.registerPackage(message);
                 logger.info("Successfully registered package to OTS database.");
+            } else {
+                logger.debug("Registration Service is not activated.");
             }
 
             logger.info("Attempting to move email to processed folder");
