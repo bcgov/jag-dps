@@ -94,7 +94,7 @@ public class ErrorMonitoringJobTest {
         Mockito.when(kofaxPropertiesMock.getErrorLocation()).thenReturn(CASE_1);
 
 
-        Assertions.assertDoesNotThrow(() -> sut.execute());
+        Assertions.assertDoesNotThrow(() -> sut.run());
 
         Mockito.verify(fileServiceMock, Mockito.times(1)).getFileContent(Mockito.eq(REMOTE_LOCATION + "/" + CASE_1 + "/" + CASE_1 + ".xml"));
 
@@ -107,7 +107,7 @@ public class ErrorMonitoringJobTest {
 
         Mockito.when(kofaxPropertiesMock.getErrorLocation()).thenReturn(CASE_2);
 
-        sut.execute();
+        sut.run();
 
         Mockito.verify(fileServiceMock, Mockito.times(1)).getFileContent(Mockito.eq(REMOTE_LOCATION + "/" + CASE_2 + "/" + CASE_1 + ".xml"));
         Mockito.verify(fileServiceMock, Mockito.times(1)).getFileContent(Mockito.eq(REMOTE_LOCATION + "/" + CASE_2 + "/" + CASE_2 + ".xml"));

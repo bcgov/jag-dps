@@ -48,7 +48,7 @@ public class ErrorMonitoringJob implements MonitoringJob {
     }
 
     @Override
-    public void execute() {
+    public void run() {
 
         logger.info("starting error job");
 
@@ -126,5 +126,6 @@ public class ErrorMonitoringJob implements MonitoringJob {
         return MessageFormat.format("{0}/{1}", sftpProperties.getRemoteLocation(),
                 kofaxProperties.getErrorHoldLocation());
     }
+
 
 }
