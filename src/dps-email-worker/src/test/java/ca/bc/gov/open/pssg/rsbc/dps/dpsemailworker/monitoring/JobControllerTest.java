@@ -31,7 +31,7 @@ public class JobControllerTest {
         fakeFileList.add("file.xml");
 
         MockitoAnnotations.initMocks(this);
-        Mockito.doNothing().when(monitoringJobMock).execute();
+        Mockito.doNothing().when(monitoringJobMock).run();
 
         KofaxProperties kofaxProperties = new KofaxProperties();
         kofaxProperties.setErrorLocation("error");

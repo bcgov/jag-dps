@@ -32,7 +32,7 @@ public class JobController {
     @PostMapping(path = "/job/error", consumes = "application/json", produces = "application/json")
     public ResponseEntity<JobResponse> createErrorJob() {
 
-        executorService.execute(() -> errorMonitoringJob.execute());
+        executorService.execute(errorMonitoringJob);
 
         JobResponse response = new JobResponse();
         response.setScheduled(true);
@@ -42,8 +42,5 @@ public class JobController {
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 
     }
-
-
-
 
 }
