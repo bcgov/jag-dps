@@ -14,6 +14,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * Dps email parser has function to extract information from email body
+ */
 public class DpsEmailParserImpl implements DpsEmailParser {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -39,11 +42,17 @@ public class DpsEmailParserImpl implements DpsEmailParser {
             "%{WORD:" + JOB_ID_KEY + "}";
 
 
+    /**
+     * Parse the content of the body and extract DpsEmailContent
+     * @param html
+     * @return
+     */
     public DpsEmailContent parseEmail(String html) {
 
         Map<String, Object> emailMap = parseString(getEmailBodyFromHtml(html));
 
         if(!ValidateMap(emailMap)) {
+            // TODO: currently the validation is ignored and just return an empty object, business should reevaluate this rule.
             logger.warn("email does not content valid body.");
             return new DpsEmailContent.Builder().build();
         }
