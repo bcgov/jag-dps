@@ -2,14 +2,11 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.TestKey;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.models.DpsEmailContent;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.DpsEmailParserImpl;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 
 import java.util.Calendar;
 
+@DisplayName("DpsEmailParserImplTest test suite")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DpsEmailParserImplTest {
 
@@ -20,6 +17,7 @@ public class DpsEmailParserImplTest {
         sut = new DpsEmailParserImpl();
     }
 
+    @DisplayName("CASE 1: when an email has a valid body 1")
     @Test
     public void TestValidEmail1() {
 
@@ -43,6 +41,7 @@ public class DpsEmailParserImplTest {
 
     }
 
+    @DisplayName("CASE 2: when an email has a valid body 2")
     @Test
     public void TestValidEmail2() {
 
@@ -63,6 +62,19 @@ public class DpsEmailParserImplTest {
         Assertions.assertEquals(50, calendar.get(Calendar.MINUTE));
         Assertions.assertEquals(38, calendar.get(Calendar.SECOND));
 
+
+    }
+
+    @DisplayName("CASE 3: when an email has a different body")
+    @Test
+    public void TestValidEmail3() {
+
+        DpsEmailContent dpsEmailContent = sut.parseEmail(TestKey.EMPTY_EMAIL_BODY);
+
+        Assertions.assertEquals(null, dpsEmailContent.getPhoneNumer());
+        Assertions.assertEquals(null, dpsEmailContent.getPageCount());
+        Assertions.assertEquals(null, dpsEmailContent.getJobId());
+        Assertions.assertEquals(null, dpsEmailContent.getDate());
 
     }
 

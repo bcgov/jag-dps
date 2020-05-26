@@ -25,4 +25,6 @@ public class TestKey {
             "size=\"3\"><span style=\"font-size:12pt\">Your entry number in AccuRoute Fax was JobID: " +
             "642706</span></font></div><div align=\"left\"><br></div><div align=\"left\"></div></body></html>";
 
+    public static String EMPTY_EMAIL_BODY = "empty";
+
 }
