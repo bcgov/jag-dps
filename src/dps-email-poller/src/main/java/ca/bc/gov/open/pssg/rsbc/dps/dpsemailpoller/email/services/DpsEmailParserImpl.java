@@ -1,20 +1,22 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.models.DpsEmailContent;
-import ca.bc.gov.open.pssg.rsbc.error.DpsEmailParsingException;
 import io.krakens.grok.api.Grok;
 import io.krakens.grok.api.GrokCompiler;
 import io.krakens.grok.api.Match;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
 public class DpsEmailParserImpl implements DpsEmailParser {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final String MONTH_KEY = "MONTHNUM";
     private static final String MONTH_DAY_KEY = "MONTHDAY";
@@ -41,7 +43,10 @@ public class DpsEmailParserImpl implements DpsEmailParser {
 
         Map<String, Object> emailMap = parseString(getEmailBodyFromHtml(html));
 
-        ValidateMap(emailMap);
+        if(!ValidateMap(emailMap)) {
+            logger.warn("email does not content valid body.");
+            return new DpsEmailContent.Builder().build();
+        }
 
         return new DpsEmailContent
                 .Builder()
@@ -82,20 +87,18 @@ public class DpsEmailParserImpl implements DpsEmailParser {
 
     }
 
-    private void ValidateMap(Map<String, Object> emailMap) {
+    private boolean ValidateMap(Map<String, Object> emailMap) {
 
         String[] keys = {MONTH_KEY, MONTH_DAY_KEY, YEAR_KEY, HOUR_KEY, MINUTE_KEY, SECOND_KEY, TIME_KEY, AA_KEY,
                 JOB_ID_KEY, PAGE_COUNT_KEY, PHONE_NUMBER_KEY};
 
         for (int i = 0; i < keys.length; i++) {
-            checkKeyExists(emailMap, keys[i]);
+            if(!emailMap.containsKey(keys[i]))
+                return false;
         }
-    }
 
-    private void checkKeyExists(Map<String, Object> emailMap, String key) {
-        if (!emailMap.containsKey(key))
-            throw new DpsEmailParsingException(MessageFormat.format("Parsing email body result in missing key value pair: [" +
-                    "()]", key));
+        return true;
+
     }
 
 }
