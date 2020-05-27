@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.configuration.ExchangeServiceFactory;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
@@ -36,6 +37,9 @@ public class EmailServiceImplTest {
 
     @Mock
     private ExchangeService exchangeServiceMock;
+
+    @Mock
+    private ExchangeServiceFactory exchangeServiceFactory;
 
     @Mock
     private EmailMessage itemMock;
@@ -76,8 +80,9 @@ public class EmailServiceImplTest {
         Mockito.when(emailMessageLoadFailMock.getHasAttachments()).thenReturn(true);
         Mockito.when(emailMessageLoadFailMock.getAttachments()).thenReturn(attachmentCollectionNoService);
 
+        Mockito.when(exchangeServiceFactory.createService()).thenReturn(exchangeServiceMock);
 
-        sut = new EmailServiceImpl(exchangeServiceMock, 5, "ErrorHold", "Processing", "processed");
+        sut = new EmailServiceImpl(exchangeServiceFactory, 5, "ErrorHold", "Processing", "processed");
     }
 
     @Test

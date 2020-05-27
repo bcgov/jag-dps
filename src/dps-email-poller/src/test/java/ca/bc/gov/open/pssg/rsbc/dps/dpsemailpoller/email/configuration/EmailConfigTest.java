@@ -1,7 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.configuration;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.configuration.ExchangeServiceFactory;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.*;
-import microsoft.exchange.webservices.data.core.ExchangeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ public class EmailConfigTest {
     private EmailConfig sut;
 
     @Mock
-    private ExchangeService exchangeServiceMock;
+    private ExchangeServiceFactory exchangeServiceFactoryMock;
 
     @Mock
     private DpsEmailParser dpsEmailParserMock;
@@ -43,7 +43,7 @@ public class EmailConfigTest {
 
     @Test
     public void shoulReturnAnEmailServiceImpl() {
-        EmailService service = sut.emailService(exchangeServiceMock);
+        EmailService service = sut.emailService(exchangeServiceFactoryMock);
         Assertions.assertEquals(EmailServiceImpl.class, service.getClass());
     }
 

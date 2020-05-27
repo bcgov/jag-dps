@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.configuration.ExchangeServiceFactory;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.PropertySet;
@@ -28,15 +29,16 @@ import java.util.stream.Collectors;
 
 public class EmailServiceImpl implements EmailService {
 
-    private final ExchangeService exchangeService;
+    private final ExchangeServiceFactory exchangeServiceFactory;
     private final Integer maxMessagePerGet;
     private final String mailboxErrorFolder;
     private final String mailboxProcessingFolder;
     private final String mailboxProcessedFolder;
 
 
-    public EmailServiceImpl(ExchangeService exchangeService, Integer maxMessagePerGet, String mailboxErrorFolder, String mailboxProcessingFolder, String mailboxProcessedFolder) {
-        this.exchangeService = exchangeService;
+    public EmailServiceImpl(ExchangeServiceFactory exchangeServiceFactory, Integer maxMessagePerGet, String mailboxErrorFolder,
+                            String mailboxProcessingFolder, String mailboxProcessedFolder) {
+        this.exchangeServiceFactory = exchangeServiceFactory;
         this.maxMessagePerGet = maxMessagePerGet;
         this.mailboxErrorFolder = mailboxErrorFolder;
         this.mailboxProcessingFolder = mailboxProcessingFolder;
@@ -49,7 +51,7 @@ public class EmailServiceImpl implements EmailService {
         ItemView view = maxMessagePerGet == 0 ? new ItemView(Integer.MAX_VALUE) : new ItemView(maxMessagePerGet);
         FindItemsResults<Item> findResults = null;
 
-        try {
+        try (ExchangeService exchangeService = exchangeServiceFactory.createService()) {
             view.getOrderBy().add(ItemSchema.DateTimeReceived, SortDirection.Ascending);
 
             view.setPropertySet(new PropertySet(BasePropertySet.IdOnly, ItemSchema.Subject,
@@ -67,7 +69,7 @@ public class EmailServiceImpl implements EmailService {
             throw new DpsEmailException("Exception while getting dps emails from inbox", e.getCause());
         }
 
-        return findResults.getItems().stream().map(item -> (EmailMessage)item).collect(Collectors.toList());
+        return findResults.getItems().stream().map(item -> (EmailMessage) item).collect(Collectors.toList());
     }
 
     @Override
@@ -76,7 +78,7 @@ public class EmailServiceImpl implements EmailService {
         ItemView view = maxMessagePerGet == 0 ? new ItemView(Integer.MAX_VALUE) : new ItemView(maxMessagePerGet);
         FindItemsResults<Item> findResults = null;
 
-        try {
+        try (ExchangeService exchangeService = exchangeServiceFactory.createService()) {
             view.setPropertySet(new PropertySet(BasePropertySet.IdOnly, ItemSchema.Subject,
                     ItemSchema.DateTimeReceived));
 
@@ -92,25 +94,30 @@ public class EmailServiceImpl implements EmailService {
             throw new DpsEmailException("Exception while getting junk emails from inbox", e.getCause());
         }
 
-        return findResults.getItems().stream().map(item -> (EmailMessage)item).collect(Collectors.toList());
+        return findResults.getItems().stream().map(item -> (EmailMessage) item).collect(Collectors.toList());
     }
 
     private FolderId getFolderIdByDisplayName(String displayName) throws Exception {
 
-        FolderView view = new FolderView(1);
+        try (ExchangeService exchangeService = exchangeServiceFactory.createService()) {
+            FolderView view = new FolderView(1);
 
-        FindFoldersResults findFolderResults = exchangeService.findFolders(WellKnownFolderName.MsgFolderRoot,
-                new SearchFilter.IsEqualTo(FolderSchema.DisplayName, displayName),
-                view);
+            FindFoldersResults findFolderResults = exchangeService.findFolders(WellKnownFolderName.MsgFolderRoot,
+                    new SearchFilter.IsEqualTo(FolderSchema.DisplayName, displayName),
+                    view);
 
-        if (!findFolderResults.getFolders().isEmpty()) {
-            Folder folder = findFolderResults.getFolders().get(0);
-            exchangeService.loadPropertiesForFolder(folder, PropertySet.FirstClassProperties);
+            if (!findFolderResults.getFolders().isEmpty()) {
+                Folder folder = findFolderResults.getFolders().get(0);
+                exchangeService.loadPropertiesForFolder(folder, PropertySet.FirstClassProperties);
 
-            return folder.getId();
-        } else {
-            throw new DpsEmailException("Exception - unable to find " + displayName + " email folder ");
+                return folder.getId();
+            } else {
+                throw new DpsEmailException("Exception - unable to find " + displayName + " email folder ");
+            }
+        } catch (Exception e) {
+            throw new DpsEmailException("Exception while getting junk emails from inbox", e.getCause());
         }
+
     }
 
     @Override
@@ -130,10 +137,10 @@ public class EmailServiceImpl implements EmailService {
 
 
     private EmailMessage moveToFolder(String id, String folderName) {
-        try {
+        try (ExchangeService exchangeService = exchangeServiceFactory.createService()) {
             ItemId itemId = new ItemId(id);
             FolderId processingFolderId = getFolderIdByDisplayName(folderName);
-            return (EmailMessage)exchangeService.moveItem(itemId, processingFolderId);
+            return (EmailMessage) exchangeService.moveItem(itemId, processingFolderId);
 
         } catch (Exception e) {
             throw new DpsEmailException("Exception while moving email to " + folderName, e.getCause());
@@ -147,13 +154,13 @@ public class EmailServiceImpl implements EmailService {
         List<FileAttachment> result = new ArrayList<>();
 
         try {
-            if(emailMessage.getHasAttachments()) {
+            if (emailMessage.getHasAttachments()) {
 
                 AttachmentCollection attachmentCollection = emailMessage.getAttachments();
 
-                attachmentCollection.forEach(attachment ->  {
+                attachmentCollection.forEach(attachment -> {
 
-                    if(attachment instanceof FileAttachment) {
+                    if (attachment instanceof FileAttachment) {
 
                         try {
                             attachment.load();
@@ -172,7 +179,6 @@ public class EmailServiceImpl implements EmailService {
 
         return result;
     }
-
 
 
 }
