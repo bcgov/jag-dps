@@ -79,7 +79,7 @@ public class EmailPollerPollForEmailsTest {
         attachmentCollection.setOwner(itemMock);
 
         Mockito
-                .when(emailServiceMock.getFileAttachments(Mockito.any(EmailMessage.class)))
+                .when(emailServiceMock.getFileAttachments(Mockito.eq("test")))
                 .thenReturn(attachmentCollection.getItems().stream().map(item -> (FileAttachment)item).collect(Collectors.toList()));
 
 

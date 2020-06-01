@@ -3,6 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.configuration.ExchangeServiceFactory;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import microsoft.exchange.webservices.data.core.ExchangeService;
+import microsoft.exchange.webservices.data.core.PropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
 import microsoft.exchange.webservices.data.core.enumeration.property.BodyType;
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -49,6 +51,9 @@ public class EmailServiceImplTest {
 
     @Mock
     private EmailMessage emailMessageLoadFailMock;
+
+    @Mock
+    private EmailMessage emailMessageNoAttachementMock;
 
     @Mock
     private Item randomItemMock;
@@ -81,6 +86,30 @@ public class EmailServiceImplTest {
         Mockito.when(emailMessageLoadFailMock.getAttachments()).thenReturn(attachmentCollectionNoService);
 
         Mockito.when(exchangeServiceFactory.createService()).thenReturn(exchangeServiceMock);
+
+        Mockito.when(exchangeServiceMock.bindToItem(
+                Mockito.eq(EmailMessage.class),
+                ArgumentMatchers.argThat(x -> x.getUniqueId().equals("test")),
+                Mockito.any(PropertySet.class))).thenReturn(emailAttachmentMessageMock);
+
+        Mockito.when(exchangeServiceMock.bindToItem(
+                Mockito.eq(EmailMessage.class),
+                ArgumentMatchers.argThat(x -> x.getUniqueId().equals("throwexception")),
+                Mockito.any(PropertySet.class))).thenReturn(emailMessageGetAttachmentException);
+
+
+        Mockito.when(emailMessageNoAttachementMock.getHasAttachments()).thenReturn(false);
+
+        Mockito.when(exchangeServiceMock.bindToItem(
+                Mockito.eq(EmailMessage.class),
+                ArgumentMatchers.argThat(x -> x.getUniqueId().equals("noattachments")),
+                Mockito.any(PropertySet.class))).thenReturn(emailMessageNoAttachementMock);
+
+        Mockito.when(exchangeServiceMock.bindToItem(
+                Mockito.eq(EmailMessage.class),
+                ArgumentMatchers.argThat(x -> x.getUniqueId().equals("loadfail")),
+                Mockito.any(PropertySet.class))).thenReturn(emailMessageLoadFailMock);
+
 
         sut = new EmailServiceImpl(exchangeServiceFactory, 5, "ErrorHold", "Processing", "processed");
     }
@@ -264,7 +293,7 @@ public class EmailServiceImplTest {
                         Mockito.any(BodyType.class),
                         Mockito.any(Iterable.class));
 
-        List<FileAttachment> attachments = sut.getFileAttachments(emailAttachmentMessageMock);
+        List<FileAttachment> attachments = sut.getFileAttachments("test");
         Assertions.assertEquals(1, attachments.size());
         Assertions.assertEquals(ATTACHMENT_CONTENT, new String(attachments.stream().findFirst().get().getContent()));
         Assertions.assertEquals(ATTACHEMENT_NAME, attachments.stream().findFirst().get().getName());
@@ -272,10 +301,10 @@ public class EmailServiceImplTest {
     }
 
     @Test
-    public void withFileAttachmentLoadFailShouldReturnAnEmptyList () {
+    public void withNoFileAttachmentReturnAnEmptyList () {
 
 
-        List<FileAttachment> attachments = sut.getFileAttachments(emailMessageLoadFailMock);
+        List<FileAttachment> attachments = sut.getFileAttachments("noattachments");
         Assertions.assertEquals(0, attachments.size());
 
     }
@@ -283,7 +312,7 @@ public class EmailServiceImplTest {
     @Test
     public void withNoAttachmentLoadFailShouldReturnAnEmptyList () {
 
-        List<FileAttachment> attachments = sut.getFileAttachments(itemMock);
+        List<FileAttachment> attachments = sut.getFileAttachments("loadfail");
         Assertions.assertEquals(0, attachments.size());
 
     }
@@ -293,7 +322,7 @@ public class EmailServiceImplTest {
     public void withAttachmentThrowsExceptionShouldThrowDpsException () {
 
         Assertions.assertThrows(DpsEmailException.class, () -> {
-            List<FileAttachment> attachments = sut.getFileAttachments(emailMessageGetAttachmentException);
+            List<FileAttachment> attachments = sut.getFileAttachments("throwexception");
         });
     }
 
