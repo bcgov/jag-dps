@@ -56,9 +56,9 @@ public interface EmailService {
 
     /**
      * Returns all the attachemts present in email
-     * @param emailMessage
+     * @param String
      * @return
      */
-    List<FileAttachment> getFileAttachments(EmailMessage emailMessage);
+    List<FileAttachment> getFileAttachments(String id);
 
 }

@@ -7,7 +7,6 @@ import microsoft.exchange.webservices.data.core.PropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.property.BasePropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
 import microsoft.exchange.webservices.data.core.enumeration.search.SortDirection;
-import microsoft.exchange.webservices.data.core.exception.service.local.ServiceLocalException;
 import microsoft.exchange.webservices.data.core.service.folder.Folder;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
 import microsoft.exchange.webservices.data.core.service.item.Item;
@@ -148,12 +147,14 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public List<FileAttachment> getFileAttachments(EmailMessage emailMessage) {
-
+    public List<FileAttachment> getFileAttachments(String id) {
 
         List<FileAttachment> result = new ArrayList<>();
 
-        try {
+        try (ExchangeService exchangeService = exchangeServiceFactory.createService()) {
+
+            EmailMessage emailMessage = EmailMessage.bind(exchangeService, new ItemId(id));
+
             if (emailMessage.getHasAttachments()) {
 
                 AttachmentCollection attachmentCollection = emailMessage.getAttachments();
@@ -173,12 +174,13 @@ public class EmailServiceImpl implements EmailService {
                 });
             }
 
-        } catch (ServiceLocalException e) {
+        } catch (Exception e) {
             throw new DpsEmailException("Exception while reading email attachments", e.getCause());
         }
 
         return result;
     }
+
 
 
 }

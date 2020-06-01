@@ -78,7 +78,7 @@ public class EmailPoller {
                 try {
 
                     logger.debug("attempting to retrieve email attachments");
-                    List<FileAttachment> fileAttachments = emailService.getFileAttachments(item);
+                    List<FileAttachment> fileAttachments = emailService.getFileAttachments(item.getId().getUniqueId());
                     logger.info("successfully retrieved {} attachments", fileAttachments.size());
 
                     Optional<FileAttachment> attachment = fileAttachments.stream().findFirst();
