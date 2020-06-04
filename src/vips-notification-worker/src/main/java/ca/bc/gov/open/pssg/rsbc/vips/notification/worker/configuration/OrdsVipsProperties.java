@@ -16,11 +16,11 @@ public class OrdsVipsProperties {
     private String username;
     private String password;
 
-    public String getBasepath() {
+    public String getBasePath() {
         return basePath;
     }
 
-    public void setBasepath(String basepath) {
+    public void setBasePath(String basepath) {
         this.basePath = basepath;
     }
 
