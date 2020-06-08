@@ -77,7 +77,7 @@ public class OutputNotificationConsumer {
 
             logger.debug("attempting to store spd document [{}]", fileInfo.getMetaDataReleaseFileName());
             DpsDocumentRequestBody documentRequestBody = new DpsDocumentRequestBody(sftpProperties.getHost(),
-                    fileInfo.getImageReleaseFileName());
+                    fileInfo.getFileId());
             DpsDocumentResponse documentResponse = documentService.storeDocument(documentRequestBody);
             logger.info("successfully stored file [{}], id [()]", fileInfo.getMetaDataReleaseFileName());
 
