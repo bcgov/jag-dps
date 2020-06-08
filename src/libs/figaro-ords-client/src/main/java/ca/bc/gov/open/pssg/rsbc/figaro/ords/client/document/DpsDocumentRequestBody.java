@@ -1,5 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.document;
 
+import java.text.MessageFormat;
+
 /**
  *  Represents the DPS Document Requests
  *
@@ -23,5 +25,10 @@ public class DpsDocumentRequestBody {
 
     public String getFileName() {
         return fileName;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("serverName: [{0}], fileName[{1}]", this.serverName, this.fileName);
     }
 }

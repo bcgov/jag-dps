@@ -78,11 +78,13 @@ public class OutputNotificationConsumer {
             logger.debug("attempting to store spd document [{}]", fileInfo.getMetaDataReleaseFileName());
             DpsDocumentRequestBody documentRequestBody = new DpsDocumentRequestBody(sftpProperties.getHost(),
                     fileInfo.getFileId());
+            logger.debug("attempting to store spd document, request: {}", documentRequestBody);
             DpsDocumentResponse documentResponse = documentService.storeDocument(documentRequestBody);
-            logger.info("successfully stored file [{}], id [()]", fileInfo.getMetaDataReleaseFileName());
-
 
             if (documentResponse.getRespCode() == SUCCESS_CODE) {
+
+                logger.info("successfully stored file [{}], id [()]", fileInfo.getMetaDataReleaseFileName(), documentResponse.getGuid());
+
                 logger.info("success: {} with {}", documentResponse, fileInfo);
 
                 DpsDataIntoFigaroRequestBody dpsDataIntoFigaroRequestBody = new DpsDataIntoFigaroRequestBody.Builder()
