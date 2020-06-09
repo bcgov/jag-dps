@@ -33,8 +33,12 @@ public class FileInfo {
         return fileId;
     }
 
+    public String getFileName() {
+        return buildFileName(this.imageExtension);
+    }
+
     public String getImageExtension() {
-        return imageExtension;
+        return this.imageExtension;
     }
 
     public String getImageReleaseFileName() {
@@ -62,15 +66,19 @@ public class FileInfo {
     }
 
     private String buildMetaDataFilename(String folderName) {
-        return buildFileName(folderName, "xml");
+        return buildFullFileName(folderName, "xml");
     }
 
     private String buildImageFileName(String folderName) {
-        return buildFileName(folderName, this.imageExtension);
+        return buildFullFileName(folderName, this.imageExtension);
     }
 
-    private String buildFileName(String folderName, String extension) {
-        return MessageFormat.format("{0}/{1}/{2}.{3}", this.rootFolder, folderName , this.fileId, extension);
+    private String buildFileName(String extension) {
+        return MessageFormat.format("{0}.{1}", this.fileId, extension);
+    }
+
+    private String buildFullFileName(String folderName, String extension) {
+        return MessageFormat.format("{0}/{1}/{2}", this.rootFolder, folderName, buildFileName(extension));
     }
 
     @Override
