@@ -151,7 +151,7 @@ public class OutputNotificationConsumer {
                 .withCorrelationId(message.getFileId())
                 .withApplicationName(Keys.APP_NAME)
                 .withComponent("Notification Worker")
-                .withMessage("Data successfully transfered to VIPS")
+                .withMessage("Data successfully transferred to VIPS")
                 .withType("VIPS NOTIFICATION WORKER SUCCESS")
                 .buildSuccess();
 
