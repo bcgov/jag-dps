@@ -66,7 +66,7 @@ public class OutputNotificationConsumer {
         MDC.put(DPS_FILE_ID_KEY, message.getFileId());
         MDC.put(DPS_BUSINESS_AREA_CD_KEY, message.getBusinessAreaCd());
 
-        FileInfo fileInfo = new FileInfo(message.getFileId(), IMAGE_EXTENSION, sftpProperties.getRemoteLocation());
+        FileInfo fileInfo = new FileInfo(message.getFileId(), IMAGE_EXTENSION, sftpProperties.getRemoteLocation(), "error");
 
         try {
 

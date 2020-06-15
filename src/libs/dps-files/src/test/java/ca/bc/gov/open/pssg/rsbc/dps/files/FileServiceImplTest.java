@@ -54,7 +54,7 @@ public class FileServiceImplTest {
     @Test
     public void WithFileInfoItShouldMoveFilesToArchive() {
 
-        FileInfo fileInfo = new FileInfo(FILE_ID, IMAGE_EXTENSION, ROOT_FOLDER);
+        FileInfo fileInfo = new FileInfo(FILE_ID, IMAGE_EXTENSION, ROOT_FOLDER, "error");
 
         Assertions.assertDoesNotThrow(() -> sut.moveFilesToArchive(fileInfo));
 
@@ -71,7 +71,7 @@ public class FileServiceImplTest {
     @Test
     public void WithFileInfoItShouldMoveMetaDataToArchive() {
 
-        FileInfo fileInfo = new FileInfo(FILE_ID, IMAGE_EXTENSION, ROOT_FOLDER);
+        FileInfo fileInfo = new FileInfo(FILE_ID, IMAGE_EXTENSION, ROOT_FOLDER, "error");
 
         Assertions.assertDoesNotThrow(() -> sut.moveFilesToError(fileInfo));
 
