@@ -312,7 +312,7 @@ public class OutputNotificationConsumerTest {
     }
 
     private FileInfo getFileInfo(String fileId) {
-        return new FileInfo(fileId, "PDF", REMOTE_LOCATION);
+        return new FileInfo(fileId, "PDF", REMOTE_LOCATION, "errorhold");
     }
 
     private Data getData(String scheduleType) {

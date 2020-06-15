@@ -11,17 +11,18 @@ import java.text.MessageFormat;
 public class FileInfo {
 
     private static final String RELEASE_FOLDER_NAME = "release";
-    private static final String ERROR_FOLDER_NAME = "error";
     private static final String ARCHIVE_FOLDER_NAME = "archive";
 
     private String rootFolder;
     private String fileId;
     private String imageExtension;
+    private String errorFolder;
 
-    public FileInfo(String fileId,String imageExtension, String rootFolder) {
+    public FileInfo(String fileId,String imageExtension, String rootFolder, String errorFolder) {
         this.rootFolder = rootFolder;
         this.fileId = fileId;
         this.imageExtension = imageExtension;
+        this.errorFolder = errorFolder;
     }
 
 
@@ -46,7 +47,7 @@ public class FileInfo {
     }
 
     public String getImageErrorFileName() {
-        return buildImageFileName(ERROR_FOLDER_NAME);
+        return buildImageFileName(this.errorFolder);
     }
 
     public String getImageArchiveFileName() {
@@ -58,7 +59,7 @@ public class FileInfo {
     }
 
     public String getMetaDataErrorFileName() {
-        return buildMetaDataFilename(ERROR_FOLDER_NAME);
+        return buildMetaDataFilename(this.errorFolder);
     }
 
     public String getMetaDataArchiveFileName() {

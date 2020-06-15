@@ -13,7 +13,7 @@ public class FileInfoTest {
     public void WithFileNameShouldReturnAppropriateLocations() {
 
 
-        FileInfo sut = new FileInfo(FILE_ID, IMAGE_EXTENSION, ROOT_FOLDER);
+        FileInfo sut = new FileInfo(FILE_ID, IMAGE_EXTENSION, ROOT_FOLDER, "error");
 
         Assertions.assertEquals(FILE_ID, sut.getFileId());
         Assertions.assertEquals(IMAGE_EXTENSION, sut.getImageExtension());
