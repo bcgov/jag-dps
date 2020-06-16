@@ -38,8 +38,7 @@ public class OutputNotificationConsumer {
     private static final int SUCCESS_CODE = 0;
     private static final String DPS_FILE_ID_KEY = "dps.fileId";
     private static final String DPS_BUSINESS_AREA_CD_KEY = "dps.businessAreaCd";
-    public static final String DEFAULT_VALUE = "0";
-    ;
+    private static final String DEFAULT_VALUE = "0";
 
     private final FileService fileService;
     private final SftpProperties sftpProperties;
