@@ -71,6 +71,11 @@ public class DocumentServiceImpl implements DocumentService {
         ordsRequestBody.setApplOrgContactPartyId(request.getApplOrgContactPartyId());
 
         try {
+
+            logger.debug("attempting to create data in figaro");
+            
+            logger.debug("payload: {}", ordsRequestBody.toString());
+
             DpsDataIntoFigaroOrdsResponse response = this.documentApi.dpsDataIntoFigaroPost(ordsRequestBody);
             return DpsDataIntoFigaroResponse.successResponse(response.getStatusCode(), response.getStatusMessage());
 
