@@ -10,6 +10,7 @@ import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.spd.notification.worker.generated.models.Data;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.document.*;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -37,7 +38,8 @@ public class OutputNotificationConsumer {
     private static final int SUCCESS_CODE = 0;
     private static final String DPS_FILE_ID_KEY = "dps.fileId";
     private static final String DPS_BUSINESS_AREA_CD_KEY = "dps.businessAreaCd";
-;
+    public static final String DEFAULT_VALUE = "0";
+    ;
 
     private final FileService fileService;
     private final SftpProperties sftpProperties;
@@ -100,9 +102,8 @@ public class OutputNotificationConsumer {
                         .withApplicationPaymentId(documentData.getPvApplicationPaymentId())
                         .withApplicationIncompleteReason(documentData.getPvApplicationIncompleteReason())
                         .withApplicationValidateUsername(documentData.getPvValidationUser())
-                        // ?? document is not referenced ?
                         .withApplicationDocumentGuid(documentResponse.getGuid())
-                        .withApplPartyId(documentData.getPnApplPartyId())
+                        .withApplPartyId(defaultValue(documentData.getPnApplPartyId()))
                         .withApplSurname(documentData.getPvApplSurname())
                         .withApplFirstName(documentData.getPvApplFirstName())
                         .withApplSecondName(documentData.getPvApplSecondName())
@@ -126,14 +127,17 @@ public class OutputNotificationConsumer {
                         .withApplDriversLicence(documentData.getPvApplDriversLicence())
                         .withApplPhoneNumber(documentData.getPvApplPhoneNumber())
                         .withApplEmailAddress(documentData.getPvApplEmailAddress())
-                        .withApplOrgPartyId(documentData.getPnOrgPartyId())
-                        .withApplOrgFacilityPartyId(documentData.getPnOrgFacilityPartyId())
+                        .withApplOrgPartyId(defaultValue(documentData.getPnOrgPartyId()))
+                        .withApplOrgFacilityPartyId(defaultValue(documentData.getPnOrgFacilityPartyId()))
                         .withApplOrgFacilityName(documentData.getPvOrgFacilityName())
-                        .withApplOrgContactPartyId(documentData.getPnOrgContactPartyId())
+                        .withApplOrgContactPartyId(defaultValue(documentData.getPnOrgContactPartyId()))
                         .build();
+
+                logger.debug("figaro request: {}");
 
                 DpsDataIntoFigaroResponse figaroResponse =
                         documentService.dpsDataIntoFigaro(dpsDataIntoFigaroRequestBody);
+
 
                 if (figaroResponse.getRespCode() == SUCCESS_CODE) {
                     logger.info("success: {} with {}", figaroResponse, fileInfo);
@@ -189,4 +193,10 @@ public class OutputNotificationConsumer {
 
         NotificationService.notify(success);
     }
+
+    private String defaultValue(String value) {
+        if(StringUtils.isBlank(value)) return DEFAULT_VALUE;
+        return value;
+    }
+
 }
