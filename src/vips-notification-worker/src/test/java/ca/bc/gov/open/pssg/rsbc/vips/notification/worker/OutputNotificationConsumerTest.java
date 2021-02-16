@@ -1,13 +1,13 @@
 package ca.bc.gov.open.pssg.rsbc.vips.notification.worker;
 
-import ca.bc.gov.open.jagvipsclient.document.DocumentService;
-import ca.bc.gov.open.jagvipsclient.document.VipsDocumentResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileInfo;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
 import ca.bc.gov.open.pssg.rsbc.dps.notification.OutputNotificationMessage;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.DpsSftpException;
 import ca.bc.gov.open.pssg.rsbc.dps.sftp.starter.SftpProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.vips.notification.worker.generated.models.Data;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.DocumentService;
+import ca.bc.gov.open.pssg.rsbc.vips.ords.client.document.VipsDocumentResponse;
 import com.migcomponents.migbase64.Base64;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatchers;
