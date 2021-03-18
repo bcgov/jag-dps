@@ -29,7 +29,6 @@
                 <module>libs/dps-notification</module>
                 <module>libs/figaro-ords-client</module>
                 <module>libs/otssoa-ords-client</module>
-                <module>libs/vips-ords-client</module>
                 <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-email-client</module>
                 <module>libs/dps-monitoring</module>
@@ -45,7 +44,6 @@
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/dps-notification</module>
                 <module>libs/figaro-ords-client</module>
-                <module>libs/vips-ords-client</module>
                 <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-commons</module>
                 <module>libs/dps-email-client</module>
