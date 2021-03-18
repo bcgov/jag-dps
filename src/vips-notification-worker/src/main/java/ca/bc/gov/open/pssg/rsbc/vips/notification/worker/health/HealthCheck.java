@@ -1,8 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.vips.notification.worker.health;
 
 
-import ca.bc.gov.open.ords.vips.client.api.handler.ApiException;
-import ca.bc.gov.open.pssg.rsbc.vips.ords.client.health.HealthService;
+import ca.bc.gov.open.jag.ordsvipsclient.api.handler.ApiException;
+import ca.bc.gov.open.jagvipsclient.health.HealthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.health.Health;

@@ -1,9 +1,9 @@
 package ca.bc.gov.open.pssg.rsbc.vips.notification.worker.health;
 
-import ca.bc.gov.open.ords.vips.client.api.HealthApi;
-import ca.bc.gov.open.ords.vips.client.api.handler.ApiException;
-import ca.bc.gov.open.ords.vips.client.api.model.HealthOrdsResponse;
-import ca.bc.gov.open.pssg.rsbc.vips.ords.client.health.HealthService;
+import ca.bc.gov.open.jag.ordsvipsclient.api.HealthApi;
+import ca.bc.gov.open.jag.ordsvipsclient.api.handler.ApiException;
+import ca.bc.gov.open.jag.ordsvipsclient.api.model.HealthOrdsResponse;
+import ca.bc.gov.open.jagvipsclient.health.HealthService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
