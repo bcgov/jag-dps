@@ -18,6 +18,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <log4j2.version>2.17.0</log4j2.version>
         <jersey-version>2.29</jersey-version>
         <jodatime-version>2.7</jodatime-version>
     </properties>
@@ -280,7 +281,7 @@
                 <repository>
                     <id>splunk-artifactory</id>
                     <name>Splunk Releases</name>
-                    <url>http://splunk.jfrog.io/splunk/ext-releases-local</url>
+                    <url>https://splunk.jfrog.io/splunk/ext-releases-local</url>
                 </repository>
             </repositories>
 
@@ -288,7 +289,7 @@
                 <dependency>
                     <groupId>com.splunk.logging</groupId>
                     <artifactId>splunk-library-javalogging</artifactId>
-                    <version>1.7.1</version>
+                    <version>1.11.2</version>
                 </dependency>
             </dependencies>
 

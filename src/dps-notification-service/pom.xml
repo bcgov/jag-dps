@@ -15,12 +15,13 @@
     <version>0.4.0-SNAPSHOT</version>
     <name>dps-notification-service</name>
     <description>DPS Notification Service dispatch messages to notification worker</description>
+
     <properties>
         <java.version>1.8</java.version>
+        <log4j2.version>2.17.0</log4j2.version>
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
