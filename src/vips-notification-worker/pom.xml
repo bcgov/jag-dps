@@ -23,7 +23,7 @@
 	<repositories>
 		<repository>
 			<id>dps-group</id>
-			<url>http://nexus-043918-tools.apps.silver.devops.gov.bc.ca/repository/dps-group/</url>
+			<url>https://nexus-043918-tools.apps.silver.devops.gov.bc.ca/repository/dps-group/</url>
 		</repository>
 	</repositories>
 
