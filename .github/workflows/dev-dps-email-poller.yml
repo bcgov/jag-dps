@@ -1,0 +1,13 @@
+name: dps-email-poller - Build Image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/dps-email-poller/**"
+  workflow_dispatch:
+    branches:
+      - main
+
+jobs: {}
