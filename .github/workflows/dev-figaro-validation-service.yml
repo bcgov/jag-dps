@@ -1,0 +1,5 @@
+name: figaro-validation-service - Build Image
+
+on: {}
+
+jobs: {}

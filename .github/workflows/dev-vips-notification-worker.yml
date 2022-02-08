@@ -1,0 +1,5 @@
+name: vips-notification-worker - Build Image
+
+on: {}
+
+jobs: {}
