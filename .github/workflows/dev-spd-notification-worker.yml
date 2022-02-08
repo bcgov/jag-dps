@@ -1,5 +1,6 @@
 name: spd-notification-worker - Build Image
 
-on: {}
+on:
+  workflow_dispatch: {}
 
 jobs: {}

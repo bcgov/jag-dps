@@ -1,5 +1,6 @@
 name: figaro-validation-service - Build Image
 
-on: {}
+on:
+  workflow_dispatch: {}
 
 jobs: {}

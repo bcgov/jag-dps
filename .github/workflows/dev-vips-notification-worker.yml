@@ -1,5 +1,6 @@
 name: vips-notification-worker - Build Image
 
-on: {}
+on:
+  workflow_dispatch: {}
 
 jobs: {}
