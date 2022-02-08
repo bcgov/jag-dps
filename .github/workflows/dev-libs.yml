@@ -1,0 +1,23 @@
+name: libs - Build Libraries
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/libs/**"
+  workflow_dispatch:
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-deploy-artifact-to-nexus.yml@v0.0.2
+    secrets:
+      nexus_snapshot_username: "${{ secrets.NEXUS_SNAPSHOT_USERNAME }}"
+      nexus_snapshot_password: "${{ secrets.NEXUS_SNAPSHOT_PASSWORD }}"
+      nexus_releases_username: "${{ secrets.NEXUS_RELEASES_USERNAME }}"
+      nexus_releases_password: "${{ secrets.NEXUS_RELEASES_PASSWORD }}"
+      nexus_url: "${{ secrets.NEXUS_URL }}"
+
+
