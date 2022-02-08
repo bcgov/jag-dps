@@ -14,7 +14,8 @@ jobs:
   unit-test:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@feature/making-unit-test-acceot-profile
     with:
-      working_directory: "src/dps-email-poller"
+      working_directory: "src"
+      profile: dps-email-poller
 
   app-version:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
