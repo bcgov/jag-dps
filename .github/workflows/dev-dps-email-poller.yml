@@ -18,7 +18,7 @@ jobs:
       working_directory: "src"
       profile: dps-email-poller
     secrets:
-      nexus_url: "${{ secrets.NEXUS_URL }}"
+      nexus_url: ${{ secrets.NEXUS_URL }}
 
   app-version:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
