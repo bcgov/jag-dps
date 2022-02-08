@@ -17,6 +17,7 @@ jobs:
     with:
       working_directory: "src"
       profile: dps-email-poller
+    secrets:
       nexus_url: "${{ secrets.NEXUS_URL }}"
 
   app-version:
