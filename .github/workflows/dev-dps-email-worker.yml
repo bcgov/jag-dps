@@ -1,11 +1,11 @@
-name: dps-email-poller - Build Image
+name: dps-email-worker - Build Image
 
 on:
   push:
     branches:
       - main
     paths:
-      - "src/dps-email-poller/**"
+      - "src/dps-email-worker/**"
   workflow_dispatch:
     branches:
       - main
@@ -15,14 +15,14 @@ jobs:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@feature/making-unit-test-acceot-profile
     with:
       working_directory: "src"
-      profile: dps-email-poller
+      profile: dps-email-worker
     secrets:
       nexus_url: ${{ secrets.NEXUS_URL }}
 
   app-version:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
     with:
-      working_directory: "src/dps-email-poller"
+      working_directory: "src/dps-email-worker"
 
   build-image:
     uses: SierraSystems/reusable-workflows/.github/workflows/openshift-source-to-image.yml@main
@@ -30,7 +30,7 @@ jobs:
       - unit-test
       - app-version
     with:
-      build_config_name: "dps-email-poller"
+      build_config_name: "dps-email-worker"
       image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
     secrets:
       openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
@@ -44,7 +44,7 @@ jobs:
       - build-image
     uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@feature/making-unit-test-acceot-profile
     with:
-      imagestream_name: "dps-email-poller"
+      imagestream_name: "dps-email-worker"
       image_tag: "${{ needs.app-version.outputs.app-version }}"
     secrets:
       openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
