@@ -1,5 +1,6 @@
 name: dps-payment-service - Build Image
 
-on: {}
+on:
+  workflow_dispatch: {}
 
 jobs: {}
