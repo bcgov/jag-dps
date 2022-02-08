@@ -36,8 +36,7 @@
         <repository>
             <id>nexus</id>
             <url>${env.NEXUS_URL}/repository/dps-group</url>
-        </repository>:q
-
+        </repository>
     </repositories>
 
     <dependencies>
