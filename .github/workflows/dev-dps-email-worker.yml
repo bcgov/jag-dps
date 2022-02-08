@@ -9,11 +9,10 @@ on:
   workflow_dispatch:
     branches:
       - main
-      - feature/adding-github-pipeline
 
 jobs:
   unit-test:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@feature/making-unit-test-acceot-profile
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@v0.0.2
     with:
       working_directory: "src"
       profile: dps-email-worker
@@ -21,12 +20,12 @@ jobs:
       nexus_url: ${{ secrets.NEXUS_URL }}
 
   app-version:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@v0.0.2
     with:
       working_directory: "src/dps-email-worker"
 
   build-image:
-    uses: SierraSystems/reusable-workflows/.github/workflows/openshift-source-to-image.yml@main
+    uses: SierraSystems/reusable-workflows/.github/workflows/openshift-source-to-image.yml@v0.0.2
     needs:
       - unit-test
       - app-version
@@ -43,7 +42,7 @@ jobs:
     needs:
       - app-version
       - build-image
-    uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@feature/making-unit-test-acceot-profile
+    uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@v0.0.2
     with:
       imagestream_name: "dps-email-worker"
       image_tag: "${{ needs.app-version.outputs.app-version }}"
