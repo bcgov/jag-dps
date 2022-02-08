@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - feature/adding-github-pipeline
     paths:
       - "src/dps-email-poller/**"
   workflow_dispatch:
