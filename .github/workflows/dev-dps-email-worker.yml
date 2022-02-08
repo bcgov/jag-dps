@@ -9,6 +9,7 @@ on:
   workflow_dispatch:
     branches:
       - main
+      - feature/adding-github-pipeline
 
 jobs:
   unit-test:
