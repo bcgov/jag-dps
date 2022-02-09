@@ -1,11 +1,11 @@
-name: dps-valdation-service - Build Image
+name: dps-validation-service - Build Image
 
 on:
   push:
     branches:
       - main
     paths:
-      - "src/dps-valdation-service/**"
+      - "src/dps-validation-service/**"
   workflow_dispatch:
     branches:
       - main
@@ -15,14 +15,14 @@ jobs:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@v0.0.2
     with:
       working_directory: "src"
-      profile: dps-valdation-service
+      profile: dps-validation-service
     secrets:
       nexus_url: ${{ secrets.NEXUS_URL }}
 
   app-version:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@v0.0.2
     with:
-      working_directory: "src/dps-valdation-service"
+      working_directory: "src/dps-validation-service"
 
   build-image:
     uses: SierraSystems/reusable-workflows/.github/workflows/openshift-source-to-image.yml@v0.0.2
@@ -30,7 +30,7 @@ jobs:
       - unit-test
       - app-version
     with:
-      build_config_name: "dps-valdation-service"
+      build_config_name: "dps-validation-service"
       image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
     secrets:
       openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
@@ -44,7 +44,7 @@ jobs:
       - build-image
     uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@v0.0.2
     with:
-      imagestream_name: "dps-valdation-service"
+      imagestream_name: "dps-validation-service"
       image_tag: "${{ needs.app-version.outputs.app-version }}"
     secrets:
       openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
