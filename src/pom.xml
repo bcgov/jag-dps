@@ -107,7 +107,6 @@
                 <module>libs/dps-files</module>
                 <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-messaging-starter</module>
-                <module>libs/vips-ords-client</module>
                 <module>vips-notification-worker</module>
             </modules>
         </profile>

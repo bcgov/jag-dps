@@ -22,8 +22,13 @@
 
 	<repositories>
 		<repository>
-			<id>dps-group</id>
-			<url>https://nexus-043918-tools.apps.silver.devops.gov.bc.ca/repository/dps-group/</url>
+			<id>central</id>
+			<name>Maven Central</name>
+			<url>https://repo1.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>nexus</id>
+			<url>https://nexus-043918-tools.apps.silver.devops.gov.bc.ca//repository/dps-group</url>
 		</repository>
 	</repositories>
 
