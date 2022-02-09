@@ -1,0 +1,6 @@
+name: Promote Image
+
+on:
+  workflow_dispatch: {}
+
+jobs: {}
