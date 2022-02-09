@@ -19,6 +19,18 @@
 		<log4j2.version>2.17.1</log4j2.version>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Maven Central</name>
+			<url>https://repo1.maven.org/maven2/</url>
+		</repository>
+		<repository>
+			<id>nexus</id>
+			<url>${env.NEXUS_URL}/repository/dps-group</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 
 		<dependency>
