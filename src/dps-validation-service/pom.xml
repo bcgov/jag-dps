@@ -23,7 +23,7 @@
         <default-package>ca.bc.gov.open.ords.dfcms.client</default-package>
         <swagger-annotations-version>1.5.8</swagger-annotations-version>
         <jersey-version>2.27</jersey-version>
-        <jackson-version>2.10.2</jackson-version>
+        <jackson-version>2.13.4</jackson-version>
         <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
         <jodatime-version>2.7</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
@@ -243,7 +243,7 @@
                 <dependency>
                     <groupId>com.splunk.logging</groupId>
                     <artifactId>splunk-library-javalogging</artifactId>
-                    <version>1.7.1</version>
+                    <version>1.11.5</version>
                 </dependency>
             </dependencies>
 
