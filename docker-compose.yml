@@ -160,7 +160,7 @@ services:
   ###                             RABBIT MQ SERVER                                          ###
   #############################################################################################
   dps-rabbitmq:
-    image: rabbitmq:3.7.15-management
+    image: rabbitmq:3.8-management
     container_name: rabbitmq
     hostname: rabbitmq
     ports:
@@ -176,7 +176,8 @@ services:
   ###                                 SPLUNK DEV BOX                                        ###
   #############################################################################################
   dps-splunk:
-    image: splunk/splunk:7.3.2
+    image: splunk/splunk:8.2.5
+    platform: linux/amd64
     environment:
       - SPLUNK_PASSWORD=${SPLUNK_PWD}
       - SPLUNK_START_ARGS=--accept-license
