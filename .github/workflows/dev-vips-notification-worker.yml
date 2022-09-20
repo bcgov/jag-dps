@@ -11,13 +11,13 @@ on:
       - main
 
 jobs:
-  unit-test:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@v0.0.3
-    with:
-      working_directory: "src"
-      profile: vips-notification-worker
-    secrets:
-      nexus_url: ${{ secrets.NEXUS_URL }}
+#  unit-test:
+#    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@v0.0.3
+#    with:
+#      working_directory: "src"
+#      profile: vips-notification-worker
+#    secrets:
+#      nexus_url: ${{ secrets.NEXUS_URL }}
 
   app-version:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@v0.0.3
