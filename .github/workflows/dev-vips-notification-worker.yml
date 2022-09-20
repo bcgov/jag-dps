@@ -27,7 +27,7 @@ jobs:
   build-image:
     uses: SierraSystems/reusable-workflows/.github/workflows/openshift-source-to-image.yml@v0.0.3
     needs:
-      - unit-test
+#      - unit-test
       - app-version
     with:
       build_config_name: "vips-notification-worker"
