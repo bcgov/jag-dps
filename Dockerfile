@@ -18,30 +18,30 @@ WORKDIR $HOME
 ## Adding pom files
 COPY src/pom.xml pom.xml
 
-COPY ./dps-email-poller/pom.xml dps-email-poller/pom.xml
-COPY ./dps-email-worker/pom.xml dps-email-worker/pom.xml
-COPY ./dps-notification-service/pom.xml dps-notification-service/pom.xml
-COPY ./dps-payment-service/pom.xml dps-payment-service/pom.xml
-COPY ./dps-registration-api/pom.xml dps-registration-api/pom.xml
-COPY ./dps-validation-service/pom.xml dps-validation-service/pom.xml
+COPY src/dps-email-poller/pom.xml dps-email-poller/pom.xml
+COPY src/dps-email-worker/pom.xml dps-email-worker/pom.xml
+COPY src/dps-notification-service/pom.xml dps-notification-service/pom.xml
+COPY src/dps-payment-service/pom.xml dps-payment-service/pom.xml
+COPY src/dps-registration-api/pom.xml dps-registration-api/pom.xml
+COPY src/dps-validation-service/pom.xml dps-validation-service/pom.xml
 
-COPY ./figaro-validation-service/pom.xml figaro-validation-service/pom.xml
+COPY src/figaro-validation-service/pom.xml figaro-validation-service/pom.xml
 
-COPY ./spd-notification-worker/pom.xml spd-notification-worker/pom.xml
-COPY ./vips-notification-worker/pom.xml vips-notification-worker/pom.xml
+COPY src/spd-notification-worker/pom.xml spd-notification-worker/pom.xml
+COPY src/vips-notification-worker/pom.xml vips-notification-worker/pom.xml
 
-COPY ./libs/dps-bom/pom.xml libs/dps-bom/pom.xml
-COPY ./libs/dfcms-ords-client/pom.xml libs/dfcms-ords-client/pom.xml
-COPY ./libs/dps-cache-starter/pom.xml libs/dps-cache-starter/pom.xml
-COPY ./libs/dps-email-client/pom.xml libs/dps-email-client/pom.xml
-COPY ./libs/dps-messaging-starter/pom.xml libs/dps-messaging-starter/pom.xml
-COPY ./libs/dps-notification/pom.xml libs/dps-notification/pom.xml
-COPY ./libs/figaro-ords-client/pom.xml libs/figaro-ords-client/pom.xml
-COPY ./libs/dps-commons/pom.xml libs/dps-commons/pom.xml
-COPY ./libs/dps-files/pom.xml libs/dps-files/pom.xml
-COPY ./libs/dps-monitoring/pom.xml libs/dps-monitoring/pom.xml
-COPY ./libs/dps-sftp-starter/pom.xml libs/dps-sftp-starter/pom.xml
-COPY ./libs/otssoa-ords-client/pom.xml libs/otssoa-ords-client/pom.xml
+COPY src/libs/dps-bom/pom.xml libs/dps-bom/pom.xml
+COPY src/libs/dfcms-ords-client/pom.xml libs/dfcms-ords-client/pom.xml
+COPY src/libs/dps-cache-starter/pom.xml libs/dps-cache-starter/pom.xml
+COPY src/libs/dps-email-client/pom.xml libs/dps-email-client/pom.xml
+COPY src/libs/dps-messaging-starter/pom.xml libs/dps-messaging-starter/pom.xml
+COPY src/libs/dps-notification/pom.xml libs/dps-notification/pom.xml
+COPY src/libs/figaro-ords-client/pom.xml libs/figaro-ords-client/pom.xml
+COPY src/libs/dps-commons/pom.xml libs/dps-commons/pom.xml
+COPY src/libs/dps-files/pom.xml libs/dps-files/pom.xml
+COPY src/libs/dps-monitoring/pom.xml libs/dps-monitoring/pom.xml
+COPY src/libs/dps-sftp-starter/pom.xml libs/dps-sftp-starter/pom.xml
+COPY src/libs/otssoa-ords-client/pom.xml libs/otssoa-ords-client/pom.xml
 
 RUN --mount=type=cache,target=/root/.m2 mvn dependency:go-offline \
     -Pall \
@@ -67,7 +67,7 @@ ENV HOME=/opt/app
 RUN mkdir -p $HOME
 WORKDIR $HOME
 
-COPY . .
+COPY src .
 
 RUN --mount=type=cache,target=/root/.m2 mvn clean package \
     --no-transfer-progress \
