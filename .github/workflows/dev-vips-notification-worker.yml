@@ -35,6 +35,7 @@ jobs:
       app_name: "vips-notification-worker"
       working_directory: .
       image_tags: "github-build"
+      env: tools
       build_args: |-
         DPS_SERVICE_NAME=vips-notification-worker
 #      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
