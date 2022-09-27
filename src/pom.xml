@@ -38,12 +38,12 @@
                 <module>libs/dfcms-ords-client</module>
                 <module>libs/dps-cache-starter</module>
                 <module>libs/dps-commons</module>
+                <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/dps-notification</module>
                 <module>libs/figaro-ords-client</module>
                 <module>libs/otssoa-ords-client</module>
-                <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-email-client</module>
                 <module>libs/dps-monitoring</module>
             </modules>
@@ -116,6 +116,7 @@
         <profile>
             <id>vips-notification-worker</id>
             <modules>
+                <module>libs/dps-bom</module>
                 <module>libs/dps-notification</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-sftp-starter</module>
