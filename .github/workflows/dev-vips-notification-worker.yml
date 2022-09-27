@@ -30,7 +30,7 @@ jobs:
     needs:
 #      - unit-test
       - app-version
-    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
+    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@feature/allowing-multiple-tags-to-docker-build
     with:
       app_name: "vips-notification-worker"
       working_directory: .
