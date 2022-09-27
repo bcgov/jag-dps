@@ -69,7 +69,7 @@ WORKDIR $HOME
 
 COPY src .
 
-RUN --mount=type=cache,target=/root/.m2 mvn clean package \
+RUN mvn clean package \
     --no-transfer-progress \
     --batch-mode \
     -DskipTests \
