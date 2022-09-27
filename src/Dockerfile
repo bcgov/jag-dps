@@ -16,10 +16,7 @@ RUN mkdir -p $HOME
 WORKDIR $HOME
 
 ## Adding pom files
-RUN pwd
-RUN ls -la
-
-COPY pom.xml pom.xml
+COPY src/pom.xml pom.xml
 
 COPY ./dps-email-poller/pom.xml dps-email-poller/pom.xml
 COPY ./dps-email-worker/pom.xml dps-email-worker/pom.xml
