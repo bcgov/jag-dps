@@ -43,7 +43,7 @@ COPY src/libs/dps-monitoring/pom.xml libs/dps-monitoring/pom.xml
 COPY src/libs/dps-sftp-starter/pom.xml libs/dps-sftp-starter/pom.xml
 COPY src/libs/otssoa-ords-client/pom.xml libs/otssoa-ords-client/pom.xml
 
-RUN --mount=type=cache,target=/root/.m2 mvn dependency:go-offline \
+RUN mvn dependency:go-offline \
     -Pall \
     -DskipTests \
     --no-transfer-progress \
