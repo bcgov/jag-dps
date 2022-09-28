@@ -34,11 +34,10 @@ jobs:
     with:
       app_name: "vips-notification-worker"
       working_directory: .
-      image_tags: "github-build"
+      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
       env: tools
       build_args: |-
         DPS_SERVICE_NAME=vips-notification-worker
-#      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
     secrets:
       openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
       openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
