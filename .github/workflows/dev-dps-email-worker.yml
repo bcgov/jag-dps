@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - "src/dps-email-worker/**"
-      - ".github/workflows/dps-email-worker"
+      - ".github/workflows/dev-dps-email-worker"
   workflow_dispatch:
     branches:
       - main
