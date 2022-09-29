@@ -12,7 +12,7 @@ on:
 
 jobs:
   unit-test:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@v0.0.3
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
     with:
       working_directory: "src"
       profile: dps-email-worker
@@ -20,12 +20,12 @@ jobs:
       nexus_url: ${{ secrets.NEXUS_URL }}
 
   app-version:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@v0.0.3
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
     with:
       working_directory: "src/dps-email-worker"
 
   build-image:
-    uses: SierraSystems/reusable-workflows/.github/workflows/openshift-source-to-image.yml@v0.0.3
+    uses: SierraSystems/reusable-workflows/.github/workflows/openshift-source-to-image.yml@main
     needs:
       - unit-test
       - app-version
@@ -42,7 +42,7 @@ jobs:
     needs:
       - app-version
       - build-image
-    uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@v0.0.3
+    uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@main
     with:
       imagestream_name: "dps-email-worker"
       image_tag: "${{ needs.app-version.outputs.app-version }}"
