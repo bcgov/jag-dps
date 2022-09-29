@@ -84,6 +84,7 @@
         <profile>
             <id>dps-validation-service</id>
             <modules>
+                <module>libs/dps-bom</module>
                 <module>libs/dfcms-ords-client</module>
                 <module>dps-validation-service</module>
             </modules>
@@ -91,6 +92,7 @@
         <profile>
             <id>figaro-validation-service</id>
             <modules>
+                <module>libs/dps-bom</module>
                 <module>libs/figaro-ords-client</module>
                 <module>figaro-validation-service</module>
             </modules>
@@ -107,6 +109,8 @@
         <profile>
             <id>spd-notification-worker</id>
             <modules>
+                <module>libs/dps-bom</module>
+                <module>libs/dps-monitoring</module>
                 <module>libs/dps-notification</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-sftp-starter</module>

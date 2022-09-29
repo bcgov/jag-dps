@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "src/figaro-validation-service/**"
+      - ".github/workflows/dev-figaro-validation-service.yml"
   workflow_dispatch:
     branches:
       - main
@@ -25,18 +26,24 @@ jobs:
       working_directory: "src/figaro-validation-service"
 
   build-image:
-    uses: SierraSystems/reusable-workflows/.github/workflows/openshift-source-to-image.yml@main
     needs:
       - unit-test
       - app-version
+    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
-      build_config_name: "figaro-validation-service"
+      app_name: "figaro-validation-service"
+      working_directory: .
       image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
+      env: tools
+      build_args: |-
+        DPS_SERVICE_NAME=figaro-validation-service
     secrets:
-      openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
       openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
       openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
       openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
+      openshift_license_plate: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}"
+      docker_username: "${{ secrets.DOCKER_USERNAME }}"
+      docker_password: "${{ secrets.DOCKER_PASSWORD }}"
 
   trivy:
     needs:
