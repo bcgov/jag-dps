@@ -10,7 +10,7 @@
     </parent>
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
     <artifactId>figaro-validation-service</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.4.1-SNAPSHOT</version>
     <name>figaro-validation-service</name>
     <description>FIGARO DPS Validation Service module</description>
 
@@ -178,7 +178,7 @@
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>figaro-ords-client</artifactId>
-            <version>0.4.0-SNAPSHOT</version>
+            <version>0.4.1-SNAPSHOT</version>
         </dependency>
 
         <!-- Access logs configuration -->

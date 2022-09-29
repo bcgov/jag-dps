@@ -12,7 +12,7 @@
 
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>dps-payment-service</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.4.1-SNAPSHOT</version>
     <name>dps-payment-service</name>
     <description>DPS Payment Service module</description>
 
