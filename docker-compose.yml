@@ -67,8 +67,8 @@ services:
     build:
       args:
         - spring_profiles_active=cloud
-        - MVN_PROFILES=figvalidationservice,openshift
-        - DPS_SERVICE_NAME=figvalidationservice
+        - MVN_PROFILES=figaro-validation-service,openshift
+        - DPS_SERVICE_NAME=figaro-validation-service
     environment: 
       - SWAGGER_UI_ENABLED=true
       - FIGCR_BASE_PATH=$FIGCR_BASE_PATH
