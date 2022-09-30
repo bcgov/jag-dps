@@ -91,5 +91,5 @@ WORKDIR $HOME
 
 COPY --from=build ${HOME}/${DPS_SERVICE_NAME}/target/${DPS_SERVICE_NAME}-*.jar ${HOME}/service.jar
 
-CMD ["java", "-jar", "${HOME}/service.jar"]
+CMD ["java", "-jar", "service.jar"]
 #############################################################################################
