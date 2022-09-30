@@ -8,7 +8,6 @@ FROM maven:3.8.6-eclipse-temurin-8 as dependencies
 ARG NEXUS_URL=https://nexus-043918-tools.apps.silver.devops.gov.bc.ca
 ARG DPS_SERVICE_NAME
 
-ENV DPS_SERVICE_NAME=${DPS_SERVICE_NAME}
 ENV NEXUS_URL=${NEXUS_URL}
 
 ## Definig home folder
@@ -60,8 +59,9 @@ FROM dependencies as build
 ARG NEXUS_URL=https://nexus-043918-tools.apps.silver.devops.gov.bc.ca
 
 ARG DPS_SERVICE_NAME
+ARG MVN_PROFILES=${DPS_SERVICE_NAME}
+ARG SKIP_TESTS=true
 
-ENV DPS_SERVICE_NAME=${DPS_SERVICE_NAME}
 ENV NEXUS_URL=${NEXUS_URL}
 
 ENV HOME=/opt/app
@@ -73,8 +73,8 @@ COPY src .
 RUN mvn clean package \
     --no-transfer-progress \
     --batch-mode \
-    -DskipTests \
-    -P ${DPS_SERVICE_NAME}
+    -DskipTests=${SKIP_TESTS} \
+    -P ${MVN_PROFILES}
 
 
 ##############################################################################################
@@ -84,7 +84,6 @@ RUN mvn clean package \
 FROM eclipse-temurin:8-jre-jammy
 
 ARG DPS_SERVICE_NAME
-ENV DPS_SERVICE_NAME=${DPS_SERVICE_NAME}
 
 ENV HOME=/opt/app
 RUN mkdir -p $HOME
