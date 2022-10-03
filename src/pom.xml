@@ -55,27 +55,27 @@
         <profile>
             <id>all</id>
             <modules>
-<!--                <module>libs/dps-bom</module>-->
-<!--                <module>libs/dfcms-ords-client</module>-->
-<!--                <module>libs/dps-cache-starter</module>-->
-<!--                <module>libs/dps-files</module>-->
-<!--                <module>libs/dps-messaging-starter</module>-->
-<!--                <module>libs/dps-notification</module>-->
-<!--                <module>libs/figaro-ords-client</module>-->
-<!--                <module>libs/dps-sftp-starter</module>-->
-<!--                <module>libs/dps-commons</module>-->
-<!--                <module>libs/dps-email-client</module>-->
-<!--                <module>libs/otssoa-ords-client</module>-->
-<!--                <module>libs/dps-monitoring</module>-->
-<!--                <module>dps-payment-service</module>-->
-<!--                <module>dps-email-poller</module>-->
-<!--                <module>dps-email-worker</module>-->
-<!--                <module>dps-registration-api</module>-->
-<!--                <module>dps-validation-service</module>-->
-<!--                <module>dps-notification-service</module>-->
-<!--                <module>figaro-validation-service</module>-->
-<!--                <module>spd-notification-worker</module>-->
-<!--                <module>vips-notification-worker</module>-->
+                <module>libs/dps-bom</module>
+                <module>libs/dfcms-ords-client</module>
+                <module>libs/dps-cache-starter</module>
+                <module>libs/dps-files</module>
+                <module>libs/dps-messaging-starter</module>
+                <module>libs/dps-notification</module>
+                <module>libs/figaro-ords-client</module>
+                <module>libs/dps-sftp-starter</module>
+                <module>libs/dps-commons</module>
+                <module>libs/dps-email-client</module>
+                <module>libs/otssoa-ords-client</module>
+                <module>libs/dps-monitoring</module>
+                <module>dps-payment-service</module>
+                <module>dps-email-poller</module>
+                <module>dps-email-worker</module>
+                <module>dps-registration-api</module>
+                <module>dps-validation-service</module>
+                <module>dps-notification-service</module>
+                <module>figaro-validation-service</module>
+                <module>spd-notification-worker</module>
+                <module>vips-notification-worker</module>
                 <module>report</module>
             </modules>
         </profile>
