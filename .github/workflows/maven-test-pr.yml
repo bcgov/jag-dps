@@ -13,6 +13,20 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+
+    - uses: whelk-io/maven-settings-xml-action@v20
+      with:
+        servers: >-
+          [{
+            "id":"nexus-snapshots",
+            "username": "${{ secrets.NEXUS_SNAPSHOT_USERNAME }}",
+            "password": "${{ secrets.NEXUS_SNAPSHOT_PASSWORD }}"
+          },{
+            "id":"nexus-releases",
+            "username": "${{ secrets.NEXUS_RELEASES_USERNAME }}",
+            "password": "${{ secrets.NEXUS_RELEASES_PASSWORD }}"
+          }]
+
     - uses: actions/cache@v1
       with:
         path: ~/.m2/repository
