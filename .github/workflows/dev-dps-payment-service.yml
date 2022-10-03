@@ -37,7 +37,6 @@ jobs:
       env: tools
       build_args: |-
         DPS_SERVICE_NAME=dps-payment-service
-        MVN_PROFILES=dps-payment-service,openshift
     secrets:
       openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
       openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
