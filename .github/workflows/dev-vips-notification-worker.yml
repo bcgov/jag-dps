@@ -12,13 +12,13 @@ on:
       - main
 
 jobs:
-#  unit-test:
-#    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
-#    with:
-#      working_directory: "src"
-#      profile: vips-notification-worker
-#    secrets:
-#      nexus_url: ${{ secrets.NEXUS_URL }}
+  unit-test:
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
+    with:
+      working_directory: "src"
+      profile: vips-notification-worker
+    secrets:
+      nexus_url: ${{ secrets.NEXUS_URL }}
 
   app-version:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
@@ -27,7 +27,7 @@ jobs:
 
   build-image:
     needs:
-#      - unit-test
+      - unit-test
       - app-version
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
