@@ -18,6 +18,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<log4j2.version>2.17.1</log4j2.version>
+		<snakeyaml.version>1.32</snakeyaml.version>
 	</properties>
 
 	<repositories>
@@ -118,12 +119,6 @@
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-monitoring</artifactId>
 			<version>0.4.1-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.yaml</groupId>
-			<artifactId>snakeyaml</artifactId>
-			<version>1.32</version>
 		</dependency>
 
 	</dependencies>

@@ -24,6 +24,7 @@
 		<jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
 		<jodatime-version>2.7</jodatime-version>
 		<maven-plugin-version>1.0.0</maven-plugin-version>
+		<snakeyaml.version>1.32</snakeyaml.version>
 	</properties>
 
 	<dependencies>
@@ -192,12 +193,6 @@
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-monitoring</artifactId>
 			<version>0.4.1-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.yaml</groupId>
-			<artifactId>snakeyaml</artifactId>
-			<version>1.32</version>
 		</dependency>
 
 	</dependencies>

@@ -20,6 +20,7 @@
         <java.version>1.8</java.version>
         <log4j2.version>2.17.1</log4j2.version>
         <cxf.version>3.5.3</cxf.version>
+        <snakeyaml.version>1.32</snakeyaml.version>
     </properties>
 
     <dependencies>
@@ -114,12 +115,6 @@
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-messaging-starter</artifactId>
             <version>0.4.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>1.32</version>
         </dependency>
     </dependencies>
 
