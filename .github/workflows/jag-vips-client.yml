@@ -41,7 +41,7 @@ jobs:
       working-directory: src
       run: mvn deploy -Pall,openshift
       env:
-        NEXUS_SNAPSHOTS_URL: "${{ secrets.NEXUS_URL }}/repository/dps-group"
+        NEXUS_SNAPSHOTS_URL: "${{ secrets.NEXUS_URL }}/repository/dps-releases"
         NEXUS_RELEASES_URL: "${{ secrets.NEXUS_URL }}/repository/dps-snapshots"
 
 #    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-deploy-artifact-to-nexus.yml@main
