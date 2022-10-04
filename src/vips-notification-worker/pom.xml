@@ -29,6 +29,10 @@
 		</repository>
 		<repository>
 			<id>nexus-releases</id>
+			<url>${env.NEXUS_URL}/repository/dps-groups</url>
+		</repository>
+		<repository>
+			<id>nexus-releases</id>
 			<url>${env.NEXUS_URL}/repository/dps-releases</url>
 		</repository>
 		<repository>
