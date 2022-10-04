@@ -1,0 +1,39 @@
+name: Deploy jag-vips-client
+
+on:
+  push:
+    branches:
+      - bug/vulnerability-fix
+  workflow_dispatch: {}
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: https://github.com/bcgov/jag-vips-client.git
+        ref: master
+
+    - name: "Set up JDK ${{ inputs.java_version }}"
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: 8
+        cache: maven
+
+    - name: Build with Maven
+      run: mvn package
+
+#    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-deploy-artifact-to-nexus.yml@main
+#    with:
+#      working-directory: src
+#      profile: libs
+#    secrets:
+#      nexus_snapshot_username: "${{ secrets.NEXUS_SNAPSHOT_USERNAME }}"
+#      nexus_snapshot_password: "${{ secrets.NEXUS_SNAPSHOT_PASSWORD }}"
+#      nexus_releases_username: "${{ secrets.NEXUS_RELEASES_USERNAME }}"
+#      nexus_releases_password: "${{ secrets.NEXUS_RELEASES_PASSWORD }}"
+#      nexus_url: "${{ secrets.NEXUS_URL }}"
