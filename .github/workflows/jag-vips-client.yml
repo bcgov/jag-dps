@@ -24,9 +24,25 @@ jobs:
         java-version: 8
         cache: maven
 
+    - uses: whelk-io/maven-settings-xml-action@v20
+      with:
+        servers: >-
+          [{
+            "id":"nexus-snapshots",
+            "username": "${{ secrets.NEXUS_SNAPSHOT_USERNAME }}",
+            "password": "${{ secrets.NEXUS_SNAPSHOT_PASSWORD }}"
+          },{
+            "id":"nexus-releases",
+            "username": "${{ secrets.NEXUS_RELEASES_USERNAME }}",
+            "password": "${{ secrets.NEXUS_RELEASES_PASSWORD }}"
+          }]
+
     - name: Build with Maven
       working-directory: src
-      run: mvn package -Pall
+      run: mvn deploy -Pall
+      env:
+        NEXUS_SNAPSHOTS_URL: "${{ secrets.NEXUS_URL }}/repository/dps-group"
+        NEXUS_RELEASES_URL: "${{ secrets.NEXUS_URL }}/repository/dps-snapshots"
 
 #    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-deploy-artifact-to-nexus.yml@main
 #    with:
