@@ -25,7 +25,8 @@ jobs:
         cache: maven
 
     - name: Build with Maven
-      run: mvn package
+      working-directory: src
+      run: mvn package -Pall
 
 #    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-deploy-artifact-to-nexus.yml@main
 #    with:
