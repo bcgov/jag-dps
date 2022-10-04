@@ -37,7 +37,7 @@ jobs:
       env: tools
       build_args: |-
         DPS_SERVICE_NAME=vips-notification-worker
-
+        MVN_PROFILES=vips-notification-worker,openshift
     secrets:
       openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
       openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
