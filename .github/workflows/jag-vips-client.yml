@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        repository: https://github.com/bcgov/jag-vips-client.git
+        repository: bcgov/jag-vips-client
         ref: master
 
     - name: "Set up JDK ${{ inputs.java_version }}"
