@@ -1,6 +1,8 @@
 name: Java CI
 
-on: [pull_request]
+on:
+  pull_request: {}
+  workflow_dispatch: {}
 
 jobs:
   build:
