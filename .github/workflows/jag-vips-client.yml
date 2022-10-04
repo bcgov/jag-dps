@@ -39,7 +39,7 @@ jobs:
 
     - name: Build with Maven
       working-directory: src
-      run: mvn deploy -Pall
+      run: mvn deploy -Pall,openshift
       env:
         NEXUS_SNAPSHOTS_URL: "${{ secrets.NEXUS_URL }}/repository/dps-group"
         NEXUS_RELEASES_URL: "${{ secrets.NEXUS_URL }}/repository/dps-snapshots"
