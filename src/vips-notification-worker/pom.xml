@@ -29,7 +29,8 @@
 		</repository>
 		<repository>
 			<id>nexus-releases</id>
-			<url>${env.NEXUS_URL}/repository/dps-releases</url>
+			<url>${env.NEXUS_URL}/repository/dps-group</url>
+<!--			<url>${env.NEXUS_URL}/repository/dps-releases</url>-->
 		</repository>
 		<repository>
 			<id>nexus-snapshots</id>
