@@ -1,8 +1,8 @@
 name: Java CI
 
-on: 
-  pull_request: {}
-  workflow_dispatch: {}
+on:
+  - pull_request
+  - workflow_dispatch
 
 jobs:
   build:
@@ -15,11 +15,26 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - uses: actions/cache@v1
+
+    - uses: whelk-io/maven-settings-xml-action@v20
       with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
+        servers: >-
+          [{
+            "id":"nexus-snapshots",
+            "username": "${{ secrets.NEXUS_SNAPSHOT_USERNAME }}",
+            "password": "${{ secrets.NEXUS_SNAPSHOT_PASSWORD }}"
+          },{
+            "id":"nexus-releases",
+            "username": "${{ secrets.NEXUS_RELEASES_USERNAME }}",
+            "password": "${{ secrets.NEXUS_RELEASES_PASSWORD }}"
+          }]
+
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '8'
+        cache: 'maven'
     - name: Build with Maven
       run: mvn -B test --file src/pom.xml -P all
+      env:
+        NEXUS_URL: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"

@@ -6,13 +6,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.7.3</version>
         <relativePath/>
     </parent>
 
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
     <artifactId>dps-email-worker</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.4.1-SNAPSHOT</version>
     <name>dps-email-worker</name>
     <description>DPS Email Worker subscribes to queue and gets messages.</description>
 
@@ -21,6 +21,7 @@
         <log4j2.version>2.17.1</log4j2.version>
         <jersey-version>2.29</jersey-version>
         <jodatime-version>2.7</jodatime-version>
+        <snakeyaml.version>1.32</snakeyaml.version>
     </properties>
 
     <repositories>
@@ -165,56 +166,56 @@
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-messaging-starter</artifactId>
-            <version>0.4.0-SNAPSHOT</version>
+            <version>0.4.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-commons</artifactId>
-            <version>0.4.0-SNAPSHOT</version>
+            <version>0.4.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-notification</artifactId>
-            <version>0.4.0-SNAPSHOT</version>
+            <version>0.4.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-email-client</artifactId>
-            <version>0.4.0-SNAPSHOT</version>
+            <version>0.4.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-cache-starter</artifactId>
-            <version>0.4.0-SNAPSHOT</version>
+            <version>0.4.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-sftp-starter</artifactId>
-            <version>0.4.0-SNAPSHOT</version>
+            <version>0.4.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-files</artifactId>
-            <version>0.4.0-SNAPSHOT</version>
+            <version>0.4.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>otssoa-ords-client</artifactId>
-            <version>0.4.0-SNAPSHOT</version>
+            <version>0.4.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-monitoring</artifactId>
-            <version>0.4.0-SNAPSHOT</version>
+            <version>0.4.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -242,8 +243,6 @@
             <artifactId>logback-access-spring-boot-starter</artifactId>
             <version>2.7.1</version>
         </dependency>
-
-
     </dependencies>
 
     <build>
@@ -301,7 +300,7 @@
                 <dependency>
                     <groupId>com.splunk.logging</groupId>
                     <artifactId>splunk-library-javalogging</artifactId>
-                    <version>1.11.2</version>
+                    <version>1.11.5</version>
                 </dependency>
             </dependencies>
 

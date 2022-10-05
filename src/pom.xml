@@ -5,7 +5,7 @@
 
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>dps</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.4.1-SNAPSHOT</version>
 
     <name>dps</name>
     <packaging>pom</packaging>
@@ -17,20 +17,37 @@
         <log4j2.version>2.17.1</log4j2.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>nexus-releases</id>
+            <url>${env.NEXUS_URL}/repository/dps-group</url>
+        </repository>
+        <repository>
+            <id>nexus-snapshots</id>
+            <url>${env.NEXUS_URL}/repository/dps-snapshots</url>
+            <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+    </repositories>
+
     <profiles>
         <profile>
             <id>libs</id>
             <modules>
-                <module>libs/dfcms-ords-client</module>
                 <module>libs/dps-bom</module>
+                <module>libs/dfcms-ords-client</module>
                 <module>libs/dps-cache-starter</module>
                 <module>libs/dps-commons</module>
+                <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/dps-notification</module>
                 <module>libs/figaro-ords-client</module>
                 <module>libs/otssoa-ords-client</module>
-                <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-email-client</module>
                 <module>libs/dps-monitoring</module>
             </modules>
@@ -71,6 +88,7 @@
         <profile>
             <id>dps-validation-service</id>
             <modules>
+                <module>libs/dps-bom</module>
                 <module>libs/dfcms-ords-client</module>
                 <module>dps-validation-service</module>
             </modules>
@@ -78,6 +96,7 @@
         <profile>
             <id>figaro-validation-service</id>
             <modules>
+                <module>libs/dps-bom</module>
                 <module>libs/figaro-ords-client</module>
                 <module>figaro-validation-service</module>
             </modules>
@@ -85,6 +104,8 @@
         <profile>
             <id>dps-notification-service</id>
             <modules>
+                <module>libs/dps-bom</module>
+                <module>libs/dps-messaging-starter</module>
                 <module>libs/dps-notification</module>
                 <module>dps-notification-service</module>
             </modules>
@@ -92,6 +113,8 @@
         <profile>
             <id>spd-notification-worker</id>
             <modules>
+                <module>libs/dps-bom</module>
+                <module>libs/dps-monitoring</module>
                 <module>libs/dps-notification</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-sftp-starter</module>
@@ -103,6 +126,7 @@
         <profile>
             <id>vips-notification-worker</id>
             <modules>
+                <module>libs/dps-bom</module>
                 <module>libs/dps-notification</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-sftp-starter</module>

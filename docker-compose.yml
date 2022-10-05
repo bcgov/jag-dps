@@ -21,6 +21,7 @@ services:
   #############################################################################################
   service-api-universalforwarder:
     image: splunk/universalforwarder:7.3.2
+    platform: linux/amd64
     volumes:
       - ./.splunk/conf/inputs.conf:/opt/splunkforwarder/etc/system/local/inputs.conf
       - ./.splunk/conf/outputs.conf:/opt/splunkforwarder/etc/system/local/outputs.conf
@@ -40,10 +41,9 @@ services:
   #############################################################################################
   payment-service:
     build:
-      context: ./src
       args:
-        - MVN_PROFILES=paymentservice,openshift
-        - DPS_SERVICE_NAME=paymentservice
+        - MVN_PROFILES=dps-payment-service,openshift
+        - DPS_SERVICE_NAME=dps-payment-service
     environment: 
       - spring_profiles_active=cloud,splunk
       - BAMBORA_PAYMENT_ENDPOINT=https://example.com
@@ -65,11 +65,10 @@ services:
   #############################################################################################
   fig-validation-service:
     build:
-      context: ./src
       args:
         - spring_profiles_active=cloud
-        - MVN_PROFILES=figvalidationservice,openshift
-        - DPS_SERVICE_NAME=figvalidationservice
+        - MVN_PROFILES=figaro-validation-service,openshift
+        - DPS_SERVICE_NAME=figaro-validation-service
     environment: 
       - SWAGGER_UI_ENABLED=true
       - FIGCR_BASE_PATH=$FIGCR_BASE_PATH
@@ -83,7 +82,6 @@ services:
   #############################################################################################
   dps-validation-service:
     build:
-      context: ./src
       args:
         - spring_profiles_active=cloud
         - MVN_PROFILES=dps-validation-service,splunk
@@ -101,7 +99,6 @@ services:
   #############################################################################################
   dps-notification-service:
     build:
-      context: ./src
       args:
         - MVN_PROFILES=dps-notification-service
         - DPS_SERVICE_NAME=dps-notification-service
@@ -117,7 +114,6 @@ services:
   #############################################################################################
   spd-notification-worker:
     build:
-      context: ./src
       args:
         - MVN_PROFILES=spd-notification-worker
         - DPS_SERVICE_NAME=spd-notification-worker
@@ -133,7 +129,6 @@ services:
   #############################################################################################
   vips-notification-worker:
     build:
-      context: ./src
       args:
         - MVN_PROFILES=vips-notification-worker
         - DPS_SERVICE_NAME=vips-notification-worker
@@ -150,6 +145,7 @@ services:
   #############################################################################################
   dps-sftp:
     image: atmoz/sftp
+    platform: linux/amd64
     ports:
       - "22:22"
     command: admin:admin:::upload
@@ -160,9 +156,10 @@ services:
   ###                             RABBIT MQ SERVER                                          ###
   #############################################################################################
   dps-rabbitmq:
-    image: rabbitmq:3.7.15-management
+    image: rabbitmq:3.8-management
     container_name: rabbitmq
     hostname: rabbitmq
+    platform: linux/amd64
     ports:
       - 5672:5672
       - 15672:15672
@@ -176,7 +173,8 @@ services:
   ###                                 SPLUNK DEV BOX                                        ###
   #############################################################################################
   dps-splunk:
-    image: splunk/splunk:7.3.2
+    image: splunk/splunk:8.2.5
+    platform: linux/amd64
     environment:
       - SPLUNK_PASSWORD=${SPLUNK_PWD}
       - SPLUNK_START_ARGS=--accept-license
@@ -197,6 +195,7 @@ services:
     container_name: redis
     image: redis
     command: redis-server --requirepass admin
+    platform: linux/amd64
     ports:
       - "6379:6379"
     volumes:
@@ -213,7 +212,8 @@ services:
     hostname: redis-commander
     image: rediscommander/redis-commander:latest
     restart: always
-    environment: 
+    platform: linux/amd64
+    environment:
       - REDIS_PORT=6379
       - REDIS_HOST=dps-redis
       - REDIS_PASSWORD=admin

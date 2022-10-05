@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-deploy-artifact-to-nexus.yml@v0.0.3
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-deploy-artifact-to-nexus.yml@main
     with:
       working-directory: src
       profile: libs

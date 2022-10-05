@@ -6,13 +6,14 @@ on:
       - main
     paths:
       - "src/dps-payment-service/**"
+      - ".github/workflows/dev-dps-payment-service.yml"
   workflow_dispatch:
     branches:
       - main
 
 jobs:
   unit-test:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@v0.0.3
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
     with:
       working_directory: "src"
       profile: dps-payment-service
@@ -20,29 +21,36 @@ jobs:
       nexus_url: ${{ secrets.NEXUS_URL }}
 
   app-version:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@v0.0.3
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
     with:
       working_directory: "src/dps-payment-service"
 
   build-image:
-    uses: SierraSystems/reusable-workflows/.github/workflows/openshift-source-to-image.yml@v0.0.3
     needs:
       - unit-test
       - app-version
+    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
-      build_config_name: "dps-payment-service"
+      app_name: "dps-payment-service"
+      working_directory: .
       image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
+      env: tools
+      build_args: |-
+        DPS_SERVICE_NAME=dps-payment-service
+        MVN_PROFILES=dps-payment-service,openshift
     secrets:
-      openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
       openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
       openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
       openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
+      openshift_license_plate: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}"
+      docker_username: "${{ secrets.DOCKER_USERNAME }}"
+      docker_password: "${{ secrets.DOCKER_PASSWORD }}"
 
   trivy:
     needs:
       - app-version
       - build-image
-    uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@v0.0.3
+    uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@main
     with:
       imagestream_name: "dps-payment-service"
       image_tag: "${{ needs.app-version.outputs.app-version }}"
