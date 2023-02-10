@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ValidationController {
     private static final Logger logger = LogManager.getLogger(ValidationController.class);
-    public static final String DL_REGEX = "[0-9]{7}";
+    public static final String DL_REGEX = "[0-9]{7,8}";
     public static final String SURCODE_REGEX = "^[a-zA-Z&-.]{0,3}";
 
     private final CaseService caseService;
