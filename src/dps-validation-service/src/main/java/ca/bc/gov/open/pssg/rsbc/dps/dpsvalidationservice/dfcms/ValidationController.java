@@ -2,13 +2,16 @@ package ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.dfcms;
 
 import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase.CaseSequenceNumberResponse;
 import ca.bc.gov.open.pssg.rsbc.dfcms.ords.client.dfcmscase.CaseService;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsvalidationservice.configuration.OrdsDfcmsProperties;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.el.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ValidationController {
+
+    @Value("${dpsvalidation.service.validation.eight-digit-license}")
+    private String eightDigitLicense = "0";
+
     private static final Logger logger = LogManager.getLogger(ValidationController.class);
     public static final String DL_REGEX = "[0-9]{7,8}";
     public static final String SURCODE_REGEX = "^[a-zA-Z&-.]{0,3}";
@@ -64,7 +71,15 @@ public class ValidationController {
             return CaseSequenceNumberResponse.errorResponse();
         }
 
-        return this.caseService.caseSequenceNumber(driversLicense, surcode);
+        // DPS-204: Feature flag for the switch to 8 digit licenses:
+        // IF flag is set to '0' then we use the license as is when it comes in.
+        // If the flag is set to '1' then we turn 7 digit licenses to 8 by prepending a zero
+        StringBuilder sb = new StringBuilder(driversLicense);
+        if (eightDigitLicense.equals("1") && driversLicense.length() == 7) {
+            sb.insert(0, "0");
+         }
+
+        return this.caseService.caseSequenceNumber(sb.toString(), surcode);
     }
 
     /**
