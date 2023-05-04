@@ -38,6 +38,7 @@ jobs:
       build_args: |-
         DPS_SERVICE_NAME=dps-email-poller
         MVN_PROFILES=dps-email-poller,openshift
+        NEXUS_URL=${{ secrets.NEXUS_URL }}
     secrets:
       openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
       openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
