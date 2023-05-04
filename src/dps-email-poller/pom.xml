@@ -207,6 +207,13 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                    <jvmArguments>
+                        -Xms500m
+                        -Xmx1g
+                    </jvmArguments>
+                </configuration>
             </plugin>
 
             <!--jacoco code coverage-->
