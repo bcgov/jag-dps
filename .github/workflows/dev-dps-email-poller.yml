@@ -45,7 +45,6 @@ jobs:
       openshift_license_plate: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}"
       docker_username: "${{ secrets.DOCKER_USERNAME }}"
       docker_password: "${{ secrets.DOCKER_PASSWORD }}"
-      nexus_url: "${{ secrets.NEXUS_URL }}"
 
   trivy:
     needs:
