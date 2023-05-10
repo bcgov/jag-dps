@@ -5,7 +5,7 @@
 FROM maven:3.8.6-eclipse-temurin-8 as dependencies
 
 ## Defining Arguments and env vars
-ARG NEXUS_URL=https://nexus-043918-tools.apps.silver.devops.gov.bc.ca
+ARG NEXUS_URL=${{ secrets.NEXUS_URL }}
 ARG DPS_SERVICE_NAME
 
 ENV NEXUS_URL=${NEXUS_URL}
@@ -56,7 +56,7 @@ RUN mvn dependency:go-offline \
 #############################################################################################
 FROM dependencies as build
 
-ARG NEXUS_URL=https://nexus-043918-tools.apps.silver.devops.gov.bc.ca
+ARG NEXUS_URL=${{ secrets.NEXUS_URL }}
 
 ARG DPS_SERVICE_NAME
 ARG MVN_PROFILES=${DPS_SERVICE_NAME}
