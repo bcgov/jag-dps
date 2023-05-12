@@ -30,7 +30,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     public void registerPackage(DpsMetadata dpsMetadata) {
 
         //TODO: Investigate, the tenant is not passed as a parameter where there is a placeholder for it.
-
+        logger.info("creating package request...");
         CreatePackageRequest request = new CreatePackageRequest
                 .Builder()
                 .withBusinessArea(Keys.REGISTRATION_BUSINESS_AREA)
@@ -43,10 +43,10 @@ public class RegistrationServiceImpl implements RegistrationService {
                 .withFilename(dpsMetadata.getFileInfo().getName())
                 .withPageCount(dpsMetadata.getNumberOfPages())
                 .build();
-
+        logger.info("creating package request completed");
         try {
             DefaultResponse response = otssoaService.createPackage(request);
-
+            logger.info("Done sending to otssoa Service...");
             if(StringUtils.isEmpty(response.getRegState()) || !response.getRegState().equals(Keys.REGISTRATION_OPERATION_SUCCESS_STATUS))
             {
                 logger.error("Failed to create package in OTS database: {}", response.getErrorMessage());

@@ -42,11 +42,12 @@ public class DpsEmailServiceImpl implements DpsEmailService {
     public DpsEmailProcessedResponse dpsEmailFailed(String id, String correlationId) {
 
         try {
-
+            logger.info("0-0");
             DpsEmailProcessedRequest request = new DpsEmailProcessedRequest();
             request.setCorrelationId("");
-
+            logger.info("0-1");
             DpsEmailResponse response = this.dpsEmailProcessingApi.processFailedUsingPUT(id, request);
+            logger.info("0-2");
             return DpsEmailProcessedResponse.successResponse(response.getAcknowledge(), response.getMessage());
 
         } catch (ApiException ex) {
