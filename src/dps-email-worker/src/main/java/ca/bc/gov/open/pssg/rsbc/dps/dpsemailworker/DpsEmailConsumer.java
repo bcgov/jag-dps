@@ -89,11 +89,11 @@ public class DpsEmailConsumer {
 
 
             if(registrationService.isActive()) {
-                logger.debug("Attempting to register package");
+                logger.info("Attempting to register package");
                 registrationService.registerPackage(message);
                 logger.info("Successfully registered package to OTS database.");
             } else {
-                logger.debug("Registration Service is not activated.");
+                logger.info("Registration Service is not activated.");
             }
 
             logger.info("Attempting to move email to processed folder");
@@ -166,7 +166,7 @@ public class DpsEmailConsumer {
             // Move the email to the error folder in exchange
             logger.error("Attempting to move email {} to ErrHold folder", message.toString());
             DpsEmailProcessedResponse dpsEmailProcessedResponse = dpsEmailService.dpsEmailFailed(message.getBase64EmailId(), "TBD");
-
+            logger.error("1");
             // If the email was moved, clear it from the cache too
             if (dpsEmailProcessedResponse.isAcknowledge()) {
                 logger.error("Error: email {} moved to ErrHold folder in exchange", message.toString());
