@@ -21,12 +21,6 @@
         </plugins>
     </build>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <log4j2.version>2.17.1</log4j2.version>
-        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
-    </properties>
-
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
@@ -52,14 +46,7 @@
             <dependency>
                 <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
                 <artifactId>dps-bom</artifactId>
-                <version>0.4.1-SNAPSHOT</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>0.5.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

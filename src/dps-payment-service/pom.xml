@@ -4,10 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.14</version>
-        <relativePath/>
+        <artifactId>dps</artifactId>
+        <groupId>ca.bc.gov.open</groupId>
+        <version>0.4.1-SNAPSHOT</version>
     </parent>
 
     <groupId>ca.bc.gov.open</groupId>
@@ -16,21 +15,12 @@
     <name>dps-payment-service</name>
     <description>DPS Payment Service module</description>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <log4j2.version>2.17.1</log4j2.version>
-        <springfox-swagger-version>2.6.1</springfox-swagger-version>
-        <snakeyaml.version>1.32</snakeyaml.version>
-    </properties>
-
     <dependencies>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -51,17 +41,13 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-swagger-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox-swagger-version}</version>
             <scope>compile</scope>
         </dependency>
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -97,9 +83,20 @@
         <dependency>
             <groupId>net.rakugakibox.spring.boot</groupId>
             <artifactId>logback-access-spring-boot-starter</artifactId>
-            <version>2.7.1</version>
         </dependency>
- </dependencies>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
+                <artifactId>dps-bom</artifactId>
+                <version>0.5.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <profiles>
         <profile>

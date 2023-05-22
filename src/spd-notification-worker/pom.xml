@@ -3,29 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.3</version>
-		<relativePath/>
-		<!-- lookup parent from repository -->
+		<artifactId>dps</artifactId>
+		<groupId>ca.bc.gov.open</groupId>
+		<version>0.4.1-SNAPSHOT</version>
 	</parent>
 	<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 	<artifactId>spd-notification-worker</artifactId>
 	<version>0.4.1-SNAPSHOT</version>
 	<name>spd-notification-worker</name>
 	<description>CRRP Output Notification Worker</description>
-
-	<properties>
-		<java.version>1.8</java.version>
-		<log4j2.version>2.17.1</log4j2.version>
-		<swagger-annotations-version>1.5.8</swagger-annotations-version>
-		<jersey-version>2.27</jersey-version>
-		<jackson-version>2.10.2</jackson-version>
-		<jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
-		<jodatime-version>2.7</jodatime-version>
-		<maven-plugin-version>1.0.0</maven-plugin-version>
-		<snakeyaml.version>1.32</snakeyaml.version>
-	</properties>
 
 	<dependencies>
 
@@ -75,88 +61,73 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>1.3.2</version>
 		</dependency>
 
 		<!-- HTTP client: jersey-client -->
 		<dependency>
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-client</artifactId>
-			<version>${jersey-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-multipart</artifactId>
-			<version>${jersey-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
-			<version>${jersey-version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
-			<version>${jersey-version}</version>
 		</dependency>
 
 		<!-- @Nullable annotation -->
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>jsr305</artifactId>
-			<version>3.0.2</version>
 		</dependency>
 
 		<!-- JSON processing: jackson -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.jaxrs</groupId>
 			<artifactId>jackson-jaxrs-base</artifactId>
-			<version>${jackson-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>${jackson-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>${jackson-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${jackson-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.jaxrs</groupId>
 			<artifactId>jackson-jaxrs-json-provider</artifactId>
-			<version>${jackson-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
-			<version>${jackson-databind-nullable-version}</version>
 		</dependency>
 
 		<!-- Joda time: if you use it -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-joda</artifactId>
-			<version>${jackson-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-			<version>${jodatime-version}</version>
 		</dependency>
 
 		<!-- Base64 encoding that works in both JVM and Android -->
 		<dependency>
 			<groupId>com.brsanthu</groupId>
 			<artifactId>migbase64</artifactId>
-			<version>2.2</version>
 		</dependency>
 
 		<dependency>
@@ -196,6 +167,18 @@
 		</dependency>
 
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
+				<artifactId>dps-bom</artifactId>
+				<version>0.5.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<profiles>
 		<profile>

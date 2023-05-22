@@ -3,10 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.3</version>
-        <relativePath/>
+        <artifactId>dps</artifactId>
+        <groupId>ca.bc.gov.open</groupId>
+        <version>0.4.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -18,7 +17,6 @@
         <!-- include properties that are specific to dpsvalidationservice -->
         <default-package>ca.bc.gov.open.dps.email.client</default-package>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <log4j2.version>2.17.1</log4j2.version>
     </properties>
 
     <!-- HTTP client: jersey-client -->
@@ -130,7 +128,7 @@
             <dependency>
                 <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
                 <artifactId>dps-bom</artifactId>
-                <version>0.4.1-SNAPSHOT</version>
+                <version>0.5.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

@@ -11,12 +11,6 @@
     <packaging>pom</packaging>
     <url>https://github.com/bcgov/jag-dps</url>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <springfox-swagger-version>2.6.1</springfox-swagger-version>
-        <log4j2.version>2.17.1</log4j2.version>
-    </properties>
-
     <repositories>
         <repository>
             <id>central</id>
