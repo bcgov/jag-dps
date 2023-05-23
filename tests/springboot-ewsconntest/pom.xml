@@ -15,7 +15,7 @@
 	<description>EWS connection test from OS</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 
 	<dependencies>
