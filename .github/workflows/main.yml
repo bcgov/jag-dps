@@ -32,7 +32,7 @@ jobs:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
     with:
       working_directory: "src"
-      profile: "${{ github.event.inputs.app_name }}"
+      profile: ${{ github.event.inputs.app_name }}
     secrets:
       nexus_url: ${{ secrets.NEXUS_URL }}
 
@@ -48,7 +48,7 @@ jobs:
 #      - app-version
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
-      app_name: "${{ github.event.inputs.app_name }}"
+      app_name: ${{ github.event.inputs.app_name }}
       working_directory: .
 #      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
       image_tags: "dev,1"
@@ -70,7 +70,7 @@ jobs:
       - build-and-push-image
     uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@main
     with:
-      imagestream_name: "${{ github.event.inputs.app_name }}"
+      imagestream_name: ${{ github.event.inputs.app_name }}
 #      image_tag: "${{ needs.app-version.outputs.app-version }}"
       image_tag: "dev,1"
     secrets:
