@@ -72,7 +72,7 @@ jobs:
     with:
       imagestream_name: "${{ github.event.inputs.app_name }}"
 #      image_tag: "${{ needs.app-version.outputs.app-version }}"
-      image_tags: "dev,1"
+      image_tag: "dev,1"
     secrets:
       openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
       openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
