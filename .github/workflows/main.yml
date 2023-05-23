@@ -28,6 +28,19 @@ on:
           - prod
 
 jobs:
+  unit-test:
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
+    with:
+      working_directory: "src"
+      profile: "${{ github.event.inputs.app_name }}"
+    secrets:
+      nexus_url: ${{ secrets.NEXUS_URL }}
+
+  app-version:
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
+    with:
+      working_directory: "src/${{ github.event.inputs.app_name }}"
+
   build-and-push-image:
     needs:
       - unit-test
