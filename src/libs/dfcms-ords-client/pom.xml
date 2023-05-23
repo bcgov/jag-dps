@@ -17,6 +17,7 @@
     <properties>
         <!-- include properties that are specific to dpsvalidationservice -->
         <default-package>ca.bc.gov.open.ords.dfcms.client</default-package>
+        <java.version>11</java.version>
     </properties>
 
     <!-- HTTP client: jersey-client -->
