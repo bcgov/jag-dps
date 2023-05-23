@@ -3,13 +3,10 @@ package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,10 +23,10 @@ public class FigValidationServiceAppTests {
 	@LocalServerPort
 	private int port;
 	
-	@Autowired
+	@Mock
 	private TestRestTemplate restTemplate;
 	
-	@Autowired 
+	@Mock
 	private FigValidationServiceApp figValidationServiceApp;
 
 	@BeforeAll
