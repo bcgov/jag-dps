@@ -54,8 +54,8 @@ jobs:
       image_tags: "dev,1"
       env: tools
       build_args: |-
-        DPS_SERVICE_NAME="${{ github.event.inputs.app_name }}"
-        MVN_PROFILES="${{ github.event.inputs.app_name }}",openshift
+        DPS_SERVICE_NAME=${{ github.event.inputs.app_name }}
+        MVN_PROFILES=${{ github.event.inputs.app_name }},openshift
     secrets:
       openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
       openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
