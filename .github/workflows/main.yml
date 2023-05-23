@@ -1,5 +1,6 @@
-# Deploy an artifact onto Dev, Test, or Prod
-name: Deploy
+# Deploy an artifact onto Dev
+name: Main - Build Image and Push to Openshift Registry for Dev Deployment
+
 on:
   workflow_dispatch:
     inputs:
