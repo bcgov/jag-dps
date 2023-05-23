@@ -1,7 +1,9 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -28,7 +30,12 @@ public class FigValidationServiceAppTests {
 	private TestRestTemplate restTemplate;
 	
 	@Autowired 
-	private FigValidationServiceApp figValidationServiceApp; 
+	private FigValidationServiceApp figValidationServiceApp;
+
+	@BeforeAll
+	public void setUp() {
+		MockitoAnnotations.initMocks(this);
+	}
 
 	/**
 	 * contextLoaded - Test for Figaro validation service context.  

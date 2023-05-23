@@ -41,8 +41,7 @@ class PaymentserviceApplicationTests {
 
 
 	@BeforeAll
-	public void setUp() throws MalformedURLException {
-
+	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 	}
 
