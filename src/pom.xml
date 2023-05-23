@@ -77,6 +77,11 @@
                 <module>vips-notification-worker</module>
                 <module>report</module>
             </modules>
+            <activation>
+                <activeByDefault>
+                    true
+                </activeByDefault>
+            </activation>
         </profile>
         <profile>
             <id>dps-payment-service</id>
