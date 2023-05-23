@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.figvalidationservice;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -15,8 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author shaunmillargov
  *
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations="classpath:test.properties")
+//@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+//@TestPropertySource(locations="classpath:test.properties")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class FigValidationServiceAppTests {
 	
 	@LocalServerPort
