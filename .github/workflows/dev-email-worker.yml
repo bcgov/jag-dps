@@ -33,11 +33,6 @@ jobs:
     with:
       app_name: "dps-email-worker"
       working_directory: .
-      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
-      env: tools
-      build_args: |-
-        DPS_SERVICE_NAME=dps-email-worker
-        MVN_PROFILES=dps-email-worker,openshift
     secrets:
       openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
       openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
