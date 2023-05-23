@@ -86,6 +86,7 @@
         <profile>
             <id>dps-payment-service</id>
             <modules>
+                <module>libs/dps-bom</module>
                 <module>dps-payment-service</module>
             </modules>
         </profile>
@@ -141,18 +142,21 @@
         <profile>
             <id>dps-email-poller</id>
             <modules>
+                <module>libs/dps-bom</module>
                 <module>dps-email-poller</module>
             </modules>
         </profile>
         <profile>
             <id>dps-email-worker</id>
             <modules>
+                <module>libs/dps-bom</module>
                 <module>dps-email-worker</module>
             </modules>
         </profile>
         <profile>
             <id>dps-registration-api</id>
             <modules>
+                <module>libs/dps-bom</module>
                 <module>dps-registration-api</module>
             </modules>
         </profile>
