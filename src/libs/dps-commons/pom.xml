@@ -40,6 +40,11 @@
             <artifactId>jackson-annotations</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
