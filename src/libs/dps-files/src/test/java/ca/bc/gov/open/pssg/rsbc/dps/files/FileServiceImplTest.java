@@ -113,7 +113,7 @@ public class FileServiceImplTest {
 
         InputStream content = sut.getFileContent(FILENAME_1_TXT);
 
-        Assertions.assertEquals(FAKECONTENT, IOUtils.toString(content, StandardCharsets.UTF_8));
+        Assertions.assertEquals(FAKECONTENT, IOUtils.toString(content, String.valueOf(StandardCharsets.UTF_8)));
 
     }
 
