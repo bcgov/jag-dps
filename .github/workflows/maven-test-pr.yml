@@ -38,3 +38,16 @@ jobs:
       run: mvn -B test --file src/pom.xml -P all
       env:
         NEXUS_URL: "${{ secrets.NEXUS_URL }}"
+
+    #Run Vulnerability Scan usinig Trivy scanner
+    - name: Run Trivy vulnerability scanner for dps-email-worker
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: image
+        image-ref: dps-email-worker:${{ github.sha }}
+        format: template
+        template: '@/contrib/sarif.tpl'
+        output: trivy-results.sarif
+        exit-code: 1
+        ignore-unfixed: true
+        severity: HIGH,CRITICAL
