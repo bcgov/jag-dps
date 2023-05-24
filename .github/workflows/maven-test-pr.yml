@@ -39,6 +39,15 @@ jobs:
       env:
         NEXUS_URL: "${{ secrets.NEXUS_URL }}"
 
+    #Build image for scanning
+    - name: Build dps-email-worker image from Dockerfile
+      env:
+        COMPOSE_DOCKER_CLI_BUILD: 1
+        DOCKER_BUILDKIT: 1
+        CONTEXT: ./src/dps-email-worker
+      run: |
+        docker build -t dps-email-worker:${{ github.sha }} ${CONTEXT}
+
     #Run Vulnerability Scan usinig Trivy scanner
     - name: Run Trivy vulnerability scanner for dps-email-worker
       uses: aquasecurity/trivy-action@master
