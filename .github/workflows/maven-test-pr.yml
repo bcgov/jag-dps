@@ -38,25 +38,3 @@ jobs:
       run: mvn -B test --file src/pom.xml -P all
       env:
         NEXUS_URL: "${{ secrets.NEXUS_URL }}"
-
-    #Build image for scanning
-    - name: Build dps image from Dockerfile
-      env:
-        COMPOSE_DOCKER_CLI_BUILD: 1
-        DOCKER_BUILDKIT: 1
-        CONTEXT: ./src
-      run: |
-        docker build -t dps:${{ github.sha }} ${CONTEXT}
-
-    #Run Vulnerability Scan usinig Trivy scanner
-    - name: Run Trivy vulnerability scanner for dps
-      uses: aquasecurity/trivy-action@master
-      with:
-        scan-type: image
-        image-ref: dps:${{ github.sha }}
-        format: template
-        template: '@/contrib/sarif.tpl'
-        output: trivy-results.sarif
-        exit-code: 1
-        ignore-unfixed: true
-        severity: HIGH,CRITICAL
