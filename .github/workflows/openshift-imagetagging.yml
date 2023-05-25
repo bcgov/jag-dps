@@ -21,9 +21,9 @@ on:
         required: true
         description: What is the tag that is going to be promoted?
         type: choice
-          options:
-            - dev
-            - test
+        options:
+          - dev
+          - test
       target_environment:
         required: true
         description: What is the targeted environment?
