@@ -1,5 +1,5 @@
 # Deploy an artifact onto Test, or Prod
-name: Deploy
+name: Trigger deployment to test and prod Openshift environnment by Image stream re-tagging and labelling pod
 on:
   workflow_dispatch:
     inputs:
