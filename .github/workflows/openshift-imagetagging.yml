@@ -17,7 +17,7 @@ on:
           - figaro-validation-service
           - spd-notification-worker
           - vips-notification-worker
-      source_environment:
+      source_image_tag:
         required: true
         description: What is the tag that is going to be promoted?
         type: choice
