@@ -85,7 +85,7 @@ jobs:
           OPENSHIFT_USER: ${{secrets.OPENSHIFT_SA_TOOLS_DEPLOYER_NAME}}
         with:
           openshift_server_url: ${{secrets.OPENSHIFT_SERVER_URL_SILVER}}
-          openshift_token: ${{secrets.OPENSHIFT_SA_TOOLS_DEPLOYER_TOKEN}}
+          openshift_token: ${{secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER}}
           namespace: ${{secrets.OPENSHIFT_TOOLS_NAMESPACE}}
 
         # Re-Tag latest dev (source) dps-email-poller image to other env to trigger openshift deployment via DeploymentConfig
