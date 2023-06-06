@@ -28,7 +28,7 @@ jobs:
     defaults:
       run:
         working-directory: "src/dps-email-poller"
-        java_version: "8"
+        java_version: '8'
 
     steps:
       - uses: actions/checkout@v2
