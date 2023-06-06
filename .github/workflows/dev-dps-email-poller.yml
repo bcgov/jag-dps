@@ -28,21 +28,21 @@ jobs:
     defaults:
       run:
         working-directory: "src/dps-email-poller"
-        java_version: '8'
+        #java_version: '8'
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Printing Inputs
         run: |
-          echo "java_version: ${{ inputs.java_version }}"
+          echo "java_version: 8"
           echo "working_directory: ${{ inputs.working_directory}}"
 
-      - name: "Set up JDK ${{ inputs.java_version }}"
+      - name: "Set up JDK 8"
         uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
-          java-version: ${{ inputs.java_version }}
+          java-version: 8
           cache: 'maven'
 
       - name: Cache local Maven repository
