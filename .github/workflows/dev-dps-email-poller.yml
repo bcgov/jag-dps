@@ -56,7 +56,7 @@ jobs:
       - name: Get Java Project Version
         id: get-version
         run: |
-          mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          mvn help:evaluate -Dexpression=project.version -q -DforceStdout
   #app-version:
   #  uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
   #  with:
