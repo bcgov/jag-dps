@@ -57,7 +57,6 @@ jobs:
         id: get-version
         run: |
           _version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo "::set-output name=app-version::$_version"
           echo $_version
   #app-version:
   #  uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
