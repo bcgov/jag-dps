@@ -10,7 +10,8 @@ on:
   workflow_dispatch:
     branches:
       - main
-
+env:
+  NEXUS_URL: ${{secrets.NEXUS_URL}}
 jobs:
   unit-test:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
