@@ -19,16 +19,56 @@ jobs:
       profile: dps-email-poller
     secrets:
       nexus_url: ${{ secrets.NEXUS_URL }}
+  
+  get-app-version:
+    name: Get the app-version from the POM file
+    runs-on: ubuntu-latest
+    outputs:
+      app-version: ${{ steps.get-version.outputs.app-version }}
+    defaults:
+      run:
+        working-directory: "src/dps-email-poller"
+        java_version: "8"
 
-  app-version:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
-    with:
-      working_directory: "src/dps-email-poller"
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Printing Inputs
+        run: |
+          echo "java_version: ${{ inputs.java_version }}"
+          echo "working_directory: ${{ inputs.working_directory}}"
+
+      - name: "Set up JDK ${{ inputs.java_version }}"
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: ${{ inputs.java_version }}
+          cache: 'maven'
+
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Get Java Project Version
+        id: get-version
+        run: |
+          _version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "::set-output name=app-version::$_version"
+          echo $_version
+  #app-version:
+  #  uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
+  #  with:
+  #    working_directory: "src/dps-email-poller"
 
   build-image:
     needs:
       - unit-test
-      - app-version
+      #- app-version
+      - get-app-version
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-image.yml@main
     with:
       app_name: "dps-email-poller"
