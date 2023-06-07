@@ -48,14 +48,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build from Dockerfile
-        id: build-image
-        uses: docker/build-push-action@v2
-        with:
-          push: false
-          tags: "dps-email-poller:latest"
-          context: "."
-          file: "."
+      - name: Docker Build
+        run: |            
+          docker build -t dps-email-poller -f src/dps-email-poller/Dockerfile . 
 
   trivy:
     needs:
