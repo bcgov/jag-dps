@@ -74,27 +74,28 @@ jobs:
       working_directory: .
     
   trivy:
-  - name: Vulnerability Scan
-    uses: Azure/container-scan@v0
-    continue-on-error: true
-    with:
-      image-name: ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{inputs.imagestream_name}}:${{inputs.image_tag}}
-  
-  - name: Authenticate and set context
-    uses: redhat-actions/oc-login@v1
-    with:
-      openshift_server_url: ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}
-      openshift_token: ${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}
-      namespace: ${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools
-  
-  - name: Login to OpenShift Container Repository
-    uses: docker/login-action@v1
-    with:
-      registry: ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}
-      username: ${{ secrets.DOCKER_USERNAME }}
-      password: ${{ secrets.DOCKER_PASSWORD }}
-
-  - name: Pull Image for Scanning
-    run: |
-      docker pull ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{inputs.imagestream_name}}:${{inputs.image_tag}}  
+    steps:
+      - name: Vulnerability Scan
+        uses: Azure/container-scan@v0
+        continue-on-error: true
+        with:
+          image-name: ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{inputs.imagestream_name}}:${{inputs.image_tag}}
+      
+      - name: Authenticate and set context
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}
+          namespace: ${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools
+      
+      - name: Login to OpenShift Container Repository
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+    
+      - name: Pull Image for Scanning
+        run: |
+          docker pull ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{inputs.imagestream_name}}:${{inputs.image_tag}}  
 
