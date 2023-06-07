@@ -66,27 +66,17 @@ jobs:
 
   trivy:
     needs:
-      - unit-test
-#     - app-version
-    uses: Azure/container-scan@v0
-    continue-on-error: true
+#      - app-version
+      - build-and-push-image
+    uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@main
     with:
-      image-name: ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{inputs.imagestream_name}}:${{inputs.image_tag}}
-  
-  - name: Authenticate and set context
-    uses: redhat-actions/oc-login@v1
-    with:
-      openshift_server_url: ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}
-      openshift_token: ${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}
-      namespace: ${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools
-  
-  - name: Login to OpenShift Container Repository
-    uses: docker/login-action@v1
-    with:
-      registry: ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}
-      username: ${{ secrets.DOCKER_USERNAME }}
-      password: ${{ secrets.DOCKER_PASSWORD }}
-
-  - name: Pull Image for Scanning
-    run: |
-      docker pull ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{inputs.imagestream_name}}:${{inputs.image_tag}}  
+      imagestream_name: ${{ github.event.inputs.app_name }}
+#      image_tag: "${{ needs.app-version.outputs.app-version }}"
+      image_tag: "dev,1"
+    secrets:
+      openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
+      openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
+      openshift_sa_name: "${{ secrets.OPENSHIFT_SA_PIPELINE_PASSWORD_SILVER }}"
+      openshift_sa_password: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
+      openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
+      openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
