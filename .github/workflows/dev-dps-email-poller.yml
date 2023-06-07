@@ -41,6 +41,8 @@ jobs:
       - build-image
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+      
       - name: Vulnerability Scan
         uses: Azure/container-scan@v0
         continue-on-error: true
