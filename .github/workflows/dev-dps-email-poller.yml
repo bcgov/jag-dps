@@ -35,6 +35,9 @@ jobs:
     with:
       app_name: "dps-email-poller"
       working_directory: .
+      build_args: |-
+        DPS_SERVICE_NAME=${{ github.event.inputs.app_name }}
+        MVN_PROFILES=${{ github.event.inputs.app_name }},openshift
     
   trivy:
     needs:
