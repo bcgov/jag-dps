@@ -21,43 +21,6 @@ jobs:
     secrets:
       nexus_url: ${{ secrets.NEXUS_URL }}
   
-  get-app-version:
-    name: Get the app-version from the POM file
-    runs-on: ubuntu-latest
-    outputs:
-      app-version: ${{ steps.get-version.outputs.app-version }}
-    defaults:
-      run:
-        working-directory: "src/dps-email-poller"
-        #java_version: '8'
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Printing Inputs
-        run: |
-          echo "java_version: 8"
-          echo "working_directory: ${{ inputs.working_directory}}"
-
-      - name: "Set up JDK 8"
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: 8
-          cache: 'maven'
-
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: Get Java Project Version
-        id: get-version
-        run: |
-          mvn help:evaluate -Dexpression=project.version -q -DforceStdout
   #app-version:
   #  uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
   #  with:
@@ -74,13 +37,15 @@ jobs:
       working_directory: .
     
   trivy:
+    needs:
+      - build-image
     runs-on: ubuntu-latest
     steps:
       - name: Vulnerability Scan
         uses: Azure/container-scan@v0
         continue-on-error: true
         with:
-          image-name: ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{inputs.imagestream_name}}:${{inputs.image_tag}}
+          image-name: ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ inputs.app_name }}:latest
 
       - name: Authenticate and set context
         uses: redhat-actions/oc-login@v1
@@ -98,5 +63,5 @@ jobs:
 
       - name: Pull Image for Scanning
         run: |
-          docker pull ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{inputs.imagestream_name}}:${{inputs.image_tag}}  
+          docker pull ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ inputs.app_name }}:latest
 
