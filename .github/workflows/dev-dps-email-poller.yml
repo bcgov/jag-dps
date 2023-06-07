@@ -26,19 +26,38 @@ jobs:
   #  with:
   #    working_directory: "src/dps-email-poller"
 
-  build-image:
-    needs:
-      - unit-test
-      #- app-version
-      #- get-app-version
-    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-image.yml@main
-    with:
-      app_name: "dps-email-poller"
-      working_directory: .
-      build_args: |-
-        DPS_SERVICE_NAME=${{ github.event.inputs.app_name }}
-        MVN_PROFILES=${{ github.event.inputs.app_name }},openshift
+  #build-image:
+    #needs:
+    #  - unit-test
+    #  #- app-version
+    #  #- get-app-version
+    #uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-image.yml@main
+    #with:
+    #  app_name: "dps-email-poller"
+    #  working_directory: .
+    #  build_args: |-
+    #    DPS_SERVICE_NAME=${{ github.event.inputs.app_name }}
+    #    MVN_PROFILES=${{ github.event.inputs.app_name }},openshift
     
+  build-image:
+    name: Build Docker image to make sure it works
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build from Dockerfile
+        id: build-image
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          tags: "dps-email-poller:latest"
+          context: "."
+          file: "."
+
   trivy:
     needs:
       - build-image
