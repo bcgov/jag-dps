@@ -74,9 +74,7 @@ jobs:
       working_directory: .
     
   trivy:
-    needs:
-      - unit-test
-#     - app-version
+  - name: Vulnerability Scan
     uses: Azure/container-scan@v0
     continue-on-error: true
     with:
