@@ -30,7 +30,7 @@ jobs:
     needs:
       - unit-test
       #- app-version
-      - get-app-version
+      #- get-app-version
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-image.yml@main
     with:
       app_name: "dps-email-poller"
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Vulnerability Scan
         uses: Azure/container-scan@v0
         continue-on-error: true
