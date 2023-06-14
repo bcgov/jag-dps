@@ -28,7 +28,6 @@ jobs:
   build-image:
     needs:
       - unit-test
-      - app-version
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-image.yml@main
     with:
       app_name: "dps-email-worker"
