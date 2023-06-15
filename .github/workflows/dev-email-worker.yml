@@ -1,17 +1,27 @@
 name: dps-email-worker - Build Image
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "src/dps-email-worker/**"
-      - ".github/workflows/dev-dps-email-worker"
-  workflow_dispatch:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      app_name:
+        required: true
+        type: string
+        default: "dps-email-worker"
+      app_version:
+        required: false
+        type: string
+        default: "*"
+      working_directory:
+        required: true
+        type: string
+        default: "."
+      dockerfile:
+        required: false
+        type: string
+        default: Dockerfile
+  
 
-jobs:
+jobs:  
   unit-test:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
     with:
@@ -19,17 +29,61 @@ jobs:
       profile: dps-email-worker
     secrets:
       nexus_url: ${{ secrets.NEXUS_URL }}
-
-  app-version:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
-    with:
-      working_directory: "src/dps-email-worker"
-
-  build-image:
+  
+# This workflow is used to build & scan image using trivy vulnerability scanner and upload the results to github security tab
+  build-scan-image:
     needs:
       - unit-test
-      - app-version
-    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-image.yml@main
-    with:
-      app_name: "dps-email-worker"
-      working_directory: .
+    name: Build & Scan Image
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Set up JDK build environment
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 11
+        
+      # Runs build steps
+      - name: Maven Package
+        run: mvn -ntp clean package
+        
+      - name: Maven Verify
+        run: mvn -ntp clean verify
+
+      #Build image for scanning
+      - name: Build Image from Dockerfile
+        id: build-image
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          tags: "${{ inputs.app_name }}:latest"
+          context: "./${{ inputs.working_directory }}"
+          file: "./${{ inputs.working_directory }}/${{ inputs.dockerfile }}"
+          build-args: |
+            APP_NAME=${{ inputs.app_name }}
+            APP_VERSION=${{ inputs.app_version }}
+
+      #Run Vulnerability Scan usinig Trivy scanner
+      - name: Run Trivy vulnerability scanner for jag-icon2-common-application
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: "${{ inputs.app_name }}:latest"
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: 1
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+        
+        #Upload results to the Github security tab.
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: trivy-results.sarif
+          
