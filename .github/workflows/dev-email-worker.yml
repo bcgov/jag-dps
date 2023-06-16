@@ -11,7 +11,7 @@ on:
     branches:
       - main
 
-jobs:
+jobs:  
   unit-test:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
     with:
@@ -21,15 +21,76 @@ jobs:
       nexus_url: ${{ secrets.NEXUS_URL }}
 
   app-version:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
-    with:
-      working_directory: "src/dps-email-worker"
+    name: Get the app-version from the POM file
+    runs-on: ubuntu-latest
+    outputs:
+      app-version: ${{ steps.get-version.outputs.app-version }}
+    defaults:
+      run:
+        working-directory: "src/dps-email-worker"
+  
+    steps:
+      - uses: actions/checkout@v2
 
-  build-image:
+      - name: "Set up JDK 8"
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: 8
+
+      # Runs build steps
+      - name: Maven Package
+        run: mvn -ntp clean package
+
+      - name: Get Java Project Version
+        id: get-version
+        run: |
+          _version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "{app-version}=$_version" >> $GITHUB_OUTPUT
+          echo $_version
+ 
+  build-scan-image:
     needs:
       - unit-test
       - app-version
-    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-image.yml@main
-    with:
-      app_name: "dps-email-worker"
-      working_directory: .
+    name: Build & Scan Image
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "."
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      #Build image for scanning
+      - name: Build from Dockerfile
+        id: build-image
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          tags: "dev-email-worker:latest"
+          context: "."
+          file: "./Dockerfile"
+          build-args: |
+            APP_NAME="dps-email-worker"
+            APP_VERSION= ${{ needs.app-version.outputs.app-version }}
+
+      #Run Vulnerability Scan usinig Trivy scanner
+      - name: Run Trivy vulnerability scanner for dev-email-worker
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: "dev-email-worker:${{ needs.app-version.outputs.app-version }}"
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: 1
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+        
+        #Upload results to the Github security tab.
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: trivy-results.sarif
