@@ -19,25 +19,23 @@ jobs:
       profile: dps-email-worker
     secrets:
       nexus_url: ${{ secrets.NEXUS_URL }}
+   
+  app-version:
+    name: Get the app-version from the POM file
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "src/dps-email-worker"
   
-# This workflow is used to build & scan image using trivy vulnerability scanner and upload the results to github security tab
-  build-scan-image:
-    needs:
-      - unit-test
-    name: Build & Scan Image
-    runs-on: ubuntu-20.04
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      
-      # Set up JDK build environment
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v2
+
+      - name: "Set up JDK 8"
+        uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
-          java-version: 11
-        
+          java-version: 8
+  
       # Runs build steps
       - name: Maven Package
         run: mvn -ntp clean package
@@ -45,6 +43,22 @@ jobs:
       - name: Maven Verify
         run: mvn -ntp clean verify
 
+  
+# This job is used to build & scan image using trivy vulnerability scanner and upload the results to github security tab
+  build-scan-image:
+    needs:
+      - unit-test
+      - app-version
+    name: Build & Scan Image
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "."
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       #Build image for scanning
       - name: Build an image from Dockerfile
         env:
