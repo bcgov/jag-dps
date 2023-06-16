@@ -7,9 +7,10 @@ on:
     paths:
       - "src/dps-email-worker/**"
       - ".github/workflows/dev-dps-email-worker"
-  workflow_dispatch:
-    branches:
-      - main
+  workflow_call:
+    outputs:
+      app-version:
+        value: ${{ jobs.app-version.outputs.app-version }}
 
 jobs:  
   unit-test:
@@ -23,6 +24,8 @@ jobs:
   app-version:
     name: Get the app-version from the POM file
     runs-on: ubuntu-latest
+    outputs:
+      app-version: ${{ steps.get-version.outputs.app-version }}
     defaults:
       run:
         working-directory: "src/dps-email-worker"
@@ -35,16 +38,19 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 8
-  
+
+      
       # Runs build steps
       - name: Maven Package
         run: mvn -ntp clean package
-        
-      - name: Maven Verify
-        run: mvn -ntp clean verify
 
-  
-# This job is used to build & scan image using trivy vulnerability scanner and upload the results to github security tab
+      - name: Get Java Project Version
+        id: get-version
+        run: |
+          _version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "::set-output name=app-version::$_version"
+          echo $_version
+ 
   build-scan-image:
     needs:
       - unit-test
@@ -60,19 +66,25 @@ jobs:
         uses: actions/checkout@v2
         
       #Build image for scanning
-      - name: Build an image from Dockerfile
-        env:
-          COMPOSE_DOCKER_CLI_BUILD: 1
-          DOCKER_BUILDKIT: 1
-        run: |
-          docker build -t dev-email-worker:${{ github.sha }} .
+      - name: Build from Dockerfile
+        id: build-image
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          tags: "dev-email-worker:latest"
+          context: "."
+          file: "./Dockerfile"
+          build-args: |
+            APP_NAME="dps-email-worker"
+            APP_VERSION= ${{ jobs.app-version.outputs.app-version }}
+
 
       #Run Vulnerability Scan usinig Trivy scanner
       - name: Run Trivy vulnerability scanner for jag-icon2-common-application
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
-          image-ref: "dev-email-worker:${{ github.sha }}"
+          image-ref: "dev-email-worker:${{ jobs.app-version.outputs.app-version }}"
           format: sarif
           output: trivy-results.sarif
           exit-code: 1
