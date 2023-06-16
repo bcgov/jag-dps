@@ -38,10 +38,6 @@ jobs:
           distribution: 'temurin'
           java-version: 8
 
-      # Runs build steps
-      - name: Maven Package
-        run: mvn -ntp clean package
-
       - name: Get Java Project Version
         id: get-version
         run: |
