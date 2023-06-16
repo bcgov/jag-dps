@@ -7,10 +7,10 @@ on:
     paths:
       - "src/dps-email-worker/**"
       - ".github/workflows/dev-dps-email-worker"
-  workflow_call:
-    outputs:
-      app-version:
-        value: ${{ jobs.app-version.outputs.app-version }}
+  workflow_dispatch:
+    branches:
+      - main
+
 
 jobs:  
   unit-test:
@@ -76,7 +76,7 @@ jobs:
           file: "./Dockerfile"
           build-args: |
             APP_NAME="dps-email-worker"
-            APP_VERSION= ${{ jobs.app-version.outputs.app-version }}
+            APP_VERSION= ${{ needs.app-version.outputs.app-version }}
 
 
       #Run Vulnerability Scan usinig Trivy scanner
@@ -84,7 +84,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
-          image-ref: "dev-email-worker:${{ jobs.app-version.outputs.app-version }}"
+          image-ref: "dev-email-worker:${{ needs.app-version.outputs.app-version }}"
           format: sarif
           output: trivy-results.sarif
           exit-code: 1
