@@ -22,7 +22,6 @@ COPY src/dps-email-poller/pom.xml dps-email-poller/pom.xml
 COPY src/dps-email-worker/pom.xml dps-email-worker/pom.xml
 COPY src/dps-notification-service/pom.xml dps-notification-service/pom.xml
 COPY src/dps-payment-service/pom.xml dps-payment-service/pom.xml
-COPY src/dps-registration-api/pom.xml dps-registration-api/pom.xml
 COPY src/dps-validation-service/pom.xml dps-validation-service/pom.xml
 
 COPY src/figaro-validation-service/pom.xml figaro-validation-service/pom.xml
@@ -41,7 +40,6 @@ COPY src/libs/dps-commons/pom.xml libs/dps-commons/pom.xml
 COPY src/libs/dps-files/pom.xml libs/dps-files/pom.xml
 COPY src/libs/dps-monitoring/pom.xml libs/dps-monitoring/pom.xml
 COPY src/libs/dps-sftp-starter/pom.xml libs/dps-sftp-starter/pom.xml
-COPY src/libs/otssoa-ords-client/pom.xml libs/otssoa-ords-client/pom.xml
 
 RUN mvn dependency:go-offline \
     -Pall \

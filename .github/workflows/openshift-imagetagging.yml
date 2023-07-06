@@ -12,7 +12,6 @@ on:
           - dps-email-worker
           - dps-notification-service
           - dps-payment-service
-          - dps-registration-api
           - dps-validation-service
           - figaro-validation-service
           - spd-notification-worker
