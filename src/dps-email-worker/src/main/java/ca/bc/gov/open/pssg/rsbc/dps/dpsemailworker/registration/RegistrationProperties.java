@@ -7,7 +7,6 @@ public class RegistrationProperties {
 
     private boolean enabled;
 
-
     public boolean isEnabled() {
         return enabled;
     }
