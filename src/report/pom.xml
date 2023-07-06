@@ -99,11 +99,6 @@
             <version>0.4.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
-            <artifactId>dps-registration-api</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-monitoring</artifactId>
             <version>0.4.1-SNAPSHOT</version>
