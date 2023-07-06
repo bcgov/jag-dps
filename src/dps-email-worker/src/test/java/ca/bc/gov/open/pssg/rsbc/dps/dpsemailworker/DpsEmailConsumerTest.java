@@ -4,7 +4,6 @@ import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.Batch;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models.ImportSession;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.services.ImportSessionService;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.registration.RegistrationService;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailProcessedResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.email.client.DpsEmailService;
 import ca.bc.gov.open.pssg.rsbc.dps.files.FileService;
@@ -60,9 +59,6 @@ public class DpsEmailConsumerTest {
     @Mock
     private DpsEmailProcessedResponse dpsEmailFailedResponseMock;
 
-    @Mock
-    private RegistrationService registrationServiceMock;
-
     @BeforeAll
     public void setUp() throws Exception {
 
@@ -103,7 +99,7 @@ public class DpsEmailConsumerTest {
         sftpProperties.setRemoteLocation(REMOTE_LOCATION);
 
         sut = new DpsEmailConsumer(dpsEmailServiceMock, storageServiceMock, fileServiceMock, sftpProperties,
-                importSessionService, registrationServiceMock);
+                importSessionService);
     }
 
     @DisplayName("success - with email processed should return acknowledge")
