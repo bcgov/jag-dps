@@ -1,6 +1,5 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.registration;
 
-import ca.bc.gov.open.ottsoa.ords.client.OtssoaService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,11 +18,8 @@ public class RegistrationConfig {
     }
 
     @Bean
-    public RegistrationService registrationService(OtssoaService otssoaService) {
-        if(registrationProperties.isEnabled())
-            return new RegistrationServiceImpl(otssoaService);
-        else
-            return new NoActionRegistrationService();
+    public RegistrationService registrationService() {
+        return new NoActionRegistrationService();
     }
 
 }
