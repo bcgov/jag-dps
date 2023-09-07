@@ -39,6 +39,7 @@ public class OutputNotificationConsumer {
     private static final String DPS_FILE_ID_KEY = "dps.fileId";
     private static final String DPS_BUSINESS_AREA_CD_KEY = "dps.businessAreaCd";
     private static final String DEFAULT_VALUE = "0";
+    private static final String CONCURRENCY_QUEUE = "5";
 
     private final FileService fileService;
     private final SftpProperties sftpProperties;
@@ -57,7 +58,7 @@ public class OutputNotificationConsumer {
         this.kofaxOutputMetadataContext = kofaxOutputMetadataContext;
     }
 
-    @RabbitListener(queues = Keys.CRRP_QUEUE_NAME)
+    @RabbitListener(queues = Keys.CRRP_QUEUE_NAME, concurrency = CONCURRENCY_QUEUE)
     public void receiveMessage(OutputNotificationMessage message) {
 
         logger.info("received new {}", message);
