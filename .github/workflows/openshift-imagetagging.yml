@@ -37,7 +37,7 @@ jobs:
     with:
       image_stream_name: "${{ github.event.inputs.app_name }}"
       source_image_tag: "${{ github.event.inputs.source_image_tag }}"
-      image_tags: "${{ github.event.inputs.environment }}"
+      image_tags: "${{ github.event.inputs.target_environment }}"
     secrets:
       openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
       openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
