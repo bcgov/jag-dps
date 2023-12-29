@@ -167,7 +167,7 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>5.1.0</version>
+                <version>7.0.0</version>
                 <executions>
                     <execution>
                         <id>spring-boot-api</id>
@@ -179,7 +179,9 @@
                             <generatorName>java</generatorName>
                             <configOptions>
                                 <dateLibrary>joda</dateLibrary>
-                                <java8>true</java8>
+                                <!-- javax.* to jakarta.* -->
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <useJakartaEe>true</useJakartaEe>
                             </configOptions>
                             <library>jersey2</library>
                             <apiPackage>${default-package}.api</apiPackage>
@@ -217,7 +219,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
+                <version>0.8.10</version>
                 <executions>
                     <execution>
                         <goals>

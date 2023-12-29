@@ -3,7 +3,7 @@ package ca.bc.gov.open.pssg.rsbc.figaro.ords.client.applicant.types;
 import ca.bc.gov.open.pssg.rsbc.figaro.ords.client.FigaroOrdsClientConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * 
