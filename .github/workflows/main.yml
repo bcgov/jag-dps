@@ -32,6 +32,7 @@ jobs:
     with:
       working_directory: "src"
       profile: ${{ github.event.inputs.app_name }}
+      java_version: "17"
     secrets:
       nexus_url: ${{ secrets.NEXUS_URL }}
 
