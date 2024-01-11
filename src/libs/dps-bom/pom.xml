@@ -44,6 +44,9 @@
         <ews-java-api.version>2.0</ews-java-api.version>
         <jsoup.version>1.17.1</jsoup.version>
         <java-grok.version>0.1.9</java-grok.version> <!-- vulnerability fix not available -->
+        <springdoc-openapi.version>2.2.0</springdoc-openapi.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
+        <jabx-impl.version>4.0.0</jabx-impl.version>
     </properties>
 
     <dependencyManagement>
@@ -92,9 +95,9 @@
                 <version>${springfox.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc-openapi.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger</groupId>
@@ -288,6 +291,24 @@
                 <groupId>io.krakens</groupId>
                 <artifactId>java-grok</artifactId>
                 <version>${java-grok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${jabx-impl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>${jabx-impl.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${jaxb-api.version}</version>
             </dependency>
 
         </dependencies>

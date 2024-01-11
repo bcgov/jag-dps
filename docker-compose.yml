@@ -56,7 +56,7 @@ services:
       - SPLUNK_TOKEN=${SPLUNK_TOKEN}
       - SWAGGER_UI_ENABLED=true
     ports:
-      - "8081:8080"
+      - "8084:8080"
     networks:
       - dps-net
 
@@ -71,9 +71,9 @@ services:
         - DPS_SERVICE_NAME=figaro-validation-service
     environment: 
       - SWAGGER_UI_ENABLED=true
-      - FIGCR_BASE_PATH=$FIGCR_BASE_PATH
+      - FIGCR_BASE_PATH=${FIGCR_BASE_PATH}
     ports:
-      - "8082:8081"
+      - "8082:8080"
     networks:
       - dps-net
   
@@ -88,9 +88,10 @@ services:
         - DPS_SERVICE_NAME=dps-validation-service
     environment: 
       - SWAGGER_UI_ENABLED=true
-      - DFCMS_BASE_PATH=$DFCMS_BASE_PATH
+      - DFCMS_BASE_PATH=${DFCMS_BASE_PATH}
+      - DFCMS_EIGHT_DIGIT_LICENSE=${DFCMS_EIGHT_DIGIT_LICENSE}
     ports:
-      - "8083:8081"
+      - "8083:8080"
     networks:
       - dps-net
 
@@ -136,7 +137,10 @@ services:
       - "5056:8080"
     environment: 
       - RABBITMQ_HOST=rabbitmq
-      - FIGCR_BASE_PATH=$FIGCR_BASE_PATH
+      - FIGCR_BASE_PATH=${FIGCR_BASE_PATH}
+      - VIPS_BASE_PATH=${VIPS_BASE_PATH}
+      - VIPS_USERNAME=${VIPS_USERNAME}
+      - VIPS_PASSWORD=${VIPS_PASSWORD}
     networks:
       - dps-net
 

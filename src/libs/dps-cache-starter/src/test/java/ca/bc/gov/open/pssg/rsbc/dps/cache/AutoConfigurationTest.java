@@ -17,12 +17,12 @@ public class AutoConfigurationTest {
     @Mock
     private RedisProperties redisProperties;
 
-    private AutoConfiguration autoConfiguration;
+    private CacheAutoConfiguration autoConfiguration;
 
     @BeforeAll
     public void init() throws Exception {
         MockitoAnnotations.initMocks(this);
-        autoConfiguration = new AutoConfiguration();
+        autoConfiguration = new CacheAutoConfiguration();
         redisProperties = Mockito.mock(RedisProperties.class);
     }
 

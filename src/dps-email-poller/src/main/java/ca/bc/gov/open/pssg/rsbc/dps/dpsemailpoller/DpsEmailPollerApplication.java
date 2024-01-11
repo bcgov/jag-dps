@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller", "ca.bc.gov.open.pssg.rsbc.dps.cache"})
 @EnableScheduling
 public class DpsEmailPollerApplication {
 

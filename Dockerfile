@@ -2,7 +2,7 @@
 ###              Stage where Docker is caching the dependencies spring boot app using maven               ###
 #############################################################################################
 #FROM image-registry.apps.silver.devops.gov.bc.ca/043918-tools/maven:3.8.6-eclipse-temurin-8 as dependencies
-FROM maven:3.8.6-eclipse-temurin-8 as dependencies
+FROM maven:3.8.6-eclipse-temurin-17 as dependencies
 
 ## Defining Arguments and env vars
 ARG NEXUS_URL=https://nexus-043918-tools.apps.silver.devops.gov.bc.ca
@@ -79,7 +79,7 @@ RUN mvn clean package \
 #### Stage where Docker is running a java process to run a service built in previous stage ###
 ##############################################################################################
 #FROM image-registry.apps.silver.devops.gov.bc.ca/043918-tools/eclipse-temurin:8-jre-jammy
-FROM eclipse-temurin:8-jre-jammy
+FROM eclipse-temurin:17-jre-alpine
 
 ARG DPS_SERVICE_NAME
 
