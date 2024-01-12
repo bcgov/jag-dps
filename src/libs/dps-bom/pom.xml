@@ -34,8 +34,7 @@
         <logback.access.version>2.7.1</logback.access.version>
         <jsr305.version>3.0.2</jsr305.version>
         <jsr310.version>2.16.0</jsr310.version>
-        <logback.classic.version>1.4.8</logback.classic.version>
-        <logback.core.version>1.4.14</logback.core.version>
+        <logback.version>1.4.14</logback.version>
         <jedis.version>4.4.6</jedis.version>
         <snakeyaml.version>2.0</snakeyaml.version>
         <slf4j.api.version>2.0.9</slf4j.api.version>
@@ -47,6 +46,10 @@
         <springdoc-openapi.version>2.2.0</springdoc-openapi.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <jabx-impl.version>4.0.0</jabx-impl.version>
+        <tomcat-embed-core.version>11.0.0-M16</tomcat-embed-core.version>
+        <json.version>20231013</json.version>
+        <spring-webmvc.version>6.1.1</spring-webmvc.version>
+        <snakeyaml.version>2.2</snakeyaml.version>
     </properties>
 
     <dependencyManagement>
@@ -254,12 +257,12 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>${logback.classic.version}</version>
+                <version>${logback.version}</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
-                <version>${logback.core.version}</version>
+                <version>${logback.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -309,6 +312,30 @@
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>${jaxb-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat-embed-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${json.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring-webmvc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${snakeyaml.version}</version>
             </dependency>
 
         </dependencies>
