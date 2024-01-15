@@ -68,6 +68,12 @@ WORKDIR $HOME
 
 COPY src .
 
+RUN mvn -B clean install \
+    --no-transfer-progress \
+    --batch-mode \
+    -DskipTests=${SKIP_TESTS} \
+    -P libs
+
 RUN mvn clean package \
     --no-transfer-progress \
     --batch-mode \
