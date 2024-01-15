@@ -16,6 +16,7 @@ jobs:
     with:
       working-directory: src
       profile: libs
+      java_version: 17
     secrets:
       nexus_snapshot_username: "${{ secrets.NEXUS_SNAPSHOT_USERNAME }}"
       nexus_snapshot_password: "${{ secrets.NEXUS_SNAPSHOT_PASSWORD }}"
