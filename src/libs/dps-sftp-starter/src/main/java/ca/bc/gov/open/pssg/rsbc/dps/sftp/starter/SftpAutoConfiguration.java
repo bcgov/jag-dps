@@ -23,11 +23,11 @@ public class SftpAutoConfiguration {
 
     public SftpAutoConfiguration(SftpProperties sftpProperties) {
         this.sftpProperties = sftpProperties;
-        logger.debug("SFTP Configuration: Host => [{}]", this.sftpProperties.getHost());
-        logger.debug("SFTP Configuration: Port => [{}]", this.sftpProperties.getPort());
-        logger.debug("SFTP Configuration: Username => [{}]", this.sftpProperties.getUsername());
-        logger.debug("SFTP Configuration: Remote Directory => [{}]", this.sftpProperties.getRemoteLocation());
-        logger.debug("SFTP Configuration: Known Host File => [{}]", this.sftpProperties.getKnownHostsFileName());
+        logger.info("SFTP Configuration: Host => [{}]", this.sftpProperties.getHost());
+        logger.info("SFTP Configuration: Port => [{}]", this.sftpProperties.getPort());
+        logger.info("SFTP Configuration: Username => [{}]", this.sftpProperties.getUsername());
+        logger.info("SFTP Configuration: Remote Directory => [{}]", this.sftpProperties.getRemoteLocation());
+        logger.info("SFTP Configuration: Known Host File => [{}]", this.sftpProperties.getKnownHostsFileName());
     }
 
     /**
