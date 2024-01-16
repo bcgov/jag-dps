@@ -15,6 +15,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
         <maven.test.plugin.version>3.1.2</maven.test.plugin.version>
+        <jedis.version>3.8.0</jedis.version>
+        <spring-redis.version>2.7.12</spring-redis.version>
     </properties>
 
     <dependencies>
@@ -26,16 +28,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${spring-redis.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
+            <version>${spring-redis.version}</version>
         </dependency>
 
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
         </dependency>
 
         <dependency>

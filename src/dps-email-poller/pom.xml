@@ -16,6 +16,11 @@
     <name>dps-email-poller</name>
     <description>DPS Email Poller module</description>
 
+    <properties>
+        <jedis.version>3.8.0</jedis.version>
+        <spring-redis.version>2.7.12</spring-redis.version>
+    </properties>
+
     <repositories>
         <repository>
             <id>central</id>
@@ -60,9 +65,21 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${spring-redis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>${spring-redis.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-            <version>4.2.0</version>
+            <version>${jedis.version}</version>
         </dependency>
 
         <dependency>

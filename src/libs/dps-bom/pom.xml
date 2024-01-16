@@ -50,6 +50,7 @@
         <json.version>20231013</json.version>
         <spring-webmvc.version>6.1.1</spring-webmvc.version>
         <snakeyaml.version>2.2</snakeyaml.version>
+        <spring-redis.version>2.7.12</spring-redis.version>
     </properties>
 
     <dependencyManagement>
@@ -62,12 +63,12 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${spring-redis.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-redis</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${spring-redis.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
