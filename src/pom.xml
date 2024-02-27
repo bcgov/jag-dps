@@ -22,15 +22,6 @@
             <name>Maven Central</name>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
-        <repository>
-            <id>nexus-releases</id>
-            <url>${env.NEXUS_URL}/repository/dps-group</url>
-        </repository>
-        <repository>
-            <id>nexus-snapshots</id>
-            <url>${env.NEXUS_URL}/repository/dps-snapshots</url>
-            <snapshots><enabled>true</enabled></snapshots>
-        </repository>
     </repositories>
 
     <profiles>
@@ -53,14 +44,15 @@
         <profile>
             <id>all</id>
             <modules>
+                <module>libs/jag-vips-client/src/jag-vips-client</module>
                 <module>libs/dps-bom</module>
                 <module>libs/dfcms-ords-client</module>
                 <module>libs/dps-cache-starter</module>
+                <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/dps-notification</module>
                 <module>libs/figaro-ords-client</module>
-                <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-commons</module>
                 <module>libs/dps-email-client</module>
                 <module>libs/dps-monitoring</module>
@@ -128,6 +120,7 @@
         <profile>
             <id>vips-notification-worker</id>
             <modules>
+                <module>libs/jag-vips-client/src/jag-vips-client</module>
                 <module>libs/dps-bom</module>
                 <module>libs/dps-notification</module>
                 <module>libs/dps-files</module>
@@ -151,20 +144,5 @@
             </modules>
         </profile>
     </profiles>
-
-    <distributionManagement>
-        <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>nexus-release</id>
-            <url>${env.NEXUS_URL}/repository/dps-releases</url>
-            <layout>default</layout>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>true</uniqueVersion>
-            <id>nexus-snapshots</id>
-            <url>${env.NEXUS_URL}/repository/dps-snapshots</url>
-            <layout>default</layout>
-        </snapshotRepository>
-    </distributionManagement>
 
 </project>

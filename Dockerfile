@@ -1,3 +1,14 @@
+##############################################################################################
+#### Stage where the git submodules are updated                                            ###
+##############################################################################################
+## Defining Arguments and env vars
+ARG DPS_SERVICE_NAME
+
+FROM alpine/git as libraries
+WORKDIR /libs
+COPY . .
+RUN git submodule update --init
+
 #############################################################################################
 ###              Stage where Docker is caching the dependencies spring boot app using maven               ###
 #############################################################################################
@@ -5,10 +16,7 @@
 FROM maven:3.8.6-eclipse-temurin-17 as dependencies
 
 ## Defining Arguments and env vars
-ARG NEXUS_URL=https://nexus-043918-tools.apps.silver.devops.gov.bc.ca
 ARG DPS_SERVICE_NAME
-
-ENV NEXUS_URL=${NEXUS_URL}
 
 ## Definig home folder
 ENV HOME=/opt/app
@@ -28,6 +36,9 @@ COPY src/figaro-validation-service/pom.xml figaro-validation-service/pom.xml
 
 COPY src/spd-notification-worker/pom.xml spd-notification-worker/pom.xml
 COPY src/vips-notification-worker/pom.xml vips-notification-worker/pom.xml
+COPY src/report/pom.xml report/pom.xml
+
+COPY --from=libraries /libs/src/libs/jag-vips-client/src/jag-vips-client/pom.xml libs/jag-vips-client/src/jag-vips-client/pom.xml
 
 COPY src/libs/dps-bom/pom.xml libs/dps-bom/pom.xml
 COPY src/libs/dfcms-ords-client/pom.xml libs/dfcms-ords-client/pom.xml
@@ -48,25 +59,22 @@ RUN mvn dependency:go-offline \
     --batch-mode \
     --fail-never
 
-
 #############################################################################################
 ###              Stage where Docker is building spring boot app using maven               ###
 #############################################################################################
 FROM dependencies as build
 
-ARG NEXUS_URL=https://nexus-043918-tools.apps.silver.devops.gov.bc.ca
-
 ARG DPS_SERVICE_NAME
 ARG MVN_PROFILES=${DPS_SERVICE_NAME}
 ARG SKIP_TESTS=true
-
-ENV NEXUS_URL=${NEXUS_URL}
 
 ENV HOME=/opt/app
 RUN mkdir -p $HOME
 WORKDIR $HOME
 
 COPY src .
+
+COPY --from=libraries /libs/src/libs/jag-vips-client/src/jag-vips-client libs/jag-vips-client/src/jag-vips-client
 
 RUN mvn -B clean install \
     --no-transfer-progress \
@@ -80,12 +88,11 @@ RUN mvn clean package \
     -DskipTests=${SKIP_TESTS} \
     -P ${MVN_PROFILES}
 
-
 ##############################################################################################
 #### Stage where Docker is running a java process to run a service built in previous stage ###
 ##############################################################################################
 #FROM image-registry.apps.silver.devops.gov.bc.ca/043918-tools/eclipse-temurin:8-jre-jammy
-FROM eclipse-temurin:17-jre-alpine
+FROM maven:3.8.2-eclipse-temurin-17 as dependencies-cache
 
 ARG DPS_SERVICE_NAME
 
