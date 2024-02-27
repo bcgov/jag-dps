@@ -92,7 +92,7 @@ RUN mvn clean package \
 #### Stage where Docker is running a java process to run a service built in previous stage ###
 ##############################################################################################
 #FROM image-registry.apps.silver.devops.gov.bc.ca/043918-tools/eclipse-temurin:8-jre-jammy
-FROM maven:3.8.2-eclipse-temurin-17 as dependencies-cache
+FROM eclipse-temurin:17-jre-jammy
 
 ARG DPS_SERVICE_NAME
 
