@@ -44,8 +44,8 @@
         <profile>
             <id>all</id>
             <modules>
-                <module>libs/jag-vips-client/src/jag-vips-client</module>
                 <module>libs/dps-bom</module>
+                <module>libs/jag-vips-client/src/jag-vips-client</module>
                 <module>libs/dfcms-ords-client</module>
                 <module>libs/dps-cache-starter</module>
                 <module>libs/dps-sftp-starter</module>
@@ -120,8 +120,8 @@
         <profile>
             <id>vips-notification-worker</id>
             <modules>
-                <module>libs/jag-vips-client/src/jag-vips-client</module>
                 <module>libs/dps-bom</module>
+                <module>libs/jag-vips-client/src/jag-vips-client</module>
                 <module>libs/dps-notification</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-sftp-starter</module>
@@ -133,6 +133,10 @@
             <id>dps-email-poller</id>
             <modules>
                 <module>libs/dps-bom</module>
+                <module>libs/dps-commons</module>
+                <module>libs/dps-cache-starter</module>
+                <module>libs/dps-messaging-starter</module>
+                <module>libs/dps-monitoring</module>
                 <module>dps-email-poller</module>
             </modules>
         </profile>
@@ -140,6 +144,14 @@
             <id>dps-email-worker</id>
             <modules>
                 <module>libs/dps-bom</module>
+                <module>libs/dps-messaging-starter</module>
+                <module>libs/dps-commons</module>
+                <module>libs/dps-notification</module>
+                <module>libs/dps-email-client</module>
+                <module>libs/dps-cache-starter</module>
+                <module>libs/dps-sftp-starter</module>
+                <module>libs/dps-files</module>
+                <module>libs/dps-monitoring</module>
                 <module>dps-email-worker</module>
             </modules>
         </profile>
