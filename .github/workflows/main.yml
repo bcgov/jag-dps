@@ -36,11 +36,11 @@ jobs:
 #    secrets:
 #      nexus_url: ${{ secrets.NEXUS_URL }}
 
-#  app-version disabled since "Error: Process completed with exit code 1.", not sure exit code 1 is because of echo 1 (${version)
-#  app-version:
-#    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
-#    with:
-#      working_directory: "src/${{ github.event.inputs.app_name }}"
+  app-version disabled since "Error: Process completed with exit code 1.", not sure exit code 1 is because of echo 1 (${version)
+  app-version:
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
+    with:
+      working_directory: "src/${{ github.event.inputs.app_name }}"
 
   build-and-push-image:
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
