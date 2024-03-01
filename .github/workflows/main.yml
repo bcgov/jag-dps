@@ -43,9 +43,6 @@ jobs:
 #      working_directory: "src/${{ github.event.inputs.app_name }}"
 
   build-and-push-image:
-    # needs:
-#      - unit-test
-#      - app-version
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
       app_name: ${{ github.event.inputs.app_name }}
