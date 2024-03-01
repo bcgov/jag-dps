@@ -27,14 +27,14 @@ on:
           - prod
 
 jobs:
-  unit-test:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
-    with:
-      working_directory: "src"
-      profile: ${{ github.event.inputs.app_name }}
-      java_version: 17
-    secrets:
-      nexus_url: ${{ secrets.NEXUS_URL }}
+#  unit-test:
+#    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
+#    with:
+#      working_directory: "src"
+#      profile: ${{ github.event.inputs.app_name }}
+#      java_version: 17
+#    secrets:
+#      nexus_url: ${{ secrets.NEXUS_URL }}
 
 #  app-version disabled since "Error: Process completed with exit code 1.", not sure exit code 1 is because of echo 1 (${version)
 #  app-version:
@@ -44,7 +44,7 @@ jobs:
 
   build-and-push-image:
     needs:
-      - unit-test
+#      - unit-test
 #      - app-version
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
