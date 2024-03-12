@@ -35,8 +35,6 @@ jobs:
 #      java_version: 17
 #    secrets:
 #      nexus_url: ${{ secrets.NEXUS_URL }}
-
-  app-version disabled since "Error: Process completed with exit code 1.", not sure exit code 1 is because of echo 1 (${version)
   app-version:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
     with:
