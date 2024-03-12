@@ -35,10 +35,10 @@ jobs:
 #      java_version: 17
 #    secrets:
 #      nexus_url: ${{ secrets.NEXUS_URL }}
-  app-version:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
-    with:
-      working_directory: "src/${{ github.event.inputs.app_name }}"
+#  app-version:
+#    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
+#    with:
+#      working_directory: "src/${{ github.event.inputs.app_name }}"
 
   build-and-push-image:
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
