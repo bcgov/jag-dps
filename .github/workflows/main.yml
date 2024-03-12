@@ -35,18 +35,21 @@ jobs:
 #      java_version: 17
 #    secrets:
 #      nexus_url: ${{ secrets.NEXUS_URL }}
-#  app-version:
-#    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
-#    with:
-#      working_directory: "src/${{ github.event.inputs.app_name }}"
+  app-version:
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
+    with:
+      working_directory: "src/${{ github.event.inputs.app_name }}"
+      java_version: 17
 
   build-and-push-image:
+    needs:
+      - app-version
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
       app_name: ${{ github.event.inputs.app_name }}
       working_directory: .
-#      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
-      image_tags: "dev,1"
+      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
+#      image_tags: "dev,1"
       env: tools
       build_args: |-
         DPS_SERVICE_NAME=${{ github.event.inputs.app_name }}
@@ -61,13 +64,13 @@ jobs:
 
   trivy:
     needs:
-#      - app-version
+      - app-version
       - build-and-push-image
     uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@main
     with:
       imagestream_name: ${{ github.event.inputs.app_name }}
-#      image_tag: "${{ needs.app-version.outputs.app-version }}"
-      image_tag: "latest"
+      image_tag: "${{ needs.app-version.outputs.app-version }}"
+#      image_tag: "latest"
     secrets:
       openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
       openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
