@@ -43,7 +43,7 @@ spec:
           value: 'http://nexus:8081/repository/dps-group/'
       from:
         kind: ImageStreamTag
-        name: 'java:8'
+        name: 'java:17'
         namespace: openshift
     type: Source
   successfulBuildsHistoryLimit: 5
