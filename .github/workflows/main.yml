@@ -27,49 +27,28 @@ on:
           - prod
 
 jobs:
+  #  unit-test:
+  #    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
+  #    with:
+  #      working_directory: "src"
+  #      profile: ${{ github.event.inputs.app_name }}
+  #      java_version: 17
+  #    secrets:
+  #      nexus_url: ${{ secrets.NEXUS_URL }}
 
-  github-tag:
-    uses: SierraSystems/reusable-workflows/.github/workflows/github-get-tag.yml@main
-
-#  unit-test:
-#    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
-#    with:
-#      working_directory: "src"
-#      profile: ${{ github.event.inputs.app_name }}
-#      java_version: 17
-#    secrets:
-#      nexus_url: ${{ secrets.NEXUS_URL }}
-  app-version:
-    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
-    with:
-      working_directory: "src/${{ github.event.inputs.app_name }}"
-      java_version: 17
-
-  define_image_tag:
-    runs-on: ubuntu-latest
-    needs:
-      - app-version
-      - github-tag
-    outputs:
-      image-tag: ${{ steps.tag.outputs.image-tag }}
-    steps:
-      - name: defining tag
-        id: tag
-        run: |
-          tag=${{ needs.app-version.outputs.app-version }}
-          if [ "${{ needs.github-tag.outputs.git-tag }}" ]; then
-            tag=${{ needs.github-tag.outputs.git-tag }}
-          fi
-          echo "::set-output name=image-tag::$tag"
-          echo "$tag"      
+  #  app-version disabled since "Error: Process completed with exit code 1.", not sure exit code 1 is because of echo 1 (${version)
+  #  app-version:
+  #    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
+  #    with:
+  #      working_directory: "src/${{ github.event.inputs.app_name }}"
 
   build-and-push-image:
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
       app_name: ${{ github.event.inputs.app_name }}
       working_directory: .
-      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
-#      image_tags: "dev,1"
+      #      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
+      image_tags: "dev,1"
       env: tools
       build_args: |-
         DPS_SERVICE_NAME=${{ github.event.inputs.app_name }}
@@ -84,13 +63,13 @@ jobs:
 
   trivy:
     needs:
-      - app-version
+      #      - app-version
       - build-and-push-image
     uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@main
     with:
       imagestream_name: ${{ github.event.inputs.app_name }}
-      image_tag: "${{ needs.app-version.outputs.app-version }}"
-#      image_tag: "latest"
+      #      image_tag: "${{ needs.app-version.outputs.app-version }}"
+      image_tag: "latest"
     secrets:
       openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
       openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
