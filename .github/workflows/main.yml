@@ -27,6 +27,10 @@ on:
           - prod
 
 jobs:
+
+  github-tag:
+    uses: SierraSystems/reusable-workflows/.github/workflows/github-get-tag.yml@main
+
 #  unit-test:
 #    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
 #    with:
