@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.12</version>
+        <version>3.2.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>dps</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.5.0</version>
     <name>dps</name>
 
     <url>https://github.com/bcgov/jag-dps</url>
@@ -21,15 +21,6 @@
             <id>central</id>
             <name>Maven Central</name>
             <url>https://repo1.maven.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>nexus-releases</id>
-            <url>${env.NEXUS_URL}/repository/dps-group</url>
-        </repository>
-        <repository>
-            <id>nexus-snapshots</id>
-            <url>${env.NEXUS_URL}/repository/dps-snapshots</url>
-            <snapshots><enabled>true</enabled></snapshots>
         </repository>
     </repositories>
 
@@ -54,13 +45,14 @@
             <id>all</id>
             <modules>
                 <module>libs/dps-bom</module>
+                <module>libs/jag-vips-client/src/jag-vips-client</module>
                 <module>libs/dfcms-ords-client</module>
                 <module>libs/dps-cache-starter</module>
+                <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/dps-notification</module>
                 <module>libs/figaro-ords-client</module>
-                <module>libs/dps-sftp-starter</module>
                 <module>libs/dps-commons</module>
                 <module>libs/dps-email-client</module>
                 <module>libs/dps-monitoring</module>
@@ -129,6 +121,7 @@
             <id>vips-notification-worker</id>
             <modules>
                 <module>libs/dps-bom</module>
+                <module>libs/jag-vips-client/src/jag-vips-client</module>
                 <module>libs/dps-notification</module>
                 <module>libs/dps-files</module>
                 <module>libs/dps-sftp-starter</module>
@@ -140,6 +133,10 @@
             <id>dps-email-poller</id>
             <modules>
                 <module>libs/dps-bom</module>
+                <module>libs/dps-commons</module>
+                <module>libs/dps-cache-starter</module>
+                <module>libs/dps-messaging-starter</module>
+                <module>libs/dps-monitoring</module>
                 <module>dps-email-poller</module>
             </modules>
         </profile>
@@ -147,24 +144,17 @@
             <id>dps-email-worker</id>
             <modules>
                 <module>libs/dps-bom</module>
+                <module>libs/dps-messaging-starter</module>
+                <module>libs/dps-commons</module>
+                <module>libs/dps-notification</module>
+                <module>libs/dps-email-client</module>
+                <module>libs/dps-cache-starter</module>
+                <module>libs/dps-sftp-starter</module>
+                <module>libs/dps-files</module>
+                <module>libs/dps-monitoring</module>
                 <module>dps-email-worker</module>
             </modules>
         </profile>
     </profiles>
-
-    <distributionManagement>
-        <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>nexus-release</id>
-            <url>${env.NEXUS_URL}/repository/dps-releases</url>
-            <layout>default</layout>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>true</uniqueVersion>
-            <id>nexus-snapshots</id>
-            <url>${env.NEXUS_URL}/repository/dps-snapshots</url>
-            <layout>default</layout>
-        </snapshotRepository>
-    </distributionManagement>
 
 </project>

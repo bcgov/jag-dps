@@ -19,7 +19,7 @@ import java.util.List;
 
 @Configuration
 @ComponentScan
-public class AutoConfiguration {
+public class CacheAutoConfiguration {
 
     /**
      * Configure the JedisConnectionFactory

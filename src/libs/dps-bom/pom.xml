@@ -10,43 +10,48 @@
     <version>0.5.0</version>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <spring-boot.version>2.7.12</spring-boot.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <spring-boot.version>3.1.3</spring-boot.version>
         <springfox.version>3.0.0</springfox.version>
-        <swagger-annotations.version>1.6.10</swagger-annotations.version>
-        <jersey.version>2.39</jersey.version>
-        <jackson.version>2.15.1</jackson.version>
-        <cxf.version>3.5.5</cxf.version>
+        <swagger-annotations.version>1.6.12</swagger-annotations.version>
+        <jersey.version>3.1.3</jersey.version>
+        <jackson.version>2.15.2</jackson.version>
+        <cxf.version>4.0.1</cxf.version>
         <log4j2.version>2.17.1</log4j2.version>
-        <commons-lang3.version>3.9</commons-lang3.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
         <apache.commons-io.version>1.3.2</apache.commons-io.version>
-        <commons-io.version>2.12.0</commons-io.version>
-        <commons-codec.version>1.15</commons-codec.version>
-        <commons-pool2.version>2.11.1</commons-pool2.version>
+        <commons-io.version>2.13.0</commons-io.version>
+        <commons-codec.version>1.16.0</commons-codec.version>
+        <commons-pool2.version>2.12.0</commons-pool2.version>
         <jsch.version>0.1.55</jsch.version>
-        <swagger.annotations.version>1.5.22</swagger.annotations.version>
         <jackson.nullable.version>0.2.6</jackson.nullable.version>
-        <joda.time.version>2.7</joda.time.version>
+        <joda.time.version>2.12.5</joda.time.version>
         <migbase64.version>2.2</migbase64.version>
-        <junit.jupiter.api.version>5.5.1</junit.jupiter.api.version>
-        <junit.jupiter.engine.version>5.5.1</junit.jupiter.engine.version>
-        <mockito.core.version>2.27.0</mockito.core.version>
+        <mockito.core.version>5.4.0</mockito.core.version>
         <logback.access.version>2.7.1</logback.access.version>
         <jsr305.version>3.0.2</jsr305.version>
-        <jsr310.version>2.15.2</jsr310.version>
-        <logback.classic.version>1.3.7</logback.classic.version>
-        <logback.core.version>1.3.7</logback.core.version>
+        <jsr310.version>2.16.0</jsr310.version>
+        <logback.version>1.4.14</logback.version>
         <jedis.version>3.8.0</jedis.version>
         <snakeyaml.version>2.0</snakeyaml.version>
-        <slf4j.api.version>2.0.7</slf4j.api.version>
-        <spring.amqp.version>2.5.14</spring.amqp.version>
+        <slf4j.api.version>2.0.9</slf4j.api.version>
+        <spring.amqp.version>3.1.3</spring.amqp.version>
         <wsdl4j.version>1.6.3</wsdl4j.version>
         <ews-java-api.version>2.0</ews-java-api.version>
-        <jsoup.version>1.16.1</jsoup.version>
+        <jsoup.version>1.17.1</jsoup.version>
         <java-grok.version>0.1.9</java-grok.version> <!-- vulnerability fix not available -->
+        <springdoc-openapi.version>2.2.0</springdoc-openapi.version>
+        <jaxb-api.version>2.3.1</jaxb-api.version>
+        <jabx-impl.version>4.0.0</jabx-impl.version>
+        <tomcat-embed-core.version>11.0.0-M16</tomcat-embed-core.version>
+        <json.version>20231013</json.version>
+        <spring-webmvc.version>6.1.1</spring-webmvc.version>
+        <snakeyaml.version>2.2</snakeyaml.version>
+        <spring-redis.version>2.7.12</spring-redis.version>
+        <spring.version>6.1.4</spring.version>
     </properties>
 
     <dependencyManagement>
@@ -59,12 +64,12 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${spring-redis.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-redis</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${spring-redis.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -95,9 +100,9 @@
                 <version>${springfox.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc-openapi.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger</groupId>
@@ -231,22 +236,6 @@
                 <artifactId>migbase64</artifactId>
                 <version>${migbase64.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit.jupiter.api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>${junit.jupiter.engine.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.core.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
@@ -270,12 +259,12 @@
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
-                <version>${logback.classic.version}</version>
+                <version>${logback.version}</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
-                <version>${logback.core.version}</version>
+                <version>${logback.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -309,22 +298,61 @@
                 <version>${java-grok.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>jakarta.xml.bind</groupId>
+                <artifactId>jakarta.xml.bind-api</artifactId>
+                <version>${jabx-impl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>${jabx-impl.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>${jaxb-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat-embed-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${json.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring-webmvc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${snakeyaml.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
-
-    <distributionManagement>
-        <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>nexus-release</id>
-            <url>${env.NEXUS_URL}/repository/dps-releases</url>
-            <layout>default</layout>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>true</uniqueVersion>
-            <id>nexus-snapshots</id>
-            <url>${env.NEXUS_URL}/repository/dps-snapshots</url>
-            <layout>default</layout>
-        </snapshotRepository>
-    </distributionManagement>
 
 </project>

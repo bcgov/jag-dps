@@ -5,24 +5,25 @@
     <parent>
         <artifactId>dps</artifactId>
         <groupId>ca.bc.gov.open</groupId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.5.0</version>
     </parent>
 
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
     <artifactId>dps-email-worker</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.5.0</version>
     <name>dps-email-worker</name>
     <description>DPS Email Worker subscribes to queue and gets messages.</description>
+
+    <properties>
+        <jedis.version>3.8.0</jedis.version>
+        <spring-redis.version>2.7.12</spring-redis.version>
+    </properties>
 
     <repositories>
         <repository>
             <id>central</id>
             <name>Maven Central</name>
             <url>https://repo1.maven.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>nexus</id>
-            <url>${env.NEXUS_URL}/repository/dps-group</url>
         </repository>
     </repositories>
 
@@ -161,55 +162,68 @@
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-messaging-starter</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-commons</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-notification</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-email-client</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-cache-starter</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-sftp-starter</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-files</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-monitoring</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${spring-redis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>${spring-redis.version}</version>
         </dependency>
 
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
         </dependency>
 
         <dependency>
@@ -258,7 +272,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
+                <version>0.8.10</version>
                 <executions>
                     <execution>
                         <goals>

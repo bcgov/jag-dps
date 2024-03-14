@@ -2,23 +2,13 @@ package ca.bc.gov.open.pssg.rsbc.dps.paymentservice;
 
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller.CalculateSinglePaymentController;
 import ca.bc.gov.open.pssg.rsbc.dps.paymentservice.controller.CrcController;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.TestPropertySource;
-
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

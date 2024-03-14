@@ -27,29 +27,27 @@ on:
           - prod
 
 jobs:
-  # unit-test:
-  #   uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
-  #   with:
-  #     working_directory: "src"
-  #     profile: ${{ github.event.inputs.app_name }}
-  #   secrets:
-  #     nexus_url: ${{ secrets.NEXUS_URL }}
+  #  unit-test:
+  #    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
+  #    with:
+  #      working_directory: "src"
+  #      profile: ${{ github.event.inputs.app_name }}
+  #      java_version: 17
+  #    secrets:
+  #      nexus_url: ${{ secrets.NEXUS_URL }}
 
-#  app-version disabled since "Error: Process completed with exit code 1.", not sure exit code 1 is because of echo 1 (${version)
-#  app-version:
-#    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
-#    with:
-#      working_directory: "src/${{ github.event.inputs.app_name }}"
+  #  app-version disabled since "Error: Process completed with exit code 1.", not sure exit code 1 is because of echo 1 (${version)
+  #  app-version:
+  #    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
+  #    with:
+  #      working_directory: "src/${{ github.event.inputs.app_name }}"
 
   build-and-push-image:
-    # needs:
-      # - unit-test
-#      - app-version
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
       app_name: ${{ github.event.inputs.app_name }}
       working_directory: .
-#      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
+      #      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
       image_tags: "dev,1"
       env: tools
       build_args: |-
@@ -65,12 +63,12 @@ jobs:
 
   trivy:
     needs:
-#      - app-version
+      #      - app-version
       - build-and-push-image
     uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@main
     with:
       imagestream_name: ${{ github.event.inputs.app_name }}
-#      image_tag: "${{ needs.app-version.outputs.app-version }}"
+      #      image_tag: "${{ needs.app-version.outputs.app-version }}"
       image_tag: "latest"
     secrets:
       openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"

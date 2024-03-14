@@ -24,11 +24,11 @@ import java.time.Duration;
 @Configuration
 @ComponentScan
 @EnableConfigurationProperties(DpsMessagingProperties.class)
-public class AutoConfiguration {
+public class MessageAutoConfiguration {
 
     private final DpsMessagingProperties dpsMessagingProperties;
 
-    public AutoConfiguration(DpsMessagingProperties dpsMessagingProperties) {
+    public MessageAutoConfiguration(DpsMessagingProperties dpsMessagingProperties) {
         this.dpsMessagingProperties = dpsMessagingProperties;
     }
 
