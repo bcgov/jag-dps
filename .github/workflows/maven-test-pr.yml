@@ -16,18 +16,10 @@ jobs:
       with:
         java-version: 17
 
-    - uses: whelk-io/maven-settings-xml-action@v20
-      with:
-        servers: >-
-          [{
-            "id":"nexus-snapshots",
-            "username": "${{ secrets.NEXUS_SNAPSHOT_USERNAME }}",
-            "password": "${{ secrets.NEXUS_SNAPSHOT_PASSWORD }}"
-          },{
-            "id":"nexus-releases",
-            "username": "${{ secrets.NEXUS_RELEASES_USERNAME }}",
-            "password": "${{ secrets.NEXUS_RELEASES_PASSWORD }}"
-          }]
+    - name: Pull & update submodules recursively
+      run: |
+        git submodule update --init --recursive
+        git submodule update --recursive --remote
 
     - uses: actions/setup-java@v3
       with:
