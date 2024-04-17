@@ -5,7 +5,7 @@
     <parent>
         <artifactId>dps</artifactId>
         <groupId>ca.bc.gov.open</groupId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.5.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -21,87 +21,87 @@
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-cache-starter</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
             <artifactId>dps-email-poller</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-commons</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open</groupId>
             <artifactId>dps-notification-service</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
             <artifactId>dps-validation-service</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
             <artifactId>figaro-validation-service</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open</groupId>
             <artifactId>dps-payment-service</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>spd-notification-worker</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>vips-notification-worker</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dfcms-ords-client</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-files</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-messaging-starter</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-notification</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-sftp-starter</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>figaro-ords-client</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-email-client</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-monitoring</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
 
     </dependencies>
@@ -130,7 +130,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
+                <version>0.8.10</version>
                 <executions>
                     <execution>
                         <goals>

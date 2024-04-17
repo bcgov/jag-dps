@@ -82,33 +82,33 @@ docker-compose up --build -d
 
 ## Endpoints
 
-| URL | Method | Description |
-| --- | --- | --- |
-| **Payment Service** | --- | --- |
-| [http://localhost:5050/paymentservice/bamboraconfiguration](http://localhost:5050/paymentservice/bamboraconfiguration) | GET | Bambora configuration url |
-| [http://localhost:5050/paymentservice/getSinglePaymentURL](http://localhost:5050/paymentservice/getSinglePaymentURL) | GET | Single Payment Url |
-| [http://localhost:8081/paymentservice/actuator/health](http://localhost:8081/paymentservice/actuator/health) | GET | Payment Service Health |
-| [http://localhost:8081/paymentservice/swagger-ui.html](http://localhost:8081/paymentservice/swagger-ui.html) | GET | Figaro Validator Swagger-UI |
-| [http://localhost:8081/paymentservice/v2/api-docs](http://localhost:8081/paymentservice/v2/api-docs) | GET | Figaro Validator Api docs |
-| **Figaro Validation** | --- | --- |
-| [http://localhost:5050/figvalidationservice/locateMatchingApplicants](http://localhost:5050/figvalidationservice/locateMatchingApplicants) | GET | Locate Matching Applicants |
-| [http://localhost:5050/figvalidationservice/validateApplicantService](http://localhost:5050/figvalidationservice/validateApplicantService) | GET | Validate Applicant Service |
+| URL                                                                                                                                              | Method | Description |
+|--------------------------------------------------------------------------------------------------------------------------------------------------| --- | --- |
+| **Payment Service**                                                                                                                              | --- | --- |
+| [http://localhost:5050/paymentservice/bamboraconfiguration](http://localhost:5050/paymentservice/bamboraconfiguration)                           | GET | Bambora configuration url |
+| [http://localhost:5050/paymentservice/getSinglePaymentURL](http://localhost:5050/paymentservice/getSinglePaymentURL)                             | GET | Single Payment Url |
+| [http://localhost:8081/paymentservice/actuator/health](http://localhost:8084/paymentservice/actuator/health)                                     | GET | Payment Service Health |
+| [http://localhost:8081/paymentservice/swagger-ui.html](http://localhost:8084/paymentservice/swagger-ui.html)                                     | GET | Figaro Validator Swagger-UI |
+| [http://localhost:8081/paymentservice/v2/api-docs](http://localhost:8084/paymentservice/v3/api-docs)                                             | GET | Figaro Validator Api docs |
+| **Figaro Validation**                                                                                                                            | --- | --- |
+| [http://localhost:5050/figvalidationservice/locateMatchingApplicants](http://localhost:5050/figvalidationservice/locateMatchingApplicants)       | GET | Locate Matching Applicants |
+| [http://localhost:5050/figvalidationservice/validateApplicantService](http://localhost:5050/figvalidationservice/validateApplicantService)       | GET | Validate Applicant Service |
 | [http://localhost:5050/figvalidationservice/validateApplicantForSharing](http://localhost:5050/figvalidationservice/validateApplicantForSharing) | GET | Validate Applicant Sharing |
-| [http://localhost:5050/figvalidationservice/validateApplicantPartyId](http://localhost:5050/figvalidationservice/validateApplicantPartyId) | GET | Validate Applicant Party ID |
-| [http://localhost:8082/figvalidationservice/actuator/health](http://localhost:8082/figvalidationservice/actuator/health) | GET | Figaro Validator Health | 
-| [http://localhost:8082/figvalidationservice/swagger-ui.html](http://localhost:8082/figvalidationservice/swagger-ui.html) | GET | Figaro Validator Swagger-UI |
-| **DPS Validation**  | --- | --- |
-| [http://localhost:5050/dpsvalidationservice/getValidOpenDFCMCase](http://localhost:5050/dpsvalidationservice/getValidOpenDFCMCase) | GET | Valid Open DFCM Case |
-| [http://localhost:8083/dpsvalidationservice/actuator/health](http://localhost:8083/dpsvalidationservice/actuator/health) | GET | DPS Validation Service Health | 
-| [http://localhost:8083/dpsvalidationservice/swagger-ui.html](http://localhost:8083/dpsvalidationservice/swagger-ui.html) | GET | DPS Validation Service Swagger-UI |
-| [http://localhost:8083/dpsvalidationservice/v2/api-docs](http://localhost:8083/dpsvalidationservice/v2/api-docs) | GET | DPS Validation Service Swagger |
-| **DPS Output Notification** | --- | --- |
-| [http://localhost:5054/dpsnotificationservice/actuator/health](http://localhost:5054/dpsnotificationservice/actuator/health) | GET | DPS Notification Service Health |
-| [http://localhost:5050/ws/dpsOutputNotification.wsdl](http://localhost:5050/ws/dpsOutputNotification.wsdl) | GET | DPS Output Notification Service WSDL |
-| **CRRP Notification Worker** | --- | --- |
-| [http://localhost:5055/crrpnotificationworker/actuator/health](http://localhost:5054/crrpnotificationworker/actuator/health) | GET | CRRP Notification 
-| **CRRP Notification Worker** | --- | --- |
-| [http://localhost:5056/vipsnotificationworker/actuator/health](http://localhost:5056/vipsnotificationworker/actuator/health) | GET | CRRP Notification 
+| [http://localhost:5050/figvalidationservice/validateApplicantPartyId](http://localhost:5050/figvalidationservice/validateApplicantPartyId)       | GET | Validate Applicant Party ID |
+| [http://localhost:8082/figvalidationservice/actuator/health](http://localhost:8082/figvalidationservice/actuator/health)                         | GET | Figaro Validator Health | 
+| [http://localhost:8082/figvalidationservice/swagger-ui.html](http://localhost:8082/figvalidationservice/swagger-ui.html)                         | GET | Figaro Validator Swagger-UI |
+| **DPS Validation**                                                                                                                               | --- | --- |
+| [http://localhost:5050/dpsvalidationservice/getValidOpenDFCMCase](http://localhost:5050/dpsvalidationservice/getValidOpenDFCMCase)               | GET | Valid Open DFCM Case |
+| [http://localhost:8083/dpsvalidationservice/actuator/health](http://localhost:8083/dpsvalidationservice/actuator/health)                         | GET | DPS Validation Service Health | 
+| [http://localhost:8083/dpsvalidationservice/swagger-ui.html](http://localhost:8083/dpsvalidationservice/swagger-ui.html)                         | GET | DPS Validation Service Swagger-UI |
+| [http://localhost:8083/dpsvalidationservice/v2/api-docs](http://localhost:8083/dpsvalidationservice/v3/api-docs)                                 | GET | DPS Validation Service Swagger |
+| **DPS Output Notification**                                                                                                                      | --- | --- |
+| [http://localhost:5054/dpsnotificationservice/actuator/health](http://localhost:5054/dpsnotificationservice/actuator/health)                     | GET | DPS Notification Service Health |
+| [http://localhost:5050/ws/dpsOutputNotification.wsdl](http://localhost:5050/ws/dpsOutputNotification.wsdl)                                       | GET | DPS Output Notification Service WSDL |
+| **CRRP Notification Worker**                                                                                                                     | --- | --- |
+| [http://localhost:5055/crrpnotificationworker/actuator/health](http://localhost:5054/crrpnotificationworker/actuator/health)                     | GET | CRRP Notification 
+| **CRRP Notification Worker**                                                                                                                     | --- | --- |
+| [http://localhost:5056/vipsnotificationworker/actuator/health](http://localhost:5056/vipsnotificationworker/actuator/health)                     | GET | CRRP Notification 
 
 
 Worker Health |

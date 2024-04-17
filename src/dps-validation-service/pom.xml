@@ -5,12 +5,12 @@
     <parent>
         <artifactId>dps</artifactId>
         <groupId>ca.bc.gov.open</groupId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.5.0</version>
     </parent>
 
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
     <artifactId>dps-validation-service</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.5.0</version>
     <name>dps-validation-service</name>
     <description>DPS Validation Service module</description>
 
@@ -49,8 +49,8 @@
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
 
         <dependency>
@@ -182,7 +182,7 @@
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dfcms-ords-client</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
 
         <dependency>
@@ -239,7 +239,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
+                <version>0.8.10</version>
                 <executions>
                     <execution>
                         <goals>

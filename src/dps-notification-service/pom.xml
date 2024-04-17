@@ -5,12 +5,12 @@
     <parent>
         <artifactId>dps</artifactId>
         <groupId>ca.bc.gov.open</groupId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.5.0</version>
     </parent>
 
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>dps-notification-service</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.5.0</version>
     <name>dps-notification-service</name>
     <description>DPS Notification Service dispatch messages to notification worker</description>
 
@@ -102,13 +102,13 @@
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-notification</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-messaging-starter</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
     </dependencies>
 
@@ -160,7 +160,7 @@
             <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
-                <version>3.5.5</version>
+                <version>4.0.1</version>
                 <executions>
                     <execution>
                         <id>generate-sources</id>
@@ -184,7 +184,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
+                <version>0.8.10</version>
                 <executions>
                     <execution>
                         <goals>

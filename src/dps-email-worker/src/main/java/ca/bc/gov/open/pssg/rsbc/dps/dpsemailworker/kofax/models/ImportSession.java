@@ -1,6 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailworker.kofax.models;
 
-import javax.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.*;
 import java.util.Optional;
 
 @XmlRootElement(name="ImportSession")

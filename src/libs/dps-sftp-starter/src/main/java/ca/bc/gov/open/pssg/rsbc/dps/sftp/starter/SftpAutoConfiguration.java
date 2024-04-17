@@ -13,15 +13,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan
 @EnableConfigurationProperties(SftpProperties.class)
-public class AutoConfiguration {
+public class SftpAutoConfiguration {
 
     public static final String STRICT_HOST_KEY_CHECKING = "StrictHostKeyChecking";
     public static final String NO = "no";
-    private Logger logger = LoggerFactory.getLogger(AutoConfiguration.class);
+    private Logger logger = LoggerFactory.getLogger(SftpAutoConfiguration.class);
 
     private final SftpProperties sftpProperties;
 
-    public AutoConfiguration(SftpProperties sftpProperties) {
+    public SftpAutoConfiguration(SftpProperties sftpProperties) {
         this.sftpProperties = sftpProperties;
         logger.debug("SFTP Configuration: Host => [{}]", this.sftpProperties.getHost());
         logger.debug("SFTP Configuration: Port => [{}]", this.sftpProperties.getPort());

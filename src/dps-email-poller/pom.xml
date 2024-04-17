@@ -7,29 +7,25 @@
     <parent>
         <artifactId>dps</artifactId>
         <groupId>ca.bc.gov.open</groupId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.5.0</version>
     </parent>
 
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
     <artifactId>dps-email-poller</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.5.0</version>
     <name>dps-email-poller</name>
     <description>DPS Email Poller module</description>
+
+    <properties>
+        <jedis.version>3.8.0</jedis.version>
+        <spring-redis.version>2.7.12</spring-redis.version>
+    </properties>
 
     <repositories>
         <repository>
             <id>central</id>
             <name>Maven Central</name>
             <url>https://repo1.maven.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>nexus-releases</id>
-            <url>${env.NEXUS_URL}/repository/dps-group</url>
-        </repository>
-        <repository>
-            <id>nexus-snapshots</id>
-            <url>${env.NEXUS_URL}/repository/dps-snapshots</url>
-            <snapshots><enabled>true</enabled></snapshots>
         </repository>
     </repositories>
 
@@ -38,30 +34,43 @@
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-commons</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-cache-starter</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-messaging-starter</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
         </dependency>
 
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dps-monitoring</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${spring-redis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>${spring-redis.version}</version>
         </dependency>
 
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
         </dependency>
 
         <dependency>
@@ -132,8 +141,8 @@
         </dependency>
 
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
 
         <dependency>
@@ -155,6 +164,64 @@
             <groupId>net.rakugakibox.spring.boot</groupId>
             <artifactId>logback-access-spring-boot-starter</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.jws</groupId>
+            <artifactId>javax.jws-api</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.3.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.soap</groupId>
+            <artifactId>javax.xml.soap-api</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <dependencyManagement>
@@ -213,7 +280,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
+                <version>0.8.10</version>
                 <executions>
                     <execution>
                         <goals>

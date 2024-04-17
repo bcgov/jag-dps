@@ -5,16 +5,21 @@
     <parent>
         <artifactId>dps</artifactId>
         <groupId>ca.bc.gov.open</groupId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.5.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
     <artifactId>dps-email-client</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.5.0</version>
 
     <properties>
+        <log4j2.version>2.17.1</log4j2.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
+        <maven.test.plugin.version>3.1.2</maven.test.plugin.version>
         <!-- include properties that are specific to dpsvalidationservice -->
         <default-package>ca.bc.gov.open.dps.email.client</default-package>
         <maven-plugin-version>1.0.0</maven-plugin-version>
@@ -115,22 +120,17 @@
             <artifactId>migbase64</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -151,18 +151,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.0</version>
+                <version>${maven.test.plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.0</version>
+                <version>${maven.test.plugin.version}</version>
             </plugin>
 
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>5.1.0</version>
+                <version>7.0.0</version>
                 <executions>
                     <execution>
                         <id>spring-boot-api</id>
@@ -174,7 +174,9 @@
                             <generatorName>java</generatorName>
                             <configOptions>
                                 <dateLibrary>joda</dateLibrary>
-                                <java8>true</java8>
+                                <!-- javax.* to jakarta.* -->
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <useJakartaEe>true</useJakartaEe>
                             </configOptions>
                             <library>jersey2</library>
                             <apiPackage>${default-package}.api</apiPackage>
@@ -189,10 +191,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -212,7 +214,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
+                <version>0.8.10</version>
                 <executions>
                     <execution>
                         <goals>
@@ -233,20 +235,5 @@
 
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>nexus-release</id>
-            <url>${env.NEXUS_URL}/repository/dps-releases</url>
-            <layout>default</layout>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>true</uniqueVersion>
-            <id>nexus-snapshots</id>
-            <url>${env.NEXUS_URL}/repository/dps-snapshots</url>
-            <layout>default</layout>
-        </snapshotRepository>
-    </distributionManagement>
 
 </project>

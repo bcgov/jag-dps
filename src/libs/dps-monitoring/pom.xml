@@ -7,20 +7,27 @@
 
     <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
     <artifactId>dps-monitoring</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.5.0</version>
+
+    <properties>
+        <log4j2.version>2.17.1</log4j2.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
+    </properties>
 
     <dependencies>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.0-alpha0</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -30,10 +37,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -50,20 +57,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <distributionManagement>
-        <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>nexus-release</id>
-            <url>${env.NEXUS_URL}/repository/dps-releases</url>
-            <layout>default</layout>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>true</uniqueVersion>
-            <id>nexus-snapshots</id>
-            <url>${env.NEXUS_URL}/repository/dps-snapshots</url>
-            <layout>default</layout>
-        </snapshotRepository>
-    </distributionManagement>
 
 </project>

@@ -4,7 +4,7 @@ import ca.bc.gov.open.ords.figcr.client.api.OrgApi;
 import ca.bc.gov.open.ords.figcr.client.api.handler.ApiException;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgDrawDownBalanceOrdsResponse;
 import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgPartyOrdsResponse;
-import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgPartyOrdsResponseContactPersons;
+import ca.bc.gov.open.ords.figcr.client.api.model.ValidateOrgPartyOrdsResponseContactPersonsInner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,13 +48,13 @@ public class OrganizationServiceImpl implements OrganizationService {
             ValidateOrgPartyOrdsResponse response = this.orgApi.validateOrgParty(request.getOrgCity(),
                     request.getOrgPartyId(), request.getOrgSubname1(), request.getOrgSubname2(),
                     request.getOrgSubname3(), request.getOrgSubname4(), request.getOrgSubname5());
-            List<ValidateOrgPartyOrdsResponseContactPersons> contactOrdsList = response.getContactPersons();
+            List<ValidateOrgPartyOrdsResponseContactPersonsInner> contactOrdsList = response.getContactPersons();
 
             List<ValidateOrgPartyContactPersonResponse> contactList =
                     new ArrayList<>();
 
             if (contactOrdsList != null) {
-                for (ValidateOrgPartyOrdsResponseContactPersons contact : contactOrdsList) {
+                for (ValidateOrgPartyOrdsResponseContactPersonsInner contact : contactOrdsList) {
                     contactList.add(ValidateOrgPartyContactPersonResponse.successResponse(contact.getContactPersonName(), contact.getContactPersonRole(), contact.getContactPersonPartyId()));
                 }
             }

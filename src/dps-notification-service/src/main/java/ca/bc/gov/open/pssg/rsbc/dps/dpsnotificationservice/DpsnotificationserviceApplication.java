@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author alexjoybc@github
  *
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"ca.bc.gov.open.pssg.rsbc.dps.dpsnotificationservice", "ca.bc.gov.open.pssg.rsbc.dps.messaging"})
 public class DpsnotificationserviceApplication {
 
 	public static void main(String[] args) {

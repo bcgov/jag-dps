@@ -5,28 +5,22 @@
 	<parent>
 		<artifactId>dps</artifactId>
 		<groupId>ca.bc.gov.open</groupId>
-		<version>0.4.1-SNAPSHOT</version>
+		<version>0.5.0</version>
 	</parent>
 	<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 	<artifactId>vips-notification-worker</artifactId>
-	<version>0.4.1-SNAPSHOT</version>
+	<version>0.5.0</version>
 	<name>vips-notification-worker</name>
+
+	<properties>
+		<log4j2.version>2.17.1</log4j2.version>
+	</properties>
 
 	<repositories>
 		<repository>
 			<id>central</id>
 			<name>Maven Central</name>
 			<url>https://repo1.maven.org/maven2/</url>
-		</repository>
-		<repository>
-			<id>nexus-releases</id>
-			<url>${env.NEXUS_URL}/repository/dps-group</url>
-<!--			<url>${env.NEXUS_URL}/repository/dps-releases</url>-->
-		</repository>
-		<repository>
-			<id>nexus-snapshots</id>
-			<url>${env.NEXUS_URL}/repository/dps-snapshots</url>
-			<snapshots><enabled>true</enabled></snapshots>
 		</repository>
 	</repositories>
 
@@ -55,7 +49,6 @@
 		<dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
-			<version>0.1.55</version>
 		</dependency>
 
 		<dependency>
@@ -71,7 +64,6 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.9</version>
 		</dependency>
 
 		<dependency>
@@ -89,37 +81,60 @@
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-notification</artifactId>
-			<version>0.4.1-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.open</groupId>
 			<artifactId>jag-vips-client</artifactId>
-			<version>0.1.0</version>
+			<version>0.1.2</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-sftp-starter</artifactId>
-			<version>0.4.1-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-messaging-starter</artifactId>
-			<version>0.4.1-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-files</artifactId>
-			<version>0.4.1-SNAPSHOT</version>
+			<version>0.5.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>ca.bc.gov.open.pssg.rsbc</groupId>
 			<artifactId>dps-monitoring</artifactId>
-			<version>0.4.1-SNAPSHOT</version>
+			<version>0.5.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+		</dependency>
+
+		<!-- JAXB Implementation -->
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- vulnerabilities -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
 		</dependency>
 
 	</dependencies>
@@ -169,7 +184,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>jaxb2-maven-plugin</artifactId>
-				<version>2.5.0</version>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<id>xjc</id>
@@ -190,7 +205,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.4</version>
+				<version>0.8.10</version>
 				<executions>
 					<execution>
 						<goals>
