@@ -77,6 +77,8 @@ public class EmailPoller {
 
                 try {
 
+                    logMemory();
+
                     logger.debug("attempting to retrieve email attachments");
                     List<FileAttachment> fileAttachments = emailService.getFileAttachments(item.getId().getUniqueId());
                     logger.info("successfully retrieved {} attachments", fileAttachments.size());
@@ -88,6 +90,8 @@ public class EmailPoller {
                     logger.debug("attempting to store email attachment");
                     String fileId = this.storageService.put(attachment.get().getContent());
                     logger.info("successfully stored attachments {}", attachment.get().getName());
+
+                    logMemory();
 
                     logger.debug("attempting to parse email content");
                     DpsMetadata metadata = dpsMetadataMapper.map(
@@ -104,10 +108,14 @@ public class EmailPoller {
                     metadata.setEmailId(processedItem.getId().getUniqueId());
                     logger.info("successfully moved message to processing folder");
 
+                    logMemory();
+
                     messagingService.sendMessage(metadata, this.tenant);
                     logger.info("successfully send message to processing queue");
 
                     notifySuccess(metadata);
+
+                    logMemory();
 
 
                 } catch (ServiceLocalException | DpsEmailException | DpsException e ) {
@@ -217,6 +225,18 @@ public class EmailPoller {
             return Optional.empty();
         }
 
+    }
+
+    void logMemory() {
+        logger.info(
+                "Used Memory   :  "
+                        + (Runtime.getRuntime().totalMemory()
+                        - Runtime.getRuntime().freeMemory())
+                        + " bytes");
+        logger.info("Free Memory   : " + Runtime.getRuntime().freeMemory() + " bytes");
+        logger.info("Total Memory  : " + Runtime.getRuntime().totalMemory() + " bytes");
+        logger.info("Max Memory    : " + Runtime.getRuntime().maxMemory() + " bytes");
+        logger.info("------");
     }
 
 
