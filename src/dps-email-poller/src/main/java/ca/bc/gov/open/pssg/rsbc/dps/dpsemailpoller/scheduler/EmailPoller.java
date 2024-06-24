@@ -82,10 +82,12 @@ public class EmailPoller {
                     logger.debug("attempting to retrieve email attachments");
                     List<FileAttachment> fileAttachments = emailService.getFileAttachments(item.getId().getUniqueId());
                     logger.info("successfully retrieved {} attachments", fileAttachments.size());
+                    logMemory();
 
                     Optional<FileAttachment> attachment = fileAttachments.stream().findFirst();
 
                     if (!attachment.isPresent()) throw new DpsEmailException("No attachment present in email.");
+                    logMemory();
 
                     logger.debug("attempting to store email attachment");
                     String fileId = this.storageService.put(attachment.get().getContent());
@@ -103,6 +105,7 @@ public class EmailPoller {
                     MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, metadata.getTransactionId().toString());
 
                     logger.info("successfully parsed  email content");
+                    logMemory();
 
                     EmailMessage processedItem = emailService.moveToProcessingFolder(item.getId().getUniqueId());
                     metadata.setEmailId(processedItem.getId().getUniqueId());

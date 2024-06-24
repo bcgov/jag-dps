@@ -21,6 +21,8 @@ import microsoft.exchange.webservices.data.search.FindItemsResults;
 import microsoft.exchange.webservices.data.search.FolderView;
 import microsoft.exchange.webservices.data.search.ItemView;
 import microsoft.exchange.webservices.data.search.filter.SearchFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,9 @@ public class EmailServiceImpl implements EmailService {
     private final String mailboxErrorFolder;
     private final String mailboxProcessingFolder;
     private final String mailboxProcessedFolder;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
 
     public EmailServiceImpl(ExchangeServiceFactory exchangeServiceFactory, Integer maxMessagePerGet, String mailboxErrorFolder,
@@ -153,21 +158,45 @@ public class EmailServiceImpl implements EmailService {
 
         try (ExchangeService exchangeService = exchangeServiceFactory.createService()) {
 
+            logger.info("exchangeServiceFactory.createService()");
+
+            logMemory();
+
             EmailMessage emailMessage = EmailMessage.bind(exchangeService, new ItemId(id));
+
+            logger.info("EmailMessage emailMessage");
+
+            logMemory();
 
             if (emailMessage.getHasAttachments()) {
 
                 AttachmentCollection attachmentCollection = emailMessage.getAttachments();
+
+                logger.info("AttachmentCollection attachmentCollection");
+
+                logMemory();
 
                 attachmentCollection.forEach(attachment -> {
 
                     if (attachment instanceof FileAttachment) {
 
                         try {
+
+                            logger.info("attachment instanceof FileAttachment");
+
+                            logMemory();
+
                             attachment.load();
                             result.add((FileAttachment) attachment);
+
+                            logger.info("result.add((FileAttachment) attachment)");
+
+                            logMemory();
                         } catch (Exception e) {
                             // do nothing for now, if the attachment cannot be loaded, it is ignored.
+
+                            logger.info("Exception e)");
+                            logMemory();
                         }
                     }
 
@@ -181,6 +210,16 @@ public class EmailServiceImpl implements EmailService {
         return result;
     }
 
-
+    void logMemory() {
+        logger.info(
+                "Used Memory   :  "
+                        + (Runtime.getRuntime().totalMemory()
+                        - Runtime.getRuntime().freeMemory())
+                        + " bytes");
+        logger.info("Free Memory   : " + Runtime.getRuntime().freeMemory() + " bytes");
+        logger.info("Total Memory  : " + Runtime.getRuntime().totalMemory() + " bytes");
+        logger.info("Max Memory    : " + Runtime.getRuntime().maxMemory() + " bytes");
+        logger.info("------");
+    }
 
 }
