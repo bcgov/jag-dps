@@ -1,5 +1,8 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.configuration.EmailProperties;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.MSGraphDpsMetadataMapper;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.MSGraphService;
 import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
@@ -35,6 +38,9 @@ class EmailPollerJunkRemovalTest {
     private EmailService emailServiceMock;
 
     @Mock
+    private MSGraphService grahphServiceMock;
+
+    @Mock
     private ExchangeService exchangeServiceMock;
 
     @Mock
@@ -44,10 +50,16 @@ class EmailPollerJunkRemovalTest {
     private DpsMetadataMapper dpsMetadataMapperMock;
 
     @Mock
+    private MSGraphDpsMetadataMapper dpsMSGraphMetadataMapperMock;
+
+    @Mock
     private EmailMessage itemMock;
 
     @Mock
     private StorageService storageServiceMock;
+
+    @Mock
+    private EmailProperties emailProperties;
 
     @BeforeEach
     public void SetUp() throws Exception {
@@ -60,7 +72,7 @@ class EmailPollerJunkRemovalTest {
         Mockito.when(itemMock.getId()).thenReturn(itemId);
         Mockito.when(itemMock.getSubject()).thenReturn(I_M_JUNK);
 
-        sut = new EmailPoller(emailServiceMock, dpsMetadataMapperMock, messagingServiceMock, storageServiceMock,"tenant");
+        sut = new EmailPoller(emailServiceMock, grahphServiceMock,dpsMetadataMapperMock, dpsMSGraphMetadataMapperMock, messagingServiceMock, storageServiceMock,"tenant", emailProperties);
     }
 
     @Test

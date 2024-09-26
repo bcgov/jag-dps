@@ -38,4 +38,9 @@ public class EmailConfig {
         return new DpsMetadataMapperImpl(dpsEmailParser);
     }
 
+    @Bean
+    public MSGraphDpsMetadataMapper dpsMSGraphMetadataMapper(DpsEmailParser dpsEmailParser) {
+        return new MSGraphDpsMetadataMapperImpl(dpsEmailParser);
+    }
+
 }

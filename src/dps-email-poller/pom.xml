@@ -221,6 +221,24 @@
             <version>1.4.0</version>
         </dependency>
 
+        <!-- MS Graph Specific Start-->
+        <dependency>
+            <groupId>com.microsoft.graph</groupId>
+            <artifactId>microsoft-graph</artifactId>
+            <version>[6.0,)</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-identity</artifactId>
+            <version>[1.11,)</version>
+        </dependency>
+        <!-- MS Graph Specific End-->
+
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>[3.2,)</version>
+        </dependency>
 
     </dependencies>
 
