@@ -205,17 +205,11 @@ public class EmailPoller {
 
             if (attachments.size() == 0 ) {
                 // move mail to junker folder
-                logger.debug("attempting to move graph email to junk mail folder");
-                Optional<Message> errorHoldEmail = moveToMSGraphErrorHold(message);
-                if(errorHoldEmail.isPresent()) {
-                    logger.info("successfully moved graph mail to junk mail folder");
-                } else {
-                    logger.info("failted to moved graph mail to junk mail folder");
-                }
+                logger.debug("move graph email to junk mail folder");
+                throw new DpsMSGraphException("there is no attachments in graph mail.");
+            } else if (attachments.size() > 1) {
+                throw new DpsMSGraphException("More than 1 attachments in graph mail.");
             } else {
-
-                if (attachments.size() > 1) throw new DpsMSGraphException("More than 1 attachments in graph mail.");
-
                 Attachment attachment = attachments.get(0);
 
                 logger.debug("attempting to store graph mail attachment");
