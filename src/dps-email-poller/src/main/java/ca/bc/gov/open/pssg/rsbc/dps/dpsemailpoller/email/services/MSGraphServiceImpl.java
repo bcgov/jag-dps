@@ -3,7 +3,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.MSGraphException;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsMSGraphException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.component.GraphServiceClientComp;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.configuration.MSGraphServiceProperties;
 import com.microsoft.graph.models.*;
@@ -51,7 +51,7 @@ public class MSGraphServiceImpl implements MSGraphService {
 	 *  Permissions (from least to most privileged):  Mail.ReadBasic.All, Mail.Read
 	 */
 	@Override
-	public List<Message> GetMessages(String filter) throws MSGraphException {
+	public List<Message> GetMessages(String filter) throws DpsMSGraphException {
 		try {
 			MessageCollectionResponse messageCollectionResponse = gComp.getGraphClient().users().byUserId(props.getMsgEmailAccount()).mailFolders().byMailFolderId("Inbox")
 					.messages().get(requestConfiguration -> {
@@ -61,7 +61,7 @@ public class MSGraphServiceImpl implements MSGraphService {
 
 			return messageCollectionResponse.getValue();
 		} catch (Exception e) {
-			throw new MSGraphException("Exception while getting emails from inbox", e.getCause());
+			throw new DpsMSGraphException("Exception while getting emails from inbox", e.getCause());
 		}
 	}
 
@@ -71,12 +71,12 @@ public class MSGraphServiceImpl implements MSGraphService {
 	 *  Permissions (from least to most privileged):  Mail.Read
 	 */
 	@Override
-	public List<Attachment> getAttachments(String id) throws MSGraphException {
+	public List<Attachment> getAttachments(String id) throws DpsMSGraphException {
 		try {
 			AttachmentCollectionResponse response = gComp.getGraphClient().users().byUserId(props.getMsgEmailAccount()).messages().byMessageId(id).attachments().get();
 			return response.getValue();
 		} catch (Exception e) {
-			throw new MSGraphException("Exception while reading email attachments", e.getCause());
+			throw new DpsMSGraphException("Exception while reading email attachments", e.getCause());
 		}
 	}
 
@@ -86,38 +86,38 @@ public class MSGraphServiceImpl implements MSGraphService {
 	 *  Permissions (from least to most privileged):  Mail.Send
 	 */
 	@Override
-	public void sendMessage(Message message, boolean saveToSentItems) throws MSGraphException {
+	public void sendMessage(Message message, boolean saveToSentItems) throws DpsMSGraphException {
 		try {
 			com.microsoft.graph.users.item.sendmail.SendMailPostRequestBody sendMailPostRequestBody = new com.microsoft.graph.users.item.sendmail.SendMailPostRequestBody();
 			sendMailPostRequestBody.setSaveToSentItems(saveToSentItems);
 			sendMailPostRequestBody.setMessage(message);
 			gComp.getGraphClient().users().byUserId(props.getMsgEmailAccount()).sendMail().post(sendMailPostRequestBody);
 		} catch (Exception e) {
-			throw new MSGraphException("Exception while sending email", e.getCause());
+			throw new DpsMSGraphException("Exception while sending email", e.getCause());
 		}
 	}
 
 	@Override
-	public byte[] getAttachmentContent(Attachment attachment) throws MSGraphException {
+	public byte[] getAttachmentContent(Attachment attachment) throws DpsMSGraphException {
 		if (attachment instanceof FileAttachment) {
 			try {
 				FileAttachment fileAttachment = (FileAttachment) attachment;
 				return fileAttachment.getContentBytes();
 			} catch (Exception e) {
-				throw new MSGraphException("Exception while reading email attachment content", e.getCause());
+				throw new DpsMSGraphException("Exception while reading email attachment content", e.getCause());
 			}
 		}
 		else {
-			throw new MSGraphException("Attachment is not a file attachment");
+			throw new DpsMSGraphException("Attachment is not a file attachment");
 		}
 	}
 
 	@Override
-	public void deleteMessage(Message message) throws MSGraphException {
+	public void deleteMessage(Message message) throws DpsMSGraphException {
 		try {
 			moveToFolder(message.getId(), "deleteditems");
 		} catch (Exception e) {
-			throw new MSGraphException("Exception while deleting email", e.getCause());
+			throw new DpsMSGraphException("Exception while deleting email", e.getCause());
 		}
 	}
 
@@ -127,7 +127,7 @@ public class MSGraphServiceImpl implements MSGraphService {
 	 *  Permissions (from least to most privileged):  Application.Read.All
 	 */
 	@Override
-	public String getPasswordCredentialsExpiryDate() throws MSGraphException {
+	public String getPasswordCredentialsExpiryDate() throws DpsMSGraphException {
 		try {
 			Application a = gComp.getGraphClient().applicationsWithAppId(props.getMsgClientId()).get(requestConfiguration -> {
 				requestConfiguration.queryParameters.select = new String []{"passwordCredentials"};
@@ -138,22 +138,22 @@ public class MSGraphServiceImpl implements MSGraphService {
 			DateTimeFormatter fmt = DateTimeFormatter.ofPattern(dateFormat);
 			return fmt.format(dt);
 		} catch (Exception e) {
-			throw new MSGraphException("Exception while reading password expiry date", e.getCause());
+			throw new DpsMSGraphException("Exception while reading password expiry date", e.getCause());
 		}
 
 	}
 
-	public Message moveToFolder(String id, String folderName) throws MSGraphException {
+	public Message moveToFolder(String id, String folderName) throws DpsMSGraphException {
 		Optional<String> folderId = getFolderIdByName(folderName);
 
 		if(!folderId.isPresent())  folderId = createFolder(folderName);
 
-		if(!folderId.isPresent())  throw new MSGraphException("Folder not found: " + folderName);
+		if(!folderId.isPresent())  throw new DpsMSGraphException("Folder not found: " + folderName);
 
 		try {
 			return moveItemById(id, folderId.get());
 		} catch (Exception e) {
-			throw new MSGraphException("Exception while moving folder: " + folderName, e.getCause());
+			throw new DpsMSGraphException("Exception while moving folder: " + folderName, e.getCause());
 		}
 	}
 

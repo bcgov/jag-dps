@@ -5,11 +5,11 @@ import ca.bc.gov.dps.monitoring.SystemNotification;
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.Keys;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.MSGraphException;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsMSGraphException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.configuration.EmailProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.DpsMetadataMapper;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.EmailService;
-import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.MSGraphDpsMetadataMapper;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.DpsMSGraphMetadataMapper;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.MSGraphService;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging.MessagingService;
 import ca.bc.gov.open.pssg.rsbc.error.DpsError;
@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +36,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Component
-@EnableConfigurationProperties(EmailProperties.class)
 public class EmailPoller {
 
 
@@ -48,7 +46,7 @@ public class EmailPoller {
     private final EmailService emailService;
     private final MSGraphService graphService;
     private final DpsMetadataMapper dpsMetadataMapper;
-    private final MSGraphDpsMetadataMapper dpsMSGraphMetadataMapper;
+    private final DpsMSGraphMetadataMapper dpsMSGraphMetadataMapper;
     private final MessagingService messagingService;
     private final String tenant;
     private final StorageService storageService;
@@ -58,7 +56,7 @@ public class EmailPoller {
             EmailService emailService,
             MSGraphService graphService,
             DpsMetadataMapper dpsMetadataMapper,
-            MSGraphDpsMetadataMapper dpsMSGraphMetadataMapper,
+            DpsMSGraphMetadataMapper dpsMSGraphMetadataMapper,
             MessagingService messagingService,
             StorageService storageService,
             @Value("${dps.tenant}") String tenant,
@@ -81,8 +79,11 @@ public class EmailPoller {
 
         logger.info("starting poll for emails");
 
-//        pollForEwsEmails();
-        pollForMSGraphEmails();
+        if(emailProperties.isMSGraph()) {
+            pollForMSGraphEmails();
+        } else {
+            pollForEwsEmails();
+        }
     }
 
     public void pollForEwsEmails() {
@@ -183,7 +184,7 @@ public class EmailPoller {
 
             logger.info("successfully processed graph emails");
         }
-        catch (MSGraphException e) {
+        catch (DpsMSGraphException e) {
             logger.error("exception while getting graph emails", e);
         } finally {
             MDC.remove(DPS_BATCH_ID);
@@ -213,7 +214,7 @@ public class EmailPoller {
                 }
             } else {
 
-                if (attachments.size() > 1) throw new DpsEmailException("More than 1 attachments in graph mail.");
+                if (attachments.size() > 1) throw new DpsMSGraphException("More than 1 attachments in graph mail.");
 
                 Attachment attachment = attachments.get(0);
 
@@ -241,7 +242,7 @@ public class EmailPoller {
 
                 notifySuccess(metadata);
             }
-        } catch ( DpsEmailException | MSGraphException | DpsException e ) {
+        } catch (DpsMSGraphException | DpsEmailException | DpsException e ) {
             logger.error("exception while processing graph mail", e);
             Optional<Message> errorHoldEmail = moveToMSGraphErrorHold(message);
 
@@ -287,6 +288,10 @@ public class EmailPoller {
      */
     @Scheduled(cron = "${mailbox.poller.cron}")
     public void junkRemoval() {
+
+        if(emailProperties.isMSGraph()) {
+            return;
+        }
 
         logger.debug("perform poll for junk emails");
 
