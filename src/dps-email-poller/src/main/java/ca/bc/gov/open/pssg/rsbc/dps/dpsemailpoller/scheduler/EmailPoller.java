@@ -174,7 +174,7 @@ public class EmailPoller {
 
     public void pollForMSGraphEmails() {
         try {
-            List<Message> messages = graphService.GetMessages("");
+            List<Message> messages = graphService.GetMessages("hasAttachments eq true");
 
             logger.info("successfully retrieved {} graph emails", messages.size());
 
@@ -204,11 +204,7 @@ public class EmailPoller {
             logger.info("successfully retrieved {} graph email attachments", attachments.size());
 
             if (attachments.size() == 0 ) {
-                // move mail to junker folder
-                logger.debug("move graph email to junk mail folder");
                 throw new DpsMSGraphException("there is no attachments in graph mail.");
-            } else if (attachments.size() > 1) {
-                throw new DpsMSGraphException("More than 1 attachments in graph mail.");
             } else {
                 Attachment attachment = attachments.get(0);
 
@@ -284,11 +280,13 @@ public class EmailPoller {
     public void junkRemoval() {
 
         if(emailProperties.isMSGraph()) {
-            return;
+            junkMSGraphRemoval();
+        } else {
+            junkEwsRemoval();
         }
-
+    }
+    public void junkEwsRemoval() {
         logger.debug("perform poll for junk emails");
-
         try {
             List<EmailMessage> junkEmails = emailService.getDpsInboxJunkEmails();
             logger.info("successfully retrieved {} junk emails", junkEmails.size());
@@ -304,6 +302,26 @@ public class EmailPoller {
                 logger.info("successfully moved message to errorHold folder");
             });
 
+        } catch (DpsEmailException e) {
+            logger.error("exception while cleaning junk emails", e);
+        }
+    }
+
+    public void junkMSGraphRemoval() {
+        logger.debug("perform poll for junk emails");
+        try {
+            List<Message> messages = graphService.GetMessages("hasAttachments ne true");
+
+            logger.info("successfully retrieved {} graph junk emails", messages.size());
+
+            for (Message message:  messages) {
+                try {
+                    graphService.moveToFolder(message.getId(), emailProperties.getErrorFolder());
+                } catch (Exception e) {
+                    return;
+                }
+                logger.info("successfully moved message to errorHold folder");
+            }
         } catch (DpsEmailException e) {
             logger.error("exception while cleaning junk emails", e);
         }

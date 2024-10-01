@@ -85,7 +85,7 @@ class EmailPollerJunkRemovalTest {
         Mockito.when(emailServiceMock.getDpsInboxJunkEmails()).thenReturn(result);
         Mockito.when(emailServiceMock.moveToErrorFolder(Mockito.anyString())).thenReturn(itemMock);
 
-        sut.junkRemoval();
+        sut.junkEwsRemoval();
 
         Mockito
                 .verify(emailServiceMock, Mockito.times(1))
@@ -99,7 +99,7 @@ class EmailPollerJunkRemovalTest {
 
         Mockito.when(emailServiceMock.getDpsInboxJunkEmails()).thenReturn(result);
 
-        sut.junkRemoval();
+        sut.junkEwsRemoval();
 
         Mockito
                 .verify(emailServiceMock, Mockito.times(0))
@@ -124,7 +124,7 @@ class EmailPollerJunkRemovalTest {
                 .when(emailServiceMock.moveToErrorFolder(Mockito.anyString()))
                 .thenReturn(itemMock);
 
-        sut.junkRemoval();
+        sut.junkEwsRemoval();
 
         Mockito
                 .verify(emailServiceMock, Mockito.times(5))
@@ -147,7 +147,7 @@ class EmailPollerJunkRemovalTest {
         result.getItems().add(item);
 
         Mockito.when(emailServiceMock.getDpsInboxJunkEmails()).thenThrow(new DpsEmailException("error"));
-        sut.junkRemoval();
+        sut.junkEwsRemoval();
 
         Mockito
                 .verify(emailServiceMock, Mockito.times(0))
@@ -164,7 +164,7 @@ class EmailPollerJunkRemovalTest {
 
         Mockito.when(emailServiceMock.getDpsInboxJunkEmails()).thenReturn(result);
         Mockito.when(itemMock.getId()).thenThrow(ServiceLocalException.class);
-        sut.junkRemoval();
+        sut.junkEwsRemoval();
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(0))
