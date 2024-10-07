@@ -25,6 +25,7 @@ public class DpsEmailControllerTest {
 
     public static final String ErrorFolder = "errorFolder";
     public static final String ProcessedFolder = "ProcessedFolder";
+    public static final boolean CreateFolder = true;
     private DpsEmailController sut;
 
     @Mock
@@ -50,16 +51,16 @@ public class DpsEmailControllerTest {
         Mockito.when(emailServiceMock.moveToProcessedFolder(Mockito.eq(CASE_2))).thenThrow(new DpsEmailException(
                 EMAIL_EXCEPTION));
 
-        Mockito.when(graphServiceMock.moveToFolder(Mockito.eq(CASE_1), Mockito.any())).thenReturn(graphMessageMock);
-        Mockito.when(graphServiceMock.moveToFolder(Mockito.eq(CASE_2), Mockito.any())).thenThrow(new DpsMSGraphException(
+        Mockito.when(graphServiceMock.moveToFolder(Mockito.eq(CASE_1), Mockito.any(), Mockito.eq(CreateFolder))).thenReturn(graphMessageMock);
+        Mockito.when(graphServiceMock.moveToFolder(Mockito.eq(CASE_2), Mockito.any(), Mockito.eq(CreateFolder))).thenThrow(new DpsMSGraphException(
                 EMAIL_EXCEPTION));
 
         Mockito.when(emailServiceMock.moveToErrorFolder(Mockito.eq(CASE_1))).thenReturn(emailMessageMock);
         Mockito.when(emailServiceMock.moveToErrorFolder(Mockito.eq(CASE_2))).thenThrow(new DpsEmailException(
                 EMAIL_EXCEPTION));
 
-        Mockito.when(graphServiceMock.moveToFolder(Mockito.eq(CASE_1), Mockito.any())).thenReturn(graphMessageMock);
-        Mockito.when(graphServiceMock.moveToFolder(Mockito.eq(CASE_2), Mockito.any())).thenThrow(new DpsMSGraphException(
+        Mockito.when(graphServiceMock.moveToFolder(Mockito.eq(CASE_1), Mockito.any(), Mockito.eq(CreateFolder))).thenReturn(graphMessageMock);
+        Mockito.when(graphServiceMock.moveToFolder(Mockito.eq(CASE_2), Mockito.any(), Mockito.eq(CreateFolder))).thenThrow(new DpsMSGraphException(
                 EMAIL_EXCEPTION));
 
         Mockito.when(emailPropertiesMock.getProcessedFolder()).thenReturn(ProcessedFolder);

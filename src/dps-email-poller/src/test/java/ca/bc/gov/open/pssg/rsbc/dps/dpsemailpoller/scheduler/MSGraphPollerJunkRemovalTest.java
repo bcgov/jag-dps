@@ -33,6 +33,7 @@ class MSGraphPollerJunkRemovalTest {
     public static final String ErrorFolder = "errorFolder";
     public static final String ProcessedFolder = "ProcessedFolder";
     public static final String ProcessingFolder = "ProcessingFolder";
+    public static final boolean CreateFolder = true;
     private EmailPoller sut;
 
     @Mock
@@ -86,12 +87,12 @@ class MSGraphPollerJunkRemovalTest {
         result.add(itemMock);
 
         Mockito.when(grahphServiceMock.GetMessages(Mockito.any())).thenReturn(result);
-        Mockito.when(grahphServiceMock.moveToFolder(Mockito.anyString(), Mockito.eq(ErrorFolder))).thenReturn(itemMock);
+        Mockito.when(grahphServiceMock.moveToFolder(Mockito.anyString(), Mockito.eq(ErrorFolder), Mockito.eq(CreateFolder))).thenReturn(itemMock);
 
         sut.pollForMSGraphEmails();
 
         Mockito.verify(grahphServiceMock, Mockito.times(1))
-                .moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder));
+                .moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder), Mockito.eq(CreateFolder));
     }
 
     @Test
@@ -105,7 +106,7 @@ class MSGraphPollerJunkRemovalTest {
 
         Mockito
                 .verify(grahphServiceMock, Mockito.times(0))
-                .moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder));
+                .moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder), Mockito.eq(CreateFolder));
     }
 
     @Test
@@ -123,26 +124,26 @@ class MSGraphPollerJunkRemovalTest {
                 .thenReturn(result);
 
         Mockito
-                .when(grahphServiceMock.moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder)))
+                .when(grahphServiceMock.moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder), Mockito.eq(CreateFolder)))
                 .thenReturn(itemMock);
 
         sut.pollForMSGraphEmails();
 
         Mockito
                 .verify(grahphServiceMock, Mockito.times(5))
-                .moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder));
+                .moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder), Mockito.eq(CreateFolder));
     }
 
     @Test
     @DisplayName("Exception - with exception should log error")
     public void withExceptionJunkEmailShouldLogError() throws Exception {
 
-         Mockito.when(grahphServiceMock.moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder))).thenThrow(new DpsMSGraphException("error"));
+         Mockito.when(grahphServiceMock.moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder), Mockito.anyBoolean())).thenThrow(new DpsMSGraphException("error"));
         sut.pollForMSGraphEmails();
 
         Mockito
                 .verify(grahphServiceMock, Mockito.times(0))
-                .moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder));
+                .moveToFolder(Mockito.anyString(),Mockito.eq(ErrorFolder), Mockito.eq(CreateFolder));
     }
 
 

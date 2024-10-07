@@ -26,7 +26,8 @@ public class DpsEmailController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final MSGraphService graphService;
     private final EmailService emailService;
-    private EmailProperties emailProperties;
+    private final EmailProperties emailProperties;
+
     public DpsEmailController(EmailService emailService, MSGraphService graphService, EmailProperties emailProperties) {
         this.emailService = emailService;
         this.graphService = graphService;
@@ -41,14 +42,16 @@ public class DpsEmailController {
     @ApiOperation(value = "Mark email as processed", tags = {"DpsEmailProcessing"})
     public ResponseEntity<DpsEmailResponse> Processed(@PathVariable String id, @RequestBody DpsEmailProcessedRequest dpsEmailProcessedRequest) {
         try {
-            if(emailProperties.isMSGraph()) {
-                graphService.moveToFolder(new String(Base64.getDecoder().decode(id)), emailProperties.getProcessedFolder());
-            } else {
+            if (emailProperties.isMSGraph()) {
+                graphService.moveToFolder(new String(Base64.getDecoder().decode(id)), emailProperties.getProcessedFolder(), true);
+            }
+            else {
                 emailService.moveToProcessedFolder(new String(Base64.getDecoder().decode(id)));
             }
-            logger.info("message successfully moved to processed folder, id: [{}]", dpsEmailProcessedRequest.getCorrelationId());
+            logger.info("Message {} successfully moved to processed folder.", dpsEmailProcessedRequest.getCorrelationId());
             return new ResponseEntity<>(DpsEmailResponse.Success(), HttpStatus.OK);
-        } catch (DpsEmailException ex) {
+        }
+        catch (DpsEmailException ex) {
             return new ResponseEntity<>(DpsEmailResponse.Error(ex.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
@@ -61,14 +64,16 @@ public class DpsEmailController {
     @ApiOperation(value = "Mark email as having an error in processing", tags = {"DpsEmailProcessing"})
     public ResponseEntity<DpsEmailResponse> ProcessFailed(@PathVariable String id, @RequestBody DpsEmailProcessedRequest dpsEmailProcessedRequest) {
         try {
-            if(emailProperties.isMSGraph()) {
-                graphService.moveToFolder(new String(Base64.getDecoder().decode(id)), emailProperties.getErrorFolder());
-            } else {
+            if (emailProperties.isMSGraph()) {
+                graphService.moveToFolder(new String(Base64.getDecoder().decode(id)), emailProperties.getErrorFolder(), true);
+            }
+            else {
                 emailService.moveToErrorFolder(new String(Base64.getDecoder().decode(id)));
             }
-            logger.info("message successfully moved to error folder, id: [{}]", dpsEmailProcessedRequest.getCorrelationId());
+            logger.info("Message {} successfully moved to error folder.", dpsEmailProcessedRequest.getCorrelationId());
             return new ResponseEntity<>(DpsEmailResponse.Success(), HttpStatus.OK);
-        } catch (DpsEmailException ex) {
+        }
+        catch (DpsEmailException ex) {
             return new ResponseEntity<>(DpsEmailResponse.Error(ex.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }

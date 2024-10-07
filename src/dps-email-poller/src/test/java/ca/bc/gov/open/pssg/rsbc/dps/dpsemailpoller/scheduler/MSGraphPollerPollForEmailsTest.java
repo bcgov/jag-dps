@@ -33,6 +33,7 @@ public class MSGraphPollerPollForEmailsTest {
     public static final String ErrorFolder = "errorFolder";
     public static final String ProcessedFolder = "ProcessedFolder";
     public static final String ProcessingFolder = "ProcessingFolder";
+    public static final boolean CreateFolder = true;
     private EmailPoller sut;
 
     @Mock
@@ -85,7 +86,7 @@ public class MSGraphPollerPollForEmailsTest {
         List<Attachment> attachments = new ArrayList<>();
         attachments.add(attachment);
 
-        Mockito.when(grahphServiceMock.getAttachments(Mockito.eq("test")))
+        Mockito.when(grahphServiceMock.getAttachments(Mockito.any(Message.class)))
                 .thenReturn(attachments);
         Mockito.when(itemMock.getId()).thenReturn("test");
         Mockito.when(itemMock.getSubject()).thenReturn(I_M_JUNK);
@@ -107,13 +108,13 @@ public class MSGraphPollerPollForEmailsTest {
         result.add(itemMock);
 
         Mockito.when(grahphServiceMock.GetMessages(Mockito.any())).thenReturn(result);
-        Mockito.when(grahphServiceMock.moveToFolder(Mockito.anyString(), Mockito.eq(ProcessingFolder))).thenReturn(itemMock);
+        Mockito.when(grahphServiceMock.moveToFolder(Mockito.anyString(), Mockito.eq(ProcessingFolder), Mockito.eq(CreateFolder))).thenReturn(itemMock);
         Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
 
         sut.pollForMSGraphEmails();
 
         Mockito.verify(grahphServiceMock, Mockito.times(1))
-                .moveToFolder(Mockito.anyString(),Mockito.eq(ProcessingFolder));
+                .moveToFolder(Mockito.anyString(),Mockito.eq(ProcessingFolder), Mockito.eq(CreateFolder));
 
         Mockito.verify(messagingServiceMock, Mockito.times(1))
                 .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
@@ -131,7 +132,7 @@ public class MSGraphPollerPollForEmailsTest {
 
         Mockito
                 .verify(grahphServiceMock, Mockito.times(0))
-                .moveToFolder(Mockito.anyString(),Mockito.eq(ProcessingFolder));
+                .moveToFolder(Mockito.anyString(),Mockito.eq(ProcessingFolder), Mockito.eq(CreateFolder));
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(0))
@@ -149,14 +150,14 @@ public class MSGraphPollerPollForEmailsTest {
         }
 
         Mockito.when(grahphServiceMock.GetMessages(Mockito.any())).thenReturn(result);
-        Mockito.when(grahphServiceMock.moveToFolder(Mockito.anyString(), Mockito.eq(ProcessingFolder))).thenReturn(itemMock);
+        Mockito.when(grahphServiceMock.moveToFolder(Mockito.anyString(), Mockito.eq(ProcessingFolder), Mockito.eq(CreateFolder))).thenReturn(itemMock);
         Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
 
         sut.pollForMSGraphEmails();
 
         Mockito
                 .verify(grahphServiceMock, Mockito.times(5))
-                .moveToFolder(Mockito.anyString(),Mockito.eq(ProcessingFolder));
+                .moveToFolder(Mockito.anyString(),Mockito.eq(ProcessingFolder), Mockito.eq(CreateFolder));
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(5))

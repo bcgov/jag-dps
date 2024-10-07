@@ -52,15 +52,10 @@ public class EmailPoller {
     private final StorageService storageService;
     private final EmailProperties emailProperties;
 
-    public EmailPoller(
-            EmailService emailService,
-            MSGraphService graphService,
-            DpsMetadataMapper dpsMetadataMapper,
-            DpsMSGraphMetadataMapper dpsMSGraphMetadataMapper,
-            MessagingService messagingService,
-            StorageService storageService,
-            @Value("${dps.tenant}") String tenant,
-            EmailProperties emailProperties) {
+    public EmailPoller(EmailService emailService, MSGraphService graphService, DpsMetadataMapper dpsMetadataMapper,
+                       DpsMSGraphMetadataMapper dpsMSGraphMetadataMapper, MessagingService messagingService,
+                       StorageService storageService,  @Value("${dps.tenant}") String tenant,
+                       EmailProperties emailProperties) {
         this.emailService = emailService;
         this.graphService = graphService;
         this.dpsMetadataMapper = dpsMetadataMapper;
@@ -73,41 +68,32 @@ public class EmailPoller {
 
     @Scheduled(cron = "${mailbox.poller.cron}")
     public void pollForEmails() {
-
         UUID batchId = UUID.randomUUID();
         MDC.put(DPS_BATCH_ID, batchId.toString());
-
-        logger.info("starting poll for emails");
-
-        if(emailProperties.isMSGraph()) {
+        logger.info("Polling for emails");
+        if (emailProperties.isMSGraph()) {
             pollForMSGraphEmails();
-        } else {
+        }
+        else {
             pollForEwsEmails();
         }
     }
 
     public void pollForEwsEmails() {
         try {
-
             List<EmailMessage> dpsEmails = emailService.getDpsInboxEmails();
-
             logger.info("successfully retrieved {} emails", dpsEmails.size());
-
             dpsEmails.forEach(item -> {
-
                 logger.info("starting processing email");
-
                 String correlationId = UNDEFINED;
                 String filename = UNDEFINED;
 
                 try {
-
                     logger.debug("attempting to retrieve email attachments");
                     List<FileAttachment> fileAttachments = emailService.getFileAttachments(item.getId().getUniqueId());
                     logger.info("successfully retrieved {} attachments", fileAttachments.size());
 
                     Optional<FileAttachment> attachment = fileAttachments.stream().findFirst();
-
                     if (!attachment.isPresent()) throw new DpsEmailException("No attachment present in email.");
 
                     logger.debug("attempting to store email attachment");
@@ -124,24 +110,18 @@ public class EmailPoller {
                     MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, metadata.getTransactionId().toString());
 
                     logger.info("successfully parsed  email content");
-
                     EmailMessage processedItem = emailService.moveToProcessingFolder(item.getId().getUniqueId());
                     metadata.setEmailId(processedItem.getId().getUniqueId());
                     logger.info("successfully moved message to processing folder");
 
                     messagingService.sendMessage(metadata, this.tenant);
                     logger.info("successfully send message to processing queue");
-
                     notifySuccess(metadata);
-
-                } catch (ServiceLocalException | DpsEmailException | DpsException e ) {
-
+                }
+                catch (ServiceLocalException | DpsEmailException | DpsException e ) {
                     logger.error("exception while processing dps emails", e);
-
                     Optional<EmailMessage> errorHoldEmail = moveToErrorHold(item);
-
-                    if(e instanceof DpsException) {
-
+                    if (e instanceof DpsException) {
                         SystemNotification systemNotification = new SystemNotification
                                 .Builder()
                                 .withLevel(Level.ERROR)
@@ -156,18 +136,18 @@ public class EmailPoller {
                                 .buildError();
 
                         NotificationService.notify(systemNotification);
-
                     }
-
-                } finally {
+                }
+                finally {
                     MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
                 }
 
             });
-
-        } catch (DpsEmailException e) {
+        }
+        catch (DpsEmailException e) {
             logger.error("exception while processing dps emails", e);
-        } finally {
+        }
+        finally {
             MDC.remove(DPS_BATCH_ID);
         }
     }
@@ -175,68 +155,57 @@ public class EmailPoller {
     public void pollForMSGraphEmails() {
         try {
             List<Message> messages = graphService.GetMessages("hasAttachments eq true");
-
-            logger.info("successfully retrieved {} graph emails", messages.size());
-
-            for (Message message:  messages) {
-                processMSGraphMessage(message);
-            }
-
-            logger.info("successfully processed graph emails");
+            logger.info("Retrieved {} emails", messages.size());
+            for (Message message:  messages)  processMSGraphMessage(message);
         }
         catch (DpsMSGraphException e) {
-            logger.error("exception while getting graph emails", e);
-        } finally {
+            logger.error("Exception retrieving emails", e);
+        }
+        finally {
             MDC.remove(DPS_BATCH_ID);
         }
     }
 
     private void processMSGraphMessage(Message message)  {
-
-        logger.info("starting processing graph email: " + message.getId());
+        logger.info("Processing email: {}", message.getId());
         String correlationId = UNDEFINED;
         String filename = UNDEFINED;
 
         try {
+            logger.debug("Retrieving email attachments");
+            List<Attachment> attachments = graphService.getAttachments(message);
+            logger.info("Retrieved {} attachments", attachments.size());
 
-            logger.debug("attempting to retrieve graph email attachments");
-            List<Attachment> attachments = graphService.getAttachments(message.getId());
-            logger.info("successfully retrieved {} graph email attachments", attachments.size());
-
-            if (attachments.size() == 0 ) {
-                throw new DpsMSGraphException("there is no attachments in graph mail.");
-            } else {
-                Attachment attachment = attachments.get(0);
-
-                logger.debug("attempting to store graph mail attachment");
-                String fileId = this.storageService.put(graphService.getAttachmentContent(attachment));
-                logger.info("successfully stored graph mail attachment {}", attachment.getName());
-
-                logger.debug("attempting to parse graph mail content");
-                DpsMetadata metadata = dpsMSGraphMetadataMapper.map(
-                        message,
-                        new DpsFileInfo(fileId, attachment.getName(),
-                                attachment.getContentType()), this.tenant);
-                correlationId = metadata.getTransactionId().toString();
-                filename = metadata.getFileInfo().getName();
-                MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, metadata.getTransactionId().toString());
-
-                logger.info("successfully parsed graph mail content");
-
-                Message processedItem = graphService.moveToFolder(message.getId(), emailProperties.getProcessingFolder());
-                metadata.setEmailId(processedItem.getId());
-                logger.info("successfully moved graph mail to processing folder");
-
-                messagingService.sendMessage(metadata, this.tenant);
-                logger.info("successfully send graph mail to processing queue");
-
-                notifySuccess(metadata);
+            if (attachments.isEmpty()) {
+                logger.info("Message has no attachments, moving to Error folder");
+                graphService.moveToFolder(message.getId(), emailProperties.getErrorFolder(), true);
+                return;
             }
-        } catch (DpsMSGraphException | DpsEmailException | DpsException e ) {
-            logger.error("exception while processing graph mail", e);
-            Optional<Message> errorHoldEmail = moveToMSGraphErrorHold(message);
 
-            if(e instanceof DpsException) {
+            Attachment attachment = attachments.get(0);
+            logger.debug("Storing attachment {}", attachment.getName());
+            String fileId = this.storageService.put(graphService.getAttachmentContent(attachment));
+
+            logger.debug("Creating metadata content");
+            DpsMetadata metadata = dpsMSGraphMetadataMapper.map(message, new DpsFileInfo(fileId, attachment.getName(),
+                attachment.getContentType()), this.tenant);
+            correlationId = metadata.getTransactionId().toString();
+            filename = metadata.getFileInfo().getName();
+            MDC.put(MdcConstants.MDC_TRANSACTION_ID_KEY, metadata.getTransactionId().toString());
+
+            logger.info("Moving email {} to processing folder", message.getId());
+            Message processedItem = graphService.moveToFolder(message.getId(), emailProperties.getProcessingFolder(), true);
+            metadata.setEmailId(processedItem.getId());
+
+            logger.info("Sending email to processing queue");
+            messagingService.sendMessage(metadata, this.tenant);
+            notifySuccess(metadata);
+        }
+        catch (DpsMSGraphException | DpsEmailException | DpsException e) {
+            logger.error("Processing email caused an exception", e);
+            Optional<Message> errorHoldEmail = Optional.of(graphService.moveToFolder(message.getId(), emailProperties.getErrorFolder(), true));
+
+            if (e instanceof DpsException) {
                 SystemNotification systemNotification = new SystemNotification
                         .Builder()
                         .withLevel(Level.ERROR)
@@ -252,7 +221,8 @@ public class EmailPoller {
 
                 NotificationService.notify(systemNotification);
             }
-        } finally {
+        }
+        finally {
             MDC.remove(MdcConstants.MDC_TRANSACTION_ID_KEY);
         }
     }
@@ -308,30 +278,28 @@ public class EmailPoller {
     }
 
     public void junkMSGraphRemoval() {
-        logger.debug("perform poll for junk emails");
+        logger.debug("Polling for junk emails");
         try {
             List<Message> messages = graphService.GetMessages("hasAttachments ne true");
-
-            logger.info("successfully retrieved {} graph junk emails", messages.size());
+            logger.info("successfully retrieved {} junk emails", messages.size());
 
             for (Message message:  messages) {
                 try {
-                    graphService.moveToFolder(message.getId(), emailProperties.getErrorFolder());
-                } catch (Exception e) {
-                    return;
+                    graphService.moveToFolder(message.getId(), emailProperties.getErrorFolder(), true);
                 }
-                logger.info("successfully moved message to errorHold folder");
+                catch (Exception e) {
+                    logger.error("Exception moving junk email to errorHold folder.", e);
+                }
             }
         } catch (DpsEmailException e) {
-            logger.error("exception while cleaning junk emails", e);
+            logger.error("Exception while retrieving junk emails", e);
         }
     }
 
 
     private String buildActionText(Optional<?> item) {
-
         try {
-            if(item.isPresent()) {
+            if (item.isPresent()) {
                 return MessageFormat.format("Manual intervention, email can be found in errorHold folder of {0}", (item.get() instanceof Message) ? ((Message)item.get()).getToRecipients() : ((EmailMessage)item.get()).getToRecipients());
             } else {
                 return "Email message not moved to errorHold folder";
@@ -346,22 +314,13 @@ public class EmailPoller {
 
 
     private Optional<EmailMessage> moveToErrorHold(EmailMessage item) {
-
         try {
             return Optional.of(emailService.moveToErrorFolder(item.getId().getUniqueId()));
-        } catch (ServiceLocalException e) {
+        }
+        catch (ServiceLocalException e) {
             return Optional.empty();
         }
 
     }
 
-    private Optional<Message> moveToMSGraphErrorHold(Message message) {
-
-        try {
-            return Optional.of(graphService.moveToFolder(message.getId(), emailProperties.getErrorFolder()));
-        } catch (Exception e) {
-            return Optional.empty();
-        }
-
-    }
 }

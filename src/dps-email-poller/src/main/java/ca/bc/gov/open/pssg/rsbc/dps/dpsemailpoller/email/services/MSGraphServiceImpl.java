@@ -32,8 +32,8 @@ public class MSGraphServiceImpl implements MSGraphService {
 	private static final Logger logger = LoggerFactory.getLogger(MSGraphServiceImpl.class);
 	public final static String dateFormat = "yyyy-MM-dd";
 
-	private MSGraphServiceProperties props;
-	private GraphServiceClientComp gComp;
+	private final MSGraphServiceProperties props;
+	private final GraphServiceClientComp gComp;
 
 	public MSGraphServiceImpl(MSGraphServiceProperties props, GraphServiceClientComp gComp) {
 		this.props = props;
@@ -60,7 +60,8 @@ public class MSGraphServiceImpl implements MSGraphService {
 					});
 
 			return messageCollectionResponse.getValue();
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw new DpsMSGraphException("Exception while getting emails from inbox", e.getCause());
 		}
 	}
@@ -71,11 +72,11 @@ public class MSGraphServiceImpl implements MSGraphService {
 	 *  Permissions (from least to most privileged):  Mail.Read
 	 */
 	@Override
-	public List<Attachment> getAttachments(String id) throws DpsMSGraphException {
+	public List<Attachment> getAttachments(Message message) throws DpsMSGraphException {
 		try {
-			AttachmentCollectionResponse response = gComp.getGraphClient().users().byUserId(props.getMsgEmailAccount()).messages().byMessageId(id).attachments().get();
-			return response.getValue();
-		} catch (Exception e) {
+			return message.getAttachments();
+		}
+		catch (Exception e) {
 			throw new DpsMSGraphException("Exception while reading email attachments", e.getCause());
 		}
 	}
@@ -92,31 +93,30 @@ public class MSGraphServiceImpl implements MSGraphService {
 			sendMailPostRequestBody.setSaveToSentItems(saveToSentItems);
 			sendMailPostRequestBody.setMessage(message);
 			gComp.getGraphClient().users().byUserId(props.getMsgEmailAccount()).sendMail().post(sendMailPostRequestBody);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw new DpsMSGraphException("Exception while sending email", e.getCause());
 		}
 	}
 
 	@Override
 	public byte[] getAttachmentContent(Attachment attachment) throws DpsMSGraphException {
-		if (attachment instanceof FileAttachment) {
-			try {
-				FileAttachment fileAttachment = (FileAttachment) attachment;
-				return fileAttachment.getContentBytes();
-			} catch (Exception e) {
-				throw new DpsMSGraphException("Exception while reading email attachment content", e.getCause());
-			}
+		if (!(attachment instanceof FileAttachment)) throw new DpsMSGraphException("Attachment is not a file attachment");
+		try {
+			FileAttachment fileAttachment = (FileAttachment)attachment;
+			return fileAttachment.getContentBytes();
 		}
-		else {
-			throw new DpsMSGraphException("Attachment is not a file attachment");
+		catch (Exception e) {
+			throw new DpsMSGraphException("Exception while reading email attachment content", e.getCause());
 		}
 	}
 
 	@Override
 	public void deleteMessage(Message message) throws DpsMSGraphException {
 		try {
-			moveToFolder(message.getId(), "deleteditems");
-		} catch (Exception e) {
+			moveToFolder(message.getId(), "deleteditems", false);
+		}
+		catch (Exception e) {
 			throw new DpsMSGraphException("Exception while deleting email", e.getCause());
 		}
 	}
@@ -137,22 +137,17 @@ public class MSGraphServiceImpl implements MSGraphService {
 			logger.debug("MS Graph API Secret Key expiration date: " + dt.toLocalDate());
 			DateTimeFormatter fmt = DateTimeFormatter.ofPattern(dateFormat);
 			return fmt.format(dt);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			throw new DpsMSGraphException("Exception while reading password expiry date", e.getCause());
 		}
-
 	}
 
-	public Message moveToFolder(String id, String folderName) throws DpsMSGraphException {
-		Optional<String> folderId = getFolderIdByName(folderName);
-
-		if(!folderId.isPresent())  folderId = createFolder(folderName);
-
-		if(!folderId.isPresent())  throw new DpsMSGraphException("Folder not found: " + folderName);
-
+	public Message moveToFolder(String messageId, String folderName, boolean createIfNotExist) throws DpsMSGraphException {
 		try {
-			return moveItemById(id, folderId.get());
-		} catch (Exception e) {
+			return moveItemById(messageId, getFolderIdByName(folderName, createIfNotExist).get());
+		}
+		catch (Exception e) {
 			throw new DpsMSGraphException("Exception while moving folder: " + folderName, e.getCause());
 		}
 	}
@@ -162,7 +157,7 @@ public class MSGraphServiceImpl implements MSGraphService {
 	 *  Reference: // https://learn.microsoft.com/en-us/graph/api/message-move?view=graph-rest-1.0&tabs=http
 	 *  Permissions (from least to most privileged):  Mail.ReadWrite
 	 */
-	private Message moveItemById(String inboxItemById, String destinationId) throws Exception{
+	private Message moveItemById(String inboxItemById, String destinationId) throws Exception {
 		com.microsoft.graph.users.item.messages.item.move.MovePostRequestBody movePostRequestBody = new com.microsoft.graph.users.item.messages.item.move.MovePostRequestBody();
 		movePostRequestBody.setDestinationId(destinationId);
 
@@ -176,21 +171,28 @@ public class MSGraphServiceImpl implements MSGraphService {
 	 *  Reference: // https://learn.microsoft.com/en-us/graph/api/user-list-mailfolders?view=graph-rest-1.0&tabs=http
 	 *  Permissions (from least to most privileged):  Mail.ReadBasic.All
 	 */
-	private Optional<String> getFolderIdByName(String folderName) {
+	private Optional<String> getFolderIdByName(String folderName, boolean createIfNotFound) {
+		Optional<String> folderId = Optional.empty();
 		try {
-			// Get the list of mail folders
+			// Get the list of mail folders and iterate over them looking for the named folder
 			MailFolderCollectionResponse resp = gComp.getGraphClient().users().byUserId(props.getMsgEmailAccount()).mailFolders().byMailFolderId("Inbox").childFolders().get();
-
-			// Iterate through the list of folders to find the one with the desired name
-			for (MailFolder folder : resp.getValue()) {
-				if (folder.getDisplayName().equalsIgnoreCase(folderName)) {
-					return Optional.of(folder.getId());
+            if (resp != null) {
+				for (MailFolder folder : resp.getValue()) {
+					if (folder.getDisplayName().equalsIgnoreCase(folderName)) {
+						folderId =  Optional.of(folder.getId());
+					}
 				}
 			}
-			return Optional.empty();
-		} catch (Exception e){
-			return Optional.empty();
+
+			if (!folderId.isPresent() && createIfNotFound) {
+				folderId = createFolder(folderName);
+			}
 		}
+		catch (Exception e) {
+			logger.error("Error getting folder ID for folder: " + folderName, e);
+		}
+
+		return folderId;
 	}
 
 	/**
@@ -198,7 +200,7 @@ public class MSGraphServiceImpl implements MSGraphService {
 	 *  Reference: // https://learn.microsoft.com/en-us/graph/api/user-post-mailfolders?view=graph-rest-1.0&tabs=http
 	 *  Permissions (from least to most privileged):  Mail.ReadWrite
 	 */
-	public Optional<String> createFolder(String folderName) {
+	private Optional<String> createFolder(String folderName) {
 		try {
 			// Create a new MailFolder object
 			MailFolder newFolder = new MailFolder();
@@ -210,8 +212,10 @@ public class MSGraphServiceImpl implements MSGraphService {
 
 			// Return the ID of the newly created folder
 			return Optional.of(createdFolder.getId());
-		} catch (Exception e){
+		}
+		catch (Exception e) {
 			return Optional.empty();
 		}
 	}
+
 }
