@@ -74,7 +74,8 @@ public class MSGraphServiceImpl implements MSGraphService {
 	@Override
 	public List<Attachment> getAttachments(Message message) throws DpsMSGraphException {
 		try {
-			return message.getAttachments();
+			AttachmentCollectionResponse response = gComp.getGraphClient().users().byUserId(props.getMsgEmailAccount()).messages().byMessageId(message.getId()).attachments().get();
+			return response.getValue();
 		}
 		catch (Exception e) {
 			throw new DpsMSGraphException("Exception while reading email attachments", e.getCause());
