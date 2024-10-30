@@ -8,9 +8,23 @@ public class EmailProperties {
     private Integer emailsPerBatch;
     private String errorFolder;
     private String processingFolder;
-
     private String processedFolder;
+    private String graphExchangeSwitch;
+    public boolean isMSGraph() {
+        return getGraphExchangeSwitch().equalsIgnoreCase("Graph") ;
+    }
+    public boolean isMSExchange() {
+        return !getGraphExchangeSwitch().equalsIgnoreCase("Graph") ;
+    }
 
+
+    public String getGraphExchangeSwitch() {
+        return graphExchangeSwitch;
+    }
+
+    public void setGraphExchangeSwitch(String graphExchangeSwitch) {
+        this.graphExchangeSwitch = graphExchangeSwitch;
+    }
     public String getCron() {
         return cron;
     }

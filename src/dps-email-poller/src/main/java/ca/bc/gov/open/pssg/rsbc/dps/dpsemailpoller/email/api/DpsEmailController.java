@@ -1,8 +1,10 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.api;
 
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.configuration.EmailProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.models.DpsEmailResponse;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.EmailService;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.MSGraphService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -22,11 +24,14 @@ import java.util.Base64;
 public class DpsEmailController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+    private final MSGraphService graphService;
     private final EmailService emailService;
+    private final EmailProperties emailProperties;
 
-    public DpsEmailController(EmailService emailService) {
+    public DpsEmailController(EmailService emailService, MSGraphService graphService, EmailProperties emailProperties) {
         this.emailService = emailService;
+        this.graphService = graphService;
+        this.emailProperties = emailProperties;
     }
 
     @PutMapping(value = "/email/{id}/processed", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,10 +42,16 @@ public class DpsEmailController {
     @ApiOperation(value = "Mark email as processed", tags = {"DpsEmailProcessing"})
     public ResponseEntity<DpsEmailResponse> Processed(@PathVariable String id, @RequestBody DpsEmailProcessedRequest dpsEmailProcessedRequest) {
         try {
-            emailService.moveToProcessedFolder(new String(Base64.getDecoder().decode(id)));
-            logger.info("message successfully moved to processed folder, id: [{}]", dpsEmailProcessedRequest.getCorrelationId());
+            if (emailProperties.isMSGraph()) {
+                graphService.moveToFolder(new String(Base64.getDecoder().decode(id)), emailProperties.getProcessedFolder(), true);
+            }
+            else {
+                emailService.moveToProcessedFolder(new String(Base64.getDecoder().decode(id)));
+            }
+            logger.info("Message {} successfully moved to processed folder.", dpsEmailProcessedRequest.getCorrelationId());
             return new ResponseEntity<>(DpsEmailResponse.Success(), HttpStatus.OK);
-        } catch (DpsEmailException ex) {
+        }
+        catch (DpsEmailException ex) {
             return new ResponseEntity<>(DpsEmailResponse.Error(ex.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
@@ -53,10 +64,16 @@ public class DpsEmailController {
     @ApiOperation(value = "Mark email as having an error in processing", tags = {"DpsEmailProcessing"})
     public ResponseEntity<DpsEmailResponse> ProcessFailed(@PathVariable String id, @RequestBody DpsEmailProcessedRequest dpsEmailProcessedRequest) {
         try {
-            emailService.moveToErrorFolder(new String(Base64.getDecoder().decode(id)));
-            logger.info("message successfully moved to error folder, id: [{}]", dpsEmailProcessedRequest.getCorrelationId());
+            if (emailProperties.isMSGraph()) {
+                graphService.moveToFolder(new String(Base64.getDecoder().decode(id)), emailProperties.getErrorFolder(), true);
+            }
+            else {
+                emailService.moveToErrorFolder(new String(Base64.getDecoder().decode(id)));
+            }
+            logger.info("Message {} successfully moved to error folder.", dpsEmailProcessedRequest.getCorrelationId());
             return new ResponseEntity<>(DpsEmailResponse.Success(), HttpStatus.OK);
-        } catch (DpsEmailException ex) {
+        }
+        catch (DpsEmailException ex) {
             return new ResponseEntity<>(DpsEmailResponse.Error(ex.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }

@@ -59,5 +59,9 @@ public class EmailConfigTest {
         Assertions.assertEquals(DpsMetadataMapperImpl.class, service.getClass());
     }
 
-
+    @Test
+    public void shouldReturnAndMSGraphMapperImpl() {
+        DpsMSGraphMetadataMapper service = sut.dpsMSGraphMetadataMapper(dpsEmailParserMock);
+        Assertions.assertEquals(DpsMSGraphMetadataMapperImpl.class, service.getClass());
+    }
 }

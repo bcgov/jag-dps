@@ -1,5 +1,6 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.messaging;
 
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsEmailException;
 import ca.bc.gov.open.pssg.rsbc.models.DpsMetadata;
 
 
@@ -16,6 +17,6 @@ public interface MessagingService {
      * Sends a message to the appropriate queue.
      * @param item
      */
-    void sendMessage(DpsMetadata item, String tenant);
+    void sendMessage(DpsMetadata item, String tenant) throws DpsEmailException;
 
 }

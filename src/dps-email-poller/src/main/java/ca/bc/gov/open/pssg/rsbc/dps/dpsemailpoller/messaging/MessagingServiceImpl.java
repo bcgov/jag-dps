@@ -18,7 +18,7 @@ public class MessagingServiceImpl implements MessagingService {
     }
 
     @Override
-    public void sendMessage(DpsMetadata dpsMetadata, String tenant) {
+    public void sendMessage(DpsMetadata dpsMetadata, String tenant) throws DpsEmailException{
 
         logger.info("Send a message to the queue");
 
