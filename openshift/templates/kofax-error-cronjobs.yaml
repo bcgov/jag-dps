@@ -44,47 +44,6 @@ items:
 - apiVersion: batch/v1beta1
   kind: CronJob
   metadata:
-    name: spd-cronjob
-  spec:
-    concurrencyPolicy: Replace
-    failedJobsHistoryLimit: 1
-    jobTemplate:
-      metadata:
-        creationTimestamp: null
-      spec:
-        template:
-          metadata:
-            creationTimestamp: null
-            labels:
-              name: spd-job
-              parent: spd-cronjob
-          spec:
-            containers:
-            - args:
-              - -c
-              - 'curl -XPOST ''http://spd-email-worker/dpsemailworker/job/error''
-                --header ''Content-Type: application/json'''
-              command:
-              - /bin/sh
-              image: centos:centos7
-              imagePullPolicy: IfNotPresent
-              name: spd-job-pod
-              resources: {}
-              terminationMessagePath: /dev/termination-log
-              terminationMessagePolicy: File
-            dnsPolicy: ClusterFirst
-            restartPolicy: OnFailure
-            schedulerName: default-scheduler
-            securityContext: {}
-            terminationGracePeriodSeconds: 30
-    schedule: 5,35 * * * *
-    startingDeadlineSeconds: 200
-    successfulJobsHistoryLimit: 3
-    suspend: true
-  status:
-- apiVersion: batch/v1beta1
-  kind: CronJob
-  metadata:
     name: vips-cronjob
   spec:
     concurrencyPolicy: Replace

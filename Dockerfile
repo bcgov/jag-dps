@@ -32,9 +32,6 @@ COPY src/dps-notification-service/pom.xml dps-notification-service/pom.xml
 COPY src/dps-payment-service/pom.xml dps-payment-service/pom.xml
 COPY src/dps-validation-service/pom.xml dps-validation-service/pom.xml
 
-COPY src/figaro-validation-service/pom.xml figaro-validation-service/pom.xml
-
-COPY src/spd-notification-worker/pom.xml spd-notification-worker/pom.xml
 COPY src/vips-notification-worker/pom.xml vips-notification-worker/pom.xml
 COPY src/report/pom.xml report/pom.xml
 

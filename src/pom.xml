@@ -61,8 +61,6 @@
                 <module>dps-email-worker</module>
                 <module>dps-validation-service</module>
                 <module>dps-notification-service</module>
-                <module>figaro-validation-service</module>
-                <module>spd-notification-worker</module>
                 <module>vips-notification-worker</module>
                 <module>report</module>
             </modules>
@@ -88,33 +86,12 @@
             </modules>
         </profile>
         <profile>
-            <id>figaro-validation-service</id>
-            <modules>
-                <module>libs/dps-bom</module>
-                <module>libs/figaro-ords-client</module>
-                <module>figaro-validation-service</module>
-            </modules>
-        </profile>
-        <profile>
             <id>dps-notification-service</id>
             <modules>
                 <module>libs/dps-bom</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/dps-notification</module>
                 <module>dps-notification-service</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>spd-notification-worker</id>
-            <modules>
-                <module>libs/dps-bom</module>
-                <module>libs/dps-monitoring</module>
-                <module>libs/dps-notification</module>
-                <module>libs/dps-files</module>
-                <module>libs/dps-sftp-starter</module>
-                <module>libs/dps-messaging-starter</module>
-                <module>libs/figaro-ords-client</module>
-                <module>spd-notification-worker</module>
             </modules>
         </profile>
         <profile>

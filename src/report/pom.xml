@@ -55,11 +55,6 @@
         </dependency>
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
-            <artifactId>spd-notification-worker</artifactId>
-            <version>0.6.0</version>
-        </dependency>
-        <dependency>
-            <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>vips-notification-worker</artifactId>
             <version>0.6.0</version>
         </dependency>
