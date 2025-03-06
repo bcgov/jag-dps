@@ -11,7 +11,7 @@
     </parent>
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>dps</artifactId>
-    <version>0.6.0</version>
+    <version>0.6.1</version>
     <name>dps</name>
 
     <url>https://github.com/bcgov/jag-dps</url>
@@ -36,7 +36,6 @@
                 <module>libs/dps-files</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/dps-notification</module>
-                <module>libs/figaro-ords-client</module>
                 <module>libs/dps-email-client</module>
                 <module>libs/dps-monitoring</module>
             </modules>
@@ -52,7 +51,6 @@
                 <module>libs/dps-files</module>
                 <module>libs/dps-messaging-starter</module>
                 <module>libs/dps-notification</module>
-                <module>libs/figaro-ords-client</module>
                 <module>libs/dps-commons</module>
                 <module>libs/dps-email-client</module>
                 <module>libs/dps-monitoring</module>
