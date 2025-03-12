@@ -56,6 +56,12 @@ jobs:
           distribution: 'temurin'
           java-version: 17
           cache: 'maven'
+          
+      - name: Install oc
+        if: "runner.os != 'Linux'"
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: latest
 
       - name: Cache local Maven repository
         uses: actions/cache@v4
