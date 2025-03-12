@@ -82,12 +82,6 @@ jobs:
     needs:
       - app-version
     steps:
-      - name: Install oc
-        if: "runner.os != 'Linux'"
-        uses: redhat-actions/openshift-tools-installer@v1
-        with:
-          oc: latest
-          
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
       app_name: ${{ github.event.inputs.app_name }}
