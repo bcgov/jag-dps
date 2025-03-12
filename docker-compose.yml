@@ -59,23 +59,6 @@ services:
       - "8084:8080"
     networks:
       - dps-net
-
-  #############################################################################################
-  ###                            FIGARO validation service                                  ###
-  #############################################################################################
-  fig-validation-service:
-    build:
-      args:
-        - spring_profiles_active=cloud
-        - MVN_PROFILES=figaro-validation-service,openshift
-        - DPS_SERVICE_NAME=figaro-validation-service
-    environment: 
-      - SWAGGER_UI_ENABLED=true
-      - FIGCR_BASE_PATH=${FIGCR_BASE_PATH}
-    ports:
-      - "8082:8080"
-    networks:
-      - dps-net
   
   #############################################################################################
   ###        DPS validation service (Driver Fitness Case Management Service)                ###
@@ -107,21 +90,6 @@ services:
       - RABBITMQ_HOST=rabbitmq
     ports:
       - "5054:8080"
-    networks:
-      - dps-net
-      
-  #############################################################################################
-  ###                     SPD Notification Worker                                          ###
-  #############################################################################################
-  spd-notification-worker:
-    build:
-      args:
-        - MVN_PROFILES=spd-notification-worker
-        - DPS_SERVICE_NAME=spd-notification-worker
-    ports:
-      - "5055:8080"
-    environment: 
-      - RABBITMQ_HOST=rabbitmq
     networks:
       - dps-net
 

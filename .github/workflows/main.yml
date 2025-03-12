@@ -14,8 +14,6 @@ on:
           - dps-notification-service
           - dps-payment-service
           - dps-validation-service
-          - figaro-validation-service
-          - spd-notification-worker
           - vips-notification-worker
       environment:
         required: true
