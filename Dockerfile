@@ -43,7 +43,6 @@ COPY src/libs/dps-cache-starter/pom.xml libs/dps-cache-starter/pom.xml
 COPY src/libs/dps-email-client/pom.xml libs/dps-email-client/pom.xml
 COPY src/libs/dps-messaging-starter/pom.xml libs/dps-messaging-starter/pom.xml
 COPY src/libs/dps-notification/pom.xml libs/dps-notification/pom.xml
-COPY src/libs/figaro-ords-client/pom.xml libs/figaro-ords-client/pom.xml
 COPY src/libs/dps-commons/pom.xml libs/dps-commons/pom.xml
 COPY src/libs/dps-files/pom.xml libs/dps-files/pom.xml
 COPY src/libs/dps-monitoring/pom.xml libs/dps-monitoring/pom.xml

@@ -44,11 +44,6 @@
             <version>0.6.1</version>
         </dependency>
         <dependency>
-            <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
-            <artifactId>figaro-validation-service</artifactId>
-            <version>0.6.0</version>
-        </dependency>
-        <dependency>
             <groupId>ca.bc.gov.open</groupId>
             <artifactId>dps-payment-service</artifactId>
             <version>0.6.1</version>
