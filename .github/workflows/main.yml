@@ -99,17 +99,64 @@ jobs:
       docker_password: "${{ secrets.DOCKER_PASSWORD }}"
 
   trivy:
-    needs:
-      - app-version
-      - build-and-push-image
-    uses: SierraSystems/reusable-workflows/.github/workflows/trivy-scan-openshift-image.yml@main
-    with:
-      imagestream_name: ${{ github.event.inputs.app_name }}
-      image_tag: "${{ needs.app-version.outputs.app-version }}"
-    secrets:
-      openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
-      openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools"
-      openshift_sa_name: "${{ secrets.OPENSHIFT_SA_PIPELINE_PASSWORD_SILVER }}"
-      openshift_sa_password: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
-      openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
-      openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
+    name: Build & Scan Image
+    runs-on: ubuntu-20.04
+    env:
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install oc
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: latest
+
+      - name: Authenticate and set context
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}
+          namespace: ${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools
+
+      - name: Login to OpenShift Container Repository
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}
+          username: ${{ secrets.OPENSHIFT_SA_PIPELINE_PASSWORD_SILVER }}
+          password: ${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}
+
+      - name: Pull Image for Scanning
+        env:
+          IMAGE: ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{github.event.inputs.app_name}}:${{needs.app-version.outputs.app-version}}
+        run: |
+          docker pull ${IMAGE}
+
+      - name: Run Trivy vulnerability scanner - stdout
+        uses: aquasecurity/trivy-action@master
+        if: ${{ !inputs.push_results_to_github }}
+        with:
+          scan-type: image
+          image-ref: ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{github.event.inputs.app_name}}:${{needs.app-version.outputs.app-version}}
+          format: table
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+
+      - name: Run Trivy vulnerability scanner - save-result to file
+        uses: aquasecurity/trivy-action@master
+        if: ${{ inputs.push_results_to_github }}
+        with:
+          scan-type: image
+          image-ref: ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{github.event.inputs.app_name}}:${{needs.app-version.outputs.app-version}}
+          format: sarif
+          output: trivy-results.sarif
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+
+      #Upload results to the GitHub Security Tab.
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always() && inputs.push_results_to_github
+        with:
+          sarif_file: trivy-results.sarif
