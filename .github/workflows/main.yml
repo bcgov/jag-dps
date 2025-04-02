@@ -137,7 +137,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
-          image-ref: image-registry.apps.silver.devops.gov.bc.ca/043918-tools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}}
+          image-ref: image-registry.apps.silver.devops.gov.bc.ca/043918-devtools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}}
           format: sarif
           output: table
           exit-code: 1
