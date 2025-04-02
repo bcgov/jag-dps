@@ -134,7 +134,7 @@ jobs:
           scan-type: image
           image-ref: ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}}
           format: sarif
-          output: trivy-results.sarif
+          output: table
           exit-code: 1
           ignore-unfixed: true
           limit-severities-for-sarif: true
