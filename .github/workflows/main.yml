@@ -101,6 +101,7 @@ jobs:
   trivy:
     name: Scan Image
     needs:
+      - app-version
       - build-and-push-image
     runs-on: ubuntu-latest
     steps:
