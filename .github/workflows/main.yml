@@ -101,7 +101,7 @@ jobs:
   trivy:
     name: Scan Image
     needs:
-      - build-image
+      - build-and-push-image
     runs-on: ubuntu-latest
     steps:
       - name: Install oc
@@ -124,16 +124,15 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Pull Image for Scanning
-        env:
-          IMAGE: ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{github.event.inputs.app_name}}:${{needs.app-version.outputs.app-version}}
         run: |
-          docker pull ${IMAGE}
+          docker pull ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}}
 
-      - name: Run Trivy vulnerability scanner - stdout
+      #Run Vulnerability Scan usinig Trivy scanner
+      - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
-          image-ref: ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{github.event.inputs.app_name}}:${{needs.app-version.outputs.app-version}}
+          image-ref: ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}}
           format: sarif
           output: trivy-results.sarif
           exit-code: 1
@@ -141,7 +140,7 @@ jobs:
           limit-severities-for-sarif: true
           severity: HIGH,CRITICAL
 
-      #Upload results to the GitHub Security Tab.
+      #Upload results to the Github security tab.
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         if: always()
