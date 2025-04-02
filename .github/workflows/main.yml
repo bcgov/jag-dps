@@ -78,31 +78,30 @@ jobs:
           echo "version=$_version " >> "$GITHUB_OUTPUT"
           echo $_version
 
-  build-and-push-image:
-    needs:
-      - app-version
-    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
-    with:
-      app_name: ${{ github.event.inputs.app_name }}
-      working_directory: .
-      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
-      env: tools
-      build_args: |-
-        DPS_SERVICE_NAME=${{ github.event.inputs.app_name }}
-        MVN_PROFILES=${{ github.event.inputs.app_name }},openshift
-    secrets:
-      openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
-      openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
-      openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
-      openshift_license_plate: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}"
-      docker_username: "${{ secrets.DOCKER_USERNAME }}"
-      docker_password: "${{ secrets.DOCKER_PASSWORD }}"
+#  build-and-push-image:
+#    needs:
+#    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
+#    with:
+#      app_name: ${{ github.event.inputs.app_name }}
+#      working_directory: .
+#      image_tags: "dev,${{ needs.app-version.outputs.app-version }}"
+#      env: tools
+#      build_args: |-
+#        DPS_SERVICE_NAME=${{ github.event.inputs.app_name }}
+#        MVN_PROFILES=${{ github.event.inputs.app_name }},openshift
+#    secrets:
+#      openshift_server_url: "${{ secrets.OPENSHIFT_SERVER_URL_SILVER }}"
+#      openshift_token: "${{ secrets.OPENSHIFT_SA_PIPELINE_TOKEN_SILVER }}"
+#      openshift_external_repository: "${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER }}"
+#      openshift_license_plate: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}"
+#      docker_username: "${{ secrets.DOCKER_USERNAME }}"
+#      docker_password: "${{ secrets.DOCKER_PASSWORD }}"
 
   trivy:
     name: Scan Image
     needs:
       - app-version
-      - build-and-push-image
+#      - build-and-push-image
     runs-on: ubuntu-latest
     steps:
       - name: Install oc
@@ -126,7 +125,8 @@ jobs:
 
       - name: Pull Image for Scanning
         run: |
-          docker pull ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}}
+          docker pull ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}} 
+          docker tag ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}} image:latest
 
       - name: list docker images
         run: |
@@ -137,7 +137,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
-          image-ref: image-registry.apps.silver.devops.gov.bc.ca/043918-devtools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}}
+          image-ref: image:latest
           format: sarif
           output: table
           exit-code: 1
