@@ -127,6 +127,11 @@ jobs:
       - name: Pull Image for Scanning
         run: |
           docker pull ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}}
+
+      - name: list docker images
+        run: |
+          docker images -a
+        
       #Run Vulnerability Scan usinig Trivy scanner
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -139,10 +144,6 @@ jobs:
           ignore-unfixed: true
           limit-severities-for-sarif: true
           severity: HIGH,CRITICAL
-
-      - name:  list docker images
-        run: |
-          docker images -a
 
       #Upload results to the Github security tab.
       - name: Upload Trivy scan results to GitHub Security tab
