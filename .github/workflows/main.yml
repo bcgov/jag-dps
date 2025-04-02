@@ -140,6 +140,10 @@ jobs:
           limit-severities-for-sarif: true
           severity: HIGH,CRITICAL
 
+      - name:  list docker images
+        run: |
+          docker images -a
+
       #Upload results to the Github security tab.
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
