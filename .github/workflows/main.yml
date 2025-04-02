@@ -99,7 +99,9 @@ jobs:
       docker_password: "${{ secrets.DOCKER_PASSWORD }}"
 
   trivy:
-    name: Build & Scan Image
+    name: Scan Image
+    needs:
+      - build-image
     runs-on: ubuntu-latest
     steps:
       - name: Install oc
