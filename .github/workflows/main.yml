@@ -56,12 +56,6 @@ jobs:
           distribution: 'temurin'
           java-version: 17
           cache: 'maven'
-          
-      - name: Install oc
-        if: "runner.os != 'Linux'"
-        uses: redhat-actions/openshift-tools-installer@v1
-        with:
-          oc: latest
 
       - name: Cache local Maven repository
         uses: actions/cache@v4
@@ -70,6 +64,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+      
       - name: Get Project Version
         id: get-app-version
         working-directory: "./src"
@@ -97,7 +92,7 @@ jobs:
       openshift_license_plate: "${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}"
       docker_username: "${{ secrets.DOCKER_USERNAME }}"
       docker_password: "${{ secrets.DOCKER_PASSWORD }}"
-
+      
   trivy:
     name: Scan Image
     needs:
