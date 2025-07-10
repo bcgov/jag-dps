@@ -15,6 +15,10 @@ on:
           - dps-payment-service
           - dps-validation-service
           - vips-notification-worker
+      app_version:
+        required: true
+        description: Enter the app version to deploy
+        type: string
 
 jobs:
   trivy:
@@ -42,8 +46,8 @@ jobs:
 
       - name: Pull Image for Scanning
         run: |
-          docker pull ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}} 
-          docker tag ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ github.event.inputs.app_name }}:${{needs.app-version.outputs.app-version}} image:latest
+          docker pull ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ github.event.inputs.app_name }}:${{github.event.inputs.app_version}} 
+          docker tag ${{secrets.OPENSHIFT_EXTERNAL_REPOSITORY_SILVER}}/${{ secrets.OPENSHIFT_LICENSE_PLATE_SILVER }}-tools/${{ github.event.inputs.app_name }}:${{github.event.inputs.app_version}} image:latest
 
       #Run Vulnerability Scan usinig Trivy scanner
       - name: Run Trivy vulnerability scanner
