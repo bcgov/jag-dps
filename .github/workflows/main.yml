@@ -143,3 +143,16 @@ jobs:
         if: always()
         with:
           sarif_file: trivy-results.sarif
+
+      #Run Vulnerability Scan usinig Trivy scanner (this one for display)
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          image-ref: image:latest
+          format: table
+          output: trivy-results.sarif
+          exit-code: 1
+          ignore-unfixed: true
+          limit-severities-for-sarif: true
+          severity: HIGH,CRITICAL
