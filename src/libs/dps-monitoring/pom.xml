@@ -7,7 +7,7 @@
 
     <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
     <artifactId>dps-monitoring</artifactId>
-    <version>0.6.0</version>
+    <version>0.6.1</version>
 
     <properties>
         <log4j2.version>2.17.1</log4j2.version>
@@ -51,7 +51,7 @@
             <dependency>
                 <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
                 <artifactId>dps-bom</artifactId>
-                <version>0.6.0</version>
+                <version>0.6.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

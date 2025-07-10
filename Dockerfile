@@ -32,9 +32,6 @@ COPY src/dps-notification-service/pom.xml dps-notification-service/pom.xml
 COPY src/dps-payment-service/pom.xml dps-payment-service/pom.xml
 COPY src/dps-validation-service/pom.xml dps-validation-service/pom.xml
 
-COPY src/figaro-validation-service/pom.xml figaro-validation-service/pom.xml
-
-COPY src/spd-notification-worker/pom.xml spd-notification-worker/pom.xml
 COPY src/vips-notification-worker/pom.xml vips-notification-worker/pom.xml
 COPY src/report/pom.xml report/pom.xml
 
@@ -46,7 +43,6 @@ COPY src/libs/dps-cache-starter/pom.xml libs/dps-cache-starter/pom.xml
 COPY src/libs/dps-email-client/pom.xml libs/dps-email-client/pom.xml
 COPY src/libs/dps-messaging-starter/pom.xml libs/dps-messaging-starter/pom.xml
 COPY src/libs/dps-notification/pom.xml libs/dps-notification/pom.xml
-COPY src/libs/figaro-ords-client/pom.xml libs/figaro-ords-client/pom.xml
 COPY src/libs/dps-commons/pom.xml libs/dps-commons/pom.xml
 COPY src/libs/dps-files/pom.xml libs/dps-files/pom.xml
 COPY src/libs/dps-monitoring/pom.xml libs/dps-monitoring/pom.xml

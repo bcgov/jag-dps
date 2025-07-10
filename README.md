@@ -30,10 +30,8 @@ If you decide to contribute, you can read our [CONTRIBUTING GUIDE](CONTRIBUTING.
     ├── configurations                      # 
     ├── openshift                           # openshift templates and pipeline
     ├── src/                                # application source files
-    │   ├── spd-notification-worker/        # SPD Notification Worker
     │   ├── dps-notification-service/       # DPS Notification service  
     │   ├── dps-validation-service/         # DPS DFCM service
-    |   ├── figaro-validation-service/      # DPS Figaro Validator service
     |   ├── dps-payment-service/                 # DPS payment service
     │   └── service-api                     # DPS service api
     ├── tests                               # Tests files
@@ -77,7 +75,6 @@ docker-compose up --build -d
 | CRRP Notification Worker| [Doc](src/crrp-notification-worker/README.md) | |
 | DPS Notification Service| [Doc](src/dps-notification-service/README.md) | |
 | DPS Validation Service | [Doc](src/dps-validation-service/README.md) | |
-| Figaro Validation Service | [Doc](src/figaro-validation-service/README.md) | |
 | VIPS Notification Worker| [Doc](src/vips-notification-worker/README.md) | |
 
 ## Endpoints
@@ -160,7 +157,4 @@ newman run DPS-Service-Api.postman_collection.json -e dps-local-env.postman_envi
 ```
 Fig validation service
 
-```bash
- newman run DPS-Service-Api-Fig.postman_collection.json -e dps-local-env.postman_environment.json -d fig-locate-matching-applicants-datafile.json
- ```
  
