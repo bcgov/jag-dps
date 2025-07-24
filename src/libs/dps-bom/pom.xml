@@ -32,6 +32,7 @@
         <migbase64.version>2.2</migbase64.version>
         <mockito.core.version>5.4.0</mockito.core.version>
         <logback.access.version>2.7.1</logback.access.version>
+        <logback.access.common.version>2.0.6</logback.access.common.version>
         <jsr305.version>3.0.2</jsr305.version>
         <jsr310.version>2.16.0</jsr310.version>
         <logback.version>1.4.14</logback.version>
@@ -265,6 +266,11 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
                 <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback.access</groupId>
+                <artifactId>logback-access-common</artifactId>
+                <version>${logback.access.common.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
