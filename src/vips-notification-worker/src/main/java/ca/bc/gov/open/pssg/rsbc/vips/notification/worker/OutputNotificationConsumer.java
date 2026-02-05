@@ -95,7 +95,18 @@ public class OutputNotificationConsumer {
             }
 
         } catch (IOException | JAXBException e) {
-            logger.error("{} while processing file id [{}]: ", e.getClass().getSimpleName(), fileInfo.getFileId(), e);
+            if (e instanceof JAXBException jaxbEx) {
+                logger.error("{} while processing file id [{}]. Root cause: {}",
+                        e.getClass().getSimpleName(),
+                        fileInfo.getFileId(),
+                        jaxbEx.getLinkedException() != null ? jaxbEx.getLinkedException().getMessage() : "No linked exception",
+                        e);
+                if (jaxbEx.getLinkedException() != null) {
+                    logger.error("Linked exception stack trace: ", jaxbEx.getLinkedException());
+                }
+            } else {
+                logger.error("{} while processing file id [{}]: ", e.getClass().getSimpleName(), fileInfo.getFileId(), e);
+            }
             moveFilesToError(fileInfo);
         } catch (DpsSftpException e) {
             logger.error("{} while processing file id [{}]:", e.getClass().getSimpleName(), fileInfo.getFileId(), e);
@@ -108,14 +119,47 @@ public class OutputNotificationConsumer {
     private String getMetadata(FileInfo fileInfo) throws IOException {
         logger.debug("attempting get file metadata");
         InputStream is = fileService.getMetadataFileContent(fileInfo);
-        return IOUtils.toString(is, StandardCharsets.UTF_8.name());
+        return IOUtils.toString(is, StandardCharsets.UTF_8);
     }
 
     private Data unmarshallMetadataXml(String content) throws JAXBException {
 
         logger.debug("attempting to serialize file");
-        Unmarshaller unmarshaller = this.kofaxOutputMetadataContext.createUnmarshaller();
-        return (Data) unmarshaller.unmarshal(new StringReader(content));
+
+        try {
+            Unmarshaller unmarshaller = this.kofaxOutputMetadataContext.createUnmarshaller();
+
+            // Add validation event handler to capture detailed errors
+            unmarshaller.setEventHandler(event -> {
+                logger.error("JAXB Validation Error - Severity: {}, Message: {}, Location: Line {}, Column {}",
+                        event.getSeverity(),
+                        event.getMessage(),
+                        event.getLocator() != null ? event.getLocator().getLineNumber() : "unknown",
+                        event.getLocator() != null ? event.getLocator().getColumnNumber() : "unknown");
+                if (event.getLinkedException() != null) {
+                    logger.error("Linked exception: ", event.getLinkedException());
+                }
+                return false; // Stop processing on validation error
+            });
+
+            return (Data) unmarshaller.unmarshal(new StringReader(content));
+
+        } catch (JAXBException e) {
+            logger.error("Failed to unmarshal XML content. Root cause: {}",
+                    e.getLinkedException() != null ? e.getLinkedException().getMessage() : "No linked exception");
+
+            // Log a snippet of the XML content for debugging (first 500 chars to avoid logging huge files)
+            if (content != null) {
+                String xmlSnippet = content.length() > 500 ? content.substring(0, 500) + "..." : content;
+                logger.error("XML content snippet: {}", xmlSnippet);
+            }
+
+            if (e.getLinkedException() != null) {
+                logger.error("Linked exception details: ", e.getLinkedException());
+            }
+
+            throw e;
+        }
     }
 
     private File getImage(FileInfo fileInfo) throws IOException {
