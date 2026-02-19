@@ -74,10 +74,16 @@ public class OutputNotificationConsumer {
             String metadata = getMetadata(fileInfo);
             logger.info("successfully downloaded file [{}]", fileInfo.getMetaDataReleaseFileName());
 
+            // Strip UTF-8 BOM if present (EF BB BF appears as \uFEFF when decoded to string)
+            if (metadata != null && metadata.startsWith("\uFEFF")) {
+                metadata = metadata.substring(1);
+                logger.debug("Stripped UTF-8 BOM from XML content");
+            }
+
             VipsDocumentResponse vipsDocumentResponse =
                     documentService.vipsDocument(
                             unmarshallMetadataXml(metadata).getDocumentData().getDType(),
-                            Base64.encodeToString(metadata.getBytes(),false),
+                            Base64.encodeToString(metadata.getBytes(StandardCharsets.UTF_8),false),
                             MIME,
                             MIME_SUBTYPE,
                             "",
@@ -126,11 +132,6 @@ public class OutputNotificationConsumer {
 
         logger.debug("attempting to serialize file");
 
-        // Strip UTF-8 BOM if present (EF BB BF appears as \uFEFF when decoded to string)
-        if (content != null && content.startsWith("\uFEFF")) {
-            content = content.substring(1);
-            logger.debug("Stripped UTF-8 BOM from XML content");
-        }
 
         Unmarshaller unmarshaller = this.kofaxOutputMetadataContext.createUnmarshaller();
         return (Data) unmarshaller.unmarshal(new StringReader(content));
