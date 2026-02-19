@@ -83,7 +83,7 @@ public class OutputNotificationConsumer {
             VipsDocumentResponse vipsDocumentResponse =
                     documentService.vipsDocument(
                             unmarshallMetadataXml(metadata).getDocumentData().getDType(),
-                            Base64.encodeToString(metadata.getBytes(StandardCharsets.UTF_8),false),
+                            Base64.encodeToString(metadata.getBytes(),false),
                             MIME,
                             MIME_SUBTYPE,
                             "",
