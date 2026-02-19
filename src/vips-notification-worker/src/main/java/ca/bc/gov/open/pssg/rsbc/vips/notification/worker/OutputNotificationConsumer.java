@@ -125,41 +125,8 @@ public class OutputNotificationConsumer {
     private Data unmarshallMetadataXml(String content) throws JAXBException {
 
         logger.debug("attempting to serialize file");
-
-        try {
-            Unmarshaller unmarshaller = this.kofaxOutputMetadataContext.createUnmarshaller();
-
-            // Add validation event handler to capture detailed errors
-            unmarshaller.setEventHandler(event -> {
-                logger.error("JAXB Validation Error - Severity: {}, Message: {}, Location: Line {}, Column {}",
-                        event.getSeverity(),
-                        event.getMessage(),
-                        event.getLocator() != null ? event.getLocator().getLineNumber() : "unknown",
-                        event.getLocator() != null ? event.getLocator().getColumnNumber() : "unknown");
-                if (event.getLinkedException() != null) {
-                    logger.error("Linked exception: ", event.getLinkedException());
-                }
-                return false; // Stop processing on validation error
-            });
-
-            return (Data) unmarshaller.unmarshal(new StringReader(content));
-
-        } catch (JAXBException e) {
-            logger.error("Failed to unmarshal XML content. Root cause: {}",
-                    e.getLinkedException() != null ? e.getLinkedException().getMessage() : "No linked exception");
-
-            // Log a snippet of the XML content for debugging (first 500 chars to avoid logging huge files)
-            if (content != null) {
-                String xmlSnippet = content.length() > 500 ? content.substring(0, 500) + "..." : content;
-                logger.error("XML content snippet: {}", xmlSnippet);
-            }
-
-            if (e.getLinkedException() != null) {
-                logger.error("Linked exception details: ", e.getLinkedException());
-            }
-
-            throw e;
-        }
+        Unmarshaller unmarshaller = this.kofaxOutputMetadataContext.createUnmarshaller();
+        return (Data) unmarshaller.unmarshal(new StringReader(content));
     }
 
     private File getImage(FileInfo fileInfo) throws IOException {
