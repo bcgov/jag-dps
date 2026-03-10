@@ -37,11 +37,19 @@ jobs:
           echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
           echo "Short SHA: $SHORT_SHA"
 
-      - name: Docker Build DPS Notification Service Image
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+       
+      - name: Docker Build DPS Email Poller Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker build --build-arg DPS_SERVICE_NAME=dps-notification-service -t artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
-  
+          docker buildx build \
+          --load \
+          --build-arg DPS_SERVICE_NAME=${{ env.IMAGE_NAME }} \
+          --build-arg MVN_PROFILES=${{ env.IMAGE_NAME }},openshift \
+          -t artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+          .
+
       - name: Docker Push to Artifactory
         id: publish
         run: |
