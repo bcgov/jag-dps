@@ -3,7 +3,7 @@ permissions:
   contents: write
 on:
   push:
-    branches: 'main'
+    branches: 'DPS-278'
     paths:
         - "src/dps-email-poller/**"
         - ".github/workflows/dev-dps-email-poller.yml"
@@ -40,7 +40,7 @@ jobs:
       - name: Docker Build DPS Email Poller Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker build --build-arg DPS_SERVICE_NAME=dps-email-poller -t artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+          docker build --build-arg DPS_SERVICE_NAME=${{ env.IMAGE_NAME }} --build-arg MVN_PROFILES=${{ env.IMAGE_NAME }},openshift -t artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
   
       - name: Docker Push to Artifactory
         id: publish
