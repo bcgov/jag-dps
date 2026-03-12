@@ -3,7 +3,7 @@ permissions:
   contents: write
 on:
   push:
-    branches: 'release/0.61'
+    branches: 'main'
     paths:
         - "src/dps-payment-service/**"
         - ".github/workflows/dev-dps-payment-service.yml"

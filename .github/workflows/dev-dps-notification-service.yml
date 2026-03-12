@@ -3,7 +3,7 @@ permissions:
   contents: write
 on:
   push:
-    branches: 'release/0.61'
+    branches: 'main'
     paths:
         - "src/dps-notification-service/**"
         - ".github/workflows/dev-dps-notification-service.yml"

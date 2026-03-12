@@ -3,7 +3,7 @@ permissions:
   contents: write
 on:
   push:
-    branches: 'release/0.61'
+    branches: 'r'
     paths:
         - "src/dps-email-poller/**"
         - ".github/workflows/dev-dps-email-poller.yml"
