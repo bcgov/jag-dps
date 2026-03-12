@@ -3,7 +3,7 @@ permissions:
   contents: write
 on:
   push:
-    branches: 'main'
+    branches: 'release/0.61'
     paths:
         - "src/vips-notification-worker/**"
         - ".github/workflows/dev-vips-notification-worker.yml"

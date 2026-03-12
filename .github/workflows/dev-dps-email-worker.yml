@@ -3,7 +3,7 @@ permissions:
   contents: write
 on:
   push:
-    branches: 'main'
+    branches: 'release/0.61'
     paths:
         - "src/dps-email-worker/**"
         - ".github/workflows/dev-dps-email-worker.yml"
