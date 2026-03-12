@@ -2,12 +2,12 @@ name: Build & Push VIPS-Notification-Worker to Artifactory
 permissions:
   contents: write
 on:
-  push:
-    branches: 'main'
-    paths:
-        - "src/vips-notification-worker/**"
-        - ".github/workflows/dev-vips-notification-worker.yml"
   workflow_dispatch:
+    inputs: 
+      tag: 
+        description: "Branch to Checkout"
+        required: true
+        type: string
 
 env:
   IMAGE_NAME: vips-notification-worker
@@ -21,7 +21,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code at the chosen tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag }}
 
       - name: Login to Artifactory
         uses: docker/login-action@v1
