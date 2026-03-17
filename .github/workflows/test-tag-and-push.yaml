@@ -72,13 +72,13 @@ jobs:
       - name: Docker Pull and Tag DPS Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker pull artifacts.developer.gov.bc.ca/{{ env.REPO }}/${{ env.IMAGE_NAME }}:dev
-          docker tag artifacts.developer.gov.bc.ca/{{ env.REPO }}/${{ env.IMAGE_NAME }}:dev artifacts.developer.gov.bc.ca/{{ env.REPO }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker pull artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:dev
+          docker tag artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:dev artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
       - name: Docker Push to Artifactory
         id: publish
         run: |
-          docker push artifacts.developer.gov.bc.ca/{{ env.REPO }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker push artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
       
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4
