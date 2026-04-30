@@ -1,4 +1,4 @@
-name: Switch PROD tags from prod to prod-backup in GitOps repo.
+name: prod -> prod-backup 
 
 on:
   workflow_dispatch:
