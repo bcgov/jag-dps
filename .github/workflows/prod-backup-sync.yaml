@@ -1,0 +1,58 @@
+name: Switch PROD tags from prod to prod-backup in GitOps repo.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  IAC_REPOSITORY: bcgov-c/tenant-gitops-043918
+  BRANCH_NAME: main # GitOps repo branch name; change here later if needed.
+
+jobs:
+  update-iac-repo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code repo
+        uses: actions/checkout@v4
+
+      - name: Set GitOps SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSHKEY }}
+
+      - name: Configure Git identity
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "DPS GitHub Actions"
+
+      - name: Clone GitOps repo
+        run: |
+          git clone -b "${{ env.BRANCH_NAME }}" --single-branch "git@github.com:${IAC_REPOSITORY}.git" tenant-gitops-043918
+
+      - name: Update prod tags to prod-backup
+        working-directory: tenant-gitops-043918
+        run: |
+          if [[ ! -f "deploy/prod_values.yaml" ]]; then
+            echo "Values file not found: deploy/prod_values.yaml"
+            exit 1
+          fi
+
+          perl -0pi -e 's/^(\s*[A-Za-z]+tag:\s*)prod(\s*(?:#.*)?)$/${1}prod-backup${2}/mg' "deploy/prod_values.yaml"
+
+          echo "Updated matching tag lines in deploy/prod_values.yaml"
+          git diff -- "deploy/prod_values.yaml"
+
+      - name: Commit and push changes
+        working-directory: tenant-gitops-043918
+        run: |
+          if git diff --quiet -- "deploy/prod_values.yaml"; then
+            echo "No matching prod tags found. Nothing to commit."
+            exit 0
+          fi
+
+          git add "deploy/prod_values.yaml"
+          git commit -m "Update prod tags to prod-backup in prod values"
+          git push origin "${{ env.BRANCH_NAME }}"
