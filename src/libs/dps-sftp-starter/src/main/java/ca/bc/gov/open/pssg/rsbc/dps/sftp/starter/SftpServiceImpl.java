@@ -138,6 +138,8 @@ public class SftpServiceImpl implements SftpService {
             sftpFunction.exec(channelSftp);
 
         } catch (JSchException | SftpException e) {
+            logger.error("SFTP operation failed: {}", e.getMessage());
+            logger.error("SFTP operation failed: {}", e.getCause());
             throw new DpsSftpException(e.getMessage(), e.getCause());
         } finally {
             if (channelSftp != null && channelSftp.isConnected())

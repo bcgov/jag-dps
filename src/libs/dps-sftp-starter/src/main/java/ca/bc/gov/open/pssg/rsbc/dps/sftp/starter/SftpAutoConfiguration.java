@@ -38,7 +38,7 @@ public class SftpAutoConfiguration {
      */
     @Bean
     public JSch sftpSession(SftpProperties sftpProperties) throws JSchException {
-
+        JSch.setLogger(new JschDebugLogger());
         JSch jsch = new JSch();
 
         if(StringUtils.isNotBlank(sftpProperties.getKnownHostsFileName())) {

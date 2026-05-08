@@ -74,6 +74,12 @@ public class OutputNotificationConsumer {
             String metadata = getMetadata(fileInfo);
             logger.info("successfully downloaded file [{}]", fileInfo.getMetaDataReleaseFileName());
 
+            // Strip UTF-8 BOM if present (EF BB BF appears as \uFEFF when decoded to string)
+            if (metadata != null && metadata.startsWith("\uFEFF")) {
+                metadata = metadata.substring(1);
+                logger.debug("Stripped UTF-8 BOM from XML content");
+            }
+
             VipsDocumentResponse vipsDocumentResponse =
                     documentService.vipsDocument(
                             unmarshallMetadataXml(metadata).getDocumentData().getDType(),
@@ -95,7 +101,18 @@ public class OutputNotificationConsumer {
             }
 
         } catch (IOException | JAXBException e) {
-            logger.error("{} while processing file id [{}]: ", e.getClass().getSimpleName(), fileInfo.getFileId(), e);
+            if (e instanceof JAXBException jaxbEx) {
+                logger.error("{} while processing file id [{}]. Root cause: {}",
+                        e.getClass().getSimpleName(),
+                        fileInfo.getFileId(),
+                        jaxbEx.getLinkedException() != null ? jaxbEx.getLinkedException().getMessage() : "No linked exception",
+                        e);
+                if (jaxbEx.getLinkedException() != null) {
+                    logger.error("Linked exception stack trace: ", jaxbEx.getLinkedException());
+                }
+            } else {
+                logger.error("{} while processing file id [{}]: ", e.getClass().getSimpleName(), fileInfo.getFileId(), e);
+            }
             moveFilesToError(fileInfo);
         } catch (DpsSftpException e) {
             logger.error("{} while processing file id [{}]:", e.getClass().getSimpleName(), fileInfo.getFileId(), e);
@@ -108,12 +125,14 @@ public class OutputNotificationConsumer {
     private String getMetadata(FileInfo fileInfo) throws IOException {
         logger.debug("attempting get file metadata");
         InputStream is = fileService.getMetadataFileContent(fileInfo);
-        return IOUtils.toString(is, StandardCharsets.UTF_8.name());
+        return IOUtils.toString(is, StandardCharsets.UTF_8);
     }
 
     private Data unmarshallMetadataXml(String content) throws JAXBException {
 
         logger.debug("attempting to serialize file");
+
+
         Unmarshaller unmarshaller = this.kofaxOutputMetadataContext.createUnmarshaller();
         return (Data) unmarshaller.unmarshal(new StringReader(content));
     }
