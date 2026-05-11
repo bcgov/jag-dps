@@ -47,7 +47,7 @@
         <springdoc-openapi.version>2.2.0</springdoc-openapi.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <jabx-impl.version>4.0.0</jabx-impl.version>
-        <tomcat-embed-core.version>11.0.9</tomcat-embed-core.version>
+        <tomcat-embed-core.version>11.0.21</tomcat-embed-core.version>
         <json.version>20231013</json.version>
         <spring-webmvc.version>6.1.14</spring-webmvc.version>
         <snakeyaml.version>2.2</snakeyaml.version>
