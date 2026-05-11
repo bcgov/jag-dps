@@ -4,7 +4,7 @@
 ## Defining Arguments and env vars
 ARG DPS_SERVICE_NAME
 
-FROM alpine/git as libraries
+FROM alpine/git AS libraries
 WORKDIR /libs
 COPY . .
 RUN git submodule update --init
@@ -13,7 +13,7 @@ RUN git submodule update --init
 ###              Stage where Docker is caching the dependencies spring boot app using maven               ###
 #############################################################################################
 #FROM image-registry.apps.silver.devops.gov.bc.ca/043918-tools/maven:3.8.6-eclipse-temurin-8 as dependencies
-FROM maven:3.8.6-eclipse-temurin-17 as dependencies
+FROM maven:3.8.6-eclipse-temurin-17 AS dependencies
 
 ## Defining Arguments and env vars
 ARG DPS_SERVICE_NAME
@@ -29,7 +29,6 @@ COPY src/pom.xml pom.xml
 COPY src/dps-email-poller/pom.xml dps-email-poller/pom.xml
 COPY src/dps-email-worker/pom.xml dps-email-worker/pom.xml
 COPY src/dps-notification-service/pom.xml dps-notification-service/pom.xml
-COPY src/dps-payment-service/pom.xml dps-payment-service/pom.xml
 COPY src/dps-validation-service/pom.xml dps-validation-service/pom.xml
 
 COPY src/vips-notification-worker/pom.xml vips-notification-worker/pom.xml
@@ -58,7 +57,7 @@ RUN mvn dependency:go-offline \
 #############################################################################################
 ###              Stage where Docker is building spring boot app using maven               ###
 #############################################################################################
-FROM dependencies as build
+FROM dependencies AS build
 
 ARG DPS_SERVICE_NAME
 ARG MVN_PROFILES=${DPS_SERVICE_NAME}
@@ -87,8 +86,7 @@ RUN mvn clean package \
 ##############################################################################################
 #### Stage where Docker is running a java process to run a service built in previous stage ###
 ##############################################################################################
-#FROM image-registry.apps.silver.devops.gov.bc.ca/043918-tools/eclipse-temurin:8-jre-jammy
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:17-jre-alpine
 
 ARG DPS_SERVICE_NAME
 
