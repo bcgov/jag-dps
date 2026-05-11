@@ -12,7 +12,6 @@
 
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
     <artifactId>dps-email-poller</artifactId>
-    <version>0.6.2-SNAPSHOT</version>
     <name>dps-email-poller</name>
     <description>DPS Email Poller module</description>
 
