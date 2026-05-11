@@ -44,11 +44,6 @@
             <version>0.6.2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>ca.bc.gov.open</groupId>
-            <artifactId>dps-payment-service</artifactId>
-            <version>0.6.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>vips-notification-worker</artifactId>
             <version>0.6.2-SNAPSHOT</version>
