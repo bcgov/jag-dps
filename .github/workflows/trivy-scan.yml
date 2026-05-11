@@ -1,5 +1,5 @@
 # Scan the latest build that is on Openshift
-name: Scan - Pull latest image from Openshift and Trivy scan displaying results to a table
+name: Trivy Scan
 
 on:
   workflow_dispatch:
@@ -31,7 +31,6 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-       
 
       - name: Docker Build DPS Email Poller Image
         working-directory: ${{env.WORKING_DIRECTORY}}
@@ -40,7 +39,7 @@ jobs:
           --load \
           --build-arg DPS_SERVICE_NAME=${{ env.IMAGE_NAME }} \
           --build-arg MVN_PROFILES=${{ env.IMAGE_NAME }},openshift \
-          -t {{ env.IMAGE_NAME }}:latest \
+          -t ${{ env.IMAGE_NAME }}:latest \
           .
       #Run Vulnerability Scan usinig Trivy scanner
       - name: Run Trivy vulnerability scanner
