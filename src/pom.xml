@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.6</version>
+        <version>3.5.14</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>dps</artifactId>
-    <version>0.6.1</version>
+    <version>0.6.2-SNAPSHOT</version>
     <name>dps</name>
 
     <url>https://github.com/bcgov/jag-dps</url>
@@ -54,7 +54,6 @@
                 <module>libs/dps-commons</module>
                 <module>libs/dps-email-client</module>
                 <module>libs/dps-monitoring</module>
-                <module>dps-payment-service</module>
                 <module>dps-email-poller</module>
                 <module>dps-email-worker</module>
                 <module>dps-validation-service</module>
@@ -65,15 +64,7 @@
             <activation>
                 <activeByDefault>
                     true
-                </activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>dps-payment-service</id>
-            <modules>
-                <module>libs/dps-bom</module>
-                <module>dps-payment-service</module>
-            </modules>
+                </activeByDefault>            </activation>
         </profile>
         <profile>
             <id>dps-validation-service</id>

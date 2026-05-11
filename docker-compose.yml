@@ -36,29 +36,6 @@ services:
     networks:
       - dps-net
 
-  #############################################################################################
-  ###                               DPS payment service                                     ###
-  #############################################################################################
-  payment-service:
-    build:
-      args:
-        - MVN_PROFILES=dps-payment-service,openshift
-        - DPS_SERVICE_NAME=dps-payment-service
-    environment: 
-      - spring_profiles_active=cloud,splunk
-      - BAMBORA_PAYMENT_ENDPOINT=https://example.com
-      - BAMBORA_MERCHANT_ID=changeme
-      - BAMBORA_HASHKEY=SUPERHASHKEY
-      - CRC_ENDPOINT_APPROVED=http://approved
-      - CRC_ENDPOINT_DECLINED=http://declined
-      - CRC_ENDPOINT_ERROR=http://error
-      - SPLUNK_URL=https://dps-splunk:8088
-      - SPLUNK_TOKEN=${SPLUNK_TOKEN}
-      - SWAGGER_UI_ENABLED=true
-    ports:
-      - "8084:8080"
-    networks:
-      - dps-net
   
   #############################################################################################
   ###        DPS validation service (Driver Fitness Case Management Service)                ###
