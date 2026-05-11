@@ -47,7 +47,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
-          image-ref: {{ env.IMAGE_NAME }}:latest
+          image-ref: ${{ env.IMAGE_NAME }}:latest
           format: sarif
           output: trivy-results.sarif
           exit-code: 0
