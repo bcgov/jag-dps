@@ -10,7 +10,6 @@
 
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
     <artifactId>dps-email-worker</artifactId>
-    <version>0.6.2-SNAPSHOT</version>
     <name>dps-email-worker</name>
     <description>DPS Email Worker subscribes to queue and gets messages.</description>
 
@@ -211,7 +210,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-            <version>${spring-redis.version}</version>
         </dependency>
 
         <dependency>
@@ -244,6 +242,14 @@
         <dependency>
             <groupId>net.rakugakibox.spring.boot</groupId>
             <artifactId>logback-access-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- Vulnerability Overrides -->
+        <!-- resolve transitive cve CVE-2026-42583 -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec</artifactId>
+            <version>4.1.133.Final</version>
         </dependency>
     </dependencies>
 
