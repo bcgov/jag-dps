@@ -1,4 +1,5 @@
 ![Java CI](https://github.com/bcgov/jag-dps/workflows/Java%20CI/badge.svg)
+[![img](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md) 
 
 # DPS Document Processing System
 
@@ -27,13 +28,27 @@ If you decide to contribute, you can read our [CONTRIBUTING GUIDE](CONTRIBUTING.
 
     .
     ├── .github                             # Contains GitHub Related sources
-    ├── configurations                      # 
     ├── openshift                           # openshift templates and pipeline
     ├── src/                                # application source files
-    │   ├── dps-notification-service/       # DPS Notification service  
+    │   ├── dps-email-poller/               # DPS Email Poller service  
+    │   ├── dps-email-worker/               # DPS Email worker service
+	│   ├── dps-notification-service/       # DPS Notification service  
     │   ├── dps-validation-service/         # DPS DFCM service
-    |   ├── dps-payment-service/                 # DPS payment service
-    │   └── service-api                     # DPS service api
+    │   ├── report/                         # Code Coverage Reporter
+	│   ├── vips-notification-worker/       # VIPS Notification worker 
+    │   └── libs   					        # DPS service api
+	│	    ├── dfcms-ords-client/          # DFCM ords client
+	│	    ├── dps-bom/                    # DPS BOM 
+	│	    ├── dps-cache-starter/          # DPS cache spring starter
+	│	    ├── dps-commons/  	            # DPS commons
+	│	    ├── dps-email-client/           # DPS email client
+	│	    ├── dps-files/                  # DPS files
+	│	    ├── dps-messaging-starter/      # DPS messaging starter
+	│	    ├── dps-monitoring/  	        # DPS monitoring
+	│	    ├── dps-sftp-starter/           # DPS sftp starter
+	│	    ├── dps-notification/           # DPS Notification   
+	│	    ├── figaro-ords-client/         # Deprecated
+	│	    └── jag-vips-client             # Linked repo https://github.com/bcgov/jag-vips-client  
     ├── tests                               # Tests files
     ├── docker-compose.yml                  # docker compose definition
     ├── LICENSE                             # Apache License
@@ -81,19 +96,6 @@ docker-compose up --build -d
 
 | URL                                                                                                                                              | Method | Description |
 |--------------------------------------------------------------------------------------------------------------------------------------------------| --- | --- |
-| **Payment Service**                                                                                                                              | --- | --- |
-| [http://localhost:5050/paymentservice/bamboraconfiguration](http://localhost:5050/paymentservice/bamboraconfiguration)                           | GET | Bambora configuration url |
-| [http://localhost:5050/paymentservice/getSinglePaymentURL](http://localhost:5050/paymentservice/getSinglePaymentURL)                             | GET | Single Payment Url |
-| [http://localhost:8081/paymentservice/actuator/health](http://localhost:8084/paymentservice/actuator/health)                                     | GET | Payment Service Health |
-| [http://localhost:8081/paymentservice/swagger-ui.html](http://localhost:8084/paymentservice/swagger-ui.html)                                     | GET | Figaro Validator Swagger-UI |
-| [http://localhost:8081/paymentservice/v2/api-docs](http://localhost:8084/paymentservice/v3/api-docs)                                             | GET | Figaro Validator Api docs |
-| **Figaro Validation**                                                                                                                            | --- | --- |
-| [http://localhost:5050/figvalidationservice/locateMatchingApplicants](http://localhost:5050/figvalidationservice/locateMatchingApplicants)       | GET | Locate Matching Applicants |
-| [http://localhost:5050/figvalidationservice/validateApplicantService](http://localhost:5050/figvalidationservice/validateApplicantService)       | GET | Validate Applicant Service |
-| [http://localhost:5050/figvalidationservice/validateApplicantForSharing](http://localhost:5050/figvalidationservice/validateApplicantForSharing) | GET | Validate Applicant Sharing |
-| [http://localhost:5050/figvalidationservice/validateApplicantPartyId](http://localhost:5050/figvalidationservice/validateApplicantPartyId)       | GET | Validate Applicant Party ID |
-| [http://localhost:8082/figvalidationservice/actuator/health](http://localhost:8082/figvalidationservice/actuator/health)                         | GET | Figaro Validator Health | 
-| [http://localhost:8082/figvalidationservice/swagger-ui.html](http://localhost:8082/figvalidationservice/swagger-ui.html)                         | GET | Figaro Validator Swagger-UI |
 | **DPS Validation**                                                                                                                               | --- | --- |
 | [http://localhost:5050/dpsvalidationservice/getValidOpenDFCMCase](http://localhost:5050/dpsvalidationservice/getValidOpenDFCMCase)               | GET | Valid Open DFCM Case |
 | [http://localhost:8083/dpsvalidationservice/actuator/health](http://localhost:8083/dpsvalidationservice/actuator/health)                         | GET | DPS Validation Service Health | 
