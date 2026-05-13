@@ -4,36 +4,30 @@ permissions:
   contents: read
   
 on:
-
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  - pull_request
+  - workflow_dispatch
 
 jobs:
-  spring:
-    name: App Build and Test
+  build:
+
     runs-on: ubuntu-latest
-    env:
-      ACTION_DEBUG: true
 
-    steps:   
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 17
+      uses: actions/setup-java@v1
+      with:
+        java-version: 17
+
+    - name: Pull & update submodules recursively
+      run: |
+        git submodule update --init --recursive
+
+    - uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'maven'
+    - name: Build with Maven
+      run: mvn -B test --file src/pom.xml -P all
       
-      - name: Build Vips Client
-        working-directory: "./src/libs"
-        run: git submodule update --init
-        
-      # Setup Java Environment
-      - name: Set up JDK 17
-        uses: actions/setup-java@v1
-        with:
-          java-version: 17
-          
-          cache: maven
-
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-     # Run Maven Verify COA Application   
-      - name: Build and Test With Maven
-        run: mvn -ntp clean package --file src/pom.xml -P all
