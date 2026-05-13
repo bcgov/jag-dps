@@ -1,4 +1,4 @@
-![Java CI](https://github.com/bcgov/jag-dps/workflows/Java%20CI/badge.svg)
+![Unit Tests](https://github.com/bcgov/jag-dps/workflows/maven-test-pr.yml/badge.svg)
 [![img](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md) 
 
 # DPS Document Processing System
