@@ -12,7 +12,6 @@ on:
           - dps-email-poller
           - dps-email-worker
           - dps-notification-service
-          - dps-payment-service
           - dps-validation-service
           - vips-notification-worker
       environment:

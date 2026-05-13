@@ -1,6 +1,7 @@
 # Scan the latest build that is on Openshift
 name: Trivy Scan
-
+permissions:
+  contents: write
 on:
   workflow_dispatch:
     inputs:
