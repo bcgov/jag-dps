@@ -24,7 +24,7 @@
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="http"/>
         <appender-ref ref="STDOUT"/>
     </root>
