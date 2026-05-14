@@ -41,7 +41,7 @@ public class HealthCheck implements HealthIndicator {
 
         try {
             HealthResponse response = healthService.health();
-            logger.info("Health Service returned {}", response.getStatus());
+            logger.debug("Health Service returned {}", response.getStatus());
             return response.getStatus();
 
         } catch (ApiException ex) {
