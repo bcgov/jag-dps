@@ -12,7 +12,6 @@ on:
           - dps-email-poller
           - dps-email-worker
           - dps-notification-service
-          - dps-payment-service
           - dps-validation-service
           - vips-notification-worker
 env:
@@ -40,10 +39,6 @@ jobs:
           fi
           if [[ ${{ github.event.inputs.app_name }} == 'dps-notification-service' ]]; then
               echo "TAG_PREFIX=dns" >> "$GITHUB_ENV"
-              echo "REPO=d043-dps" >> "$GITHUB_ENV"
-          fi
-          if [[ ${{ github.event.inputs.app_name }} == 'dps-payment-service' ]]; then
-              echo "TAG_PREFIX=dps" >> "$GITHUB_ENV"
               echo "REPO=d043-dps" >> "$GITHUB_ENV"
           fi
           if [[ ${{ github.event.inputs.app_name }} == 'dps-validation-service' ]]; then
