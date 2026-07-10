@@ -35,7 +35,7 @@
         <logback.access.common.version>2.0.6</logback.access.common.version>
         <jsr305.version>3.0.2</jsr305.version>
         <jsr310.version>2.16.0</jsr310.version>
-        <logback.version>1.4.14</logback.version>
+        <logback.version>1.5.35</logback.version>
         <jedis.version>3.8.0</jedis.version>
         <snakeyaml.version>2.0</snakeyaml.version>
         <slf4j.api.version>2.0.9</slf4j.api.version>
