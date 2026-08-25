@@ -130,13 +130,9 @@ The workflows require various secrets to be configured in the repository:
 - Artifactory credentials
 - OpenShift cluster access
 - GitOps repository SSH key
-- SonarQube credentials
-- Nexus repository credentials
 
 ## Notes
 
 - All deployments follow GitOps principles with automatic commits to the deployment repository
 - Images are scanned for vulnerabilities at multiple stages
 - The pipeline supports multiple microservices with individual deployment workflows
-- Manual approval is required for environment promotions</content>
-<parameter name="filePath">c:\Users\245791\Projects\jag-dps-1\.github\workflows\README.md
