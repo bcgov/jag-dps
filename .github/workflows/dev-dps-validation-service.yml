@@ -43,7 +43,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
        
-      - name: Docker Build DPS Email Poller Image
+      - name: Docker Build DPS Validation Service Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
           docker buildx build \
