@@ -5,12 +5,12 @@
     <parent>
         <artifactId>dps</artifactId>
         <groupId>ca.bc.gov.open</groupId>
-        <version>0.6.1</version>
+        <version>0.6.3-SNAPSHOT</version>
     </parent>
 
     <groupId>ca.bc.gov.pssg.rsbc.dps</groupId>
     <artifactId>dps-validation-service</artifactId>
-    <version>0.6.1</version>
+    <version>0.6.3-SNAPSHOT</version>
     <name>dps-validation-service</name>
     <description>DPS Validation Service module</description>
 
@@ -84,8 +84,13 @@
         </dependency>
 
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-access</artifactId>
+            <groupId>ch.qos.logback.access</groupId>
+            <artifactId>logback-access-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.rakugakibox.spring.boot</groupId>
+            <artifactId>logback-access-spring-boot-starter</artifactId>
         </dependency>
 
         <!-- dependencies are needed for the client being generated -->
@@ -182,7 +187,7 @@
         <dependency>
             <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
             <artifactId>dfcms-ords-client</artifactId>
-            <version>0.6.1</version>
+            <version>0.6.3-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -197,7 +202,7 @@
             <dependency>
                 <groupId>ca.bc.gov.open.pssg.rsbc</groupId>
                 <artifactId>dps-bom</artifactId>
-                <version>0.6.1</version>
+                <version>0.6.3-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

@@ -32,21 +32,27 @@ jobs:
         run: |
           if [[ ${{ github.event.inputs.app_name }} == 'dps-email-poller' ]]; then
               echo "TAG_PREFIX=dep" >> "$GITHUB_ENV"
+              echo "REPO=d043-dps" >> "$GITHUB_ENV"
           fi
           if [[ ${{ github.event.inputs.app_name }} == 'dps-email-worker' ]]; then
               echo "TAG_PREFIX=dew" >> "$GITHUB_ENV"
+              echo "REPO=d043-dps" >> "$GITHUB_ENV"
           fi
           if [[ ${{ github.event.inputs.app_name }} == 'dps-notification-service' ]]; then
               echo "TAG_PREFIX=dns" >> "$GITHUB_ENV"
+              echo "REPO=d043-dps" >> "$GITHUB_ENV"
           fi
           if [[ ${{ github.event.inputs.app_name }} == 'dps-payment-service' ]]; then
               echo "TAG_PREFIX=dps" >> "$GITHUB_ENV"
+              echo "REPO=d043-dps" >> "$GITHUB_ENV"
           fi
           if [[ ${{ github.event.inputs.app_name }} == 'dps-validation-service' ]]; then
               echo "TAG_PREFIX=dvs" >> "$GITHUB_ENV"
+              echo "REPO=d043-dps" >> "$GITHUB_ENV"
           fi
           if [[ ${{ github.event.inputs.app_name }} == 'vips-notification-worker' ]]; then
               echo "TAG_PREFIX=vnw" >> "$GITHUB_ENV"
+              echo "REPO=d043-vips" >> "$GITHUB_ENV"
           fi
 
       - name: Login to Artifactory
@@ -63,24 +69,24 @@ jobs:
           echo "::set-output name=SHORT_SHA::$(git rev-parse --short HEAD)"
           echo "Short SHA: $SHORT_SHA"
       
-      #- name: Docker Backup
-      #  working-directory: ${{env.WORKING_DIRECTORY}}
-      #  run: |
-      #    docker pull artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:prod
-      #    docker tag artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:prod artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:prod-backup
-      #    docker push artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:prod-backup
+      - name: Docker Backup
+        working-directory: ${{env.WORKING_DIRECTORY}}
+        run: |
+          docker pull artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:prod
+          docker tag artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:prod artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:prod-backup
+          docker push artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:prod-backup
   
 
       - name: Docker Pull and Tag DPS Image
         working-directory: ${{env.WORKING_DIRECTORY}}
         run: |
-          docker pull artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:test
-          docker tag artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:test artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-  
+          docker pull artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:test
+          docker tag artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:test artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
       - name: Docker Push to Artifactory
         id: publish
         run: |
-          docker push artifacts.developer.gov.bc.ca/d043-dps/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          docker push artifacts.developer.gov.bc.ca/${{ env.REPO }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
       
       - name: Set GitOps SSH Key
         uses: webfactory/ssh-agent@v0.5.4

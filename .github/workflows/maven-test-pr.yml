@@ -1,5 +1,8 @@
-name: Java CI
+name: Build & Unit Test 
 
+permissions:
+  contents: read
+  
 on:
   - pull_request
   - workflow_dispatch
@@ -19,7 +22,6 @@ jobs:
     - name: Pull & update submodules recursively
       run: |
         git submodule update --init --recursive
-        git submodule update --recursive --remote
 
     - uses: actions/setup-java@v3
       with:
@@ -28,5 +30,4 @@ jobs:
         cache: 'maven'
     - name: Build with Maven
       run: mvn -B test --file src/pom.xml -P all
-      env:
-        NEXUS_URL: "${{ secrets.NEXUS_URL }}"
+      
