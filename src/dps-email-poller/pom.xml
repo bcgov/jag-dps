@@ -18,7 +18,7 @@
     <properties>
         <jedis.version>3.8.0</jedis.version>
         <spring-redis.version>2.7.12</spring-redis.version>
-        <io.netty.version>4.1.133.Final</io.netty.version>
+        <io.netty.version>4.1.136.Final</io.netty.version>
     </properties>
 
     <repositories>
