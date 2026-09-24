@@ -52,7 +52,7 @@
         <spring-webmvc.version>6.1.14</spring-webmvc.version>
         <snakeyaml.version>2.2</snakeyaml.version>
         <spring-redis.version>2.7.12</spring-redis.version>
-        <spring.version>6.2.11</spring.version>
+        <spring.version>6.2.19</spring.version>
     </properties>
 
     <dependencyManagement>
