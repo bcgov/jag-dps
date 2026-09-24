@@ -11,7 +11,7 @@
     </parent>
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>dps</artifactId>
-    <version>0.6.3-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>dps</name>
 
     <url>https://github.com/bcgov/jag-dps</url>

@@ -55,6 +55,4 @@ public class Keys {
      */
     public static final String REGISTRATION_OPERATION_SUCCESS_STATUS = "0";
 
-
-
 }

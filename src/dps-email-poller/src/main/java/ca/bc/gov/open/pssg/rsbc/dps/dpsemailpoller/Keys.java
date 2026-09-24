@@ -8,4 +8,6 @@ public class Keys {
 
     public static final String APP_NAME = TENANT + "-email-poller";
 
+    public static final String PDF_CONTENT_TYPE = "application/pdf";
+
 }

@@ -32,6 +32,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -182,7 +183,33 @@ public class EmailPoller {
                 return;
             }
 
-            Attachment attachment = attachments.get(0);
+            Attachment attachment = null;
+
+            if (attachments.size() == 1) {
+
+                attachment = attachments.get(0);
+
+            } else {
+
+                logger.warn("Found multiple attachments {}. Pulling attachment with application/pdf content type", attachments.size());
+
+                for (Attachment _attachment : attachments) {
+
+                    logger.info("Found attachment with content type: {}", _attachment.getContentType());
+                    if (Objects.equals(_attachment.getContentType(), Keys.PDF_CONTENT_TYPE)) {
+                        attachment = _attachment;
+                    }
+
+                }
+
+                if (attachment == null) {
+
+                    throw new DpsEmailException("No PDF attachment present in email.");
+
+                }
+
+            }
+
             logger.debug("Storing attachment {}", attachment.getName());
             String fileId = this.storageService.put(graphService.getAttachmentContent(attachment));
 
@@ -200,6 +227,7 @@ public class EmailPoller {
             logger.info("Sending email to processing queue");
             messagingService.sendMessage(metadata, this.tenant);
             notifySuccess(metadata);
+
         }
         catch (DpsMSGraphException | DpsEmailException | DpsException e) {
             logger.error("Processing email caused an exception", e);
