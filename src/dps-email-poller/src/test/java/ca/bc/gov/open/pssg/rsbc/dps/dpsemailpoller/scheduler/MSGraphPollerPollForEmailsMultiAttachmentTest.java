@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.scheduler;
 
 import ca.bc.gov.open.pssg.rsbc.dps.cache.StorageService;
+import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.Keys;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.DpsMSGraphException;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.configuration.EmailProperties;
 import ca.bc.gov.open.pssg.rsbc.dps.dpsemailpoller.email.services.DpsMSGraphMetadataMapper;
@@ -27,7 +28,7 @@ import java.util.List;
 
 @DisplayName("email processing test suite")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class MSGraphPollerPollForEmailsTest {
+public class MSGraphPollerPollForEmailsMultiAttachmentTest {
 
     public static final String I_M_JUNK = "I'm junk";
     public static final String ErrorFolder = "errorFolder";
@@ -39,7 +40,7 @@ public class MSGraphPollerPollForEmailsTest {
     @Mock
     private EmailService emailServiceMock;
     @Mock
-    private MSGraphService grahphServiceMock;
+    private MSGraphService graphServiceMock;
 
     @Mock
     private MessagingService messagingServiceMock;
@@ -75,19 +76,6 @@ public class MSGraphPollerPollForEmailsTest {
 
         Mockito.when(storageServiceMock.put(Mockito.any())).thenReturn("fileid");
 
-        FileAttachment attachment = new FileAttachment();
-        attachment.setOdataType("microsoft.graph.fileAttachment");
-        attachment.setName("name-value");
-        attachment.setContentType("contentType-value");
-        attachment.setIsInline(false);
-        attachment.setContentLocation("contentLocation-value");
-        byte[] contentBytes = Base64.getDecoder().decode("test");
-
-        List<Attachment> attachments = new ArrayList<>();
-        attachments.add(attachment);
-
-        Mockito.when(grahphServiceMock.getAttachments(Mockito.any(Message.class)))
-                .thenReturn(attachments);
         Mockito.when(itemMock.getId()).thenReturn("test");
         Mockito.when(itemMock.getSubject()).thenReturn(I_M_JUNK);
 
@@ -95,103 +83,91 @@ public class MSGraphPollerPollForEmailsTest {
         Mockito.when(emailProperties.getProcessedFolder()).thenReturn(ProcessedFolder);
         Mockito.when(emailProperties.getProcessingFolder()).thenReturn(ProcessingFolder);
 
-        sut = new EmailPoller(emailServiceMock, grahphServiceMock,dpsMetadataMapperMock, dpsMSGraphMetadataMapperMock, messagingServiceMock, storageServiceMock,"tenant", emailProperties);
+        sut = new EmailPoller(emailServiceMock, graphServiceMock,dpsMetadataMapperMock, dpsMSGraphMetadataMapperMock, messagingServiceMock, storageServiceMock,"tenant", emailProperties);
 
     }
 
     @Test
-    @DisplayName("Success - 1 mail should be processed")
+    @DisplayName("Success - 1 mail should be processed with multiple attachment")
     public void with1EmailShouldBeProcessed() throws Exception {
+
+        FileAttachment attachment1 = new FileAttachment();
+        attachment1.setOdataType("microsoft.graph.fileAttachment");
+        attachment1.setName("name-value");
+        attachment1.setContentType("garbage");
+        attachment1.setIsInline(false);
+        attachment1.setContentLocation("contentLocation-value");
+
+        FileAttachment attachment2 = new FileAttachment();
+        attachment2.setOdataType("microsoft.graph.fileAttachment");
+        attachment2.setName("name-value");
+        attachment2.setContentType(Keys.PDF_CONTENT_TYPE);
+        attachment2.setIsInline(false);
+        attachment2.setContentLocation("contentLocation-value");
+
+        List<Attachment> attachments = new ArrayList<>();
+        attachments.add(attachment1);
+        attachments.add(attachment2);
+
+        Mockito.when(graphServiceMock.getAttachments(Mockito.any(Message.class)))
+                .thenReturn(attachments);
 
         List<Message> result = new ArrayList<>();
 
         result.add(itemMock);
 
-        Mockito.when(grahphServiceMock.GetMessages(Mockito.any())).thenReturn(result);
-        Mockito.when(grahphServiceMock.moveToFolder(Mockito.anyString(), Mockito.eq(ProcessingFolder), Mockito.eq(CreateFolder))).thenReturn(itemMock);
+        Mockito.when(graphServiceMock.GetMessages(Mockito.any())).thenReturn(result);
+        Mockito.when(graphServiceMock.moveToFolder(Mockito.anyString(), Mockito.eq(ProcessingFolder), Mockito.eq(CreateFolder))).thenReturn(itemMock);
         Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
 
         sut.pollForMSGraphEmails();
 
-        Mockito.verify(grahphServiceMock, Mockito.times(1))
+        Mockito.verify(graphServiceMock, Mockito.times(1))
                 .moveToFolder(Mockito.anyString(),Mockito.eq(ProcessingFolder), Mockito.eq(CreateFolder));
 
         Mockito.verify(messagingServiceMock, Mockito.times(1))
                 .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
     }
 
-    @Test
-    @DisplayName("Success - no mail should be processed")
-    public void with0EmailShouldNotBeProcessed() throws Exception {
-
-        List<Message> result = new ArrayList<>();
-
-        Mockito.when(grahphServiceMock.GetMessages(Mockito.any())).thenReturn(result);
-
-        sut.pollForMSGraphEmails();
-
-        Mockito
-                .verify(grahphServiceMock, Mockito.times(0))
-                .moveToFolder(Mockito.anyString(),Mockito.eq(ProcessingFolder), Mockito.eq(CreateFolder));
-
-        Mockito
-                .verify(messagingServiceMock, Mockito.times(0))
-                .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
-    }
-
-    @Test
-    @DisplayName("Success - 5 mail should be processed")
-    public void with5EmailShouldNotBeProcessed() throws Exception {
-
-        List<Message> result = new ArrayList<>();
-
-        for(int i = 0; i < 5; i++) {
-            result.add(itemMock);
-        }
-
-        Mockito.when(grahphServiceMock.GetMessages(Mockito.any())).thenReturn(result);
-        Mockito.when(grahphServiceMock.moveToFolder(Mockito.anyString(), Mockito.eq(ProcessingFolder), Mockito.eq(CreateFolder))).thenReturn(itemMock);
-        Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
-
-        sut.pollForMSGraphEmails();
-
-        Mockito
-                .verify(grahphServiceMock, Mockito.times(5))
-                .moveToFolder(Mockito.anyString(),Mockito.eq(ProcessingFolder), Mockito.eq(CreateFolder));
-
-        Mockito
-                .verify(messagingServiceMock, Mockito.times(5))
-                .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
-    }
 
     @Test
     @DisplayName("Exception - with DpsEmailException should log error")
     public void withExceptionEmailShouldBeRemoved() throws Exception {
 
-        Mockito.when(grahphServiceMock.GetMessages(Mockito.any())).thenThrow(new DpsMSGraphException("error"));
-        sut.pollForMSGraphEmails();
+        FileAttachment attachment1 = new FileAttachment();
+        attachment1.setOdataType("microsoft.graph.fileAttachment");
+        attachment1.setName("name-value");
+        attachment1.setContentType("garbage");
+        attachment1.setIsInline(false);
+        attachment1.setContentLocation("contentLocation-value");
 
+        FileAttachment attachment2 = new FileAttachment();
+        attachment2.setOdataType("microsoft.graph.fileAttachment");
+        attachment2.setName("name-value");
+        attachment2.setContentType("garbage");
+        attachment2.setIsInline(false);
+        attachment2.setContentLocation("contentLocation-value");
 
-        Mockito
-                .verify(messagingServiceMock, Mockito.times(0))
-                .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
-    }
+        List<Attachment> attachments = new ArrayList<>();
+        attachments.add(attachment1);
+        attachments.add(attachment2);
 
-    @Test
-    @DisplayName("Exception - with error should log error")
-    public void withServiceExceptionShouldMoveToError() {
+        Mockito.when(graphServiceMock.getAttachments(Mockito.any(Message.class)))
+                .thenReturn(attachments);
 
         List<Message> result = new ArrayList<>();
+
         result.add(itemMock);
 
-        Mockito.when(grahphServiceMock.GetMessages(Mockito.any())).thenReturn(result);
-        Mockito.when(itemMock.getId()).thenThrow(DpsMSGraphException.class);
+        Mockito.when(graphServiceMock.GetMessages(Mockito.any())).thenReturn(result);
+        Mockito.when(graphServiceMock.moveToFolder(Mockito.anyString(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn(itemMock);
+        Mockito.doNothing().when(messagingServiceMock).sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
+
         sut.pollForMSGraphEmails();
 
         Mockito
                 .verify(messagingServiceMock, Mockito.times(0))
                 .sendMessage(Mockito.any(DpsMetadata.class), Mockito.anyString());
-
 
     }
 
